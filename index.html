@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JUSTSNWAT | بنك أسئلة وسنوات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-base: #07090e;
+  --apple-surface: rgba(22, 28, 42, 0.68);
+  --apple-surface-hover: rgba(30, 39, 58, 0.85);
+  --apple-border: rgba(255, 255, 255, 0.08);
+  --apple-border-strong: rgba(255, 255, 255, 0.16);
+  --apple-red: #ff453a;
+  --apple-blue: #0a84ff;
+  --apple-green: #30d158;
+  --text-primary: #f5f5f7;
+  --text-secondary: #86868b;
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-base) !important;
+  color: var(--text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Cairo', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  letter-spacing: -0.01em;
+}
+
+/* Ambient glow */
+body::before {
+  content: "";
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(224, 82, 82, 0.08) 0%, rgba(10, 132, 255, 0.03) 50%, transparent 80%);
+  filter: blur(80px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+button, input {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  flex: 1;
+  width: 100%;
+}
+
+/* ---------- Header ---------- */
+.masthead {
+  width: 100%;
+  text-align: center;
+  padding: 46px 20px 28px;
+  background: rgba(7, 9, 14, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--apple-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: border-color 0.3s var(--ease-apple);
+}
+
+.masthead.scrolled {
+  border-bottom-color: var(--apple-border-strong);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.brand {
+  font-size: 2.3rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffffff;
+  display: inline-block;
+  position: relative;
+}
+
+.brand::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background-color: var(--apple-red);
+  border-radius: 99px;
+  transform: rotate(-1.5deg);
+}
+
+.sub-brand {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 14px;
+  font-weight: 500;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background: rgba(10, 14, 22, 0.85);
+  border-top: 1px solid var(--apple-border);
+  padding: 22px 18px;
+  margin-top: auto;
+  text-align: center;
+  backdrop-filter: blur(15px);
+}
+
+footer p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+/* ---------- Search Bar ---------- */
+.bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.search {
+  width: 100%;
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  border-radius: 99px;
+  padding: 12px 22px;
+  color: var(--text-primary);
+  backdrop-filter: blur(20px);
+  font-size: 15px;
+  transition: all 0.25s var(--ease-apple);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 20px rgba(10, 132, 255, 0.25);
+}
+
+/* ---------- Lists & Rows ---------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: start;
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  border-inline-start: 4px solid transparent;
+  border-radius: 18px;
+  padding: 18px 22px;
+  cursor: pointer;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s var(--ease-apple);
+}
+
+.row:hover {
+  background: var(--apple-surface-hover);
+  border-color: var(--apple-border-strong);
+  border-inline-start-color: var(--apple-red);
+  transform: translateX(-4px);
+}
+
+.row .main {
+  flex: 1;
+  min-width: 0;
+}
+
+.row .name {
+  font-weight: 700;
+  font-size: 17.5px;
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.row .meta {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.row .code {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.chev {
+  color: var(--text-secondary);
+  flex: none;
+  transition: transform 0.2s var(--ease-apple);
+}
+
+.row:hover .chev {
+  transform: translateX(-3px);
+  color: #ffffff;
+}
+
+.exam {
+  align-items: flex-start;
+  cursor: default;
+}
+
+.exam:hover {
+  border-inline-start-color: transparent;
+  background: var(--apple-surface);
+  transform: none;
+}
+
+.exam .note {
+  color: #cbd5e1;
+  font-size: 14px;
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.filelink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--apple-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s var(--ease-apple);
+}
+
+.filelink:hover {
+  text-decoration: underline;
+  transform: translateX(-3px);
+}
+
+/* Quiz Button */
+.btn-quiz {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, rgba(255, 69, 58, 0.14) 0%, rgba(10, 132, 255, 0.14) 100%);
+  border: 1px solid var(--apple-red);
+  color: #ff9b94;
+  padding: 8px 18px;
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-apple);
+}
+
+.btn-quiz:hover {
+  background: var(--apple-red);
+  color: #ffffff;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 18px rgba(255, 69, 58, 0.35);
+}
+
+.btn-quiz:active {
+  transform: scale(0.96);
+}
+
+/* ---------- Navigation Header ---------- */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s var(--ease-apple);
+}
+
+.back:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.subject-head {
+  margin: 6px 0 24px;
+}
+
+.subject-head h2 {
+  margin: 6px 0 4px;
+  font-size: clamp(24px, 5vw, 30px);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.subject-head .sub {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: start;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- State indicators ---------- */
+.empty {
+  border: 1px dashed var(--apple-border);
+  border-radius: 18px;
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--apple-surface);
+  backdrop-filter: blur(20px);
+}
+
+.empty strong {
+  display: block;
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.skeleton {
+  height: 72px;
+  border-radius: 18px;
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  opacity: 0.6;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 30px;
+}
+
+.loading-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--apple-red);
+  animation: loadingBounce 1.4s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loadingBounce {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+  40% { transform: scale(1.1); opacity: 1; }
+}
+
+.hint {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .row { padding: 14px; }
+  .row .name { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="brand">JUSTSNWAT</div>
+  <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+</header>
+
+<div class="wrap">
+  <main id="app"></main>
+</div>
+
+<footer>
+  <p>Designed By Abdallah Al-serhan</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============ Scroll Effect ============ */
+  var masthead = document.querySelector(".masthead");
+  if (masthead) {
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 4) masthead.classList.add("scrolled");
+      else masthead.classList.remove("scrolled");
+    });
+  }
+
+  /* ============ قائمة المواد والامتحانات (ثابتة للعرض فقط) ============ */
+  var subjects = [
+    { id: "network-protocols", name: "Network Protocols", code: "NES415" }
+  ];
+
+  var exams = {
+    "network-protocols": [
+      {
+        id: "quiz-final-2023",
+        title: "Final Exam 2023 (كويز تفاعلي 35 سؤال)",
+        link: "quiz1.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      }
+    ]
+  };
+
+  var currentId = null;
+  var search = "";
+  var app = document.getElementById("app");
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function safeUrl(u) {
+    var t = String(u || "").trim();
+    if (!t) return "";
+    if (t.endsWith(".html") || t.startsWith("#") || t.startsWith("/") || t.startsWith("./")) return t;
+    if (!/^https?:\/\//i.test(t)) t = "https://" + t;
+    try { var p = new URL(t); return (p.protocol === "http:" || p.protocol === "https:") ? p.href : ""; }
+    catch (e) { return ""; }
+  }
+
+  /* ============ التنقل ============ */
+  function readHash() {
+    var m = /^#\/s\/(.+)$/.exec(location.hash || "");
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  function go(id) {
+    location.hash = id ? "#/s/" + encodeURIComponent(id) : "#/";
+  }
+
+  window.addEventListener("hashchange", function () {
+    currentId = readHash();
+    window.scrollTo(0, 0);
+    render();
+  });
+
+  /* ============ العرض ============ */
+  function render() {
+    if (currentId) renderSubject(); else renderHome();
+  }
+
+  function renderHome() {
+    var q = search.trim().toLowerCase();
+    var list = subjects.filter(function (s) {
+      if (!q) return true;
+      return (s.name || "").toLowerCase().indexOf(q) > -1 || (s.code || "").toLowerCase().indexOf(q) > -1;
+    });
+
+    var body = "";
+    if (!list.length) {
+      body = '<div class="empty"><strong>لا توجد نتائج</strong>لم نتمكن من العثور على مادة مطابقة.</div>';
+    } else {
+      body = '<div class="list">' + list.map(function (s) {
+        var examList = exams[s.id] || [];
+        var count = examList.length;
+        var meta = [];
+        if (s.code) meta.push('<span class="code">' + esc(s.code) + "</span>");
+        meta.push(count === 0 ? "لا توجد أسئلة حالياً" : count + (count === 1 ? " نموذج اختبار" : " نماذج اختبارات"));
+        return '' +
+          '<div class="row" role="button" tabindex="0" data-open="' + esc(s.id) + '">' +
+            '<div class="main">' +
+              '<div class="name">' + esc(s.name) + "</div>" +
+              '<div class="meta">' + meta.join(" · ") + "</div>" +
+            "</div>" +
+            '<span class="chev" aria-hidden="true">' + iconChev() + "</span>" +
+          "</div>";
+      }).join("") + "</div>";
+    }
+
+    app.innerHTML =
+      '<div class="bar">' +
+        '<input class="search" id="q" type="search" placeholder="ابحث عن مادة…" value="' + esc(search) + '">' +
+      "</div>" + body +
+      '<p class="hint">اضغط على المادة للانتقال إلى نماذج الامتحانات.</p>';
+
+    var qInput = document.getElementById("q");
+    if (qInput) {
+      qInput.addEventListener("input", function () { 
+        search = this.value; 
+        var pos = this.selectionStart; 
+        renderHome(); 
+        var reFocus = document.getElementById("q"); 
+        reFocus.focus(); 
+        try { reFocus.setSelectionRange(pos, pos); } catch (e) {} 
+      });
+    }
+  }
+
+  function renderSubject() {
+    var s = subjects.find(function (item) { return item.id === currentId; });
+
+    if (!s) {
+      app.innerHTML = '<button class="back" id="back">' + iconBack() + " رجوع للمواد</button>" +
+        '<div class="empty"><strong>المادة غير موجودة</strong>الرجاء العودة للقائمة الرئيسية.</div>';
+      document.getElementById("back").addEventListener("click", function () { go(null); });
+      return;
+    }
+
+    var subjectExams = exams[currentId] || [];
+    var body = "";
+    if (!subjectExams.length) {
+      body = '<div class="empty"><strong>لا توجد أسئلة بعد</strong>لم تتم إضافة نماذج لهذه المادة حتى الآن.</div>';
+    } else {
+      body = '<div class="list">' + subjectExams.map(function (x) {
+        var url = safeUrl(x.link);
+        var isLocalQuiz = url && (url.endsWith(".html") || url.indexOf("quiz") > -1);
+        
+        var linkButtonHtml = "";
+        if (isLocalQuiz) {
+          linkButtonHtml = '<a class="btn-quiz" href="' + esc(url) + '">' + iconFlash() + " بدء الاختبار ⚡</a>";
+        } else if (url) {
+          linkButtonHtml = '<a class="filelink" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + iconLink() + " فتح الملف ↗</a>";
+        }
+
+        return '' +
+          '<div class="row exam">' +
+            '<div class="main">' +
+              '<div class="name">' + esc(x.title) + "</div>" +
+              (x.note ? '<div class="note">' + esc(x.note) + "</div>" : "") +
+              linkButtonHtml +
+            "</div>" +
+          "</div>";
+      }).join("") + "</div>";
+    }
+
+    app.innerHTML =
+      '<button class="back" id="back">' + iconBack() + " رجوع للمواد</button>" +
+      '<div class="subject-head">' +
+        "<h2>" + esc(s.name) + "</h2>" +
+        (s.code ? '<div class="sub">' + esc(s.code) + "</div>" : "") +
+      "</div>" +
+      body;
+
+    document.getElementById("back").addEventListener("click", function () { go(null); });
+  }
+
+  /* ============ الأيقونات ============ */
+  function iconChev() { return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'; }
+  function iconBack() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>'; }
+  function iconLink() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>'; }
+  function iconFlash() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; }
+
+  /* ============ التفاعل ============ */
+  app.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-open]");
+    if (t) go(t.getAttribute("data-open"));
+  });
+
+  app.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    var t = e.target.closest("[data-open]");
+    if (!t) return;
+    e.preventDefault();
+    go(t.getAttribute("data-open"));
+  });
+
+  currentId = readHash();
+  render();
+})();
+</script>
+</body>
+</html>
