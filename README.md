@@ -1,2 +1,2 @@
 # JUSTSNWAT
-Find all JUST course questions formatted as quizzes with full solutions.   
+Find past exams questions for JUST courses formatted as quizzes (Digitally) with full solutions.   
