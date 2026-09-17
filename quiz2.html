@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Midterm Exam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- استدعاء ملف الـ CSS المنفصل -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="brand">JUSTSNWAT</div>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="index.html#/s/network-protocols">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Protocols</div>
+    <div class="subject-subtitle">Final Exam — 35 Comprehensive Questions</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 35 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+  </div>
+<div class="bottom-nav-bar">
+      <a class="btn-bottom-back" href="index.html#/s/network-protocols">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+    </div>
+  </div>
+<footer>
+  <p>Designed By Abdallah Al-serhan</p>
+</footer>
+  <script>
+    const questionsData = [
+      {
+        id: 1,
+        img: "images/1.jpg",
+        q: "What is the primary difference between unicast and multicast routing?",
+        opts: [
+          "Unicast routing uses a one-to-one communication model, while multicast routing uses a one-to-many communication model.",
+          "Unicast routing supports point-to-multipoint communication, while multicast routing supports point-to-point communication.",
+          "Unicast routing is used for small-scale networks, while multicast routing is used for large-scale networks.",
+          "Unicast routing is connection-oriented, while multicast routing is connectionless.",
+          "none of the given choices"
+        ],
+        ans: 0,
+        exp: "الـ Unicast هو اتصال واحد لواحد (One-to-One)، والـ Multicast هو إرسال لعدة أجهزة مشتركة بنفس المجموعة (One-to-Many)."
+      } 
+    ];
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    let userAnswers = {};
+
+    function initQuiz() {
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      questionsData.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+        card.id = `q-${q.id}`;
+
+        const optionsHtml = q.opts.map((opt, i) => `
+          <div class="option-item" id="opt-${q.id}-${i}" onclick="chooseAnswer(${q.id}, ${i})">
+            <div class="opt-letter">${letters[i]}</div>
+            <div>${opt}</div>
+          </div>
+        `).join('');
+
+        // data-src يضمن عدم طلب الصورة من الشبكة إلا عند النقر
+        card.innerHTML = `
+          <div class="q-top">
+            <span class="q-badge">Question ${q.id} / 35</span>
+          </div>
+          <div class="q-text">${q.q}</div>
+
+          <div class="q-image-container" id="img-box-${q.id}">
+            <img class="q-original-img" 
+                 id="img-${q.id}"
+                 data-src="${q.img}" 
+                 alt="Original Question ${q.id}"
+                 onerror="handleImageFallback(this)" />
+          </div>
+
+          <div class="options-list" id="opts-container-${q.id}">${optionsHtml}</div>
+          
+          <div class="q-actions">
+            <button class="btn-action" onclick="toggleOriginalImage(${q.id})">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+            <button class="btn-action" onclick="toggleSolution(${q.id})">
+              <span>💡</span> عرض الحل والشرح
+            </button>
+            <button class="btn-reset-q" id="reset-btn-${q.id}" onclick="resetSingleQuestion(${q.id})">
+              إعادة السؤال ↻
+            </button>
+          </div>
+
+          <div class="solution-box" id="sol-${q.id}">
+            <div><strong>الإجابة الصحيحة: (${letters[q.ans]})</strong></div>
+            <div style="margin-top: 6px;">${q.exp}</div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    // تحميل الصورة لحظياً عند الضغط فقط
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function chooseAnswer(qid, optIndex) {
+      const q = questionsData.find(item => item.id === qid);
+      const optsContainer = document.getElementById(`opts-container-${qid}`);
+
+      q.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${qid}-${i}`);
+        el.className = 'option-item';
+      });
+
+      const picked = document.getElementById(`opt-${qid}-${optIndex}`);
+      
+      if (optIndex === q.ans) {
+        userAnswers[qid] = optIndex;
+        picked.classList.add('correct');
+      } else {
+        delete userAnswers[qid];
+        picked.classList.add('wrong');
+      }
+
+      optsContainer.classList.add('locked');
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) {
+        resetBtn.style.display = 'inline-flex';
+      }
+
+      calculateScore();
+    }
+
+    function resetSingleQuestion(qid) {
+      delete userAnswers[qid];
+
+      const q = questionsData.find(item => item.id === qid);
+      const optsContainer = document.getElementById(`opts-container-${qid}`);
+      
+      if (optsContainer) {
+        optsContainer.classList.remove('locked');
+      }
+
+      q.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${qid}-${i}`);
+        el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) {
+        resetBtn.style.display = 'none';
+      }
+
+      const sol = document.getElementById(`sol-${qid}`);
+      if (sol) {
+        sol.classList.remove('show');
+      }
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let score = 0;
+      Object.keys(userAnswers).forEach(qid => {
+        const q = questionsData.find(item => item.id == qid);
+        if (userAnswers[qid] === q.ans) score++;
+      });
+      const pct = Math.round((score / questionsData.length) * 100);
+      document.getElementById('score').innerText = `${score} / ${questionsData.length} (${pct}%)`;
+    }
+
+    function toggleSolution(qid) {
+      document.getElementById(`sol-${qid}`).classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      questionsData.forEach(q => {
+        const sol = document.getElementById(`sol-${q.id}`);
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      initQuiz();
+      calculateScore();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+</body>
+</html>
