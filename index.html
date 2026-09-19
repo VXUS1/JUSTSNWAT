@@ -1537,7 +1537,7 @@ footer p {
       };
 
       // الإرسال للفنكشن الداخلي (بدون CORS)
-      fetch("/.netlify/functions/report", {
+      fetch("/netlify/functions/reports.js", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(discordPayload)

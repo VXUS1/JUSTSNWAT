@@ -4,7 +4,7 @@ exports.handler = async function(event) {
   }
 
   // رابط الويب هوك تبع ديسكورد
-  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw/slack";
+  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
 
   try {
     await fetch(DISCORD_WEBHOOK_URL, {
