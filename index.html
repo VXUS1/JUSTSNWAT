@@ -1504,7 +1504,7 @@ footer p {
     }
   });
 
-  // إرسال البلاغ لسيرفر نيتفلاي ومنه إلى ديسكورد
+  // إرسال البلاغ بدون مغادرة الصفحة (متوافق 100% مع Netlify للنماذج النصية)
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -1512,35 +1512,13 @@ footer p {
       submitBtn.textContent = "جارِ الإرسال...";
       statusDiv.style.display = "none";
 
-      var issueType = document.getElementById("issue-type").value;
-      var issueDesc = document.getElementById("issue-desc").value;
-      var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
-      var currentUrl = window.location.href;
+      var formData = new FormData(form);
 
-      var discordPayload = {
-        username: "JUSTSNWAT - بلاغات",
-        avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
-        embeds: [
-          {
-            title: "🚨 بلاغ عن خطأ جديد",
-            color: 16729390,
-            fields: [
-              { name: "📌 نوع المشكلة", value: issueType, inline: true },
-              { name: "👤 وسيلة التواصل", value: userContact, inline: true },
-              { name: "🔗 رابط الصفحة والمادة", value: currentUrl },
-              { name: "📝 وصف المشكلة", value: issueDesc }
-            ],
-            footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
-            timestamp: new Date().toISOString()
-          }
-        ]
-      };
-
-      // الإرسال للفنكشن الداخلي (بدون CORS)
-      fetch("/netlify/functions/reports.js", {
+      // تحويل البيانات للصيغة التي يقبلها Netlify للنماذج النصية
+      fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(discordPayload)
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString()
       })
       .then(function (response) {
         if (response.ok) {
@@ -1553,7 +1531,7 @@ footer p {
             submitBtn.textContent = "إرسال البلاغ";
           }, 2000);
         } else {
-          throw new Error("Server error");
+          throw new Error("Form submission failed");
         }
       })
       .catch(function () {
