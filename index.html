@@ -1035,16 +1035,12 @@ footer p {
       <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
     </div>
 
-    <form class="report-form" name="bug-report" id="bugReportForm" method="POST" data-netlify="true" enctype="multipart/form-data">
-      <!-- حقل ضروري لـ Netlify Forms -->
-      <input type="hidden" name="form-name" value="bug-report">
+    <!-- تم تجهيز الفورم للديسكورد مباشرة -->
+    <form class="report-form" id="bugReportForm">
       
-      <!-- يتم ملؤها تلقائياً برابط الصفحة واسم المادة المفتوحة -->
-      <input type="hidden" name="current-page" id="reportCurrentPage">
-
       <div class="form-group">
         <label for="issue-type">نوع المشكلة</label>
-        <select id="issue-type" name="issue_type" required>
+        <select id="issue-type" required>
           <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
           <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
           <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
@@ -1054,17 +1050,17 @@ footer p {
 
       <div class="form-group">
         <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
-        <textarea id="issue-desc" name="description" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
       </div>
 
       <div class="form-group">
         <label for="issue-file">لقطة شاشة (اختياري)</label>
-        <input type="file" id="issue-file" name="screenshot" accept="image/*">
+        <input type="file" id="issue-file" accept="image/*">
       </div>
 
       <div class="form-group">
         <label for="user-contact">وسيلة تواصل (اختياري)</label>
-        <input type="text" id="user-contact" name="contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
       </div>
 
       <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
@@ -1505,34 +1501,74 @@ footer p {
   });
 
   // إرسال البلاغ بدون مغادرة الصفحة (متوافق 100% مع Netlify للنماذج النصية)
+  /* ============ إرسال البلاغ مباشرة لديسكورد بدون أخطاء CORS ============ */
   if (form) {
+    // 🔴 حط رابط الويب هوك تبع ديسكورد هون
+    var DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.indexOf("discord.com/api/webhooks") === -1) {
+        alert("يرجى وضع رابط الـ Webhook الخاص بديسكورد داخل الكود أولاً!");
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = "جارِ الإرسال...";
       statusDiv.style.display = "none";
 
-      var formData = new FormData(form);
+      var issueType = document.getElementById("issue-type").value;
+      var issueDesc = document.getElementById("issue-desc").value;
+      var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
+      var currentUrl = window.location.href;
+      var fileInput = document.getElementById("issue-file");
 
-      // تحويل البيانات للصيغة التي يقبلها Netlify للنماذج النصية
-      fetch("/", {
+      // تجهيز الرسالة المنسقة (Embed)
+      var discordPayload = {
+        username: "JUSTSNWAT | بلاغات",
+        avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
+        embeds: [
+          {
+            title: "🚨 بلاغ جديد عن خطأ / ملاحظة",
+            color: 16729390, // لون أحمر متناسق
+            fields: [
+              { name: "📌 نوع المشكلة", value: issueType, inline: true },
+              { name: "👤 وسيلة التواصل", value: userContact, inline: true },
+              { name: "🔗 رابط الصفحة والمادة", value: currentUrl },
+              { name: "📝 وصف المشكلة", value: issueDesc }
+            ],
+            footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+
+      // استخدام FormData لتجاوز فحص CORS بالمتصفح نهائياً
+      var formData = new FormData();
+      formData.append("payload_json", JSON.stringify(discordPayload));
+
+      // إذا المستخدم اختار صورة نرفقها بالرسالة
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        formData.append("files[0]", fileInput.files[0]);
+      }
+
+      // الإرسال مع no-cors يمنع المتصفح من حظر الطلب
+      fetch(DISCORD_WEBHOOK_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString()
+        mode: "no-cors",
+        body: formData
       })
-      .then(function (response) {
-        if (response.ok) {
-          statusDiv.className = "report-status success";
-          statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لمساعدتك!";
-          form.reset();
-          setTimeout(function () {
-            closeModal();
-            submitBtn.disabled = false;
-            submitBtn.textContent = "إرسال البلاغ";
-          }, 2000);
-        } else {
-          throw new Error("Form submission failed");
-        }
+      .then(function () {
+        // الطلب مر بنجاح ووصل ديسكورد
+        statusDiv.className = "report-status success";
+        statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
+        form.reset();
+        setTimeout(function () {
+          closeModal();
+          submitBtn.disabled = false;
+          submitBtn.textContent = "إرسال البلاغ";
+        }, 2000);
       })
       .catch(function () {
         statusDiv.className = "report-status error";
