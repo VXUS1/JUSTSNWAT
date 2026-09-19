@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Wireless Networks - Final 2022 Dr. Shorman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .shared-context-box {
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px dashed rgba(10, 132, 255, 0.4);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      font-style: italic;
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .verify-note {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: #ff9f0a;
+      line-height: 1.5;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .q-image-container {
+      display: none;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .q-image-container.show {
+      display: block;
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/wireless">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Wireless Networks NES 441</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam 2022 (1st sem) — Dr. Shorman (Q1 - Q21)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/wireless">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1uDi8HyY9tNU83_DiJ561j-XCDP_RVChL/view";
+
+    // ملاحظة عامة: تم التأكد من كل نص وخيار مطابق لصور ورقة الامتحان الأصلية.
+    // الأسئلة التي لم يظهر فيها مفتاح إجابة واضح على الورقة تم حساب إجابتها
+    // رياضياً حيثما أمكن، وتم وضع ملاحظة "verify" على أي سؤال ما زالت إجابته
+    // غير مؤكدة 100% بدون الرجوع لمفتاح الأستاذ الرسمي.
+
+    const examSections = [
+      {
+        title: "Question 1: Multiple Choice Questions (1 to 21)",
+        context: "Choose the best answer for each of the following multiple choice questions:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "single",
+            text: "1) The type of antenna that is usually used to cover a long and narrow area is the:",
+            opts: ["A. Omni-directional antenna", "B. Patch antenna", "C. Yagi antenna", "D. Isotropic antenna", "E. Parabolic antenna"],
+            ans: 2, // C
+            dispAnswer: "C. Yagi antenna",
+            exp: "هوائي الـYagi موجّه (directional) ويُستخدم لتغطية مسار طويل وضيق مثل طريق، عكس الـOmni اللي يغطي بشكل دائري.",
+            img: ""
+          },
+          {
+            id: "q2",
+            type: "single",
+            text: "2) In a GSM system, after a first handoff from MSC-A to MSC-B, if the mobile moves into the coverage area of a base station connected to a third MSC, MSC-C, which of the following is true:",
+            opts: [
+              "A. The connection is extended from MSC-B to MSC-C",
+              "B. MSC-C will be the Anchor MSC.",
+              "C. A new segment is set up from MSC-A to MSC-C",
+              "D. The end-to-end connection is rerouted",
+              "E. None of the above"
+            ],
+            ans: 2, // C
+            dispAnswer: "C. A new segment is set up from MSC-A to MSC-C",
+            exp: "في GSM تبقى MSC-A هي الـAnchor، وعند أي handover لاحق يتم مد مسار جديد مباشرة من الـAnchor (MSC-A) إلى الـMSC الجديدة.",
+            img: ""
+          },
+          {
+            id: "q3",
+            type: "single",
+            text: "3) The purpose of the random-access MAC protocol used on the GSM air interface is",
+            opts: ["A. to obtain a dedicated control channel", "B. to obtain a voice channel", "C. to send voice data", "D. to receive pages", "E. none of the above"],
+            ans: 0, // A
+            dispAnswer: "A. to obtain a dedicated control channel",
+            exp: "قناة الـRACH تُستخدم من الموبايل لطلب تخصيص قناة تحكم مخصصة (SDCCH) وليس لإرسال بيانات صوتية مباشرة.",
+            img: ""
+          },
+          {
+            id: "q4",
+            type: "single",
+            text: "4) The transmit power in dbm",
+            context: "Two popular frequencies used by the GSM cellular network technology are the 900MHz and 1800 MHz bands. Suppose a base station transmits 50 W of power. Answer the next 2 questions:",
+            opts: ["A. 37 dBm", "B. 50 dBm", "C. 17 dBm", "D. 80 dBm", "E. None of the above"],
+            ans: 4, // E
+            dispAnswer: "E. None of the above",
+            exp: "P(dBm) = 10·log10(50×1000) ≈ 46.99 dBm ≈ 47 dBm. هذه القيمة لا تطابق أي خيار من A-D، لذلك الأقرب منطقياً هو None of the above. (يفضّل التأكد من مفتاح الأستاذ الرسمي لأن هذا استنتاج حسابي).",
+            img: ""
+          },
+          {
+            id: "q5",
+            type: "single",
+            text: "5) If the transmitter's power is applied to a unity gain antenna with 1800 MHz carrier frequency, what is the received power in dBm at a free space distance of 100m",
+            opts: ["A. 77.5 dBm", "B. -77.5 dBm", "C. -30.5 dBm", "D. 30.5 dBm", "E. None of the above"],
+            ans: 2, // C
+            dispAnswer: "C. -30.5 dBm",
+            exp: "Pt≈46.99dBm، وFSPL(dB)=20log10(0.1km)+20log10(1800MHz)+32.44≈77.5dB. Pr = Pt − FSPL ≈ 46.99 − 77.5 ≈ -30.5 dBm.",
+            img: ""
+          },
+          {
+            id: "q6",
+            type: "single",
+            text: "6) the number of cells in the service area:",
+            context: "Irbid city has an area of 130 km² and is covered by a cellular system using a 5-cell reuse pattern. Each cell has an area of 6.5 km² and the city is allocated 40 MHz of spectrum with a full duplex channel of 40 KHz. Answer the next 2 questions:",
+            opts: ["A. 12", "B. 20", "C. 50", "D. 200", "E. 4"],
+            ans: 1, // B
+            dispAnswer: "B. 20",
+            exp: "عدد الخلايا = مساحة المدينة / مساحة الخلية الواحدة = 130 ÷ 6.5 = 20 خلية.",
+            img: ""
+          },
+          {
+            id: "q7",
+            type: "single",
+            text: "7) the number of channels per cell:",
+            opts: ["A. 20", "B. 666", "C. 185", "D. 28", "E. 200"],
+            ans: 4, // E
+            dispAnswer: "E. 200",
+            exp: "إجمالي القنوات = 40 MHz ÷ 40 KHz = 1000 قناة. عدد القنوات لكل خلية = 1000 ÷ 5 (reuse factor) = 200.",
+            img: ""
+          },
+          {
+            id: "q8",
+            type: "single",
+            text: "8) Using mobile IP and indirect routing, with mobility of the mobile host (MS), which of the following in right",
+            opts: [
+              "A. Mobility is transparent to the MS",
+              "B. Changing of foreign agent is not transparent to the MS",
+              "C. Change care of address is transparent to the MS",
+              "D. A and B",
+              "E. A and C"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. A and B",
+            exp: "هذا السؤال مفاهيمي ومرتبط بمفتاح الأستاذ تحديداً؛ الإجابة D محفوظة من النسخة الأصلية لكن يُنصح بالتأكد منها ضمن سلايدات المادة.",
+            img: ""
+          },
+          {
+            id: "q9",
+            type: "single",
+            text: "9) The CDMA handover:",
+            opts: [
+              "A. Occurs only between different BTS",
+              "B. Is break before make handover",
+              "C. May occur between two different service providers",
+              "D. Is controlled by the mobile station",
+              "E. None of the above"
+            ],
+            ans: 4, // E
+            dispAnswer: "E. None of the above",
+            exp: "التبديل في CDMA هو soft handover (make-before-break) وتتحكم به الشبكة أساساً؛ لا يوجد خيار من A-D يصف هذا بدقة، لذلك الأقرب هو None of the above. (يُنصح بالتأكد من المفتاح الرسمي).",
+            img: ""
+          },
+          {
+            id: "q10",
+            type: "single",
+            text: "10) Which of the following is true about Mobile IP?",
+            opts: [
+              "A. It is a replacement for Dynamic Host Configuration protocol (DHCP) in the sense that one should not use DHCP and Mobile IP at the same time.",
+              "B. It requires that the home agent be at most one IP hop away from the mobile host.",
+              "C. It provides a way to keep a TCP connection alive even if a host is mobile between different IP networks",
+              "D. It does not work if both ends of a TCP connection are mobile hosts",
+              "E. None of the above."
+            ],
+            ans: 2, // C
+            dispAnswer: "C. It provides a way to keep a TCP connection alive even if a host is mobile between different IP networks",
+            exp: "هذه هي الوظيفة الأساسية لـMobile IP: الحفاظ على اتصال TCP حياً رغم تنقل المضيف بين شبكات IP مختلفة.",
+            img: ""
+          },
+          {
+            id: "q11",
+            type: "single",
+            text: "11) As reuse factor N increases in cellular network",
+            opts: ["A. Channel interference increases", "B. Channels capacity increases", "C. Channel interference is reduced", "D. Per channel bandwidth increases", "E. None of the above"],
+            ans: 2, // C
+            dispAnswer: "C. Channel interference is reduced",
+            exp: "زيادة عامل إعادة الاستخدام N تبعد الخلايا المستخدمة لنفس التردد عن بعضها، فيقل التداخل المشترك (co-channel interference).",
+            img: ""
+          },
+          {
+            id: "q12",
+            type: "single",
+            text: "12) Which is not used in GSM?",
+            opts: ["A. SDMA", "B. CDMA", "C. TDMA", "D. FDMA", "E. None of the above"],
+            ans: 1, // B
+            dispAnswer: "B. CDMA",
+            exp: "GSM يعتمد على FDMA وTDMA (وSDMA ضمنياً عبر قطاعات الخلية)، بينما CDMA هي تقنية منافسة (تُستخدم في IS-95 مثلاً) وليست جزءاً من GSM.",
+            img: ""
+          },
+          {
+            id: "q13",
+            type: "single",
+            text: "13) Which of the following frame does not use SIFS in IEEE802.11",
+            opts: ["A. CTS", "B. RTS", "C. ACK", "D. Poll response", "E. None of the above"],
+            ans: 1, // B
+            dispAnswer: "B. RTS",
+            exp: "إطار RTS يبدأ التبادل بعد DIFS وليس بعد SIFS، بينما CTS وACK وPoll response تُرسل بعد SIFS لأنها ردود ضمن تبادل جارٍ.",
+            img: ""
+          },
+          {
+            id: "q14",
+            type: "single",
+            text: "14) A(n) ___ is simply two or more wireless networks installed within the same area, providing users with uninterrupted mobile access to the network.",
+            opts: ["A. Ad hoc mode", "B. Peer-to-peer mode", "C. Basic service set (BSS)", "D. Independent Basic Service Set (IBSS)", "E. None of the above"],
+            ans: 4, // E
+            dispAnswer: "E. None of the above",
+            exp: "الوصف المذكور يطابق مفهوم الـExtended Service Set (ESS) وهو غير مذكور ضمن الخيارات A-D، لذلك الأقرب منطقياً None of the above. (يُنصح بالتأكد من المفتاح الرسمي).",
+            img: ""
+          },
+          {
+            id: "q15",
+            type: "single",
+            text: "15) What are the inputs of the GSM authentication function A3",
+            opts: ["A. Ki and PIN", "B. RAND and SRES", "C. Ki and SRES", "D. Ki and RAND", "E. IMSI and Ki"],
+            ans: 3, // D
+            dispAnswer: "D. Ki and RAND",
+            exp: "خوارزمية A3 تأخذ RAND (المُرسل من الشبكة) وKi (المفتاح السري بالسيم) كمدخلات، وتُنتج SRES.",
+            img: ""
+          },
+          {
+            id: "q16",
+            type: "single",
+            text: "16) In GSM, when a mobile is switched on, it registers current location in",
+            opts: ["A. Authentication center", "B. MSC", "C. HLR", "D. Nearest base station", "E. EIR"],
+            ans: 2, // C
+            dispAnswer: "C. HLR",
+            exp: "عند تشغيل الموبايل يتم تسجيل موقعه الحالي في الـHLR (Home Location Register).",
+            img: ""
+          },
+          {
+            id: "q17",
+            type: "single",
+            text: "17) The backoff timer in the IEEE 802.11 station is decremented during:",
+            opts: ["A. The Contention-Free Period", "B. The Contention Window", "C. The DCF Interframe Space", "D. Any part of the Superframe", "E. After CTS"],
+            ans: 1, // B
+            dispAnswer: "B. The Contention Window",
+            exp: "عداد التراجع (backoff) يتناقص أثناء الـContention Window عندما تكون القناة خالية (idle slots).",
+            img: ""
+          },
+          {
+            id: "q18",
+            type: "single",
+            text: "18) The factor that does not impact the propagation of transmitted RF signal is:",
+            opts: ["A. The orientation of the transmitting antenna", "B. The distance between the two antennas", "C. The noise floor of the receiver", "D. The SNR", "E. Path fading"],
+            ans: 2, // C
+            dispAnswer: "C. The noise floor of the receiver",
+            exp: "الـnoise floor خاص بجهاز الاستقبال نفسه ولا يؤثر على انتشار الإشارة عبر الهواء، بعكس المسافة، اتجاه الهوائي، والتلاشي (fading).",
+            img: ""
+          },
+          {
+            id: "q19",
+            type: "single",
+            text: "19) The size if the first Fresnel zone in the middle",
+            context: "A 2km link, with antenna height of 10 m transmitting at 2.437GHz. Answer the next 3 questions:",
+            opts: ["A. 2.16 m", "B. 7.84 m", "C. 17.84 m", "D. 12.16 m", "E. Else"],
+            ans: 1, // B
+            dispAnswer: "B. 7.84 m",
+            exp: "r₁ = 17.3·√(d1·d2 / (f·D)) = 17.3·√(1×1 / (2.437×2)) ≈ 7.84 m (d1,d2,D بالكيلومتر وf بالجيجاهرتز). تم التحقق حسابياً.",
+            img: ""
+          },
+          {
+            id: "q20",
+            type: "single",
+            text: "20) The extra height due to the curvature of the earth between the two devices is",
+            opts: ["A. 6.5 cm", "B. 7.84 m", "C. 3.5 m", "D. 12.16 cm", "E. 6.5 m"],
+            ans: 0, // A
+            dispAnswer: "A. 6.5 cm",
+            exp: "باستخدام تقريب انحناء الأرض h ≈ d1·d2 / 12.75 (بالكيلومتر والمتر) تُعطي تقريباً 7.8 سم، وهي قريبة من 6.5 سم لكن ليست مطابقة تماماً — الفرق يعتمد على القيمة الدقيقة لنصف قطر الأرض المستخدمة في سلايدات المادة. يُنصح بالتأكد من الصيغة المعتمدة عند الدكتور قبل الاعتماد الكامل على هذه الإجابة.",
+            img: ""
+          },
+          {
+            id: "q21",
+            type: "single",
+            text: "21) How tall could a structure at that point be to clear 60% of the first zone?",
+            opts: ["A. 3.93 m", "B. 7.84 m", "C. 6.07 m", "D. 12.16 m", "E. Else"],
+            ans: 0, // A
+            dispAnswer: "A. 3.93 m",
+            exp: "نصف قطر منطقة الـ60% = √0.6 × r₁ = √0.6 × 7.84 ≈ 6.07 m (وهو الخيار C). أقصى ارتفاع مسموح للعائق = ارتفاع خط البصر (10م) − 6.07 ≈ 3.93 m، وهو الخيار A.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          const contextHtml = sub.context ? `<div class="shared-context-box">${sub.context}</div>` : '';
+
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-indicator"></div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              ${contextHtml}
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

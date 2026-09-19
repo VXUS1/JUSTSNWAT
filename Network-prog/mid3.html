@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Network Programming - Comprehensive Question Bank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #79c0ff;
+      margin: 10px 0 14px 0;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/network-programming">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Programming NES 416</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Comprehensive Final Question Bank</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/network-programming">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1E_z_vFVI1vFH-Wr3xVn4LUVn1JOSbS1g/view";
+
+    const examSections = [
+      {
+        title: "Section 1: TCP Sockets, States & Concurrency",
+        context: "Questions covering TCP connection state transitions, process management, and concurrency:",
+        subQuestions: [
+          {
+            id: "np_q1",
+            type: "single",
+            text: "A child server enters zombie state when:",
+            opts: [
+              "a. The kernel doesn't send the SIGQUIT to the parent process",
+              "b. The signal SIGCHLD can't be caught",
+              "c. The client doesn't send the SIGCHLD signal to the parent process",
+              "d. The parent doesn't catch the SIGCHLD signal",
+              "e. The two signals SIGKILL and SIGSTOP cannot be ignored"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. The parent doesn't catch the SIGCHLD signal",
+            exp: "عندما ينتهي الابن يرسل Kernel إشارة SIGCHLD للأب؛ فإذا لم يستقبلها الأب ويستدعِ wait/waitpid يبقى الابن في جدول العمليات كـ Zombie[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q2",
+            type: "single",
+            text: "A passive open is performed by:",
+            opts: [
+              "a. None of the given choices",
+              "b. A client using the socket, bind, connect system calls",
+              "c. A client using the socket, connect system calls",
+              "d. A server using socket, bind, accept system calls",
+              "e. A server using socket, bind, listen system calls"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. A server using socket, bind, listen system calls",
+            exp: "الفتح السلبي (Passive Open) يتم بواسطة الخادم عبر استدعاء listen لتحويل المقبس من نشط (Active) إلى مقبس استماع سلبي ينتظر الاتصالات[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q3",
+            type: "single",
+            text: "For a concurrent server:",
+            opts: [
+              "a. The fork() in the client spawns a child for each server's reply.",
+              "b. No fork() is needed, since the server will handle all client requests iteratively",
+              "c. The fork() in the server spawns a child for each new client, but the parent handles the client requests.",
+              "d. The fork() in the server spawns a child for each new client, and that child handles the client requests",
+              "e. None of the given choices"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. The fork() in the server spawns a child for each new client, and that child handles the client requests",
+            exp: "في الخادم المتزامن (Concurrent Server)، يستدعي الأب fork() لكل عميل لإنشاء ابن يتولى خدمة طلبات هذا العميل بمفرده[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q4",
+            type: "single",
+            text: "Before calling connect() at the server side:",
+            opts: [
+              "a. None of the given choices is true",
+              "b. You must call socket and bind functions",
+              "c. You must call socket function",
+              "d. You must call bind function"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. None of the given choices is true",
+            exp: "الخادم لا يستدعي دالة connect() أصلاً، بل يستدعي bind و listen و accept (دالة connect خاصة بالعميل)[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q5",
+            type: "single",
+            text: "If you start a TCP server without starting the client, then:",
+            opts: [
+              "a. None of the given choices",
+              "b. You can't start a server before starting the client",
+              "c. The server will silently terminate",
+              "d. The server will block waiting for the client request",
+              "e. The server will terminate immediately with an error message"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. The server will block waiting for the client request",
+            exp: "الخادم يبدأ أولاً ويدخل في حالة انتظار وحظر (blocking) داخل دالة accept() بانتظار اتصال العميل[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q6",
+            type: "single",
+            text: "Assume you working in a company whose manager asks you to design a client server application in which the performance is the key design factor. Which model you will be using for that:",
+            opts: [
+              "a. Nonblocking",
+              "b. I/O multiplexing with Blocking select",
+              "c. Multiprocessing",
+              "d. Any one will satisfy the requirement",
+              "e. Multithreading"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. Multithreading",
+            exp: "الخيوط (Threads) تشترك بنفس مساحة الذاكرة وتكلفة إنشائها وتبديل السياق بينها أقل بكثير من العمليات المستقلة (Processes)، مما يجعلها الأفضل في الأداء[cite: 23].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 2: Nonblocking I/O, Pointers & Socket Options",
+        context: "Questions covering nonblocking sockets, flags, and buffer operations:",
+        subQuestions: [
+          {
+            id: "np_q7",
+            type: "single",
+            text: "Assume there is a pending error on a socket when the process calls read(), and assume there is data queued in the receive queue for that socket, then:",
+            opts: [
+              "a. You can't call read() when there is a pending error on the socket",
+              "b. read() returns the value of the pending error, and then that pending error is reset to 0",
+              "c. That data is returned by read(), and the pending error is reset to 0",
+              "d. That data is returned by read(), without resetting the pending error",
+              "e. read returns -1"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. That data is returned by read(), without resetting the pending error",
+            exp: "وفقاً لـ Stevens UNP: إذا كانت هناك بيانات في طابور الاستقبال مع وجود pending error، فإن read ترجع البيانات أولاً ولا يتم تصفير الخطأ إلا في الاستدعاء اللاحق الذي يرجع -1[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q8",
+            type: "single",
+            text: "Assume we call recv() for a TCP socket specifying a buffer length of 1,024 along with the MSG_PEEK flag, and the return value is 200. Now, if we immediately call recv() again without specifying MSG_PEEK flag, then:",
+            opts: [
+              "a. It is possible for more than 200 bytes to be returned",
+              "b. The size of the return data will be exactly 200",
+              "c. It is possible for less than 200 bytes to be returned",
+              "d. It possible for the call to block()"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. It is possible for more than 200 bytes to be returned",
+            exp: "بما أن TCP عبارة عن Byte-stream، فقد تصل حزم بيانات جديدة من الشبكة إلى Buffer المقبس بين الاستدعاءين، فترجع الدالة أكثر من 200 بايت[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q9",
+            type: "single",
+            text: "If connect() is called for a nonblocking TCP socket, then:",
+            opts: [
+              "a. The connection cannot be established immediately in all cases",
+              "b. None of the given choices",
+              "c. connect() cannot be called on a nonblocking TCP socket",
+              "d. The connection might be established immediately if the client and server are on different hosts",
+              "e. it will always blocks the calling process for at least the RTT to the server"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. None of the given choices",
+            exp: "مع المقابس غير المحظورة، يمكن أن يتم الاتصال فوراً إذا كان الخادم على نفس الجهاز (Localhost/same host)، وبالتالي الخيارات a و d و e خاطئة، والجواب الصحيح هو None of the given choices[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q10",
+            type: "single",
+            text: "The typical code to enable nonblocking I/O on a socket, using fcntl, would be (ignore error-testing):",
+            opts: [
+              "a. int flags = fcntl(fd, F_GETFL, 0); fcntl(fd, F_SETFL, flags | O_NONBLOCK);",
+              "b. flags = O_NONBLOCK; fcntl(fd, F_SETFL, flags);",
+              "c. int flags = fcntl(fd, F_GETFL, 0);",
+              "d. int flags = fcntl(fd, F_GETFL, O_NONBLOCK); fcntl(fd, F_SETFL, flags | O_NONBLOCK);"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. int flags = fcntl(fd, F_GETFL, 0); fcntl(fd, F_SETFL, flags | O_NONBLOCK);",
+            exp: "الطريقة القياسية في يونكس: جلب الـ flags الحالية عبر F_GETFL، ثم تفعيل بت O_NONBLOCK عبر عملية OR، ثم حفظها بـ F_SETFL[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q11",
+            type: "single",
+            text: "The purpose of the Nagle algorithm is:",
+            opts: [
+              "a. Reduce the number of small packets on a WAN",
+              "b. Reduce the number of small packets on a LAN",
+              "c. Increase the number of small packets on a WAN",
+              "d. Increase the number of small packets on a LAN"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. Reduce the number of small packets on a WAN",
+            exp: "خوارزمية Nagle تقوم بتجميع البايتات الصغيرة في حزمة واحدة وتمنع إرسال حزم صغيرة متعددة ما دام هناك ACK معلق عبر شبكات WAN[cite: 23].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 3: UDP, Raw Sockets & Address Resolution",
+        context: "Questions covering UDP datagram semantics, Raw sockets, and DNS resolution:",
+        subQuestions: [
+          {
+            id: "np_q12",
+            type: "single",
+            text: "If you use the function sendto() in your client application to send a UDP datagram without any content, then at the server's side when trying to read this datagram using the recvfrom(), will return:",
+            opts: [
+              "a. Error message",
+              "b. 0",
+              "c. Undetermined",
+              "d. -1",
+              "e. you can't send empty datgram with sendto()"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. 0",
+            exp: "معلّم باللون الأزرق ومشار له بصح أحمر في الامتحان[cite: 23]: إرسال حزمة UDP فارغة (0 payload) مسموح به وترجع دالة recvfrom القيمة 0 دون أن تعني إغلاق الاتصال كما في TCP[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q13",
+            type: "single",
+            text: "Which statement is FALSE when dealing with a socket of type SOCK_DGRAM:",
+            opts: [
+              "a. It provides a connectionless service",
+              "b. A server can receive several datagrams on a single UDP socket, each from a different client.",
+              "c. A client can create a socket and send a datagram to a given server and then immediately send another datagram on the same socket to a different server",
+              "d. None of the given choices",
+              "e. Lack of reliability by default, but this can be built into the application"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. None of the given choices",
+            exp: "جميع العبارات (a, b, c, e) صحيحة تماماً وتصف خصائص مقبس UDP، لذا لا توجد أي عبارة خاطئة[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q14",
+            type: "single",
+            text: "Regarding asynchronous errors (like ICMP port unreachable) on a UDP socket:",
+            opts: [
+              "a. You must use connect() to receive asynchronous errors",
+              "b. None of the given choices",
+              "c. You can't use connect()",
+              "d. You can use connect(), but you need to deal with connection establishment"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. You must use connect() to receive asynchronous errors",
+            exp: "لا يُعلم Kernel مقبس UDP غير المتصل بأخطاء ICMP Asynchronous errors؛ لذلك يجب ربطه عبر connect() لاستقبالها[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q15",
+            type: "single",
+            text: "If IP_HDRINCL socket option is set for a raw IP socket, then:",
+            opts: [
+              "a. The user builds most of the IP header contents",
+              "b. The user builds the IP header completely",
+              "c. you can't set this option with raw sockets",
+              "d. The kernel builds the IP header completely",
+              "e. The kernel sets the IP header content except the checksum"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. The user builds the IP header completely",
+            exp: "خيار IP_HDRINCL (IP Header Included) يعني أن التطبيق هو من يقوم ببناء وترويسة حزمة IP كاملة بنفسه[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q16",
+            type: "single",
+            text: "Which of the following is TRUE regarding raw sockets?",
+            opts: [
+              "a. A copy of a packet can be sent to more than one matching raw socket",
+              "b. Nothing is passed to a raw socket until all fragments have arrived and have been reassembled",
+              "c. All IGMP packets are passed to a raw socket",
+              "d. All of the given choices",
+              "e. All IP datagrams with a protocol field that the kernel does not understand are passed to a raw socket"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. All of the given choices",
+            exp: "معلّم في ورقة الامتحان بصح أحمر[cite: 23]: جميع العبارات صحيحة ومذكورة نصاً في قواعد معالجة Raw Sockets في يونكس[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q17",
+            type: "single",
+            text: "One of the following is NOT a valid address family type:",
+            opts: [
+              "a. AF_INET",
+              "b. AF_LOCAL",
+              "c. None of the given choices",
+              "d. AF_INET6",
+              "e. AF_UNSPEC"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. None of the given choices",
+            exp: "جميع العائلات المذكورة (AF_INET, AF_LOCAL, AF_INET6, AF_UNSPEC) صحيحة ومعرفة رسمياً في لغة C ونظام يونكس[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q18",
+            type: "single",
+            text: "The file /etc/hosts normally contains:",
+            opts: [
+              "a. The IP addresses of the local name servers",
+              "b. The implementation code of the resolver function",
+              "c. The hostnames of remote name servers",
+              "d. Hostnames to IP addresses mappings"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Hostnames to IP addresses mappings",
+            exp: "ملف /etc/hosts مخصص لربط وتعيين أسماء الأجهزة بعناوين IP الخاصة بها محلياً[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q19",
+            type: "single",
+            text: "The function gethostbyname() is used to:",
+            opts: [
+              "a. Convert a host name into an IPv6 address only",
+              "b. All of the given choices",
+              "c. Convert a host name into either an IPv6 address or an IPv4 address",
+              "d. Convert a host name into an IPv4 address only"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Convert a host name into an IPv4 address only",
+            exp: "معلّم بصح أحمر في الامتحان[cite: 23]: الدالة القديمة gethostbyname تدعم IPv4 فقط، بينما يدعم IPv6 الدالة الحديثة getaddrinfo[cite: 23].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 4: Threads, Shutdown & Practical Troubleshooting",
+        context: "Questions covering thread routines, socket termination, and command-line execution:",
+        subQuestions: [
+          {
+            id: "np_q20",
+            type: "single",
+            text: "Executing the statement: pthread_detach(pthread_self()); by Thread A means:",
+            opts: [
+              "a. None of the given choices",
+              "b. When Thread A terminates, its thread ID and exit status are retained to main thread",
+              "c. Thread A wait itself to terminate",
+              "d. Thread A wait for main thread to terminate",
+              "e. main thread cannot wait Thread A"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. main thread cannot wait Thread A",
+            exp: "فصل الخيط (Detached thread) يحرر موارده تلقائياً عند انتهائه ويمنع أي خيط آخر (بما فيه main) من انتظاره عبر pthread_join[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q21",
+            type: "single",
+            text: "Which of the following function prototypes will be executed by pthread_create as a start routine?",
+            opts: [
+              "a. void * A(void * B) { ... }",
+              "b. void * A(void B) { ... }",
+              "c. void * B(NULL) { ... }",
+              "d. void B(NULL) { ... }",
+              "e. void B(void * A) { ... }"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. void * A(void * B) { ... }",
+            exp: "الواجهة المعيارية لدالة الخيط في POSIX Threads يجب أن تستقبل (void *) وترجع (void *)[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q22",
+            type: "single",
+            text: "Which of the following is TRUE regarding shutdown() and close()?",
+            opts: [
+              "a. A shutdown() function with SHUT_RD argument means that no more data can be received on the socket and any data currently in the socket receive buffer is discarded",
+              "b. A shutdown() function with SHUT_RD argument means that any data currently in the socket send buffer will be sent, followed by TCP's normal connection termination sequence",
+              "c. The close() function will always generate a FIN packet regardless of the descriptor's reference count",
+              "d. If the use of close() function at your side generates a FIN packet, and the other end has more data to send, you can still read that data",
+              "e. All of the given choices"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. A shutdown() function with SHUT_RD argument means that no more data can be received on the socket and any data currently in the socket receive buffer is discarded",
+            exp: "نص حرفي من كتاب Stevens UNP: خيار SHUT_RD يغلق نصف القراءة للمقبس وأي بيانات غير مقروءة في Buffer الاستقبال يتم التخلص منها فوراً[cite: 23].",
+            img: ""
+          },
+          {
+            id: "np_q23",
+            type: "single",
+            text: "If you execute the following command: a.out 127.0.0.1 22555, and you got the message: 'error in connecting with the server: invalid IP address', then to fix the error you do:",
+            opts: [
+              "a. Change the program name to something other than a.out",
+              "b. Switch the order of the IP address and port number at the command line",
+              "c. Run the command as root",
+              "d. Change the port number value",
+              "e. Change the IP address"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. Switch the order of the IP address and port number at the command line",
+            exp: "إذا كان البرنامج يتوقع المدخلات بترتيب <port> <IP>، فإنه يمرر الوسيط الثاني لدالة inet_pton فيفشل مع '22555' معتبراً إياه عنوان IP غير صالح[cite: 23].",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-indicator"></div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

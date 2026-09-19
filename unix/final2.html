@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Unix & Linux Systems - Final 2021</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: #111317;
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #79c0ff;
+      margin: 8px 0 14px 0;
+      white-space: pre-wrap;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* أنماط الـ Drag & Drop المحسنة للـ Terminal */
+    .dnd-terminal-block {
+      background: #0f1115;
+      border: 1px solid #2a2e39;
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      color: #d1d7e0;
+      line-height: 1.85;
+      margin: 10px 0 14px 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+    .dnd-slot-target {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 130px;
+      height: 32px;
+      padding: 0 12px;
+      margin: 0 4px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 2px dashed #0a84ff;
+      border-radius: 6px;
+      color: #5ac8fa;
+      font-size: 0.84rem;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .dnd-slot-target.filled {
+      border-style: solid;
+      background: #0a84ff;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .dnd-slot-target.drag-over {
+      background: rgba(10, 132, 255, 0.35);
+      border-color: #fff;
+      transform: scale(1.02);
+    }
+    .dnd-slot-target.slot-correct {
+      border-color: #30d158 !important;
+      background: #30d158 !important;
+      color: #000 !important;
+      font-weight: 700;
+    }
+    .dnd-slot-target.slot-wrong {
+      border-color: #ff453a !important;
+      background: #ff453a !important;
+      color: #fff !important;
+    }
+    .dnd-options-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      min-height: 52px;
+    }
+    .dnd-chip {
+      background: var(--apple-surface, #1c1c1e);
+      border: 1px solid var(--apple-border-strong, #38383a);
+      color: #e5e5ea;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.86rem;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .dnd-chip:hover {
+      border-color: var(--apple-blue);
+      color: #fff;
+    }
+    .dnd-chip:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+    .dnd-instructions {
+      font-size: 0.82rem;
+      color: #8e8e93;
+      margin-top: 6px;
+    }
+
+    select.sub-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--apple-border-strong);
+      color: #79c0ff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      outline: none;
+      margin: 4px 6px;
+    }
+    select.sub-select.correct {
+      border-color: #30d158;
+      background: rgba(48, 209, 88, 0.15);
+    }
+    select.sub-select.wrong {
+      border-color: #ff453a;
+      background: rgba(255, 69, 58, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/unix">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Unix & Linux Systems (NES 202)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam 2021 — Practice Test</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/unix">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1L-rdPYPRDJTLmJmzPpiEujdmDxVcvJ-_/view";
+
+    const examSections = [
+      {
+        title: "Final Exam 2021 (All Sections)",
+        context: "تم إدراج جميع الأسئلة والخيارات مطابقة تماماً لامتحان الفاينال 2021:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "slot_dnd",
+            text: "Question 1: Rearrange the parts below after the command echo to create a complete command line that gives the followed output:",
+            codePrefix: `ranas-mbp:ch13 rana$ source="TEST.c"
+ranas-mbp:ch13 rana$ ls
+file1.h  file_imp.c  file_main.c
+ranas-mbp:ch13 rana$ echo `,
+            slots: [
+              { placeholder: "[ part 1 ]" },
+              { placeholder: "[ part 2 ]" },
+              { placeholder: "[ part 3 ]" }
+            ],
+            codeSuffix: `
+file_imp.c file_main.c TEST.c`,
+            pool: ["`ls *.c", "2>/dev/null`", "$source"],
+            correctSequence: ["`ls *.c", "2>/dev/null`", "$source"],
+            dispAnswer: "echo `ls *.c 2>/dev/null` $source",
+            exp: "تنفيذ أمر `ls *.c` داخل علامات التنصيص المائلة يسترجع ملفات الـ C الموجودة (file_imp.c file_main.c)، ثم يتبعه متغير $source الذي يحتوي على TEST.c.",
+            img: ""
+          },
+          {
+            id: "q2",
+            type: "single",
+            text: `Question 2: Depending on the following snapshot of a unix terminal:
+<pre class="code-block">~Desktop$ cat file2
+This is Final Exam
+~Desktop$ cat file1
+Good Luck!
+~Desktop$ command1
+~Desktop$ cat file2
+This is Final Exam
+Good Luck!
+~Desktop$ cat file1
+Good Luck!</pre>
+Which of the following commands, when executed in place of command1, will result the output as shown after command1?`,
+            opts: [
+              "cat < file2 > file1",
+              "cat < file1 >> file2",
+              "cat < file1 > file2",
+              "cat < file2 >> file1"
+            ],
+            ans: 1, // cat < file1 >> file2
+            dispAnswer: "cat < file1 >> file2",
+            exp: "تم إلحاق محتوى file1 في نهاية file2 دون حذف المحتوى القديم لـ file2 مع الإبقاء على file1 دون تعديل، وذلك باستخدام عامل الإلحاق `>>`.",
+            img: ""
+          },
+          {
+            id: "q3",
+            type: "single",
+            text: "Question 3: Your program contains 3 files: info.h, info.c, main.c. You also added a correct makefile. What is the output of executing the command (make) for first time?",
+            opts: [
+              "gcc info.o main.o -o project\ngcc -c info.c main.c",
+              "gcc -c info.h info.c main.c\ngcc info.o main.o -o project",
+              "gcc -c info.c main.c\ngcc info.o main.o -o project",
+              "gcc info.o main.o -o project\ngcc -c info.h info.c main.c"
+            ],
+            ans: 2, // gcc -c info.c main.c ...
+            dispAnswer: "gcc -c info.c main.c\ngcc info.o main.o -o project",
+            exp: "عند تشغيل make لأول مرة، تُترجم ملفات الشيفرة المصدرية أولاً إلى ملفات كائنية `.o` (بدون ملفات الـ header)، ثم يتم ربطها لإنشاء الملف التنفيذي project.",
+            img: ""
+          },
+          {
+            id: "q4",
+            type: "single",
+            text: `Question 4: Consider the following snapshot of a unix terminal:
+<pre class="code-block">~Desktop:$ cat info.txt
+barry wood:woodb@yahoo.com:245-690-4004
+charles harris:charles_harris@heavens.com:345-865-3209
+james wilcocks:james.wilcocks@heavens.com:190-349-07
+~Desktop:$ command1
+james wilcocks:james.wilcocks@heavens.com:190-349-07
+charles harris:charles_harris@heavens.com:345-865-3209
+barry wood:woodb@yahoo.com:245-690-4004</pre>
+Which of the following commands, when executed in place of command1, will result the output as shown after command1?`,
+            opts: [
+              "sort -t\"-\" -n info.txt",
+              "sort -t\":\" -k 1 info.txt",
+              "sort -t\"-\" -k 3 info.txt",
+              "sort -t\":\" -k 3 info.txt"
+            ],
+            ans: 2, // sort -t"-" -k 3 info.txt
+            dispAnswer: "sort -t\"-\" -k 3 info.txt",
+            exp: "تم الترتيب باستخدام الفاصل `-` على الحقل الثالث: الحقل 3 لجيمس هو 07، ولتشارلز 3209، ولـ باري 4004 (07 < 3209 < 4004 أبجدياً).",
+            img: ""
+          },
+          {
+            id: "q5",
+            type: "single",
+            text: "Question 5: Access time of a file is always same as or more recent than modification time of same file.",
+            opts: ["True", "False"],
+            ans: 1, // False
+            dispAnswer: "False",
+            exp: "غير صحيح؛ يمكن تعديل الملف والكتابة عليه فيتحدث وقت التعديل mtime دون قراءته (دون تحديث atime)، أو تعديل mtime يدوياً بأمر touch ليصبح أحدث من وقت الوصول.",
+            img: ""
+          },
+          {
+            id: "q6",
+            type: "single",
+            text: `Question 6: Depending on the following Snapshot of a bash terminal, What is the output of the last command?
+<pre class="code-block">ranas-mbp:~rana$ cat | wc &
+[1] 1456
+ranas-mbp:~rana$ ps -f
+UID   PID   PPID  C STIME   TTY      TIME     CMD
+280   1448  1449  0 2:58PM  ttys000  0:00.04  -bash
+280   1455  1448  0 3:09PM  ttys000  0:00.01  cat
+280   1456  1448  0 3:09PM  ttys000  0:00.01  wc
+ranas-mbp:~rana$ echo $$</pre>`,
+            opts: [
+              "1448",
+              "280",
+              "1449",
+              "1456"
+            ],
+            ans: 0, // 1448
+            dispAnswer: "1448",
+            exp: "المتغير الخاص `$$` يعرض رقم العملية (PID) للشل الحالي الذي نعمل عليه، وهو عملية `-bash` التي تملك PID = 1448.",
+            img: ""
+          },
+          {
+            id: "q7",
+            type: "single",
+            text: "Question 7: Programs access the kernel services by invoking system calls",
+            opts: ["True", "False"],
+            ans: 0, // True
+            dispAnswer: "True",
+            exp: "صحيح؛ استدعاءات النظام (System Calls) هي الواجهة البرمجية الأساسية التي تطلب البرامج من خلالها خدمات النواة (Kernel).",
+            img: ""
+          },
+          {
+            id: "q8",
+            type: "single",
+            text: "Question 8: which of the following is invalid command line in UNIX/LINUX?",
+            opts: [
+              "cat > file",
+              "tail",
+              "rmdir AAA",
+              "mv -R file1"
+            ],
+            ans: 3, // mv -R file1
+            dispAnswer: "mv -R file1",
+            exp: "الأمر `mv` لا يحتوي على خيار `-R`، كما يتطلب وسيطين على الأقل (المصدر والوجهة).",
+            img: ""
+          },
+          {
+            id: "q9",
+            type: "single",
+            text: `Question 9: Consider the following snapshot of a unix terminal:
+<pre class="code-block">~Desktop:$ cat info.txt
+barry wood:woodb@yahoo.com:245-690-4004
+charles harris:charles_harris@heavens.com:345-865-3209
+james wilcocks:james.wilcocks@heavens.com:190-349-07
+~Desktop:$ command1
+yahoo.com
+heavens.com
+heavens.com</pre>
+Which of the following commands, when executed in place of command1, will result the output as shown after command1?`,
+            opts: [
+              "cut -d\"@\" -f2 info.txt | cut -d\":\" -f 1 info.txt",
+              "cut -d\":\" -f 2 info.txt | cut -d\"@\" -f2",
+              "cut -d\":\" -f 2 info.txt",
+              "cut -d\"@\" -f 2 info.txt"
+            ],
+            ans: 1, // cut -d":" -f 2 info.txt | cut -d"@" -f2
+            dispAnswer: "cut -d\":\" -f 2 info.txt | cut -d\"@\" -f2",
+            exp: "الأمر الأول يقتطع الحقل الثاني المعتمد على `:` (وهو عنوان الإيميل كاملاً)، ثم يمرره للأمر الثاني الذي يقتطع ما بعد `@` (اسم الدومين).",
+            img: ""
+          },
+          {
+            id: "q10",
+            type: "dropdowns",
+            text: `Question 10: Depending on the following snapshot of unix terminal, answer the followed questions:
+<pre class="code-block">~Desktop$ ls
+course.tar      part.b          lecture.1    part.4a   lecture.2   lecture.5a
+lecture.2.html  lecture.5a.html part.a       lecture.3.h           1.profile</pre>`,
+            subParts: [
+              {
+                label: "The output of executing command: ls ?.* is:",
+                options: ["1.profile", "part.b", "lecture.1", "course.tar"],
+                correct: "1.profile"
+              },
+              {
+                label: "The output of executing command: ls *[part].[0-9]* is:",
+                options: ["part.4a", "part.b", "lecture.1", "part.a"],
+                correct: "part.4a"
+              }
+            ],
+            dispAnswer: "ls ?.* -> 1.profile | ls *[part].[0-9]* -> part.4a",
+            exp: "النمط الأول يطابق الملفات التي تبدأ بحرف واحد يليه نقطة (1.profile). النمط الثاني يطابق الملفات التي تنتهي بأحد أحرف part قبل النقطة وتبدأ برقم بعدها (part.4a).",
+            img: ""
+          },
+          {
+            id: "q11",
+            type: "dropdowns",
+            text: "Question 11: Choose one correct answer for each of the following questions:\n(Allowed Choices: echo, cp, mkdir, ls, wc, cd, mv)",
+            subParts: [
+              {
+                label: "The unix command used with at least 1 argument and cause an action and has no output is:",
+                options: ["echo", "cp", "mkdir", "ls", "wc", "cd", "mv"],
+                correct: "mkdir"
+              },
+              {
+                label: "The unix command used with or without arguments and can read from keyboard and write on screen:",
+                options: ["echo", "cp", "mkdir", "ls", "wc", "cd", "mv"],
+                correct: "wc"
+              },
+              {
+                label: "The unix command used with or without arguments and not cause an action but has output is:",
+                options: ["echo", "cp", "mkdir", "ls", "wc", "cd", "mv"],
+                correct: "ls"
+              }
+            ],
+            dispAnswer: "1) mkdir, 2) wc, 3) ls",
+            exp: "1. mkdir يحتاج وسيطاً واحداً على الأقل ويقوم بعمل دون إخراج على الشاشة.\n2. wc يقرأ من لوحة المفاتيح عند تشغيله دون وسائط ويطبع النتيجة.\n3. ls يعرض الملفات (خرج) دون إحداث تعديل (action).",
+            img: ""
+          },
+          {
+            id: "q12",
+            type: "dropdowns",
+            text: "Question 12: Choose one correct answer for each of the following questions:\n(Allowed Choices: 353, 355, 422, 444)",
+            subParts: [
+              {
+                label: "Test.txt is an ordinary file that has permissions 422, after execute the command: chmod a=r Test.txt, its permissions become:",
+                options: ["353", "355", "422", "444"],
+                correct: "444"
+              },
+              {
+                label: "Test.txt is an ordinary file that has been created with permissions 424, so the possible umask value is:",
+                options: ["353", "355", "422", "444"],
+                correct: "353"
+              }
+            ],
+            dispAnswer: "1) 444, 2) 353",
+            exp: "1. الأمر a=r يضبط القراءة للجميع ويلغي الكتابة والتنفيذ فتصبح الأذونات r--r--r-- أي 444.\n2. القيمة 353 عند تطبيقها على 666 تعطي أذونات 424.",
+            img: ""
+          },
+          {
+            id: "q13",
+            type: "single",
+            text: `Question 13: Consider the following snapshot of a unix terminal, What is the output of the last command?
+<pre class="code-block">ranas-mbp:ch13 rana$ ls
+sc.sh script-new.sh script1.sh script2.sh script3.sh
+ranas-mbp:ch13 rana$ for file in \`ls *[0-9].sh 2>/dev/null\`; do ls $file; done</pre>`,
+            opts: [
+              "script1.sh\nscript2.sh\nscript3.sh",
+              "3",
+              "no output",
+              "sc.sh",
+              "script-new.sh"
+            ],
+            ans: 0, // script1.sh...
+            dispAnswer: "script1.sh\nscript2.sh\nscript3.sh",
+            exp: "النمط `*[0-9].sh` يطابق الملفات التي تنتهي برقم قبل الامتداد (script1.sh, script2.sh, script3.sh)، وتقوم حلقة for بتمرير كل ملف لأمر ls لعرضه في سطر منفصل.",
+            img: ""
+          },
+          {
+            id: "q14",
+            type: "single",
+            text: "Question 14: Your program contains 3 files: info.h, info.c, main.c. You also added a correct makefile, if you did some changes on the file main.c only after the first execution of command (make). What is the output of executing the command (make) again?",
+            opts: [
+              "gcc info.o main.o -o project",
+              "gcc -c main.c\ngcc info.o main.o -o project",
+              "gcc -c info.c\ngcc -c main.c\ngcc info.o main.o -o project",
+              "gcc -c main.c"
+            ],
+            ans: 1, // gcc -c main.c ...
+            dispAnswer: "gcc -c main.c\ngcc info.o main.o -o project",
+            exp: "بما أن التعديل تم على main.c فقط، يعيد make بناء main.o فقط دون إعادة ترجمة info.c، ثم يقوم بربط الملفات الناتجة مجدداً.",
+            img: ""
+          },
+          {
+            id: "q15",
+            type: "dropdowns",
+            text: `Question 15: Consider the following sample output:
+<pre class="code-block">ranas-mbp:ch13 rana$ cat script.sh
+if [ $# -ge 2 ]; then
+  n1=$1
+  n2=$2
+else
+  echo "usage: $0 num1 num2"
+  exit 1
+fi
+if [ $n1 -gt $n2 ]; then
+  temp=$n1
+  n1=$n2
+  n2=$temp
+fi
+total=0
+while [ $n1 -le $n2 ]
+do
+  total=\`expr $total +$n1\`
+  n1=\`expr $n1 + 1\`
+done
+echo "$total"
+exit 0</pre>`,
+            subParts: [
+              {
+                label: "1. The output of executing the command ./script.sh 8 3 is:",
+                options: ["33", "11", "usage: ./script.sh num1 num2", "24"],
+                correct: "33"
+              },
+              {
+                label: "2. The output of executing the command ./script.sh 5 7 9 is:",
+                options: ["21", "24", "18", "usage: ./script.sh num1 num2"],
+                correct: "18"
+              }
+            ],
+            dispAnswer: "1) 33, 2) 18",
+            exp: "1. يتم تبديل 8 و 3 ليصبح المجموع من 3 إلى 8: (3+4+5+6+7+8 = 33).\n2. المعاملات أكثر من 2 فيأخذ الأول والثاني (5 و 7) ويتجاهل 9، مجموع 5 إلى 7 هو: (5+6+7 = 18).",
+            img: ""
+          },
+          {
+            id: "q16",
+            type: "single",
+            text: `Question 16: Depending on the following snapshot of a unix terminal:
+<pre class="code-block">ranas-mbp:ch13 rana$ if [ -f TEST.txt ]; then
+> if [ -r TEST.txt ]; then echo "WELCOME!";
+> else echo "HELLO!"; fi
+> else echo "HI!"; fi
+HELLO!</pre>
+The statement "The file TEST.txt is exist and readable" is:`,
+            opts: ["True", "False"],
+            ans: 1, // False
+            dispAnswer: "False",
+            exp: "الناتج كان HELLO! مما يعني أن الشرط الأول متحقق (الملف موجود)، لكن فحص القراءة `[ -r TEST.txt ]` كان غير متحقق (غير قابل للقراءة).",
+            img: ""
+          },
+          {
+            id: "q17",
+            type: "single",
+            text: `Question 17: Depending on the following snapshot of a unix terminal, What is the output of the last command?
+<pre class="code-block">ranas-mbp:~ rana$ var=95
+ranas-mbp:~ rana$ export var
+ranas-mbp:~ rana$ bash
+bash-3.2$ var=7
+bash-3.2$ bash
+bash-3.2$ var=26
+bash-3.2$ exit
+exit
+bash-3.2$ echo $var</pre>`,
+            opts: ["0", "7", "95", "26"],
+            ans: 1, // 7
+            dispAnswer: "7",
+            exp: "عند تنفيذ exit تم الخروج من الشل الفرعي الثاني والعودة للشل الفرعي الأول حيث كانت قيمة var فيه تساوي 7.",
+            img: ""
+          },
+          {
+            id: "q18",
+            type: "single",
+            text: `Question 18: Consider the following conditional structure:
+<pre class="code-block">if ls *.c; then
+  if ls *.h; then
+    rm -rf *.[hc]
+  fi
+fi</pre>
+Which of the following is equivalent to previous conditional structure?`,
+            opts: [
+              "ls *.c || ls *.h || rm -rf *.[hc]",
+              "ls *.c && ls *.h && rm -rf *.[hc]",
+              "ls *.c && ls *.h || rm -rf *.[hc]",
+              "ls *.c || ls *.h && rm -rf *.[hc]"
+            ],
+            ans: 1, // ls *.c && ls *.h && rm -rf *.[hc]
+            dispAnswer: "ls *.c && ls *.h && rm -rf *.[hc]",
+            exp: "تنفيذ أمر الحذف مشروط بنجاح كلا الأمرين السابقين، وهو ما يطابق استخدام الرابط المنطقي AND `&&`.",
+            img: ""
+          },
+          {
+            id: "q19",
+            type: "single",
+            text: "Question 19: Parent process execs its own image with code and data of new program.",
+            opts: ["True", "False"],
+            ans: 1, // False
+            dispAnswer: "False",
+            exp: "العملية الابن (Child process) هي التي تقوم عادة باستدعاء exec لاستبدال صورتها ببرنامج جديد، بينما يستمر الأب في العمل أو الانتظار.",
+            img: ""
+          },
+          {
+            id: "q20",
+            type: "single",
+            text: "Question 20: Which of the following is invalid command line in UNIX/LINUX?",
+            opts: [
+              "rm -rf AAA/*",
+              "cp -R file1",
+              "head",
+              "cat < file"
+            ],
+            ans: 1, // cp -R file1
+            dispAnswer: "cp -R file1",
+            exp: "أمر `cp` يتطلب تحديد ملف الهدف والوجهة (وسيطين على الأقل).",
+            img: ""
+          },
+          {
+            id: "q21",
+            type: "single",
+            text: `Question 21: Depending on the following snapshot of unix terminal, What is the output of the last command?
+<pre class="code-block">ranas-mbp:ch13 rana$ cat TEST.txt
+course.tar
+part.b
+lecture.1
+part.4a
+lecture.2
+lecture.5a
+lecture.2.html
+lecture.5a.html
+.part.a
+lecture.3.h
+1.profile
+ranas-mbp:ch13 rana$ head -n 3 TEST.txt | tail | head -n 1</pre>`,
+            opts: [
+              "part.b",
+              "lecture.1",
+              "course.tar",
+              "part.b\nlecture.1"
+            ],
+            ans: 2, // course.tar
+            dispAnswer: "course.tar",
+            exp: "الأمر `head -n 3` يستخرج أول 3 أسطر، وأمر `tail` الافتراضي يعرض حتى 10 أسطر (فيمرر الأسطر الثلاثة كاملة دون تغيير)، ثم يأخذ `head -n 1` السطر الأول منها وهو course.tar.",
+            img: ""
+          },
+          {
+            id: "q22",
+            type: "single",
+            text: "Question 22: Kernel removes entry for zombie child from process table.",
+            opts: ["True", "False"],
+            ans: 1, // False
+            dispAnswer: "False",
+            exp: "النواة لا تحذف مدخل العملية الزومبي تلقائياً، بل يظل محجوزاً في جدول العمليات حتى تقوم العملية الأب بقراءة كود الخروج عبر wait() أو waitpid().",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let slotDndState = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "slot_dnd") {
+            const totalSlots = sub.slots.length;
+            slotDndState[sub.id] = {
+              slotsValues: Array(totalSlots).fill(null),
+              pool: [...sub.pool],
+              correctSequence: sub.correctSequence,
+              locked: false
+            };
+
+            let terminalTerminalHtml = sub.codePrefix || '';
+            sub.slots.forEach((sItem, sIdx) => {
+              terminalTerminalHtml += `<span class="dnd-slot-target" id="slot-${sub.id}-${sIdx}" 
+                ondragover="allowDropSlot(event)" ondrop="dropToSlot(event, '${sub.id}', ${sIdx})" 
+                onclick="clearSlotClick('${sub.id}', ${sIdx})">${sItem.placeholder}</span> `;
+            });
+
+            if (sub.codeSuffix) {
+              terminalTerminalHtml += sub.codeSuffix;
+            }
+
+            interactionHtml = `
+              <div class="dnd-terminal-block ltr-content" id="term-block-${sub.id}">${terminalTerminalHtml}</div>
+              <div class="dnd-instructions">Available parts (Click to insert into the next slot or Drag directly):</div>
+              <div class="dnd-options-pool ltr-content" id="pool-${sub.id}">
+                ${sub.pool.map((pItem, pIdx) => `
+                  <div class="dnd-chip" id="chip-${sub.id}-${pIdx}" draggable="true" 
+                       ondragstart="dragChipStart(event, '${sub.id}', '${pItem}')" 
+                       onclick="chipClickInsert('${sub.id}', '${pItem}')">${pItem}</div>
+                `).join('')}
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkSlotDndAnswer('${sub.id}')">تحقق من الترتيب</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "dropdowns") {
+            const dropsHtml = sub.subParts.map((sp, sidx) => `
+              <div style="margin-bottom: 12px;">
+                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 6px;">${sp.label}</div>
+                <select class="sub-select" id="drop-${sub.id}-${sidx}">
+                  <option value="">-- اختر الإجابة --</option>
+                  ${sp.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="ltr-content" style="margin: 12px 0;">${dropsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkDropdownsAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة المعتمدة في الامتحان:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    let activeDragData = null;
+
+    function dragChipStart(e, subId, itemValue) {
+      activeDragData = { subId, itemValue };
+      e.dataTransfer.setData('text/plain', JSON.stringify(activeDragData));
+    }
+
+    function allowDropSlot(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function dropToSlot(e, subId, slotIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      if (!activeDragData || activeDragData.subId !== subId) return;
+
+      placeItemInSlot(subId, slotIdx, activeDragData.itemValue);
+      activeDragData = null;
+    }
+
+    function chipClickInsert(subId, itemValue) {
+      const state = slotDndState[subId];
+      if (!state || state.locked) return;
+
+      const emptySlotIdx = state.slotsValues.findIndex(v => v === null);
+      if (emptySlotIdx !== -1) {
+        placeItemInSlot(subId, emptySlotIdx, itemValue);
+      }
+    }
+
+    function clearSlotClick(subId, slotIdx) {
+      const state = slotDndState[subId];
+      if (!state || state.locked) return;
+
+      const currentVal = state.slotsValues[slotIdx];
+      if (currentVal !== null) {
+        state.slotsValues[slotIdx] = null;
+        state.pool.push(currentVal);
+        renderSlotDndUi(subId);
+      }
+    }
+
+    function placeItemInSlot(subId, slotIdx, itemValue) {
+      const state = slotDndState[subId];
+      if (!state || state.locked) return;
+
+      if (state.slotsValues[slotIdx] !== null) {
+        state.pool.push(state.slotsValues[slotIdx]);
+      }
+
+      state.slotsValues[slotIdx] = itemValue;
+      state.pool = state.pool.filter(x => x !== itemValue);
+      renderSlotDndUi(subId);
+    }
+
+    function renderSlotDndUi(subId) {
+      const sub = findSubQuestion(subId);
+      const state = slotDndState[subId];
+      if (!sub || !state) return;
+
+      state.slotsValues.forEach((val, idx) => {
+        const slotEl = document.getElementById(`slot-${subId}-${idx}`);
+        if (slotEl) {
+          if (val !== null) {
+            slotEl.innerText = val;
+            slotEl.classList.add('filled');
+          } else {
+            slotEl.innerText = sub.slots[idx].placeholder;
+            slotEl.classList.remove('filled');
+          }
+        }
+      });
+
+      const poolEl = document.getElementById(`pool-${subId}`);
+      if (poolEl) {
+        poolEl.innerHTML = state.pool.map((pItem, pIdx) => `
+          <div class="dnd-chip" id="chip-${subId}-${pIdx}" draggable="true" 
+               ondragstart="dragChipStart(event, '${subId}', '${pItem}')" 
+               onclick="chipClickInsert('${subId}', '${pItem}')">${pItem}</div>
+        `).join('');
+      }
+    }
+
+    function checkSlotDndAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const state = slotDndState[subId];
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !state) return;
+
+      if (state.slotsValues.some(v => v === null)) {
+        alert("يرجى تعبئة جميع الفراغات أولاً!");
+        return;
+      }
+
+      let isAllCorrect = true;
+      state.slotsValues.forEach((val, idx) => {
+        const slotEl = document.getElementById(`slot-${subId}-${idx}`);
+        if (val === state.correctSequence[idx]) {
+          if (slotEl) slotEl.classList.add('slot-correct');
+        } else {
+          if (slotEl) slotEl.classList.add('slot-wrong');
+          isAllCorrect = false;
+        }
+      });
+
+      if (isAllCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      state.locked = true;
+      const termBlock = document.getElementById(`term-block-${subId}`);
+      const poolEl = document.getElementById(`pool-${subId}`);
+      if (termBlock) termBlock.style.pointerEvents = 'none';
+      if (poolEl) poolEl.style.pointerEvents = 'none';
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkDropdownsAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub) return;
+
+      let allCorrect = true;
+      sub.subParts.forEach((sp, sidx) => {
+        const dropEl = document.getElementById(`drop-${subId}-${sidx}`);
+        if (dropEl) {
+          dropEl.disabled = true;
+          if (dropEl.value.trim() === sp.correct.trim()) {
+            dropEl.className = 'sub-select correct';
+          } else {
+            dropEl.className = 'sub-select wrong';
+            allCorrect = false;
+          }
+        }
+      });
+
+      if (allCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (sub.type === "slot_dnd") {
+        const totalSlots = sub.slots.length;
+        slotDndState[subId] = {
+          slotsValues: Array(totalSlots).fill(null),
+          pool: [...sub.pool],
+          correctSequence: sub.correctSequence,
+          locked: false
+        };
+
+        for (let idx = 0; idx < totalSlots; idx++) {
+          const slotEl = document.getElementById(`slot-${subId}-${idx}`);
+          if (slotEl) {
+            slotEl.innerText = sub.slots[idx].placeholder;
+            slotEl.className = 'dnd-slot-target';
+          }
+        }
+
+        const termBlock = document.getElementById(`term-block-${subId}`);
+        const poolEl = document.getElementById(`pool-${subId}`);
+        if (termBlock) termBlock.style.pointerEvents = 'auto';
+        if (poolEl) poolEl.style.pointerEvents = 'auto';
+
+        renderSlotDndUi(subId);
+      }
+
+      if (sub.type === "dropdowns") {
+        sub.subParts.forEach((_, sidx) => {
+          const dropEl = document.getElementById(`drop-${subId}-${sidx}`);
+          if (dropEl) {
+            dropEl.disabled = false;
+            dropEl.value = "";
+            dropEl.className = 'sub-select';
+          }
+        });
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

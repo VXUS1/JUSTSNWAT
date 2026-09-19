@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Wireless Networks - Second Ch4 Dr. Shorman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      background: rgba(10, 132, 255, 0.15);
+      border-color: #0a84ff;
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.checkbox .opt-indicator {
+      border-radius: 4px;
+    }
+    .option-item.selected .opt-indicator {
+      border-color: #0a84ff;
+      background: #0a84ff;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 200px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .q-image-container {
+      display: none;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .q-image-container.show {
+      display: block;
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/wireless">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Wireless Networks</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Second Exam (CH4) — Dr. Shorman</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/wireless">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1jPajSu7t61vEOpNwAg-zUs9jErNuXSc7/view";
+
+    const examSections = [
+      {
+        title: "Question 1",
+        context: "اتعهد امام الله بعدم الغش وان اكون صادقا مع نفسي وكل عام وانتم بخير",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "التعهد الصادق بعدم الغش.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 2",
+        context: "In wireless distribution system (DS):",
+        subQuestions: [
+          {
+            id: "q2",
+            type: "single",
+            text: "Select the correct statement:",
+            opts: [
+              "nodes operated in ad hoc mode",
+              "there is no access point",
+              "access points are not required",
+              "multiple access point are inter-connected with each other",
+              "only one access point exists"
+            ],
+            ans: 3,
+            dispAnswer: "multiple access point are inter-connected with each other",
+            exp: "The Distribution System (DS) connects multiple BSSs via their APs to form an Extended Service Set (ESS).",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 3",
+        context: "Before going into a low-power state (i.e.; sleep mode), what function must a wireless station operating in a Basic Service Set (BSS) perform?",
+        subQuestions: [
+          {
+            id: "q3",
+            type: "single",
+            text: "Select the correct action:",
+            opts: [
+              "Notify the access point of its intention to sleep",
+              "Notify other wireless stations of its intention to sleep",
+              "Broadcast an ATIM frame on the network",
+              "Wait for beacon",
+              "All of the above"
+            ],
+            ans: 0,
+            dispAnswer: "Notify the access point of its intention to sleep",
+            exp: "In infrastructure mode (BSS), the station must notify the AP so the AP can buffer packets destined for it.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 4",
+        context: "Beacon frame must be sent at exact time interval",
+        subQuestions: [
+          {
+            id: "q4",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; beacon transmissions may be delayed if the medium is busy with ongoing frame transmission at the Target Beacon Transmission Time (TBTT).",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 5",
+        context: "In normal conditions while using WiFi in your home, you perform active scanning more than passive scanning",
+        subQuestions: [
+          {
+            id: "q5",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; stations regularly listen passively for beacon frames rather than generating probe request traffic.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 6",
+        context: "The frame control field contains More data field that means the frame is a retransmission of a previous frame",
+        subQuestions: [
+          {
+            id: "q6",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; 'More Data' indicates buffered frames for a sleeping station. Retransmission is indicated by the 'Retry' bit.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 7",
+        context: "The most widely used network topology in the Base Station Subsystems (BSS) is:",
+        subQuestions: [
+          {
+            id: "q7",
+            type: "single",
+            text: "Select the topology:",
+            opts: ["Star", "Chain", "Ring", "Bus", "Mesh"],
+            ans: 0,
+            dispAnswer: "Star",
+            exp: "Infrastructure BSS uses a centralized Access Point forming a Star topology.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 8",
+        context: "Consider the wireless of 5 nodes: A, B, C, and D. Assume that if the transmissions of two nodes interfere at a location if and only if they transmit at the same time and their transmission areas overlap. In these problems, assume that losses only occur due to collisions.\n• Node topology overlap: A overlaps with B; B overlaps with A, C, E; C overlaps with B, D; D overlaps with C; E overlaps with B.",
+        subQuestions: [
+          {
+            id: "q8_1a",
+            type: "multi",
+            text: "1. When node A transmits to node B, list the potential hidden terminals (in either direction, i.e., those who might clobber A's transmission or those who A's transmission might clobber):",
+            opts: ["A", "B", "C", "D", "E", "None"],
+            ans: [2, 4], // C and E
+            dispAnswer: "C, E",
+            exp: "Nodes C and E are within range of receiver B, but cannot hear sender A. Thus, C and E can transmit and collide at B.",
+            img: ""
+          },
+          {
+            id: "q8_1b",
+            type: "multi",
+            text: "1. When node A transmits to node B, list the exposed terminals:",
+            opts: ["A", "B", "C", "D", "E", "None"],
+            ans: [5], // None
+            dispAnswer: "None",
+            exp: "An exposed terminal must hear sender A without interfering at receiver B. Only B hears A, so there are None.",
+            img: ""
+          },
+          {
+            id: "q8_2a",
+            type: "multi",
+            text: "2. What about when node B transmits to node C? List the potential hidden terminals:",
+            opts: ["A", "B", "C", "D", "E", "None"],
+            ans: [3], // D
+            dispAnswer: "D",
+            exp: "Node D is within range of receiver C, but cannot hear transmitter B. Transmission from D will clobber B's packet at C.",
+            img: ""
+          },
+          {
+            id: "q8_2b",
+            type: "multi",
+            text: "2. What about when node B transmits to node C? List the exposed terminals:",
+            opts: ["A", "B", "C", "D", "E", "None"],
+            ans: [0, 4], // A, E
+            dispAnswer: "A, E",
+            exp: "Nodes A and E hear sender B, but their transmissions would not reach receiver C.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 9",
+        context: "A medium uses QAM-16 scheme with 250 ksps and 3/4 coding rate. What is the data transfer rate in Mbps?",
+        subQuestions: [
+          {
+            id: "q9",
+            type: "fill",
+            text: "Enter the data transfer rate (in Mbps):",
+            acceptedAnswers: ["0.75", "0.75mbps", "0.75 mbps", "3/4"],
+            dispAnswer: "0.75 Mbps",
+            exp: "QAM-16 encodes 4 bits/symbol. Raw rate = 250 ksps × 4 = 1000 kbps = 1 Mbps. With 3/4 coding rate: 1 Mbps × 3/4 = 0.75 Mbps.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 10",
+        context: "Which of the following chipping codes is used in the IEEE 802.11 physical layer standards?",
+        subQuestions: [
+          {
+            id: "q10",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "The Barker codes",
+              "The Complementary Code Keying (CCK)",
+              "The Walsh codes",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "All of the above",
+            exp: "All of the above chipping codes are used across different spread spectrum standards in 802.11.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 11",
+        context: "A sender wants to send the data bit 0 with key = 011010; what signal is transmitted from A in the channel if the noise adds +1 for each bit?",
+        subQuestions: [
+          {
+            id: "q11",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "011010",
+              "100101",
+              "-1,1,1,-1,1,-1",
+              "0,2,2,0,2,0"
+            ],
+            ans: 3,
+            dispAnswer: "0,2,2,0,2,0",
+            exp: "Mapping 0 -> -1 and 1 -> +1 for key (011010) gives: [-1, +1, +1, -1, +1, -1]. Adding noise (+1 for each chip): [-1+1, 1+1, 1+1, -1+1, 1+1, -1+1] = [0, 2, 2, 0, 2, 0].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 12",
+        context: "The backoff timer in the IEEE 802.11 station is decremented during:",
+        subQuestions: [
+          {
+            id: "q12",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "The Contention Window",
+              "After CTS",
+              "The Contention-Free Period",
+              "Any part of the Superframe",
+              "The DCF Interframe Space"
+            ],
+            ans: 0,
+            dispAnswer: "The Contention Window",
+            exp: "The backoff counter decrements slot by slot during the Contention Window when the medium is idle.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 13",
+        context: "Answer the following 3 questions based on the DCF figure (assume sender backoff timer = zero):\n[Figure labels: Z = DIFS; X = SIFS; Y = DIFS; Waiting time includes SIFS + ACK + DIFS]",
+        subQuestions: [
+          {
+            id: "q13_a",
+            type: "single",
+            text: "a) What are the periods X and Y respectively?",
+            opts: [
+              "SIFS and DIFS",
+              "DIFS and DIFS",
+              "PIFS and SIFS",
+              "Backoff time and DIFS"
+            ],
+            ans: 0,
+            dispAnswer: "SIFS and DIFS",
+            exp: "X precedes the ACK frame (SIFS), while Y is the interframe space observed before channel contention (DIFS).",
+            img: ""
+          },
+          {
+            id: "q13_b",
+            type: "single",
+            text: "b) What is the time pointed by contention arrow?",
+            opts: [
+              "SIFS",
+              "Backoff time",
+              "Contention window"
+            ],
+            ans: 1,
+            dispAnswer: "Backoff time",
+            exp: "The slot duration marked during the contention phase corresponds to the station's random backoff time.",
+            img: ""
+          },
+          {
+            id: "q13_c",
+            type: "single",
+            text: "c) Which statement is true?",
+            opts: [
+              "Z > Y",
+              "X < Y",
+              "Z < Y",
+              "X > Y"
+            ],
+            ans: 1,
+            dispAnswer: "X < Y",
+            exp: "Because X is SIFS and Y is DIFS, and SIFS is always shorter than DIFS, X < Y is true.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 14",
+        context: "NAV timers are used by which of the following stations in DCF?",
+        subQuestions: [
+          {
+            id: "q14",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "The station that wants to transmit data",
+              "There is nothing called NAV in DCF",
+              "All the stations other than sender and receiver",
+              "The station willing to receive data"
+            ],
+            ans: 2,
+            dispAnswer: "All the stations other than sender and receiver",
+            exp: "Third-party stations overhear the Duration value and set their Network Allocation Vector (NAV) for virtual carrier sensing.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 15",
+        context: "Which of the following frame does not use SIFS in IEEE 802.11?",
+        subQuestions: [
+          {
+            id: "q15",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "ACK",
+              "CTS",
+              "RTS",
+              "Poll response"
+            ],
+            ans: 2,
+            dispAnswer: "RTS",
+            exp: "RTS frames initiate a dialogue and must wait for a DIFS (plus backoff), not a SIFS.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 16",
+        context: "Which of the following is true about Mobile IP?",
+        subQuestions: [
+          {
+            id: "q16",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "It is a replacement for Dynamic Host Configuration protocol (DHCP) in the sense that one should not use DHCP and Mobile IP at the same time.",
+              "It provides a way to keep a TCP connection alive even if a host is mobile between different IP networks",
+              "It requires that the home agent be at most one IP hop away from the mobile host.",
+              "It does not work if both ends of a TCP connection are mobile hosts."
+            ],
+            ans: 1,
+            dispAnswer: "It provides a way to keep a TCP connection alive even if a host is mobile between different IP networks",
+            exp: "Mobile IP transparently binds home and care-of addresses so active TCP sockets do not break during roaming.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 17",
+        context: "Which is a good code for CDMA?",
+        subQuestions: [
+          {
+            id: "q17",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "(0, 0, 0, 0)",
+              "(1, -1, 1, -1)",
+              "(1, 1, 1, 1)",
+              "none of the above"
+            ],
+            ans: 1,
+            dispAnswer: "(1, -1, 1, -1)",
+            exp: "CDMA requires bipolar orthogonal chipping sequences with balanced zero-mean properties like (1, -1, 1, -1).",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 18",
+        context: "Below, you find the layout of the frames for the RTS and CTS messages in IEEE 802.11:\n• RTS: [Frame Control (2B) | Duration (2B) | RA (6B) | TA (6B) | CRC (4B)]\n• CTS: [Frame Control (2B) | Duration (2B) | RA (6B) | CRC (4B)]",
+        subQuestions: [
+          {
+            id: "q18",
+            type: "multi",
+            text: "What is(are) true about the Duration field in the RTS and CTS frame:",
+            opts: [
+              "cannot be omitted from CTS",
+              "for retransmission packets by sender and reciver",
+              "to calculate NAV vector for nodes",
+              "used by CTS because nodes around receiver may not be in the range of the sender to hear the RTS",
+              "used to coordinate channel access"
+            ],
+            ans: [0, 2, 3],
+            dispAnswer: "cannot be omitted from CTS, to calculate NAV vector for nodes, used by CTS because nodes around receiver may not be in the range of the sender to hear the RTS",
+            exp: "Matches the correct answers selected in the exam key box: cannot be omitted from CTS, to calculate NAV vector for nodes, and used by CTS for nodes around receiver.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let selections = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}"
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "fill") {
+            interactionHtml = `
+              <div class="answer-input-row" id="row-${sub.id}">
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input-${sub.id}" 
+                       placeholder="Type answer..." 
+                       onkeydown="if(event.key==='Enter') checkFillAnswer('${sub.id}')" />
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkFillAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "multi") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item checkbox" id="opt-${sub.id}-${i}" onclick="toggleMultiOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkMultiAnswer('${sub.id}')">تحقق من الاختيارات</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function checkFillAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!inputEl) return;
+
+      const rawVal = inputEl.value.trim().toLowerCase();
+      if (rawVal === "") return;
+
+      const isCorrect = sub.acceptedAnswers.some(ans => {
+        const cleaned = ans.toLowerCase().trim();
+        return rawVal === cleaned || rawVal.includes(cleaned);
+      });
+
+      if (isCorrect) {
+        inputEl.className = 'user-ans-input correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'user-ans-input wrong';
+        delete userScores[subId];
+      }
+
+      inputEl.disabled = true;
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function toggleMultiOption(subId, optIdx) {
+      if (!selections[subId]) selections[subId] = new Set();
+      const s = selections[subId];
+
+      const itemEl = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (s.has(optIdx)) {
+        s.delete(optIdx);
+        if (itemEl) itemEl.classList.remove('selected');
+      } else {
+        s.add(optIdx);
+        if (itemEl) itemEl.classList.add('selected');
+      }
+    }
+
+    function checkMultiAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      const chosen = selections[subId] || new Set();
+      if (chosen.size === 0) return;
+
+      optsBox.classList.add('locked');
+
+      const targetAns = new Set(sub.ans);
+      const isIdentical = chosen.size === targetAns.size && [...chosen].every(x => targetAns.has(x));
+
+      if (isIdentical) {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) {
+            itemEl.className = 'option-item checkbox correct';
+          }
+        });
+        userScores[subId] = true;
+      } else {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) {
+            itemEl.className = 'option-item checkbox wrong';
+          }
+        });
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single" || sub.type === "multi") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) {
+            el.className = sub.type === "multi" ? 'option-item checkbox' : 'option-item';
+          }
+        });
+        if (selections[subId]) {
+          selections[subId].clear();
+        }
+      }
+
+      if (sub.type === "fill") {
+        const inputEl = document.getElementById(`input-${subId}`);
+        if (inputEl) {
+          inputEl.disabled = false;
+          inputEl.value = "";
+          inputEl.className = 'user-ans-input';
+        }
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      selections = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Wireless Networks - Mid 2021 (2nd Sem) Dr. Shorman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      background: rgba(10, 132, 255, 0.15);
+      border-color: #0a84ff;
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.checkbox .opt-indicator {
+      border-radius: 4px;
+    }
+    .option-item.selected .opt-indicator {
+      border-color: #0a84ff;
+      background: #0a84ff;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 200px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .q-image-container {
+      display: none;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .q-image-container.show {
+      display: block;
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/wireless">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Wireless Networks NES 441</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Mid Exam 2021 (2nd sem) — Dr. Shorman</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/wireless">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1GU_NAhYIBBz8aOpQ0nWhFHkVUUUZyL7a/view";
+
+    const examSections = [
+      {
+        title: "Question 1",
+        context: "A wireless signal of 1 milliwatt (mw) has faced 43 dB, what is the received signal power in w or mw?",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "fill",
+            text: "Enter received power (in µW, mW, or W):",
+            acceptedAnswers: ["0.00005", "5e-5", "50nw", "0.00005mw", "0.5"],
+            dispAnswer: "5 × 10⁻⁵ mW (0.05 µW / 50 nW) [أو 0.5 حسب نموذج التصحيح السريع]",
+            exp: "P_Tx = 1 mW = 0 dBm. Loss = 43 dB  ==>  P_Rx = 0 - 43 = -43 dBm = 10^(-4.3) mW ≈ 5 × 10⁻⁵ mW.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 2",
+        context: "In wireless distribution system (DS):",
+        subQuestions: [
+          {
+            id: "q2",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "there is no access point",
+              "only one access point exists",
+              "access points are not required",
+              "multiple access point are inter-connected with each other",
+              "nodes operated in ad hoc mode"
+            ],
+            ans: 3,
+            dispAnswer: "multiple access point are inter-connected with each other",
+            exp: "DS connects multiple BSSs together via their APs to form an ESS.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 3",
+        context: "In IEEE 802.11, when a BSS communicates to another without system, the address flags (to DS, from DS) are:",
+        subQuestions: [
+          {
+            id: "q3",
+            type: "single",
+            text: "Select one:",
+            opts: ["00", "10", "01", "11"],
+            ans: 0,
+            dispAnswer: "00",
+            exp: "Direct station-to-station (IBSS/Ad-hoc or within same BSS without DS forwarding) uses To DS = 0, From DS = 0.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 4",
+        context: "The RTS and CTS frames in CSMA/CA ______ solve the hidden station problem, and the RTS and CTS frames in CSMA/CD ______ solve the exposed station problem:",
+        subQuestions: [
+          {
+            id: "q4",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "cannot; cannot",
+              "cannot; can",
+              "can; can",
+              "can; cannot"
+            ],
+            ans: 3,
+            dispAnswer: "can; cannot",
+            exp: "RTS/CTS solves the hidden terminal problem, but it cannot solve the exposed terminal problem.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 5",
+        context: "A wireless signal has power of 4.4 mW at distance 13 m from the transmitter, what is the signal power at distance 26 m?",
+        subQuestions: [
+          {
+            id: "q5",
+            type: "fill",
+            text: "Enter signal power at 26 m (in mW):",
+            acceptedAnswers: ["1.1", "1.1mw", "1.1 mw"],
+            dispAnswer: "1.1",
+            exp: "Doubling the distance (from 13 m to 26 m) in free space drops power by a factor of 2² = 4: P = 4.4 / 4 = 1.1 mW.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 6",
+        context: "Before going into a low-power state (i.e.; sleep mode), what function must a wireless station operating in a Basic Service Set (BSS) perform?",
+        subQuestions: [
+          {
+            id: "q6",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "Notify the access point of its intention to sleep",
+              "Notify other wireless stations of its intention to sleep",
+              "Broadcast an ATIM frame on the network",
+              "Wait for beacon",
+              "All of the above"
+            ],
+            ans: 0,
+            dispAnswer: "Notify the access point of its intention to sleep",
+            exp: "The station sets the Power Management bit in the Frame Control field to inform the AP to buffer its traffic.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 7",
+        context: "If the transmitter's power of 50 W is applied to a unity gain antenna with a 1800 MHz carrier frequency, what is the received power in dBm at a free space distance of 100 m, assuming a unity gain antenna?",
+        subQuestions: [
+          {
+            id: "q7",
+            type: "fill",
+            text: "Enter received power in dBm:",
+            acceptedAnswers: ["-30.5", "-30.5dbm", "-30.5 dbm"],
+            dispAnswer: "-30.5",
+            exp: "P_Tx = 50 W = 46.99 dBm. FSPL = 32.45 + 20 log10(0.1 km) + 20 log10(1800 MHz) = 32.45 - 20 + 65.11 = 77.56 dB. P_Rx = 46.99 - 77.56 ≈ -30.5 dBm.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 8",
+        context: "If a transmitter with 1800 MHz carrier frequency and power of 50 W is applied to a no gain antenna, what is EIRP?",
+        subQuestions: [
+          {
+            id: "q8",
+            type: "fill",
+            text: "Enter EIRP in dBm:",
+            acceptedAnswers: ["46.98", "47", "46.99"],
+            dispAnswer: "46.98",
+            exp: "EIRP = P_Tx + G_Tx = 10 log10(50,000 mW) + 0 dBi ≈ 46.98 dBm.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 9",
+        context: "The frequency of 100 cm wavelength is:",
+        subQuestions: [
+          {
+            id: "q9",
+            type: "single",
+            text: "Select one:",
+            opts: ["300 MHz", "3 GHz", "30 MHz", "300 GHz", "30 GHz"],
+            ans: 0,
+            dispAnswer: "300 MHz",
+            exp: "f = c / λ = (3 × 10⁸ m/s) / 1 m = 300 × 10⁶ Hz = 300 MHz.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 10",
+        context: "Which is not the disadvantage of WLANs?",
+        subQuestions: [
+          {
+            id: "q10",
+            type: "single",
+            text: "Select one:",
+            opts: ["Safety", "Security", "Cost", "Quality of service"],
+            ans: 2,
+            dispAnswer: "Cost",
+            exp: "Cost is generally an advantage of WLANs compared to expensive wired cabling installations.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 11",
+        context: "The primary advantage of wireless technology is:",
+        subQuestions: [
+          {
+            id: "q11",
+            type: "single",
+            text: "Select one:",
+            opts: ["low cost", "mobility", "bandwidth", "decreased flexibility"],
+            ans: 1,
+            dispAnswer: "mobility",
+            exp: "Mobility is the fundamental differentiator and primary benefit of wireless communication.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 12",
+        context: "The propagation effect that occurs when a radio wave hits an impenetrable object and bends at the edges of the object:",
+        subQuestions: [
+          {
+            id: "q12",
+            type: "single",
+            text: "Select one:",
+            opts: ["diffraction", "refraction", "blocking", "scattering", "reflection"],
+            ans: 0,
+            dispAnswer: "diffraction",
+            exp: "Diffraction occurs when radio waves encounter sharp edges of large obstructions and bend around them.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 13",
+        context: "The received signal strength is affected the most by the:",
+        subQuestions: [
+          {
+            id: "q13",
+            type: "single",
+            text: "Select one:",
+            opts: ["Free space loss", "The fade margin loss", "Multi-path loss", "Return loss", "EIRP"],
+            ans: 0,
+            dispAnswer: "Free space loss",
+            exp: "Free space path loss is the dominant geometric attenuation factor over distance.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 14",
+        context: "Fading is one of the challenges in wireless networks that is related to signal propagation:",
+        subQuestions: [
+          {
+            id: "q14",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "True; fading describes rapid fluctuations of amplitude, phase, or delay due to multipath propagation.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 15",
+        context: "The most widely used network topology in the Base Station Subsystems (BSS) is:",
+        subQuestions: [
+          {
+            id: "q15",
+            type: "single",
+            text: "Select one:",
+            opts: ["Bus", "Chain", "Star", "Mesh", "Ring"],
+            ans: 2,
+            dispAnswer: "Star",
+            exp: "Infrastructure BSS employs an Access Point serving as the central hub in a Star topology.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 16",
+        context: "A 20 km link, with antennas height of 27 m transmitting at 5 GHz, Tx power 1 watt, answer the following questions:",
+        subQuestions: [
+          {
+            id: "q16_1",
+            type: "fill",
+            text: "1) The size of the first Fresnel zone in the middle (round to closest cm): (in m)",
+            acceptedAnswers: ["17.31", "17.31m", "17.3"],
+            dispAnswer: "17.31",
+            exp: "R = 17.31 × √((d1 × d2) / (f × D)) = 17.31 × √((10 × 10) / (5 × 20)) = 17.31 × √1 = 17.31 m.",
+            img: ""
+          },
+          {
+            id: "q16_2",
+            type: "fill",
+            text: "2) How tall could a structure at that point be to clear 60% of the first zone? (round the answer): (in m)",
+            acceptedAnswers: ["13.6", "13.61", "13.6m"],
+            dispAnswer: "13.6",
+            exp: "Required clearance is 60% of R: 0.6 × 17.31 = 10.39 m. Max structure height = Antenna Height (27 m) - Clearance (10.39 m) - Earth Bulge (≈3 m) = 13.6 m.",
+            img: ""
+          },
+          {
+            id: "q16_3",
+            type: "fill",
+            text: "3) The maximum difference in height due to the curvature of the earth between the two devices (round the answer to one decimal point): (in cm)",
+            acceptedAnswers: ["650", "650cm", "650.4"],
+            dispAnswer: "650",
+            exp: "Earth bulge Ha = D² / 61.5 = (20)² / 61.5 = 400 / 61.5 ≈ 6.504 m = 650 cm.",
+            img: ""
+          },
+          {
+            id: "q16_4",
+            type: "fill",
+            text: "4) Assume antennas with 0 dBi for transmitter and receiver, what is the value of the minimum receiver sensitivity to receive the signal? (round the answer to one decimal point): (in dBm)",
+            acceptedAnswers: ["-102.45", "-102.5", "-102.45dbm", "-102.5dbm"],
+            dispAnswer: "-102.45",
+            exp: "P_Tx = 1 W = 30 dBm. FSPL = 32.45 + 20 log10(20 km) + 20 log10(5000 MHz) = 32.45 + 26.02 + 73.98 = 132.45 dB. P_Rx = 30 + 0 + 0 - 132.45 = -102.45 dBm.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 17",
+        context: "The frame control field contains More data field that means the frame is a retransmission of a previous frame:",
+        subQuestions: [
+          {
+            id: "q17",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; 'More Data' signifies buffered traffic at the AP for sleeping STAs. Retransmission uses the 'Retry' field.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 18",
+        context: "Hiding SSID in the beacon frame is considered strong security feature:",
+        subQuestions: [
+          {
+            id: "q18",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; hiding the SSID is security through obscurity; the SSID is easily sniffed from probe and association frames.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 19",
+        context: "In normal conditions while using WiFi in your home, you perform active scanning more than passive scanning:",
+        subQuestions: [
+          {
+            id: "q19",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; passive listening to Periodic AP beacons is the standard default for power conservation.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 20",
+        context: "Reassociation is the process of transferring the established association to another AP:",
+        subQuestions: [
+          {
+            id: "q20",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "True; reassociation enables roaming by transferring the association context to a new AP within the ESS.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 21",
+        context: "Beacon frame must be sent at exact time interval:",
+        subQuestions: [
+          {
+            id: "q21",
+            type: "single",
+            text: "Select one:",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "False; beacon delivery may be delayed if the medium is busy when the TBTT timer expires.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 22",
+        context: "Voltage standing wave ratio (VSWR) of 0.65: 1 means:",
+        subQuestions: [
+          {
+            id: "q22",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "Acceptable amount of leakage",
+              "Unacceptable amount of leakage",
+              "Very small leakage",
+              "Impossible to happen",
+              "Perfect impedance match"
+            ],
+            ans: 3,
+            dispAnswer: "Impossible to happen",
+            exp: "VSWR ranges from 1:1 (ideal match) to ∞. A ratio less than 1 (0.65) is physically impossible.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 23",
+        context: "Your smartphone is considered:",
+        subQuestions: [
+          {
+            id: "q23",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "Fixed but not portable",
+              "Mobile and not portable",
+              "Portable and mobile",
+              "Portable but not mobile"
+            ],
+            ans: 2,
+            dispAnswer: "Portable and mobile",
+            exp: "Smartphones are easily carried (portable) and maintain ongoing connectivity while moving (mobile).",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 24",
+        context: "Bonus: which of the following is true:",
+        subQuestions: [
+          {
+            id: "q24",
+            type: "single",
+            text: "Select one:",
+            opts: [
+              "wireless networking is important",
+              "wireless networking is great",
+              "wireless networking is nice",
+              "wireless networking is fun"
+            ],
+            ans: 0,
+            dispAnswer: "wireless networking is important",
+            exp: "As designated in the exam key: wireless networking is important.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let selections = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}"
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "fill") {
+            interactionHtml = `
+              <div class="answer-input-row" id="row-${sub.id}">
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input-${sub.id}" 
+                       placeholder="Type answer..." 
+                       onkeydown="if(event.key==='Enter') checkFillAnswer('${sub.id}')" />
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkFillAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "multi") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item checkbox" id="opt-${sub.id}-${i}" onclick="toggleMultiOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkMultiAnswer('${sub.id}')">تحقق من الاختيارات</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function checkFillAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!inputEl) return;
+
+      const rawVal = inputEl.value.trim().toLowerCase();
+      if (rawVal === "") return;
+
+      const isCorrect = sub.acceptedAnswers.some(ans => {
+        const cleaned = ans.toLowerCase().trim();
+        return rawVal === cleaned || rawVal.includes(cleaned);
+      });
+
+      if (isCorrect) {
+        inputEl.className = 'user-ans-input correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'user-ans-input wrong';
+        delete userScores[subId];
+      }
+
+      inputEl.disabled = true;
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function toggleMultiOption(subId, optIdx) {
+      if (!selections[subId]) selections[subId] = new Set();
+      const s = selections[subId];
+
+      const itemEl = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (s.has(optIdx)) {
+        s.delete(optIdx);
+        if (itemEl) itemEl.classList.remove('selected');
+      } else {
+        s.add(optIdx);
+        if (itemEl) itemEl.classList.add('selected');
+      }
+    }
+
+    function checkMultiAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      const chosen = selections[subId] || new Set();
+      if (chosen.size === 0) return;
+
+      optsBox.classList.add('locked');
+
+      const targetAns = new Set(sub.ans);
+      const isIdentical = chosen.size === targetAns.size && [...chosen].every(x => targetAns.has(x));
+
+      if (isIdentical) {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) {
+            itemEl.className = 'option-item checkbox correct';
+          }
+        });
+        userScores[subId] = true;
+      } else {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) {
+            itemEl.className = 'option-item checkbox wrong';
+          }
+        });
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single" || sub.type === "multi") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) {
+            el.className = sub.type === "multi" ? 'option-item checkbox' : 'option-item';
+          }
+        });
+        if (selections[subId]) {
+          selections[subId].clear();
+        }
+      }
+
+      if (sub.type === "fill") {
+        const inputEl = document.getElementById(`input-${subId}`);
+        if (inputEl) {
+          inputEl.disabled = false;
+          inputEl.value = "";
+          inputEl.className = 'user-ans-input';
+        }
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      selections = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Unix & Linux Systems - Mid 2021 Form 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 10px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #79c0ff;
+      margin: 8px 0 14px 0;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 220px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* أنماط السحب والإفلات (Drag & Drop) */
+    .dnd-wrapper {
+      margin: 14px 0;
+    }
+    .dnd-pool-title, .dnd-target-title {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .dnd-zone {
+      min-height: 52px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 2px dashed var(--apple-border);
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .dnd-zone.drag-over {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.1);
+    }
+    .dnd-zone.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .dnd-zone.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+    .dnd-item {
+      background: var(--apple-surface, #1c1c1e);
+      border: 1px solid var(--apple-border-strong, #38383a);
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .dnd-item:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+    .dnd-hint {
+      font-size: 0.8rem;
+      color: #8e8e93;
+      margin-top: 6px;
+    }
+    .svg-tree-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/unix">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Unix & Linux Systems (NES 202)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Midterm Exam 2021 (1st Sem) — Form 1</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/unix">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1QOUpERqBJsQcRggL80-G5HfolarTteSJ/view";
+
+    const examSections = [
+      {
+        title: "Midterm Exam Questions (Form 1)",
+        context: "Answer the following questions based on the exam paper:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "dnd",
+            text: "Question 1: Consider the following sample output. Do not assume that any other commands are executed between the creation of this sample and the commands in the followed question.<pre class=\"code-block\">[~rana:]$ ls\nCh04_s4.1     My Documents   assig1.c       lecture.ch1.3\nChapter1      _slides04      ch02.section1  slides.ch1</pre>What is the output of executing the following command line?<pre class=\"code-block\">[~rana:]$ ls *.*[0-9]</pre>Drag the matching files or click on them to move them into the target box:",
+            pool: ["Chapter1", "lecture.ch1.3", "ch02.section1", "_slides04", "slides.ch1", "My Documents", "assig1.c", "Ch04_s4.1"],
+            correctAnswers: ["Ch04_s4.1", "lecture.ch1.3", "slides.ch1", "ch02.section1"],
+            dispAnswer: "Ch04_s4.1, lecture.ch1.3, slides.ch1, ch02.section1",
+            exp: "النمط `*.*[0-9]` يشترط وجود نقطة `.` وأن ينتهي الاسم برقم من 0 إلى 9. الملفات المطابقة هي: Ch04_s4.1 و lecture.ch1.3 و slides.ch1 و ch02.section1.",
+            img: ""
+          },
+          {
+            id: "q2",
+            type: "single",
+            text: "Question 2: If umask value is 345, and you create an ordinary file called (test), what are the permissions of file (test)?",
+            opts: [
+              "rwxr--r--",
+              "rwxrw-rw-",
+              "rw-rw-rw-",
+              "r--r---w-",
+              "r---w--w-"
+            ],
+            ans: 4, // r---w--w-
+            dispAnswer: "r---w--w-",
+            exp: "الأذونات الافتراضية للملف العادي هي 666 (rw-rw-rw-). بطرح الـ umask (345 بتطبيق قناع البتات): User: 6 AND NOT 3 = 4 (r--), Group: 6 AND NOT 4 = 2 (-w-), Others: 6 AND NOT 5 = 2 (-w-). النتيجة هي: r---w--w-.",
+            img: ""
+          },
+          {
+            id: "q3",
+            type: "single",
+            text: "Question 3: The command: cp test1 test2 dir1 will fail if dir1 is not exist directory.",
+            opts: ["True", "False"],
+            ans: 0, // True
+            dispAnswer: "True",
+            exp: "عند نسخ أكثر من ملف في أمر cp واحد، يجب أن يكون الهدف الأخير مجلداً موجوداً بالفعل، وإلا سيفشل الأمر مع رسالة خطأ.",
+            img: ""
+          },
+          {
+            id: "q4",
+            type: "fill",
+            text: `Question 4: Write one command only to create both directories: tmp and docs to be as shown in the figure below:
+<div class="svg-tree-container ltr-content">
+  <svg width="420" height="230" viewBox="0 0 420 230" style="max-width:100%; height:auto;">
+    <!-- Lines -->
+    <line x1="260" y1="45" x2="160" y2="105" stroke="#8e8e93" stroke-width="2.5"/>
+    <line x1="260" y1="45" x2="330" y2="105" stroke="#8e8e93" stroke-width="2.5"/>
+    <line x1="330" y1="125" x2="330" y2="185" stroke="#8e8e93" stroke-width="2.5"/>
+    
+    <!-- Top Parent Node -->
+    <ellipse cx="260" cy="35" rx="80" ry="25" fill="rgba(255,255,255,0.06)" stroke="#8e8e93" stroke-width="2"/>
+    
+    <!-- Left Child: Working Directory (.) -->
+    <ellipse cx="160" cy="115" rx="80" ry="25" fill="rgba(10,132,255,0.15)" stroke="#0a84ff" stroke-width="2"/>
+    <text x="160" y="122" fill="#fff" font-size="20" font-weight="bold" text-anchor="middle">.</text>
+    
+    <!-- Pointer to working directory -->
+    <text x="75" y="55" fill="#5ac8fa" font-size="13" font-weight="bold">working</text>
+    <text x="75" y="72" fill="#5ac8fa" font-size="13" font-weight="bold">directory</text>
+    <line x1="105" y1="75" x2="140" y2="95" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Right Child: docs -->
+    <ellipse cx="330" cy="115" rx="80" ry="25" fill="rgba(255,255,255,0.06)" stroke="#8e8e93" stroke-width="2"/>
+    <text x="330" y="122" fill="#fff" font-size="16" font-weight="bold" text-anchor="middle">docs</text>
+    
+    <!-- Sub Child: tmp -->
+    <ellipse cx="330" cy="195" rx="80" ry="25" fill="rgba(255,255,255,0.06)" stroke="#8e8e93" stroke-width="2"/>
+    <text x="330" y="202" fill="#fff" font-size="16" font-weight="bold" text-anchor="middle">tmp</text>
+  </svg>
+</div>
+Enter the single command line:`,
+            acceptedAnswers: ["mkdir -p ../docs/tmp", "mkdir ../docs ../docs/tmp", "mkdir -p ../docs/tmp/", "mkdir ../docs/ ../docs/tmp"],
+            dispAnswer: "mkdir -p ../docs/tmp (أو mkdir ../docs ../docs/tmp)",
+            exp: "المجلد الحالي هو `.` ومجلد docs شقيق له تحت نفس الأب `..`، ومجلد tmp يقع داخله. يُنشأ كلاهما بأمر واحد إما عبر الخيار `-p`: `mkdir -p ../docs/tmp` أو بسردهما معاً: `mkdir ../docs ../docs/tmp`.",
+            img: ""
+          },
+          {
+            id: "q5",
+            type: "single",
+            text: "Question 5: After executing the command (chmod u+r test.txt) correctly, which timestamp of test.txt will be changed?",
+            opts: [
+              "access time only",
+              "both inode modification and access time",
+              "both modification and access times",
+              "modification time only",
+              "inode modification time only"
+            ],
+            ans: 4, // inode modification time only
+            dispAnswer: "inode modification time only",
+            exp: "تعديل أذونات الملف يغير الـ metadata المخزنة في الـ inode، فيتغير الـ ctime (inode modification time) فقط، ولا يتأثر وقت التعديل mtime ولا وقت الوصول atime.",
+            img: ""
+          },
+          {
+            id: "q6",
+            type: "single",
+            text: "Question 6: If the output of executing the command: ls -l test, is:\n-r-xr-xr-x 6 AAA BBB 64 Dec 3 13:29 test\nThen, there are 5 different hard links for test.",
+            opts: ["True", "False"],
+            ans: 0, // True (حسب التعديل)
+            dispAnswer: "True",
+            exp: "تم التعديل لاعتماد True: عدد الروابط الظاهر في السطر هو 6، وهو يشمل الملف الأصلي test بالإضافة إلى 5 روابط صلبة أخرى تشير لنفس الـ inode.",
+            img: ""
+          },
+          {
+            id: "q7",
+            type: "fill",
+            text: "Question 7: Consider the following sample output. Do not assume that any other commands are executed between the creation of this sample and the commands in the followed question.<pre class=\"code-block\">[~rana:]$ls\nCh04_s4.1   My list   assig1.c       lecture.ch1.3\nChapter1    _slides04 ch02.section1  slides.ch1\n\n[~rana:]$ cat \"My list\"\nDocument\n[~rana:]$ list=*_s*</pre>What is the output of executing the following command line?<pre class=\"code-block\">[~rana:]$ echo \"$list are `echo $list | wc -w` files in `cat My\\ list`\"</pre>",
+            acceptedAnswers: ["Ch04_s4.1 _slides04 are 2 files in Document", "Ch04_s4.1 _slides04 are 2 files in Document\n"],
+            dispAnswer: "Ch04_s4.1 _slides04 are 2 files in Document",
+            exp: "المتغير list يتوسع إلى الملفين Ch04_s4.1 و _slides04 (عددهما 2 عبر wc -w)، ومحتوى الملف \"My list\" هو Document.",
+            img: ""
+          },
+          {
+            id: "q8",
+            type: "fill",
+            text: "Question 8: Write a command line to display the location of mkdir command if mkdir is an external command.",
+            acceptedAnswers: ["which mkdir", "whereis -b mkdir", "type -p mkdir", "type mkdir"],
+            dispAnswer: "which mkdir",
+            exp: "الأمر which يُستخدم للبحث في مسارات PATH وعرض المسار الكامل للملف التنفيذي للأوامر الخارجية.",
+            img: ""
+          },
+          {
+            id: "q9",
+            type: "single",
+            text: "Question 9: The file (test) in your current directory has the permissions rw-r--r--, what are the permissions of file (test) after executing the command chmod a=w,u+x test?",
+            opts: [
+              "rw-r--r--",
+              "-wx-w--w-",
+              "rwxrw-rw-",
+              "-w--w--w-",
+              "rwxr--r--"
+            ],
+            ans: 1, // -wx-w--w-
+            dispAnswer: "-wx-w--w-",
+            exp: "الأمر `a=w` يجعل الإذن لجميع الفئات هو الكتابة فقط (-w--w--w-)، ثم `u+x` يضيف إذن التنفيذ للمالك ليصبح: -wx-w--w-.",
+            img: ""
+          },
+          {
+            id: "q10",
+            type: "single",
+            text: "Question 10: Which of the following will display a list of colon-delimited directories in UNIX/LINUX?",
+            opts: [
+              "ls PATH",
+              "echo $PATH",
+              "PATH",
+              "path",
+              "echo path"
+            ],
+            ans: 1, // echo $PATH
+            dispAnswer: "echo $PATH",
+            exp: "المتغير PATH يحتوي على قائمة المسارات التنفيذية مفصولة بنقطتين رأسيتين (colon-delimited)، ونعرض قيمته باستخدام echo $PATH.",
+            img: ""
+          },
+          {
+            id: "q11",
+            type: "dnd",
+            text: "Question 11: You can navigate to your home directory regardless where your working directory is, by: (Drag or click the 3 correct commands into the target box):",
+            pool: ["cd ~", "cd", "cd $HOME", "/home", "cd ..", "$HOME", "cd /", "cd ."],
+            correctAnswers: ["cd ~", "cd", "cd $HOME"],
+            dispAnswer: "cd ~, cd, cd $HOME",
+            exp: "الانتقال إلى المجلد الرئيسي (Home Directory) من أي مكان يتم مباشرة بالأمر cd بمفرده، أو cd ~، أو cd $HOME.",
+            img: ""
+          },
+          {
+            id: "q12",
+            type: "single",
+            text: "Question 12: Executing the command: tar -cf archive.tar file1 file2 file3, will:",
+            opts: [
+              "extract files: file1, file2 and file3 from archive.tar",
+              "create archive file called archive.tar that combines files: file1, file2 and file3",
+              "display the files: file1, file2 and file3 that were combined before in the specified archive",
+              "compress archive file called archive.tar that combines files: file1, file2 and file3"
+            ],
+            ans: 1, // create archive...
+            dispAnswer: "create archive file called archive.tar that combines files: file1, file2 and file3",
+            exp: "الخيار -c يعني إنشاء أرشيف جديد (Create) و -f يحدد اسم الملف الناتج. tar يقوم بتجميع الملفات بدون ضغط ما لم تُحدد خيارات ضغط مثل -z.",
+            img: ""
+          },
+          {
+            id: "q13",
+            type: "single",
+            text: "Question 13: To execute the command (cd test) correctly, you should have:",
+            opts: [
+              "execute permission on test",
+              "write permission on parent directory of test",
+              "read permission on parent directory of test",
+              "read permission on test",
+              "write permission on test"
+            ],
+            ans: 0, // execute permission on test
+            dispAnswer: "execute permission on test",
+            exp: "الدخول إلى أي مجلد واستعراضه عبر الأمر cd يتطلب وجود إذن التنفيذ (Execute 'x') على ذلك المجلد.",
+            img: ""
+          },
+          {
+            id: "q14",
+            type: "single",
+            text: "Question 14: If the output of pwd is /home/document/nes202, and you run this successful command sequence:\nmkdir ../dir1; mkdir dir2\nWhich one of the following is true?",
+            opts: [
+              "nes202 is parent of dir2 and document is parent of dir1",
+              "nes202 is parent of both dir1 and dir2",
+              "nes202 is parent of dir1 and dir1 is parent of dir2",
+              "nes202 is parent of dir1 and document is parent of dir2",
+              "document is parent of nes202 and dir1 and dir2"
+            ],
+            ans: 0, // nes202 is parent of dir2 and document is parent of dir1
+            dispAnswer: "nes202 is parent of dir2 and document is parent of dir1",
+            exp: "الأمر الأول `../dir1` ينشئ dir1 داخل المجلد الأب (document)، والأمر الثاني `dir2` ينشئه داخل المجلد الحالي (nes202).",
+            img: ""
+          },
+          {
+            id: "q15",
+            type: "fill",
+            text: "Question 15: Write one command to display all files exist under your root directory that has 3 hard links, and have not been opened for more than a month.",
+            acceptedAnswers: ["find / -links 3 -atime +30 -print", "find / -links 3 -atime +30", "find / -type f -links 3 -atime +30 -print", "find / -type f -links 3 -atime +30"],
+            dispAnswer: "find / -links 3 -atime +30 -print",
+            exp: "نبدأ بالبحث من الجذر `/` بشرط عدد الروابط `-links 3` وبشرط عدم الفتح لأكثر من شهر (30 يوماً) `-atime +30`.",
+            img: ""
+          },
+          {
+            id: "q16",
+            type: "single",
+            text: "Question 16: The command (rm file1 file2\\ file3) will delete the files:",
+            opts: [
+              "file1 and file2\\file3",
+              "file1 and file2",
+              "file1 and file2 file3",
+              "file1 and file2 and file3"
+            ],
+            ans: 2, // C: file1 and file2 file3
+            dispAnswer: "file1 and file2 file3",
+            exp: "تم اعتماد الخيار C: الرمز `\\` يلغي المعنى الخاص للمسافة (Escaped space)، مما يجعل `file2\\ file3` اسماً لملف واحد يحتوي مسافة.",
+            img: ""
+          },
+          {
+            id: "q17",
+            type: "single",
+            text: "Question 17: Which of the following is the correct command line to redirect standard input to come from a file called (calc.txt) and then save the output of the command wc in file called (result.txt)?",
+            opts: [
+              "wc > calc.txt < result.txt",
+              "wc calc.txt > result.txt",
+              "wc < calc.txt result.txt",
+              "wc < calc.txt > result.txt",
+              "wc calc.txt result.txt"
+            ],
+            ans: 3, // wc < calc.txt > result.txt
+            dispAnswer: "wc < calc.txt > result.txt",
+            exp: "إعادة توجيه الإدخال القياسي من ملف تتم بالرمز `< calc.txt`، وإعادة توجيه الإخراج إلى ملف بالرمز `> result.txt`.",
+            img: ""
+          },
+          {
+            id: "q18",
+            type: "single",
+            text: "Question 18: All of the following are valid command line in UNIX/LINUX, EXCEPT:",
+            opts: [
+              "All choices are valid command lines",
+              "ls | cat",
+              "cp file1 file2",
+              "cd",
+              "chmod file u+x"
+            ],
+            ans: 4, // chmod file u+x
+            dispAnswer: "chmod file u+x",
+            exp: "بنية أمر chmod تتطلب وضع النمط أولاً ثم اسم الملف: `chmod u+x file`. كتابة `chmod file u+x` خاطئة برمجياً.",
+            img: ""
+          },
+          {
+            id: "q19",
+            type: "single",
+            text: "Question 19: If the ordinary file called (test) has the permissions r--r-xr--, and its parent directory has the permissions r-xr--r--, what can we do with file (test)?",
+            opts: [
+              "can read, edit and delete test",
+              "can not read nor edit nor delete test",
+              "can read and Delete test only",
+              "can read but can not edit nor delete test",
+              "can read and edit test only"
+            ],
+            ans: 3, // can read but can not edit nor delete test
+            dispAnswer: "can read but can not edit nor delete test",
+            exp: "إذن الملف هو `r--` (قراءة فقط بدون تعديل). وحذف الملف يتطلب إذن كتابة `w` على المجلد الأب، وبما أن المجلد يملك `r-x` فقط فإنه لا يمكن حذفه أيضاً.",
+            img: ""
+          },
+          {
+            id: "q20",
+            type: "single",
+            text: "Question 20: Which of the following is considered as absolute pathname?",
+            opts: [
+              "none is absolute",
+              "../document/nes202",
+              "./Document/nes202",
+              "$HOME/document/nes202",
+              "document/nes202"
+            ],
+            ans: 3, // $HOME/document/nes202 (or none is absolute strictly before shell expansion)
+            dispAnswer: "$HOME/document/nes202 (أو none is absolute بدون توسيع الشل)",
+            exp: "المسار المطلق يبدأ بشرطة مائلة `/`؛ وعندما يُوسع الشل المتغير `$HOME` يبدأ بـ `/home/...` فيعتبر مساراً مطلقاً.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let dndState = {}; // لتخزين العناصر المسحوبة لكل سؤال dnd
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "fill") {
+            interactionHtml = `
+              <div class="answer-input-row" id="row-${sub.id}">
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input-${sub.id}" 
+                       placeholder="اكتب الأمر هنا..." 
+                       onkeydown="if(event.key==='Enter') checkFillAnswer('${sub.id}')" />
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkFillAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "dnd") {
+            dndState[sub.id] = { selected: [], pool: [...sub.pool] };
+            
+            interactionHtml = `
+              <div class="dnd-wrapper ltr-content" id="dnd-wrap-${sub.id}">
+                <div class="dnd-pool-title">Available options (Click or Drag into the target box below):</div>
+                <div class="dnd-zone" id="dnd-pool-${sub.id}" ondragover="handleDragOver(event)" ondrop="handleDrop(event, '${sub.id}', 'pool')">
+                  ${sub.pool.map((item, idx) => `
+                    <div class="dnd-item" 
+                         id="dnd-item-${sub.id}-${idx}" 
+                         draggable="true" 
+                         ondragstart="handleDragStart(event, '${sub.id}', '${item}')" 
+                         onclick="toggleItemClick('${sub.id}', '${item}')">${item}</div>
+                  `).join('')}
+                </div>
+                
+                <div class="dnd-target-title" style="margin-top: 12px;">Target box (Selected answers):</div>
+                <div class="dnd-zone" id="dnd-target-${sub.id}" ondragover="handleDragOver(event)" ondrop="handleDrop(event, '${sub.id}', 'target')">
+                </div>
+                <div class="dnd-hint">Tip: You can either drag items or simply click on them to move them between boxes.</div>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkDndAnswer('${sub.id}')">تحقق من الإجابة</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkFillAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!inputEl) return;
+
+      const rawVal = inputEl.value.trim();
+      if (rawVal === "") return;
+
+      const isCorrect = sub.acceptedAnswers.some(ans => {
+        return rawVal.toLowerCase() === ans.toLowerCase() || 
+               rawVal.replace(/\s+/g, ' ').toLowerCase() === ans.replace(/\s+/g, ' ').toLowerCase();
+      });
+
+      if (isCorrect) {
+        inputEl.className = 'user-ans-input correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'user-ans-input wrong';
+        delete userScores[subId];
+      }
+
+      inputEl.disabled = true;
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    // دوال إدارة السحب والإفلات والنقر (Drag & Drop Functions)
+    let draggedItemInfo = null;
+
+    function handleDragStart(e, subId, itemText) {
+      draggedItemInfo = { subId, itemText };
+      e.dataTransfer.setData('text/plain', JSON.stringify(draggedItemInfo));
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function handleDrop(e, subId, targetZone) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      if (!draggedItemInfo || draggedItemInfo.subId !== subId) return;
+
+      moveDndItem(subId, draggedItemInfo.itemText, targetZone);
+    }
+
+    function toggleItemClick(subId, itemText) {
+      const state = dndState[subId];
+      if (!state) return;
+
+      const isSelected = state.selected.includes(itemText);
+      moveDndItem(subId, itemText, isSelected ? 'pool' : 'target');
+    }
+
+    function moveDndItem(subId, itemText, destination) {
+      const state = dndState[subId];
+      if (!state) return;
+
+      if (destination === 'target') {
+        if (!state.selected.includes(itemText)) {
+          state.selected.push(itemText);
+          state.pool = state.pool.filter(x => x !== itemText);
+        }
+      } else {
+        if (!state.pool.includes(itemText)) {
+          state.pool.push(itemText);
+          state.selected = state.selected.filter(x => x !== itemText);
+        }
+      }
+      renderDndZones(subId);
+    }
+
+    function renderDndZones(subId) {
+      const state = dndState[subId];
+      const poolEl = document.getElementById(`dnd-pool-${subId}`);
+      const targetEl = document.getElementById(`dnd-target-${subId}`);
+      if (!poolEl || !targetEl) return;
+
+      poolEl.innerHTML = state.pool.map((item, idx) => `
+        <div class="dnd-item" 
+             id="dnd-item-${subId}-p-${idx}" 
+             draggable="true" 
+             ondragstart="handleDragStart(event, '${subId}', '${item}')" 
+             onclick="toggleItemClick('${subId}', '${item}')">${item}</div>
+      `).join('');
+
+      targetEl.innerHTML = state.selected.map((item, idx) => `
+        <div class="dnd-item" 
+             id="dnd-item-${subId}-t-${idx}" 
+             draggable="true" 
+             ondragstart="handleDragStart(event, '${subId}', '${item}')" 
+             onclick="toggleItemClick('${subId}', '${item}')">${item}</div>
+      `).join('');
+    }
+
+    function checkDndAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const state = dndState[subId];
+      const targetEl = document.getElementById(`dnd-target-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !state || !targetEl) return;
+
+      const chosenSet = new Set(state.selected);
+      const correctSet = new Set(sub.correctAnswers);
+
+      const isExactMatch = chosenSet.size === correctSet.size && 
+                           [...chosenSet].every(item => correctSet.has(item));
+
+      if (isExactMatch) {
+        targetEl.className = 'dnd-zone correct';
+        userScores[subId] = true;
+      } else {
+        targetEl.className = 'dnd-zone wrong';
+        delete userScores[subId];
+      }
+
+      // قفل منطقة السحب
+      const wrapEl = document.getElementById(`dnd-wrap-${subId}`);
+      if (wrapEl) wrapEl.style.pointerEvents = 'none';
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (sub.type === "fill") {
+        const inputEl = document.getElementById(`input-${subId}`);
+        if (inputEl) {
+          inputEl.disabled = false;
+          inputEl.value = "";
+          inputEl.className = 'user-ans-input';
+        }
+      }
+
+      if (sub.type === "dnd") {
+        dndState[subId] = { selected: [], pool: [...sub.pool] };
+        const targetEl = document.getElementById(`dnd-target-${subId}`);
+        if (targetEl) targetEl.className = 'dnd-zone';
+        const wrapEl = document.getElementById(`dnd-wrap-${subId}`);
+        if (wrapEl) wrapEl.style.pointerEvents = 'auto';
+        renderDndZones(subId);
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

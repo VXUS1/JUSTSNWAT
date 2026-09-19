@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Wireless Networks - Ch3 Quizzes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      background: rgba(10, 132, 255, 0.15);
+      border-color: #0a84ff;
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.checkbox .opt-indicator {
+      border-radius: 4px;
+    }
+    .option-item.selected .opt-indicator {
+      border-color: #0a84ff;
+      background: #0a84ff;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 160px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .q-image-container {
+      display: none;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .q-image-container.show {
+      display: block;
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/wireless">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Wireless Networks NES 441</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Ch3 Quizzes — Dr. Shorman</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/wireless">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/15TY-WYOKASVqGv_bij-D6TtYTGGZpd94";
+
+    const examSections = [
+      {
+        title: "Quiz 1 (Ch3: Signal Propagation & Characteristics)",
+        context: "Complete the following questions from Quiz 1:",
+        subQuestions: [
+          {
+            id: "qz1_q1",
+            type: "fill",
+            text: "Question 1: the wavelength lambda λ for 5 GHz signal is ------------ cm",
+            acceptedAnswers: ["6", "6cm", "6 cm"],
+            dispAnswer: "6",
+            exp: "The correct answer is: 6[cite: 19] (λ = c / f = 3×10⁸ / 5×10⁹ = 0.06 m = 6 cm)[cite: 19].",
+            img: ""
+          },
+          {
+            id: "qz1_q2",
+            type: "two_fill",
+            text: "Question 2: A traveling signal has a power of -35 dBm at the receiver, the sender sent it with 3 w\n-At what level of power in watt the receiver receives this signal? [ ___ ]\n-Calculate the signal power loss from Tx to Rx in dB [ ___ ]",
+            label1: "Power in W:",
+            label2: "Loss in dB:",
+            acceptedAnswers1: ["3.16e-7", "3.16*10^-7", "3.16x10^-7", "0.000000316", "0.001054"],
+            acceptedAnswers2: ["70", "70db", "70 db", "0.229"],
+            dispAnswer: "Power: 3.16 × 10⁻⁷ W , Loss: 70 dB",
+            exp: "حل السؤال المرفق بالورقة: Power = 3.16 × 10⁻⁴ mW = 3.16 × 10⁻⁷ W، وفقد الإشارة Loss = 70 dB[cite: 19].",
+            img: ""
+          },
+          {
+            id: "qz1_q3",
+            type: "single",
+            text: "Question 3: As mobility increases which of the following is true",
+            opts: [
+              "Delay increases",
+              "Bandwidth increases",
+              "Roaming area decreases",
+              "Throghput increases"
+            ],
+            ans: 0,
+            dispAnswer: "Delay increases",
+            exp: "The correct answer is: Delay increases[cite: 19].",
+            img: ""
+          },
+          {
+            id: "qz1_q4",
+            type: "single",
+            text: "Question 4: wired networks have more delay than wireless networks",
+            opts: [
+              "True",
+              "False"
+            ],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "The correct answer is: 'False'[cite: 19].",
+            img: ""
+          },
+          {
+            id: "qz1_q5",
+            type: "single",
+            text: "Question 5: The received signal strength is affected the most by the:",
+            opts: [
+              "Multi-path loss",
+              "LFM",
+              "Return loss",
+              "LFS"
+            ],
+            ans: 3,
+            dispAnswer: "LFS",
+            exp: "The correct answer is: LFS[cite: 19].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Quiz 2 (Ch3: Antennas, Path Loss & Link Budget)",
+        context: "Complete the following questions from Quiz 2:",
+        subQuestions: [
+          {
+            id: "qz2_q1",
+            type: "multi",
+            text: "Question 1: The correct statement about Return Loss (RL) and Voltage Standing Wave Ration (VSWR) is/are:",
+            opts: [
+              "A VSWR of 10 is a very good design goal.",
+              "The RL occurs when the impedance of the antenna is much larger than the impedance of the feeder cable.",
+              "The higher the VSWR the lower the RL",
+              "A VSWR of 1 is hard to achieve practically."
+            ],
+            ans: [1, 3],
+            dispAnswer: "The RL occurs when the impedance of the antenna is much larger than the impedance of the feeder cable, A VSWR of 1 is hard to achieve practically.",
+            exp: "The correct answer is:\n• The RL occurs when the impedance of the antenna is much larger than the impedance of the feeder cable[cite: 20]\n• A VSWR of 1 is hard to achieve practically[cite: 20].",
+            img: ""
+          },
+          {
+            id: "qz2_q2",
+            type: "multi",
+            text: "Question 2: In Free-Space transmission while raining, the signal gets:",
+            opts: [
+              "Scattered",
+              "Reflected",
+              "Absorbed",
+              "Diffracted"
+            ],
+            ans: [0, 2],
+            dispAnswer: "Scattered, Absorbed",
+            exp: "The correct answer is:\n• Scattered[cite: 20]\n• Absorbed[cite: 20].",
+            img: ""
+          },
+          {
+            id: "qz2_q3",
+            type: "multi",
+            text: "Question 3: To increase the throughput per user in a wireless network:",
+            opts: [
+              "Increase the coverage area of the transmitter",
+              "Use a receiver with higher sensitivity",
+              "Use a receiver with lower sensitivity",
+              "Increase the transmit power",
+              "Decrease the transmit power",
+              "Decrease the coverage area of the transmitter"
+            ],
+            ans: [1, 4, 5],
+            dispAnswer: "Decrease the coverage area of the transmitter, Decrease the transmit power, Use a receiver with higher sensitivity",
+            exp: "The correct answer is:\n• Decrease the coverage area of the transmitter[cite: 20]\n• Decrease the transmit power[cite: 20]\n• Use a receiver with higher sensitivity[cite: 20].",
+            img: ""
+          },
+          {
+            id: "qz2_q4",
+            type: "fill",
+            text: "Question 4: Given that a transmitter has an antenna with G_TX = 7 dBi and a receiver has an antenna with G_RX = 4 dBi and a sensitivity of S_RX = -87 dBm. If the free space loss is L_FS = 80 dB and the estimated fade margin loss is L_FM = 24 dB. Determine the link budget of the transmitter. Link budget = _____ dBm",
+            acceptedAnswers: ["6", "6dbm", "6 dbm"],
+            dispAnswer: "6",
+            exp: "One possible correct answer is: 6[cite: 20].",
+            img: ""
+          },
+          {
+            id: "qz2_q5",
+            type: "fill",
+            text: "Question 5: Given that the Path Loss between a transmitter and a receiver, as a function of distance, can be expressed as: P_L(d) = P_L(d_0) + 10n log10(d / d_0) dB.\nGiven the following parameters:\n• Reference distance, d_0 = 2 m\n• Path loss at the reference distance, P_L(2) = 55 dB\n• The distance between the transmitter and the receiver, d = 28 m\n• The Path Loss Exponent, n = 3\nDetermine the path loss: P_L = _____ dB",
+            acceptedAnswers: ["89.383841070347", "90", "89.38", "89.4"],
+            dispAnswer: "89.383841070347 (or 90)",
+            exp: "One possible correct answer is: 89.383841070347 (أو 90)[cite: 20].",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let selections = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "fill") {
+            interactionHtml = `
+              <div class="answer-input-row" id="row-${sub.id}">
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input-${sub.id}" 
+                       placeholder="اكتب الإجابة..." 
+                       onkeydown="if(event.key==='Enter') checkFillAnswer('${sub.id}')" />
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkFillAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "two_fill") {
+            interactionHtml = `
+              <div class="answer-input-row" id="row-${sub.id}">
+                <span style="font-size:0.9rem; color:var(--text-secondary);">${sub.label1}</span>
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input1-${sub.id}" 
+                       placeholder="..." 
+                       onkeydown="if(event.key==='Enter') checkTwoFillAnswer('${sub.id}')" />
+                <span style="font-size:0.9rem; color:var(--text-secondary);">${sub.label2}</span>
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input2-${sub.id}" 
+                       placeholder="..." 
+                       onkeydown="if(event.key==='Enter') checkTwoFillAnswer('${sub.id}')" />
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkTwoFillAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "multi") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item checkbox" id="opt-${sub.id}-${i}" onclick="toggleMultiOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkMultiAnswer('${sub.id}')">تحقق من الاختيارات</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function checkFillAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!inputEl) return;
+
+      const rawVal = inputEl.value.trim().toLowerCase();
+      if (rawVal === "") return;
+
+      const isCorrect = sub.acceptedAnswers.some(ans => {
+        const cleaned = ans.toLowerCase().trim();
+        return rawVal === cleaned || rawVal.includes(cleaned);
+      });
+
+      if (isCorrect) {
+        inputEl.className = 'user-ans-input correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'user-ans-input wrong';
+        delete userScores[subId];
+      }
+
+      inputEl.disabled = true;
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkTwoFillAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      const input1 = document.getElementById(`input1-${subId}`);
+      const input2 = document.getElementById(`input2-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!input1 || !input2) return;
+
+      const val1 = input1.value.trim().toLowerCase();
+      const val2 = input2.value.trim().toLowerCase();
+      if (val1 === "" || val2 === "") return;
+
+      const ok1 = sub.acceptedAnswers1.some(a => val1 === a.toLowerCase().trim() || val1.includes(a.toLowerCase().trim()));
+      const ok2 = sub.acceptedAnswers2.some(a => val2 === a.toLowerCase().trim() || val2.includes(a.toLowerCase().trim()));
+
+      input1.className = ok1 ? 'user-ans-input correct' : 'user-ans-input wrong';
+      input2.className = ok2 ? 'user-ans-input correct' : 'user-ans-input wrong';
+
+      if (ok1 && ok2) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      input1.disabled = true;
+      input2.disabled = true;
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function toggleMultiOption(subId, optIdx) {
+      if (!selections[subId]) selections[subId] = new Set();
+      const s = selections[subId];
+
+      const itemEl = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (s.has(optIdx)) {
+        s.delete(optIdx);
+        if (itemEl) itemEl.classList.remove('selected');
+      } else {
+        s.add(optIdx);
+        if (itemEl) itemEl.classList.add('selected');
+      }
+    }
+
+    function checkMultiAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      const chosen = selections[subId] || new Set();
+      if (chosen.size === 0) return;
+
+      optsBox.classList.add('locked');
+
+      const targetAns = new Set(sub.ans);
+      const isIdentical = chosen.size === targetAns.size && [...chosen].every(x => targetAns.has(x));
+
+      if (isIdentical) {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) itemEl.className = 'option-item checkbox correct';
+        });
+        userScores[subId] = true;
+      } else {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) itemEl.className = 'option-item checkbox wrong';
+        });
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single" || sub.type === "multi") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) {
+            el.className = sub.type === "multi" ? 'option-item checkbox' : 'option-item';
+          }
+        });
+        if (selections[subId]) {
+          selections[subId].clear();
+        }
+      }
+
+      if (sub.type === "fill") {
+        const inputEl = document.getElementById(`input-${subId}`);
+        if (inputEl) {
+          inputEl.disabled = false;
+          inputEl.value = "";
+          inputEl.className = 'user-ans-input';
+        }
+      }
+
+      if (sub.type === "two_fill") {
+        const input1 = document.getElementById(`input1-${subId}`);
+        const input2 = document.getElementById(`input2-${subId}`);
+        if (input1 && input2) {
+          input1.disabled = false;
+          input1.value = "";
+          input1.className = 'user-ans-input';
+          input2.disabled = false;
+          input2.value = "";
+          input2.className = 'user-ans-input';
+        }
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      selections = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

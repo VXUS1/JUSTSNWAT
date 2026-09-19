@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Network Programming - Midterm Fall 2021 Eng. Rana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #79c0ff;
+      margin: 10px 0 14px 0;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .instants-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px 0;
+      font-size: 0.9rem;
+    }
+    .instants-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .instants-table tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .svg-diagram-wrapper {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/network-programming">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Programming NES 416</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Midterm Exam Fall 2021 — Eng. Rana Alqurem</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/network-programming">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1_XHo11gsPRwg-tCOWfmAcUSssI_wVN72/view";
+
+    const examSections = [
+      {
+        title: "Problem I: Multiple Choice Questions [20 points]",
+        context: "Select one choice only for each of the following (Answers 1-5, 7-12, 14-16, 18-20 are from the paper's table; 6, 13, and 17 are verified independently):",
+        subQuestions: [
+          {
+            id: "mcq_1",
+            type: "single",
+            text: "1. For Client and server communicating on the same Ethernet using TCP, the protocol stack within the kernel includes:",
+            opts: [
+              "A. Application protocol only",
+              "B. TCP protocol only",
+              "C. IP protocol only",
+              "D. TCP and IP protocols",
+              "E. Application, TCP, and IP protocols"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. TCP and IP protocols",
+            exp: "من جدول الإجابات المعتمد بالورقة (D). بروتوكولات TCP و IP تقع داخل النواة (Kernel)، بينما بروتوكول التطبيق يعمل في فضاء المستخدم (User space).",
+            img: ""
+          },
+          {
+            id: "mcq_2",
+            type: "single",
+            text: "2. Which of the following socket functions when called will cause the TCP client to send SYN segment to TCP server?",
+            opts: [
+              "A. socket",
+              "B. bind",
+              "C. connect",
+              "D. accept",
+              "E. close"
+            ],
+            ans: 2, // C
+            dispAnswer: "C. connect",
+            exp: "من جدول الإجابات المعتمد بالورقة (C). استدعاء connect عند العميل يطلق المصافحة الثلاثية بإرسال حزمة SYN.",
+            img: ""
+          },
+          {
+            id: "mcq_3",
+            type: "single",
+            text: "3. The function accept returns successfully when:",
+            opts: [
+              "A. ACK segment is received from client",
+              "B. There is an entry in completed connection queue",
+              "C. Three-way handshake is done, and the connection is established",
+              "D. All of given choices",
+              "E. None of given choices"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. All of given choices",
+            exp: "من جدول الإجابات المعتمد بالورقة (D).",
+            img: ""
+          },
+          {
+            id: "mcq_4",
+            type: "single",
+            text: "4. Calling the function: socket (AF_INET6, SOCK_STREAM, 0); and returns successfully will create:",
+            opts: [
+              "A. TCP socket over IPv4",
+              "B. TCP socket over IPv6",
+              "C. UDP socket over IPv4",
+              "D. UDP socket over IPv6",
+              "E. Raw socket"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. TCP socket over IPv6",
+            exp: "من جدول الإجابات المعتمد بالورقة (B). AF_INET6 تشير إلى IPv6 و SOCK_STREAM تشير إلى TCP.",
+            img: ""
+          },
+          {
+            id: "mcq_5",
+            type: "single",
+            text: "5. Assume we declare a variable of IPv4 socket address structure as follow:\nstruct sockaddr_in server;\nthe correct statement to pass the variable server as second parameter to the function connect is:",
+            opts: [
+              "A. (struct sockaddr_in*) &server",
+              "B. (struct sockaddr_in *) server",
+              "C. (struct sockaddr *) server",
+              "D. (struct sockaddr *) &server",
+              "E. &server"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. (struct sockaddr *) &server",
+            exp: "من جدول الإجابات المعتمد بالورقة (D). تتطلب الدالة مؤشراً للعنوان بعد تحويله إلى النوع العام (struct sockaddr *).",
+            img: ""
+          },
+          {
+            id: "mcq_6",
+            type: "single",
+            text: "6. Assume we declare a variable of IPv4 socket address structure as follow:\nstruct sockaddr_in server;\nThe correct statement to fill IP address given by the first argument in the variable server is:",
+            opts: [
+              "A. inet_pton (AF_INET, argv[1], &server.sin_addr);",
+              "B. inet_pton (AF_INET, argv[1], server.sin_addr);",
+              "C. server.sin_addr = inet_pton (AF_INET, argv[1]);",
+              "D. sin_addr = inet_pton (AF_INET, argv[1]);",
+              "E. inet_pton (AF_INET, argv[1], sin_addr);"
+            ],
+            ans: 0, // A
+            dispAnswer: "A. inet_pton (AF_INET, argv[1], &server.sin_addr);",
+            exp: "تم حل السؤال: دالة inet_pton تتطلب مؤشراً لمكان التخزين كمعامل ثالث (void *addrptr)، وهو عنوان sin_addr داخل هيكل server.",
+            img: ""
+          },
+          {
+            id: "mcq_7",
+            type: "single",
+            text: "7. The end that remains in TIME_WAIT state is:",
+            opts: [
+              "A. The end that initiate the connection",
+              "B. The end that initiate the termination",
+              "C. The end that performs the passive close",
+              "D. The end that performs the passive open",
+              "E. The end that transmit the final FIN segment"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. The end that initiate the termination",
+            exp: "من جدول الإجابات المعتمد بالورقة (B). الطرف الذي يبدأ الإغلاق (Active close) هو من يدخل حالة TIME_WAIT.",
+            img: ""
+          },
+          {
+            id: "mcq_8",
+            type: "single",
+            text: "8. If the server's response to the client's SYN is a reset (RST), the error returned to client is:",
+            opts: [
+              "A. EHOSTUNREACH or ENETUNREACH",
+              "B. ETIMEDOUT",
+              "C. EREUSEADDR",
+              "D. EADDRINUSE",
+              "E. ECONNREFUSED"
+            ],
+            ans: 4, // E
+            dispAnswer: "E. ECONNREFUSED",
+            exp: "من جدول الإجابات المعتمد بالورقة (E). إرجاع RST رداً على SYN يعني رفض الاتصال وإرجاع خطأ Connection refused.",
+            img: ""
+          },
+          {
+            id: "mcq_9",
+            type: "single",
+            text: "9. If a server does not bind, the kernel chooses an ephemeral port # once:",
+            opts: [
+              "A. First data received from client",
+              "B. Listen is called",
+              "C. Accept is called",
+              "D. The socket is connected",
+              "E. Server must bind"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. Listen is called",
+            exp: "من جدول الإجابات المعتمد بالورقة (B). إذا لم يقم الخادم بعمل bind، تخصص النواة منفذاً مؤقتاً عند استدعاء listen.",
+            img: ""
+          },
+          {
+            id: "mcq_10",
+            type: "single",
+            text: "10. If the Incomplete connection queue is full and a new SYN is received, TCP server will:",
+            opts: [
+              "A. Send RST",
+              "B. Ignore received SYN",
+              "C. Create a new entry on the complete connection queue",
+              "D. Send ACK",
+              "E. C and D"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. Ignore received SYN",
+            exp: "من جدول الإجابات المعتمد بالورقة (B). يتجاهل الخادم حزمة SYN لإتاحة فرصة لإعادة الإرسال عند توفر مساحة.",
+            img: ""
+          },
+          {
+            id: "mcq_11",
+            type: "single",
+            text: "11. If the server code contains the statement:\nlocaladdr.sin_addr.s_addr = htonl (INADDR_ANY);\nThis means:",
+            opts: [
+              "A. Letting the kernel chooses any IP address on the host when the server binds",
+              "B. Letting the kernel chooses any IP address on the network when the server binds",
+              "C. Letting the kernel chooses any IP address on the host when the server does not bind",
+              "D. Letting the kernel chooses any IP address on the network when the server does not bind",
+              "E. The server binds with specific IP address"
+            ],
+            ans: 0, // A
+            dispAnswer: "A. Letting the kernel chooses any IP address on the host when the server binds",
+            exp: "من جدول الإجابات المعتمد بالورقة (A). INADDR_ANY تسمح بالربط مع أي واجهة شبكة على الجهاز المضيف.",
+            img: ""
+          },
+          {
+            id: "mcq_12",
+            type: "single",
+            text: "12. Consider the following piece of code:\nlen = sizeof(sockaddr);\ngetsockname (sockfd, (struct sockaddr*) &addr, &len);\nTo print the port# assigned to sockfd, we use:",
+            opts: [
+              "A. printf (\"port %d\\n\", ntohs(addr.sin_port));",
+              "B. printf (\"port %d\\n\", htons(addr.sin_port));",
+              "C. printf (\"port %d\\n\", addr.sin_port);",
+              "D. printf (\"port %d\\n\", ntohs(sin_port));",
+              "E. printf (\"port %d\\n\", htons(sin_port));"
+            ],
+            ans: 0, // A
+            dispAnswer: "A. printf (\"port %d\\n\", ntohs(addr.sin_port));",
+            exp: "من جدول الإجابات المعتمد بالورقة (A). المنفذ مخزن بترتيب الشبكة ويجب تحويله إلى ترتيب المضيف باستخدام ntohs.",
+            img: ""
+          },
+          {
+            id: "mcq_13",
+            type: "single",
+            text: "13. Which of the following is true about Socket API?",
+            opts: [
+              "A. Makes the services of the protocol stack available to the application",
+              "B. Uses the services of underlying protocols to transport the user message",
+              "C. Makes the services of Internet protocol available to transport protocols",
+              "D. Both A and B",
+              "E. All of given choices"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. Both A and B",
+            exp: "تم حل السؤال: واجهة Socket تربط التطبيق بطبقة النقل (A و B صحيحتان، بينما C غير صحيحة لأن مكدس بروتوكولات النواة يربط النقل بالإنترنت داخلياً).",
+            img: ""
+          },
+          {
+            id: "mcq_14",
+            type: "single",
+            text: `14. Consider the following piece of code from TCP concurrent server:
+<pre class="code-block">for(;;){
+  len = sizeof(cliaddr);
+  s2 = accept (s1, (struct sockaddr *) &cliaddr, &len);
+  if ((pid = fork()) == 0) {
+    statement#1
+    do_task (s2);
+    exit(0);
+  }
+  else {
+    statement#2
+  }
+}</pre>
+statement#1 and statement#2 can be replaced correctly and respectively by:`,
+            opts: [
+              "A. close(s1); and close (s2);",
+              "B. close(s2); and close (s1);",
+              "C. close(s1); and close (s1);",
+              "D. close(s2); and close (s2);",
+              "E. All given choices are wrong"
+            ],
+            ans: 0, // A
+            dispAnswer: "A. close(s1); and close (s2);",
+            exp: "من جدول الإجابات المعتمد بالورقة (A). يغلق الابن مقبس الاستماع (s1)، بينما يغلق الأب مقبس الاتصال المتصل (s2).",
+            img: ""
+          },
+          {
+            id: "mcq_15",
+            type: "single",
+            text: "15. If parent process wants to prevent all its terminated child processes to become zombies and not to block if there is no terminated child process, the parent should:",
+            opts: [
+              "A. call wait function inside signal handler for SIGCHLD signal",
+              "B. call wait function within a loop inside signal handler for SIGCHLD signal",
+              "C. call waitpid function inside signal handler for SIGCHLD signal",
+              "D. call waitpid function within a loop inside signal handler for SIGCHLD signal",
+              "E. All given choices are true"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. call waitpid function within a loop inside signal handler for SIGCHLD signal",
+            exp: "من جدول الإجابات المعتمد بالورقة (D). استخدام waitpid مع WNOHANG داخل حلقة يمنع الحظر وحالات الـ Zombie معاً.",
+            img: ""
+          },
+          {
+            id: "mcq_16",
+            type: "single",
+            text: "16. Kernel sends SIGPIPE signal to process when:",
+            opts: [
+              "A. A process reads from a socket that has received FIN",
+              "B. A process reads from a socket that has received RST",
+              "C. A process writes to a socket that has received FIN",
+              "D. A process writes to a socket that has received RST",
+              "E. All given choices are wrong"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. A process writes to a socket that has received RST",
+            exp: "من جدول الإجابات المعتمد بالورقة (D). محاولة الكتابة على مقبس تم استقبال RST عليه تولد الإشارة SIGPIPE.",
+            img: ""
+          },
+          {
+            id: "mcq_17",
+            type: "single",
+            text: `17. Consider the following piece of code from TCP echo client:
+<pre class="code-block">while (fgets (sendline, MAXLINE, stdin) != NULL) {
+  printf("Input text is: %s", sendline);
+  n = write (sockfd, sendline, strlen(sendline));
+  if (n < 0) perror("str_cli: write error");
+  n = read(sockfd, rcvline, MAXLINE);
+  if (n <= 0) perror("str_cli: read error");
+  rcvline[n] = 0;
+  printf("Received text is: ");
+  fputs(rcvline, stdout);
+}</pre>
+After normal start up of both TCP echo client & server, the server shut down & reboot. The server is up again while client is blocking in fgets. If the line contains "Hello World!" is read from stdin. What is the output of the code above?`,
+            opts: [
+              "A. Input text is: Hello World! str_cli: write error",
+              "B. Input text is: Hello World! str_cli: read error",
+              "C. Input text is: Hello World! Received text is: Hello World!",
+              "D. Input text is: Hello World!",
+              "E. No output"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. Input text is: Hello World! str_cli: read error",
+            exp: "تم حل السؤال: عملية الـ write الأولى تنجح محلياً، فيستقبل الخادم الحزمة دون وجود حالة اتصال مسبقة فيرد بـ RST، مما يجعل استدعاء read التالي يفشل ويطبع read error.",
+            img: ""
+          },
+          {
+            id: "mcq_18",
+            type: "single",
+            text: "18. All of the following are correct about signals EXCEPT:",
+            opts: [
+              "A. A signal is a notification to a process that an important event has occurred.",
+              "B. occur synchronously",
+              "C. sometimes called software interrupts",
+              "D. can be sent by one process to another or to itself",
+              "E. can be sent by the kernel to process"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. occur synchronously",
+            exp: "من جدول الإجابات المعتمد بالورقة (B). الإشارات غير متزامنة (Asynchronous).",
+            img: ""
+          },
+          {
+            id: "mcq_19",
+            type: "single",
+            text: `19. Consider the following steps from TCP echo concurrent server that handle SIGCHLD signal:
+//call socket, bind, and listen
+Statement#1
+for (;;){
+  Statement#2
+  //call accept
+  Statement#3
+  //call fork
+  Statement#4
+  //code done by child process
+  //child exit
+  Statement#5
+  //close connection
+}
+Where must the statement that establish/register/install the signal handler of SIGCHLD be inserted?`,
+            opts: [
+              "A. In place of statement#1",
+              "B. In place of statement#2",
+              "C. In place of statement#3",
+              "D. In place of statement#4",
+              "E. In place of statement#5"
+            ],
+            ans: 0, // A
+            dispAnswer: "A. In place of statement#1",
+            exp: "من جدول الإجابات المعتمد بالورقة (A). يجب تثبيت معالج الإشارة قبل الدخول في حلقة الـ accept وإنشاء الأبناء.",
+            img: ""
+          },
+          {
+            id: "mcq_20",
+            type: "single",
+            text: "20. If the function connect (sd, ..,..) failed, which of the following is false?",
+            opts: [
+              "A. sd can be used again in another connect call",
+              "B. sd is no longer usable",
+              "C. close sd and create new socket to use it in new connect call",
+              "D. close sd and terminate",
+              "E. All given choices are true"
+            ],
+            ans: 0, // A
+            dispAnswer: "A. sd can be used again in another connect call",
+            exp: "من جدول الإجابات المعتمد بالورقة (A). وفقاً لمعيار POSIX، المقبس الذي يفشل connect عليه يصبح غير صالح للاستخدام ويجب إغلاقه.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Problem II: Packets Exchange for TCP connection [5 points]",
+        context: "The figure below is the timing diagram for the packet exchange between a TCP client and server.\nLabel each arrow (A, B, C, D, E) with the appropriate instant from the table:",
+        subQuestions: [
+          {
+            id: "diag_context",
+            type: "info",
+            text: `<strong>Reference Instants Table:</strong>
+<table class="instants-table ltr-content">
+  <tr><td>1. connect (blocks)</td><td>2. connect returns</td></tr>
+  <tr><td>3. accept (blocks)</td><td>4. accept returns</td></tr>
+  <tr><td>5. TIME_WAIT</td><td>6. read (blocks)</td></tr>
+  <tr><td>7. read returns &gt; 0</td><td>8. read returns 0</td></tr>
+  <tr><td>9. write</td><td>10. close</td></tr>
+</table>
+<div class="svg-diagram-wrapper ltr-content">
+  <svg width="600" height="660" viewBox="0 0 600 660" style="max-width:100%; height:auto;">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#5ac8fa"/>
+      </marker>
+    </defs>
+    <!-- Timelines -->
+    <line x1="140" y1="40" x2="140" y2="640" stroke="#8e8e93" stroke-width="2.5"/>
+    <line x1="460" y1="40" x2="460" y2="640" stroke="#8e8e93" stroke-width="2.5"/>
+    <text x="140" y="28" fill="#fff" font-size="16" font-weight="bold" text-anchor="middle">client</text>
+    <text x="460" y="28" fill="#fff" font-size="16" font-weight="bold" text-anchor="middle">server</text>
+
+    <!-- Packets -->
+    <!-- 1. SYN J -->
+    <line x1="140" y1="65" x2="455" y2="95" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="70" fill="#e5e5ea" font-size="12" text-anchor="middle">SYN J, MSS = 536</text>
+
+    <!-- 2. SYN K, ACK J+1 -->
+    <line x1="460" y1="120" x2="145" y2="150" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="125" fill="#e5e5ea" font-size="12" text-anchor="middle">SYN K, ACK J+1, MSS = 1460</text>
+
+    <!-- Arrow A (pointing to Client at t=150) -->
+    <g transform="translate(60, 140)">
+      <circle cx="20" cy="10" r="14" fill="#0a84ff"/>
+      <text x="20" y="15" fill="#fff" font-weight="bold" font-size="14" text-anchor="middle">A</text>
+      <line x1="40" y1="10" x2="70" y2="10" stroke="#0a84ff" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- 3. ACK K+1 -->
+    <line x1="140" y1="175" x2="455" y2="205" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="180" fill="#e5e5ea" font-size="12" text-anchor="middle">ACK K+1</text>
+
+    <!-- Arrow B (pointing to Server at t=205) -->
+    <g transform="translate(540, 195)">
+      <circle cx="-20" cy="10" r="14" fill="#30d158"/>
+      <text x="-20" y="15" fill="#fff" font-weight="bold" font-size="14" text-anchor="middle">B</text>
+      <line x1="-40" y1="10" x2="-70" y2="10" stroke="#30d158" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- Arrow C (pointing to Server right below B) -->
+    <g transform="translate(540, 240)">
+      <circle cx="-20" cy="10" r="14" fill="#ff9f0a"/>
+      <text x="-20" y="15" fill="#fff" font-weight="bold" font-size="14" text-anchor="middle">C</text>
+      <line x1="-40" y1="10" x2="-70" y2="10" stroke="#ff9f0a" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- 4. Data request -->
+    <line x1="140" y1="260" x2="455" y2="290" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="265" fill="#e5e5ea" font-size="12" text-anchor="middle">data (request)</text>
+
+    <!-- 5. Data reply -->
+    <line x1="460" y1="330" x2="145" y2="360" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="335" fill="#e5e5ea" font-size="12" text-anchor="middle">data (reply)</text>
+
+    <text x="290" y="370" fill="#8e8e93" font-size="11" text-anchor="middle">ACK of request</text>
+
+    <!-- 6. ACK of reply -->
+    <line x1="140" y1="385" x2="455" y2="405" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="395" fill="#e5e5ea" font-size="12" text-anchor="middle">ACK of reply</text>
+
+    <!-- 7. FIN M -->
+    <line x1="140" y1="440" x2="455" y2="470" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="445" fill="#e5e5ea" font-size="12" text-anchor="middle">FIN M</text>
+
+    <!-- Arrow D (pointing to Server at receipt of FIN M) -->
+    <g transform="translate(540, 460)">
+      <circle cx="-20" cy="10" r="14" fill="#bf5af2"/>
+      <text x="-20" y="15" fill="#fff" font-weight="bold" font-size="14" text-anchor="middle">D</text>
+      <line x1="-40" y1="10" x2="-70" y2="10" stroke="#bf5af2" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- 8. ACK M+1 -->
+    <line x1="460" y1="495" x2="145" y2="525" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="500" fill="#e5e5ea" font-size="12" text-anchor="middle">ACK M+1</text>
+
+    <!-- 9. FIN N -->
+    <line x1="460" y1="540" x2="145" y2="570" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="545" fill="#e5e5ea" font-size="12" text-anchor="middle">FIN N</text>
+
+    <!-- 10. ACK N+1 -->
+    <line x1="140" y1="585" x2="455" y2="615" stroke="#5ac8fa" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="290" y="590" fill="#e5e5ea" font-size="12" text-anchor="middle">ACK N+1</text>
+
+    <!-- Arrow E (pointing to Client at completion of termination) -->
+    <g transform="translate(60, 580)">
+      <circle cx="20" cy="10" r="14" fill="#ff453a"/>
+      <text x="20" y="15" fill="#fff" font-weight="bold" font-size="14" text-anchor="middle">E</text>
+      <line x1="40" y1="10" x2="70" y2="10" stroke="#ff453a" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+  </svg>
+</div>`,
+            opts: [],
+            ans: 0,
+            dispAnswer: "",
+            exp: "",
+            img: ""
+          },
+          {
+            id: "diag_arrow_A",
+            type: "single",
+            text: "What instant does Arrow [A] represent on the Client timeline?",
+            opts: [
+              "1. connect (blocks)",
+              "2. connect returns",
+              "3. accept (blocks)",
+              "4. accept returns",
+              "5. TIME_WAIT",
+              "6. read (blocks)",
+              "7. read returns > 0",
+              "8. read returns 0",
+              "9. write",
+              "10. close"
+            ],
+            ans: 1, // 2. connect returns
+            dispAnswer: "2. connect returns",
+            exp: "من حل الورقة: عند استقبال SYN+ACK من الخادم، يكتمل تأسيس الاتصال من جهة العميل وتعود دالة connect بنجاح.",
+            img: ""
+          },
+          {
+            id: "diag_arrow_B",
+            type: "single",
+            text: "What instant does Arrow [B] represent on the Server timeline?",
+            opts: [
+              "1. connect (blocks)",
+              "2. connect returns",
+              "3. accept (blocks)",
+              "4. accept returns",
+              "5. TIME_WAIT",
+              "6. read (blocks)",
+              "7. read returns > 0",
+              "8. read returns 0",
+              "9. write",
+              "10. close"
+            ],
+            ans: 3, // 4. accept returns
+            dispAnswer: "4. accept returns",
+            exp: "من حل الورقة: عند وصول حزمة ACK الأخيرة في المصافحة الثلاثية للخادم، تكتمل المصافحة وتعود دالة accept بمقبس جديد متصل.",
+            img: ""
+          },
+          {
+            id: "diag_arrow_C",
+            type: "single",
+            text: "What instant does Arrow [C] represent on the Server timeline?",
+            opts: [
+              "1. connect (blocks)",
+              "2. connect returns",
+              "3. accept (blocks)",
+              "4. accept returns",
+              "5. TIME_WAIT",
+              "6. read (blocks)",
+              "7. read returns > 0",
+              "8. read returns 0",
+              "9. write",
+              "10. close"
+            ],
+            ans: 5, // 6. read (blocks)
+            dispAnswer: "6. read (blocks)",
+            exp: "من حل الورقة: يدخل الخادم في حالة حظر (blocking) في انتظار وصول طلب البيانات من العميل عبر دالة read.",
+            img: ""
+          },
+          {
+            id: "diag_arrow_D",
+            type: "single",
+            text: "What instant does Arrow [D] represent on the Server timeline?",
+            opts: [
+              "1. connect (blocks)",
+              "2. connect returns",
+              "3. accept (blocks)",
+              "4. accept returns",
+              "5. TIME_WAIT",
+              "6. read (blocks)",
+              "7. read returns > 0",
+              "8. read returns 0",
+              "9. write",
+              "10. close"
+            ],
+            ans: 7, // 8. read returns 0
+            dispAnswer: "8. read returns 0",
+            exp: "من حل الورقة: وصول حزمة FIN M يعني أن العميل أغلق طرف إرساله (EOF)، فترجع دالة read القيمة 0.",
+            img: ""
+          },
+          {
+            id: "diag_arrow_E",
+            type: "single",
+            text: "What instant does Arrow [E] represent on the Client timeline?",
+            opts: [
+              "1. connect (blocks)",
+              "2. connect returns",
+              "3. accept (blocks)",
+              "4. accept returns",
+              "5. TIME_WAIT",
+              "6. read (blocks)",
+              "7. read returns > 0",
+              "8. read returns 0",
+              "9. write",
+              "10. close"
+            ],
+            ans: 4, // 5. TIME_WAIT
+            dispAnswer: "5. TIME_WAIT",
+            exp: "من حل الورقة: بعد أن يرسل البادئ بالإغلاق حزمة ACK الأخيرة (ACK N+1)، يدخل في حالة TIME_WAIT لمدة 2MSL.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          if (sub.type === "info") {
+            subQuestionsHtml += `
+              <div class="sub-question-card ltr-content" id="card-${sub.id}">
+                ${sub.text}
+              </div>
+            `;
+            return;
+          }
+
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          if (sub.type === "single") {
+            total++;
+            if (userScores[sub.id]) score++;
+          }
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

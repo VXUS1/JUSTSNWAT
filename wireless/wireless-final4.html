@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Wireless Networks - Comprehensive Exam Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      background: rgba(10, 132, 255, 0.15);
+      border-color: #0a84ff;
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.checkbox .opt-indicator {
+      border-radius: 4px;
+    }
+    .option-item.selected .opt-indicator {
+      border-color: #0a84ff;
+      background: #0a84ff;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 180px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .q-image-container {
+      display: none;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .q-image-container.show {
+      display: block;
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/wireless">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Wireless Networks NES 441</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Comprehensive Final Practice Exam</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/wireless">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1U5f7Wb6DZegv9deKG848D47ez7FiurFq/view";
+
+    const examSections = [
+      {
+        title: "Section 1: Multiple Choice Questions",
+        context: "Choose the best answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "mcq_1",
+            type: "single",
+            text: "1. If the RF signal hits a rough object smaller than its wavelength and has sharp edges, the signal mostly gets:",
+            opts: ["A. Absorbed", "B. Scattered", "C. Refracted", "D. Diffracted"],
+            ans: 1,
+            dispAnswer: "B. Scattered",
+            exp: "Scattering occurs when an electromagnetic wave impinges on an object whose dimensions are smaller than or on the order of the wavelength, and which has rough surfaces or sharp corners.",
+            img: ""
+          },
+          {
+            id: "mcq_2",
+            type: "single",
+            text: "2. Which of the following techniques is used by the IEEE 802.11 to reduce the overhead caused by frame collisions?",
+            opts: [
+              "A. The four-way frame exchange",
+              "B. The frame fragmentation",
+              "C. The contention window resizing",
+              "D. All of the above"
+            ],
+            ans: 0,
+            dispAnswer: "A. The four-way frame exchange (or D. All of the above)",
+            exp: "The four-way frame exchange (RTS/CTS) specifically limits collision overhead to small control frames rather than lengthy data payloads.",
+            img: ""
+          },
+          {
+            id: "mcq_3",
+            type: "single",
+            text: "3. The terminology used by the IEEE 802.11 standard for two or more Basic Service Sets connected by a common Distribution System is:",
+            opts: [
+              "A. Independent Service Set",
+              "B. Enhanced Service Set",
+              "C. Distributed Service Set",
+              "D. Extended Service Set"
+            ],
+            ans: 3,
+            dispAnswer: "D. Extended Service Set",
+            exp: "An Extended Service Set (ESS) connects two or more BSSs via a distribution system, enabling seamless layer-2 mobility.",
+            img: ""
+          },
+          {
+            id: "mcq_4",
+            type: "single",
+            text: "4. The Fresnel Zone is used to determine:",
+            opts: [
+              "A. The distance between the two antennas",
+              "B. The heights of the antennas",
+              "C. The transmit and receive antenna gains",
+              "D. The impact of the earth bulge on the signal reception"
+            ],
+            ans: 1,
+            dispAnswer: "B. The heights of the antennas",
+            exp: "Fresnel zone clearance calculations establish the required antenna heights above terrain and obstacles to prevent diffraction losses.",
+            img: ""
+          },
+          {
+            id: "mcq_5",
+            type: "single",
+            text: "5. Given two or more active WLAN stations in a BSS, as the frame size increases:",
+            opts: [
+              "A. The retransmission overhead decreases",
+              "B. The collision probability decreases",
+              "C. The effective throughput decreases",
+              "D. The RTS/CTS mechanism gets more efficient"
+            ],
+            ans: 3,
+            dispAnswer: "D. The RTS/CTS mechanism gets more efficient",
+            exp: "The relative overhead of exchanging RTS/CTS frames shrinks in proportion to large data frame payloads, making channel reservation much more efficient.",
+            img: ""
+          },
+          {
+            id: "mcq_6",
+            type: "single",
+            text: "6. The correct statement about mobility management is that:",
+            opts: [
+              "A. Direct routing uses anchoring while indirect routing does not",
+              "B. Direct routing is transparent to the correspondent while indirect routing is not",
+              "C. Direct routing suffers from the triangle routing problem while the indirect does not",
+              "D. The default scheme in Mobile IP is the direct routing"
+            ],
+            ans: 0,
+            dispAnswer: "A. Direct routing uses anchoring while indirect routing does not",
+            exp: "In direct routing mobility models, the first foreign agent acts as an anchor to prevent updating the correspondent host continually as the mobile node visits successive subnets.",
+            img: ""
+          },
+          {
+            id: "mcq_gsm_handoff",
+            type: "single",
+            text: "7. The GSM handoff:",
+            opts: [
+              "A. Is a soft handoff",
+              "B. May not occur within a BTS",
+              "C. May occur between two different service providers",
+              "D. Is totally controlled by the mobile station"
+            ],
+            ans: 2,
+            dispAnswer: "C. May occur between two different service providers",
+            exp: "GSM handovers can take place between networks operated by different providers (inter-operator handover/national roaming agreements).",
+            img: ""
+          },
+          {
+            id: "mcq_top",
+            type: "single",
+            text: "8. The most widely used network topology for the Base Station Subsystems (BSS) is:",
+            opts: ["A. Star", "B. Chain", "C. Ring", "D. Mesh"],
+            ans: 0,
+            dispAnswer: "A. Star",
+            exp: "Base Station Subsystems (BSS) connecting multiple base stations to a central BSC follow a star topology.",
+            img: ""
+          },
+          {
+            id: "mcq_9",
+            type: "single",
+            text: "9. According to the IEEE 802.11 standard, before a station transmits a second data frame using the DCF mode:",
+            opts: [
+              "A. All other stations must have finished transmitting",
+              "B. A time period of at most DIFS must have passed",
+              "C. Its backoff counter must have expired",
+              "D. The station must have received a PS-Poll frame from the access point"
+            ],
+            ans: 2,
+            dispAnswer: "C. Its backoff counter must have expired",
+            exp: "Even when transmitting consecutive frames, a station must execute the random backoff procedure after DIFS to give other stations fair channel access.",
+            img: ""
+          },
+          {
+            id: "mcq_10",
+            type: "single",
+            text: "10. In cellular networks, the cell site coverage area:",
+            opts: [
+              "A. Is not usually related the user density",
+              "B. May change at any time",
+              "C. Has a fixed size and shape",
+              "D. Is almost the same whether in a desert or in a forest, given a fixed transmit power"
+            ],
+            ans: 1,
+            dispAnswer: "B. May change at any time",
+            exp: "Cell coverage is dynamic due to environmental propagation variations, interference levels, and cell breathing effects under varying loads.",
+            img: ""
+          },
+          {
+            id: "mcq_11",
+            type: "single",
+            text: "11. Which of the following statements is incorrect regarding spread spectrum transmission?",
+            opts: [
+              "A. It provides good power efficiency and performance",
+              "B. The spectral efficiency is much better than baseband transmission",
+              "C. The bandwidth used is usually much larger than needed for baseband transmission to allow for redundancy",
+              "D. It prevents eavesdropping and jamming on the signal"
+            ],
+            ans: 1,
+            dispAnswer: "B. The spectral efficiency is much better than baseband transmission",
+            exp: "Spread spectrum expands the signal into a significantly wider bandwidth, resulting in lower spectral efficiency compared to narrowband baseband transmission.",
+            img: ""
+          },
+          {
+            id: "mcq_12",
+            type: "single",
+            text: "12. The GPRS and EDGE wireless WAN data transfer protocols belong to which cellular generation?",
+            opts: ["A. 1G", "B. 2G", "C. 2.5G", "D. 3G"],
+            ans: 2,
+            dispAnswer: "C. 2.5G",
+            exp: "GPRS and EDGE are packet-switched extensions of 2G GSM, collectively designated as 2.5G and 2.75G.",
+            img: ""
+          },
+          {
+            id: "mcq_13",
+            type: "single",
+            text: "13. The correct statement about the impact of wireless mobility as seen by the upper layers is that:",
+            opts: [
+              "A. There is no impact on the performance",
+              "B. Logically, there is a significant impact",
+              "C. The impact is the worst on real-time applications",
+              "D. None of the above"
+            ],
+            ans: 2,
+            dispAnswer: "C. The impact is the worst on real-time applications",
+            exp: "Handoff delays, packet reordering, and transient disconnects severely degrade latency-critical real-time applications like VoIP and video conferencing.",
+            img: ""
+          },
+          {
+            id: "mcq_14",
+            type: "single",
+            text: "14. Which of the following chipping codes is not used in IEEE 802.11 physical layer standards?",
+            opts: [
+              "A. The Walsh codes",
+              "B. The Barker codes",
+              "C. The Complementary Code Keying (CCK)",
+              "D. All of them are used"
+            ],
+            ans: 3,
+            dispAnswer: "D. All of them are used",
+            exp: "IEEE 802.11 standards employ 11-chip Barker codes (DSSS at 1/2 Mbps), 8-chip CCK (802.11b at 5.5/11 Mbps), and Walsh/Hadamard transform codes.",
+            img: ""
+          },
+          {
+            id: "mcq_15",
+            type: "single",
+            text: "15. The Subscriber Identity Module (SIM) of the Mobile Station (MS) stores information about:",
+            opts: [
+              "A. The subscriber of the MS",
+              "B. The MS itself",
+              "C. The network to which the MS is subscribed",
+              "D. All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "D. All of the above",
+            exp: "The SIM stores subscriber data (IMSI, contacts), network authentication keys (Ki, preferred PLMN list), and hardware parameters.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 2: WLAN Office Coverage Analysis",
+        context: "A 40m × 40m square-shaped office space is covered by an IEEE 802.11g WLAN using 4 access points. The path loss is represented by:\nL_p(d) = 66 + 35 log10(2d)\nReceiver sensitivity S_RX = -90 dBm, unity antenna gains, and maximum allowed EIRP = 30 dBm.",
+        subQuestions: [
+          {
+            id: "p4_a",
+            type: "fill",
+            text: "a) What is the reference distance, d0, used for path loss equation? (in meters)",
+            acceptedAnswers: ["0.5", "0.5m", "0.5 m"],
+            dispAnswer: "0.5 m",
+            exp: "L_p(d) = 66 + 35 log10(d / d0). Setting 2d = d / d0 yields d0 = 0.5 m.",
+            img: "../images/wf_6.png"
+          },
+          {
+            id: "p4_b",
+            type: "fill",
+            text: "b) What is the path loss at the reference distance? (in dB)",
+            acceptedAnswers: ["66", "66db", "66 db"],
+            dispAnswer: "66 dB",
+            exp: "At d = d0 = 0.5 m: 2d = 1, log10(1) = 0. Thus, L_p(d0) = 66 dB.",
+            img: ""
+          },
+          {
+            id: "p4_c",
+            type: "fill",
+            text: "c) What is the path loss exponent, n, of the environment?",
+            acceptedAnswers: ["3.5"],
+            dispAnswer: "3.5",
+            exp: "The distance term is 10n log10(d / d0) = 35 log10(2d), meaning 10n = 35 ==> n = 3.5.",
+            img: ""
+          },
+          {
+            id: "p4_d",
+            type: "fill",
+            text: "d) What is the maximum raw network data rate achieved by the design? (in Mbps)",
+            acceptedAnswers: ["216", "216mbps", "54", "54mbps"],
+            dispAnswer: "216 Mbps (or 54 Mbps per AP)",
+            exp: "IEEE 802.11g delivers 54 Mbps per channel. Across 4 independent access points: 4 × 54 Mbps = 216 Mbps aggregate raw throughput.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 3: Cellular Spectrum & Capacity Planning",
+        context: "A cellular service provider owns a bandwidth of 50 MHz. Each analog voice channel requires 25 kHz. The service area is 100 km² and average cell site coverage is 50 km² (or 5 km²). Answer the following:",
+        subQuestions: [
+          {
+            id: "cell_a",
+            type: "fill",
+            text: "a) What is the total number of full duplex analog voice channels available?",
+            acceptedAnswers: ["1000", "2000"],
+            dispAnswer: "1000 channels (or 2000 if 25 kHz is duplex)",
+            exp: "Full duplex requires two simplex channels (2 × 25 kHz = 50 kHz per duplex channel). Total channels = 50 MHz / 50 kHz = 1000 channels.",
+            img: "../images/wf_7.png"
+          },
+          {
+            id: "cell_b",
+            type: "fill",
+            text: "b) How many cell sites would be needed to cover the service area?",
+            acceptedAnswers: ["2", "20"],
+            dispAnswer: "2 sites (or 20 sites if cell area is 5 km²)",
+            exp: "Number of cell sites = Total Service Area / Cell Coverage Area = 100 km² / 50 km² = 2 sites.",
+            img: ""
+          },
+          {
+            id: "cell_c",
+            type: "fill",
+            text: "c) If the cell site coverage area is circular in shape, what is the maximum range (radius R) of each cell site? (in km)",
+            acceptedAnswers: ["3.99", "4", "3.989", "1.26"],
+            dispAnswer: "3.99 km (or 1.26 km)",
+            exp: "Area = π R² = 50 km² ==> R = √(50 / π) ≈ 3.99 km.",
+            img: ""
+          },
+          {
+            id: "cell_d",
+            type: "fill",
+            text: "d) What is the maximum number of calls that can be served in the whole service area given a reuse factor of 4 using FDMA only?",
+            acceptedAnswers: ["500", "1000", "5000"],
+            dispAnswer: "500 calls (or 5000 calls)",
+            exp: "Channels per cell = 1000 / 4 = 250 channels. For 2 sites: Total calls = 2 × 250 = 500 calls. (For 20 sites: 20 × 250 = 5000 calls).",
+            img: ""
+          },
+          {
+            id: "cell_e_i",
+            type: "fill",
+            text: "e.i) If TDMA is used with 12 slots/frame (2 control, 10 voice) and each call uses 2 slots, what is the maximum number of calls served in the whole service area (reuse factor 4)?",
+            acceptedAnswers: ["2500", "5000", "25000"],
+            dispAnswer: "2500 calls (5× improvement over FDMA)",
+            exp: "Each channel accommodates 10 voice slots / 2 slots/call = 5 calls/channel. Total capacity = 500 × 5 = 2500 calls.",
+            img: ""
+          },
+          {
+            id: "cell_e_ii",
+            type: "fill",
+            text: "e.ii) What is the bit rate of the channel? (in kbps)",
+            acceptedAnswers: ["72", "72kbps", "72000"],
+            dispAnswer: "72 kbps",
+            exp: "Frame rate = 12 frames/sec, each frame = 6000 bits. Channel Bit Rate = 12 × 6000 = 72,000 bps = 72 kbps.",
+            img: ""
+          },
+          {
+            id: "cell_e_iii",
+            type: "fill",
+            text: "e.iii) What is the maximum rate of the voice-coder used in the mobile station? (in kbps)",
+            acceptedAnswers: ["12", "12kbps", "12000"],
+            dispAnswer: "12 kbps",
+            exp: "Each call uses 2 out of 12 slots (1/6 of the frame). Voice bit rate = (6000 / 6) × 12 = 1000 bits × 12 frames/sec = 12 kbps.",
+            img: ""
+          },
+          {
+            id: "cell_e_iv",
+            type: "fill",
+            text: "e.iv) What is the improvement factor in spectral efficiency compared with the FDMA-only system?",
+            acceptedAnswers: ["5", "5x", "500%"],
+            dispAnswer: "5 times (5×)",
+            exp: "TDMA accommodates 5 simultaneous voice calls in the same bandwidth previously occupied by 1 FDMA voice call.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 4: IEEE 802.11b Throughput & Performance Anomaly",
+        context: "Stations A and B transmit 1100-byte data frames to an AP at 11 Mbps using RTS/CTS in DCF mode. Average backoff = 100 µs, DIFS = 50 µs, SIFS = 10 µs, RTS = 20 B, CTS = 14 B, ACK = 14 B. Ignore physical preambles/headers.",
+        subQuestions: [
+          {
+            id: "p6_a",
+            type: "fill",
+            text: "a) What is the average effective throughput, Ra, achieved by station A? (in Mbps)",
+            acceptedAnswers: ["4.38", "4.4", "4.378"],
+            dispAnswer: "4.38 Mbps",
+            exp: "Payload = 1100 × 8 = 8800 bits. At 11 Mbps: T_data = 800 µs, T_RTS = 14.55 µs, T_CTS = 10.18 µs, T_ACK = 10.18 µs. T_cycle ≈ 1005 µs. With fair turn-taking: Ra = 8800 / (2 × 1005 µs) ≈ 4.38 Mbps.",
+            img: "../images/wf_8.png"
+          },
+          {
+            id: "p6_b",
+            type: "fill",
+            text: "b) If station B moves away and drops to 1 Mbps, what is the approximate percentage reduction in station A's throughput Ra? (Enter magnitude e.g. 80.6% or -80.6%)",
+            acceptedAnswers: ["80.6", "-80.6", "80.6%", "81", "-81%"],
+            dispAnswer: "80.6% reduction",
+            exp: "Station B at 1 Mbps requires T_cycle_B ≈ 9364 µs. A and B alternate turns: Ra' = 8800 / (1005 + 9364) ≈ 0.849 Mbps. Reduction = (4.38 - 0.849) / 4.38 ≈ 80.6%.",
+            img: "../images/wf_9.png"
+          }
+        ]
+      },
+      {
+        title: "Section 5: IEEE 802.11g OFDM Parameters",
+        context: "IEEE 802.11g WLAN OFDM parameters:\n• Modulation: 16-QAM\n• Number of data subcarriers = 48\n• Symbol duration = 4 µsec\n• Coding rate = 3/4",
+        subQuestions: [
+          {
+            id: "ofdm_a",
+            type: "fill",
+            text: "a) How many bits are sent per subcarrier?",
+            acceptedAnswers: ["4", "4 bits"],
+            dispAnswer: "4 bits",
+            exp: "For 16-QAM: log2(16) = 4 bits per subcarrier.",
+            img: "../images/wf10.png"
+          },
+          {
+            id: "ofdm_b",
+            type: "fill",
+            text: "b) How many bits are sent per symbol? (total coded bits)",
+            acceptedAnswers: ["192", "192 bits"],
+            dispAnswer: "192 bits",
+            exp: "Total coded bits per symbol = 48 subcarriers × 4 bits/subcarrier = 192 bits.",
+            img: ""
+          },
+          {
+            id: "ofdm_c",
+            type: "fill",
+            text: "c) How many data bits are sent per symbol?",
+            acceptedAnswers: ["144", "144 bits"],
+            dispAnswer: "144 bits",
+            exp: "Data bits per symbol = Total bits × Coding rate = 192 × (3/4) = 144 bits.",
+            img: ""
+          },
+          {
+            id: "ofdm_d",
+            type: "fill",
+            text: "d) How many error correction code (parity) bits are sent per symbol?",
+            acceptedAnswers: ["48", "48 bits"],
+            dispAnswer: "48 bits",
+            exp: "Error correction bits = Total bits - Data bits = 192 - 144 = 48 bits (or 192 × 1/4 = 48 bits).",
+            img: ""
+          },
+          {
+            id: "ofdm_e",
+            type: "fill",
+            text: "e) Determine the data rate obtained in Mbps:",
+            acceptedAnswers: ["36", "36mbps", "36 mbps"],
+            dispAnswer: "36 Mbps",
+            exp: "Data Rate = Data bits per symbol / Symbol duration = 144 bits / 4 µsec = 36 Mbps.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let selections = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "fill") {
+            interactionHtml = `
+              <div class="answer-input-row" id="row-${sub.id}">
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input-${sub.id}" 
+                       placeholder="Type answer..." 
+                       onkeydown="if(event.key==='Enter') checkFillAnswer('${sub.id}')" />
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkFillAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "multi") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item checkbox" id="opt-${sub.id}-${i}" onclick="toggleMultiOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkMultiAnswer('${sub.id}')">تحقق من الاختيارات</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function checkFillAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!inputEl) return;
+
+      const rawVal = inputEl.value.trim().toLowerCase();
+      if (rawVal === "") return;
+
+      const isCorrect = sub.acceptedAnswers.some(ans => {
+        const cleaned = ans.toLowerCase().trim();
+        return rawVal === cleaned || rawVal.includes(cleaned);
+      });
+
+      if (isCorrect) {
+        inputEl.className = 'user-ans-input correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'user-ans-input wrong';
+        delete userScores[subId];
+      }
+
+      inputEl.disabled = true;
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function toggleMultiOption(subId, optIdx) {
+      if (!selections[subId]) selections[subId] = new Set();
+      const s = selections[subId];
+
+      const itemEl = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (s.has(optIdx)) {
+        s.delete(optIdx);
+        if (itemEl) itemEl.classList.remove('selected');
+      } else {
+        s.add(optIdx);
+        if (itemEl) itemEl.classList.add('selected');
+      }
+    }
+
+    function checkMultiAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      const chosen = selections[subId] || new Set();
+      if (chosen.size === 0) return;
+
+      optsBox.classList.add('locked');
+
+      const targetAns = new Set(sub.ans);
+      const isIdentical = chosen.size === targetAns.size && [...chosen].every(x => targetAns.has(x));
+
+      if (isIdentical) {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) itemEl.className = 'option-item checkbox correct';
+        });
+        userScores[subId] = true;
+      } else {
+        chosen.forEach(idx => {
+          const itemEl = document.getElementById(`opt-${subId}-${idx}`);
+          if (itemEl) itemEl.className = 'option-item checkbox wrong';
+        });
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single" || sub.type === "multi") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) {
+            el.className = sub.type === "multi" ? 'option-item checkbox' : 'option-item';
+          }
+        });
+        if (selections[subId]) {
+          selections[subId].clear();
+        }
+      }
+
+      if (sub.type === "fill") {
+        const inputEl = document.getElementById(`input-${subId}`);
+        if (inputEl) {
+          inputEl.disabled = false;
+          inputEl.value = "";
+          inputEl.className = 'user-ans-input';
+        }
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      selections = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

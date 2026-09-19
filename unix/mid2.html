@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Unix & Linux Systems - Mid 2021 (2nd Sem)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: #141416;
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #79c0ff;
+      margin: 8px 0 14px 0;
+      white-space: pre-wrap;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* تحسين هيكل التيرمينال وسحب الأوامر */
+    .dnd-terminal-block {
+      background: #0f1115;
+      border: 1px solid #2a2e39;
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      color: #d1d7e0;
+      line-height: 1.85;
+      margin: 10px 0 14px 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+    .dnd-slot-target {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 140px;
+      height: 32px;
+      padding: 0 12px;
+      margin: 0 4px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 2px dashed #0a84ff;
+      border-radius: 6px;
+      color: #5ac8fa;
+      font-size: 0.84rem;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .dnd-slot-target.filled {
+      border-style: solid;
+      background: #0a84ff;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .dnd-slot-target.drag-over {
+      background: rgba(10, 132, 255, 0.35);
+      border-color: #fff;
+      transform: scale(1.02);
+    }
+    .dnd-slot-target.slot-correct {
+      border-color: #30d158 !important;
+      background: #30d158 !important;
+      color: #000 !important;
+      font-weight: 700;
+    }
+    .dnd-slot-target.slot-wrong {
+      border-color: #ff453a !important;
+      background: #ff453a !important;
+      color: #fff !important;
+    }
+    .dnd-options-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      min-height: 52px;
+    }
+    .dnd-chip {
+      background: var(--apple-surface, #1c1c1e);
+      border: 1px solid var(--apple-border-strong, #38383a);
+      color: #e5e5ea;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.86rem;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .dnd-chip:hover {
+      border-color: var(--apple-blue);
+      color: #fff;
+    }
+    .dnd-chip:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+    .dnd-instructions {
+      font-size: 0.82rem;
+      color: #8e8e93;
+      margin-top: 6px;
+    }
+
+    select.sub-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--apple-border-strong);
+      color: #79c0ff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      outline: none;
+      margin: 4px 6px;
+    }
+    select.sub-select.correct {
+      border-color: #30d158;
+      background: rgba(48, 209, 88, 0.15);
+    }
+    select.sub-select.wrong {
+      border-color: #ff453a;
+      background: rgba(255, 69, 58, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/unix">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Unix & Linux Systems (NES 202)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Midterm Exam 2021 (2nd Sem) — Practice Test</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/unix">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1OIu2p0JNzW_dqw2yz0hWB6b2zS7W-tDw/view";
+
+    const examSections = [
+      {
+        title: "Midterm Exam 2021 (2nd Semester) [30 Marks]",
+        context: "جميع الأسئلة والحلول مطابقة 100% للصناديق الصفراء المعتمدة في ورقة الامتحان:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "single",
+            text: "Question 1: The directory file has at least 2 hard links.",
+            opts: ["True", "False"],
+            ans: 1, // False
+            dispAnswer: "False",
+            exp: "The correct answer is 'False'.",
+            img: ""
+          },
+          {
+            id: "q2",
+            type: "slot_dnd",
+            text: "Question 2: Consider the following Snapshot of a bash terminal. Please drag (or click) one box from labeled boxes below to its correct place to construct the find command in correct syntax to give the output shown below find command:",
+            codePrefix: `username:$ ls -lR
+total 32
+drwxr-xr-x 2 rana staff  64 Apr 27 22:03 Assig
+-rw-r--r-- 4 rana staff   6 Apr 26 23:00 slides
+drwxr-xr-x 4 rana staff 128 Apr 26 23:07 spring2021
+-rw-r--r-- 1 rana staff  37 Apr 26 23:57 temp
+
+./Assig:
+
+./spring2021:
+total 16
+-rw-r--r-- 1 rana staff   6 Apr 26 23:07 slides_ch1
+-rw-r--r-- 1 rana staff   6 Apr 26 23:07 slides_ch10
+
+username:$ find `,
+            slots: [
+              { placeholder: "[ location / path ]" },
+              { placeholder: "[ criteria ]" },
+              { placeholder: "[ action ]" }
+            ],
+            codeSuffix: `
+5001255    0 drwxr-xr-x   8 rana     staff         256 Apr 27 22:03 .
+5107460    0 drwxr-xr-x   4 rana     staff         128 Apr 26 23:07 ./spring2021`,
+            pool: [".", "-links +2", "spring2021", "-print", "-type d", "-type f -links +2", "-type d -links +2", "-ls"],
+            correctSequence: [".", "-type d -links +2", "-ls"],
+            dispAnswer: "find [.] [-type d -links +2] [-ls]",
+            exp: "The correct answer is: find [.] [-type d -links +2] [-ls]",
+            img: ""
+          },
+          {
+            id: "q3",
+            type: "single",
+            text: "Question 3: The file (test) in your current directory has the permissions rw-r--r--, what are the permissions of file (test) after execute the command chmod o=rw test?",
+            opts: [
+              "rw-r-----",
+              "rw-r--rwx",
+              "rw-rw-rw-",
+              "rw-r--rw-",
+              "-w--w----"
+            ],
+            ans: 3, // rw-r--rw-
+            dispAnswer: "rw-r--rw-",
+            exp: "The correct answer is: rw-r--rw-",
+            img: ""
+          },
+          {
+            id: "q4",
+            type: "slot_dnd",
+            text: "Question 4: Consider the following Snapshot of a bash terminal, there are some missing parts. Please drag one box from labeled boxes below to its correct place such that the box is labeled with an appropriate command or argument:",
+            codePrefix: `username:$ pwd
+/home/Desktop/Exam
+username:$ `,
+            slots: [
+              { placeholder: "[ Command 1 ]" }
+            ],
+            codeMid: `
+username:$ pwd
+/home/Desktop
+username:$ location=\`pwd\`
+username:$ `,
+            slots2: [
+              { placeholder: "[ Command 2 ]" }
+            ],
+            codeSuffix: `
+/home/Desktop/Exam`,
+            pool: ["cd Desktop", "ls -d $location", "ls $location/Exam", "cd ../..", "cd ../Desktop", "ls -d location/Exam", "cd ../../Desktop", "ls -d $location/Exam"],
+            correctSequence: ["cd ../../Desktop", "ls -d $location/Exam"],
+            dispAnswer: "username:$ [cd ../../Desktop]\nusername:$[ls -d$location/Exam]",
+            exp: "The correct answer is: cd ../../Desktop ثم ls -d $location/Exam",
+            img: ""
+          },
+          {
+            id: "q5",
+            type: "single",
+            text: "Question 5: All the following statements are true about the shell EXCEPT:",
+            opts: [
+              "Commands Interpreter",
+              "Invoked only when the user logs in.",
+              "Responsible for executing user commands",
+              "All statements are true",
+              "Only one copy shared by all users."
+            ],
+            ans: 4, // Only one copy shared by all users.
+            dispAnswer: "Only one copy shared by all users.",
+            exp: "The correct answer is: Only one copy shared by all users.",
+            img: ""
+          },
+          {
+            id: "q6",
+            type: "single",
+            text: "Question 6: If textfile is an ordinary file in current directory, Which of the following are invalid command line in UNIX/LINUX?",
+            opts: [
+              "rmdir textfile",
+              "mv textfile dir",
+              "All choices are valid command lines",
+              "rm -rf textfile",
+              "ls textfile *.c"
+            ],
+            ans: 0, // rmdir textfile
+            dispAnswer: "rmdir textfile",
+            exp: "The correct answer is: rmdir textfile",
+            img: ""
+          },
+          {
+            id: "q7",
+            type: "slot_dnd",
+            text: "Question 7: Consider the following Snapshot of a bash terminal, there are some missing parts. Please drag one box from labeled boxes below to its correct place such that the box is labeled with an appropriate command or argument:",
+            codePrefix: `username:$ ls -R
+slide.new  slides  slides.old  slides_ch1  slides_ch10  spring2021
+
+./spring2021:
+username:$ `,
+            slots: [
+              { placeholder: "[ Command 1 ]" }
+            ],
+            codeMid: `
+username:$ ls -R
+slide.new  slides  slides.old  spring2021
+
+./spring2021:
+slides_ch1  slides_ch10
+username:$ `,
+            slots2: [
+              { placeholder: "[ Command 2 ]" }
+            ],
+            codeSuffix: `
+username:$ ls
+slide.new  slides  spring2021`,
+            pool: ["rm [.]*", "rm *[.]", "cp slides[10] spring2021", "cp spring2021 slides*[10]", "cp slides*[10] spring2021", "mv slides[1][0] spring2021", "mv slides*[10] spring2021", "rm slides?*"],
+            correctSequence: ["mv slides*[10] spring2021", "rm slides?*"],
+            dispAnswer: "username:$[mv slides*[10] spring2021]\nusername:$ [rm slides?*]",
+            exp: "The correct answer is: mv slides*[10] spring2021 ثم rm slides?*",
+            img: ""
+          },
+          {
+            id: "q8",
+            type: "single",
+            text: `Question 8: Consider the following snapshot of bash terminal. What is the output of executing the last command?
+<pre class="code-block">username:~$ cat files_list
+Welcome to MidExam
+username:~$ ln -s files_list spring2021/slink
+username:~$ cat spring2021/slink</pre>`,
+            opts: [
+              "no output",
+              "spring2021/slink",
+              "files_list",
+              "cat: spring2021/slink: No such file or directory",
+              "Welcome to MidExam"
+            ],
+            ans: 3, // cat: spring2021/slink: No such file or directory
+            dispAnswer: "cat: spring2021/slink: No such file or directory",
+            exp: "The correct answer is: cat: spring2021/slink: No such file or directory",
+            img: ""
+          },
+          {
+            id: "q9",
+            type: "slot_dnd",
+            text: "Question 9: Consider the following Snapshot of a bash terminal, there are some missing parts. Please drag one box from below labeled boxes to its correct place such that the box is labeled with an appropriate command or argument:",
+            codePrefix: `username:$ cat student_list
+Ahmad  43756
+Elham  32876
+Amro   29813
+Sawsan 51638
+username:$ `,
+            slots: [
+              { placeholder: "[ Command 1 ]" }
+            ],
+            codeMid: `
+      4       8      52
+username:$ `,
+            slots2: [
+              { placeholder: "[ Command 2 ]" }
+            ],
+            codeSuffix: `
+username:$ cat student_list
+Ahmad  43756
+Elham  32876
+Amro   29813
+Sawsan 51638
+      4       8      52 student_list`,
+            pool: ["cat student_list | wc", "cat student_list | wc >> student_list", "wc 'cat student_list' >> student_list", "wc 'cat student_list'", "wc >> student_list", "wc 0> student_list", "wc student_list >> student_list"],
+            correctSequence: ["cat student_list | wc", "wc student_list >> student_list"],
+            dispAnswer: "username:$[cat student_list \vert{} wc]\nusername:$ [wc student_list >> student_list]",
+            exp: "The correct answer is: cat student_list | wc ثم wc student_list >> student_list",
+            img: ""
+          },
+          {
+            id: "q10",
+            type: "single",
+            text: "Question 10: If the command ln test dir/h_test is executed correctly. The modification time for the file test will be changed.",
+            opts: ["True", "False"],
+            ans: 1, // False
+            dispAnswer: "False",
+            exp: "The correct answer is 'False'.",
+            img: ""
+          },
+          {
+            id: "q11",
+            type: "dropdowns",
+            text: "Question 11: Choose one correct answer for each of the following questions:",
+            subParts: [
+              {
+                label: "The unix command used with or without arguments and can read from keyboard and write on screen is:",
+                options: ["echo", "mv", "cd", "wc", "ls", "cat"],
+                correct: "wc"
+              },
+              {
+                label: "The unix command used with at least 2 arguments and cause an action and has no output is:",
+                options: ["echo", "mv", "cd", "wc", "ls", "cat"],
+                correct: "mv"
+              },
+              {
+                label: "The unix command used with or without arguments and cause an action and has no output is:",
+                options: ["echo", "mv", "cd", "wc", "ls", "cat"],
+                correct: "cd"
+              }
+            ],
+            dispAnswer: "1) wc, 2) mv, 3) cd",
+            exp: "The correct answer is:\nThe unix command used with or without arguments and can read from keyboard and write on screen is -> wc,\nThe unix command used with at least 2 arguments and cause an action and has no output is -> mv,\nThe unix command used with or without arguments and cause an action and has no output is -> cd",
+            img: ""
+          },
+          {
+            id: "q12",
+            type: "slot_dnd",
+            text: "Question 12: Consider the following Snapshot of a bash terminal, there are some missing parts. Please drag one box from below labeled boxes to its correct place such that the box is labeled with an appropriate command or argument:",
+            codePrefix: `username:$ ls -F
+slides  spring2021/
+username:$ `,
+            slots: [
+              { placeholder: "[ Command 1 ]" }
+            ],
+            codeMid: `
+username:$ cat temp
+ls: files: No such file or directory
+username:$ `,
+            slots2: [
+              { placeholder: "[ Command 2 ]" }
+            ],
+            codeSuffix: `
+username:$ cat files_list
+files_list  slides  spring2021  temp  out
+
+./spring2021:
+slides_ch1  slides_ch10`,
+            pool: ["ls -1 > files_list", "ls slides files 2>temp", "ls -R < files_list", "ls -1 < files_list", "ls slides files 1 < out 2< temp", "ls slides files > temp", "ls slides files 1> out 2>temp", "ls -R > files_list"],
+            correctSequence: ["ls slides files 1> out 2>temp", "ls -R > files_list"],
+            dispAnswer: "username:$[ls slides files 1> out 2>temp]\nusername:$ [ls -R > files_list]",
+            exp: "The correct answer is: ls slides files 1> out 2>temp ثم ls -R > files_list",
+            img: ""
+          },
+          {
+            id: "q13",
+            type: "dropdowns",
+            text: `Question 13: Depending on the following snapshot of bash terminal, answer the followed questions:
+<pre class="code-block">username:~$ ls
+_trac Apart.h Apple.c apart.h cell.gcc part1_c moon_1cc</pre>`,
+            subParts: [
+              {
+                label: "apart.h is the output of executing command:",
+                options: ["ls ?part.[h]", "ls [!A-Z]part.[h]", "ls [!a-z]part.[h]", "ls *part*"],
+                correct: "ls [!A-Z]part.[h]"
+              },
+              {
+                label: "part1_c is the output of executing command:",
+                options: ["ls *_[lc]", "ls part*", "ls ?part*", "ls *1*"],
+                correct: "ls *_[lc]"
+              }
+            ],
+            dispAnswer: "apart.h -> ls [A-Z]part.[h] | part1_c -> ls *_[lc]",
+            exp: "The correct answer is:\napart.h is the output of executing command -> ls [A-Z]part.[h],\npart1_c is the output of executing command -> ls *",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let slotDndState = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "slot_dnd") {
+            const totalSlots = (sub.slots ? sub.slots.length : 0) + (sub.slots2 ? sub.slots2.length : 0);
+            slotDndState[sub.id] = {
+              slotsValues: Array(totalSlots).fill(null),
+              pool: [...sub.pool],
+              correctSequence: sub.correctSequence,
+              locked: false
+            };
+
+            let terminalTerminalHtml = sub.codePrefix || '';
+            let slotIndex = 0;
+
+            if (sub.slots) {
+              sub.slots.forEach(() => {
+                terminalTerminalHtml += `<span class="dnd-slot-target" id="slot-${sub.id}-${slotIndex}" 
+                  ondragover="allowDropSlot(event)" ondrop="dropToSlot(event, '${sub.id}', ${slotIndex})" 
+                  onclick="clearSlotClick('${sub.id}', ${slotIndex})">${sub.slots[slotIndex].placeholder}</span>`;
+                slotIndex++;
+              });
+            }
+
+            if (sub.codeMid) {
+              terminalTerminalHtml += sub.codeMid;
+            }
+
+            if (sub.slots2) {
+              sub.slots2.forEach((s2) => {
+                terminalTerminalHtml += `<span class="dnd-slot-target" id="slot-${sub.id}-${slotIndex}" 
+                  ondragover="allowDropSlot(event)" ondrop="dropToSlot(event, '${sub.id}', ${slotIndex})" 
+                  onclick="clearSlotClick('${sub.id}', ${slotIndex})">${s2.placeholder}</span>`;
+                slotIndex++;
+              });
+            }
+
+            if (sub.codeSuffix) {
+              terminalTerminalHtml += sub.codeSuffix;
+            }
+
+            interactionHtml = `
+              <div class="dnd-terminal-block ltr-content" id="term-block-${sub.id}">${terminalTerminalHtml}</div>
+              <div class="dnd-instructions">Available commands/arguments (Click to insert or Drag into slots):</div>
+              <div class="dnd-options-pool ltr-content" id="pool-${sub.id}">
+                ${sub.pool.map((pItem, pIdx) => `
+                  <div class="dnd-chip" id="chip-${sub.id}-${pIdx}" draggable="true" 
+                       ondragstart="dragChipStart(event, '${sub.id}', '${pItem}')" 
+                       onclick="chipClickInsert('${sub.id}', '${pItem}')">${pItem}</div>
+                `).join('')}
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkSlotDndAnswer('${sub.id}')">تحقق من الترتيب</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "dropdowns") {
+            const dropsHtml = sub.subParts.map((sp, sidx) => `
+              <div style="margin-bottom: 12px;">
+                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 6px;">${sp.label}</div>
+                <select class="sub-select" id="drop-${sub.id}-${sidx}">
+                  <option value="">-- اختر الإجابة --</option>
+                  ${sp.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="ltr-content" style="margin: 12px 0;">${dropsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkDropdownsAnswer('${sub.id}')">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة المعتمدة في الامتحان:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    let activeDragData = null;
+
+    function dragChipStart(e, subId, itemValue) {
+      activeDragData = { subId, itemValue };
+      e.dataTransfer.setData('text/plain', JSON.stringify(activeDragData));
+    }
+
+    function allowDropSlot(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function dropToSlot(e, subId, slotIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      if (!activeDragData || activeDragData.subId !== subId) return;
+
+      placeItemInSlot(subId, slotIdx, activeDragData.itemValue);
+      activeDragData = null;
+    }
+
+    function chipClickInsert(subId, itemValue) {
+      const state = slotDndState[subId];
+      if (!state || state.locked) return;
+
+      const emptySlotIdx = state.slotsValues.findIndex(v => v === null);
+      if (emptySlotIdx !== -1) {
+        placeItemInSlot(subId, emptySlotIdx, itemValue);
+      }
+    }
+
+    function clearSlotClick(subId, slotIdx) {
+      const state = slotDndState[subId];
+      if (!state || state.locked) return;
+
+      const currentVal = state.slotsValues[slotIdx];
+      if (currentVal !== null) {
+        state.slotsValues[slotIdx] = null;
+        state.pool.push(currentVal);
+        renderSlotDndUi(subId);
+      }
+    }
+
+    function placeItemInSlot(subId, slotIdx, itemValue) {
+      const state = slotDndState[subId];
+      if (!state || state.locked) return;
+
+      if (state.slotsValues[slotIdx] !== null) {
+        state.pool.push(state.slotsValues[slotIdx]);
+      }
+
+      state.slotsValues[slotIdx] = itemValue;
+      state.pool = state.pool.filter(x => x !== itemValue);
+      renderSlotDndUi(subId);
+    }
+
+    function renderSlotDndUi(subId) {
+      const sub = findSubQuestion(subId);
+      const state = slotDndState[subId];
+      if (!sub || !state) return;
+
+      const allSlots = [...(sub.slots || []), ...(sub.slots2 || [])];
+      state.slotsValues.forEach((val, idx) => {
+        const slotEl = document.getElementById(`slot-${subId}-${idx}`);
+        if (slotEl) {
+          if (val !== null) {
+            slotEl.innerText = val;
+            slotEl.classList.add('filled');
+          } else {
+            slotEl.innerText = allSlots[idx].placeholder;
+            slotEl.classList.remove('filled');
+          }
+        }
+      });
+
+      const poolEl = document.getElementById(`pool-${subId}`);
+      if (poolEl) {
+        poolEl.innerHTML = state.pool.map((pItem, pIdx) => `
+          <div class="dnd-chip" id="chip-${subId}-${pIdx}" draggable="true" 
+               ondragstart="dragChipStart(event, '${subId}', '${pItem}')" 
+               onclick="chipClickInsert('${subId}', '${pItem}')">${pItem}</div>
+        `).join('');
+      }
+    }
+
+    function checkSlotDndAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const state = slotDndState[subId];
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !state) return;
+
+      if (state.slotsValues.some(v => v === null)) {
+        alert("يرجى تعبئة جميع الفراغات المطلوبة أولاً!");
+        return;
+      }
+
+      let isAllCorrect = true;
+      state.slotsValues.forEach((val, idx) => {
+        const slotEl = document.getElementById(`slot-${subId}-${idx}`);
+        if (val === state.correctSequence[idx]) {
+          if (slotEl) slotEl.classList.add('slot-correct');
+        } else {
+          if (slotEl) slotEl.classList.add('slot-wrong');
+          isAllCorrect = false;
+        }
+      });
+
+      if (isAllCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      state.locked = true;
+      const termBlock = document.getElementById(`term-block-${subId}`);
+      const poolEl = document.getElementById(`pool-${subId}`);
+      if (termBlock) termBlock.style.pointerEvents = 'none';
+      if (poolEl) poolEl.style.pointerEvents = 'none';
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkDropdownsAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub) return;
+
+      let allCorrect = true;
+      sub.subParts.forEach((sp, sidx) => {
+        const dropEl = document.getElementById(`drop-${subId}-${sidx}`);
+        if (dropEl) {
+          dropEl.disabled = true;
+          if (dropEl.value.trim() === sp.correct.trim()) {
+            dropEl.className = 'sub-select correct';
+          } else {
+            dropEl.className = 'sub-select wrong';
+            allCorrect = false;
+          }
+        }
+      });
+
+      if (allCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (sub.type === "slot_dnd") {
+        const totalSlots = (sub.slots ? sub.slots.length : 0) + (sub.slots2 ? sub.slots2.length : 0);
+        slotDndState[subId] = {
+          slotsValues: Array(totalSlots).fill(null),
+          pool: [...sub.pool],
+          correctSequence: sub.correctSequence,
+          locked: false
+        };
+
+        const allSlots = [...(sub.slots || []), ...(sub.slots2 || [])];
+        for (let idx = 0; idx < totalSlots; idx++) {
+          const slotEl = document.getElementById(`slot-${subId}-${idx}`);
+          if (slotEl) {
+            slotEl.innerText = allSlots[idx].placeholder;
+            slotEl.className = 'dnd-slot-target';
+          }
+        }
+
+        const termBlock = document.getElementById(`term-block-${subId}`);
+        const poolEl = document.getElementById(`pool-${subId}`);
+        if (termBlock) termBlock.style.pointerEvents = 'auto';
+        if (poolEl) poolEl.style.pointerEvents = 'auto';
+
+        renderSlotDndUi(subId);
+      }
+
+      if (sub.type === "dropdowns") {
+        sub.subParts.forEach((_, sidx) => {
+          const dropEl = document.getElementById(`drop-${subId}-${sidx}`);
+          if (dropEl) {
+            dropEl.disabled = false;
+            dropEl.value = "";
+            dropEl.className = 'sub-select';
+          }
+        });
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

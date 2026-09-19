@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Network Programming - Midterm Fall 2022</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #79c0ff;
+      margin: 10px 0 14px 0;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/network-programming">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Programming NES 416</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Midterm Exam Fall 2022/2023 — Eng. Rana AlQurem</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/network-programming">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1DH8X6vFMXgO1q8GSFeNuB0UezARg2DBi/view";
+
+    const examSections = [
+      {
+        title: "Problem I: TCP Concurrent Server [12 points]",
+        context: "The following represents the main body of the TCP concurrent server:\n1  // connect and bind are called and returned successfully\n2  if (listen(listenfd, LISTENQ) < 0) perror(\"main: listen error\");\n3  signal(SIGCHLD, Fun_child);\n4  for(;;) {\n5    // Code snippet goes here\n6  \n7  } // end of for",
+        subQuestions: [
+          {
+            id: "code_p1_a",
+            type: "coding",
+            text: "A. [8 points] Insert a code snippet starting at line 5 that does the following:\n• Accept connections from clients.\n• Fork one child for each connection (client).\n• The child prints welcome message to standard output containing IP address and port # of the client and terminates (e.g. Welcome to address: 192.0.0.10 port 5001).\nNote: you can use any variable without providing a declaration statement.",
+            dispAnswer: `len = sizeof(cliaddr);
+connfd = accept(listenfd, (struct sockaddr *) &cliaddr, &len);
+if (connfd < 0) perror("main: accept error");
+
+if ((pid = fork()) == 0) {
+    close(listenfd);
+    printf("welcome to address: %s port %u\\n",
+           inet_ntop(AF_INET, &cliaddr.sin_addr, buff, sizeof(buff)),
+           ntohs(cliaddr.sin_port));
+    close(connfd); // or exit(0);
+}
+close(connfd);`,
+            exp: "الحل النموذجي:\n1. حساب الحجم واستدعاء accept لتوليد connfd.\n2. إنشاء Child process عبر fork().\n3. إغلاق listenfd في الابن وطباعة العنوان والمنفذ باستخدام inet_ntop و ntohs، ثم إنهاء/إغلاق connfd.\n4. إغلاق connfd في الأب لتفادي تسريب المقابس.",
+            img: ""
+          },
+          {
+            id: "code_p1_b",
+            type: "coding",
+            text: "B. [4 points] Write the implementation/definition of the function Fun_child that waits for terminating processes without blocking and prints the serial number and process id of the terminated process. Assume the first terminated process has the serial number 1.",
+            dispAnswer: `int serial = 0;
+
+void Fun_child(int signo) {
+    pid_t pid;
+    int stat;
+    while ((pid = waitpid(-1, &stat, WNOHANG)) > 0) {
+        serial += 1;
+        printf("child %d %d terminated\\n", serial, pid);
+    }
+    return;
+}`,
+            exp: "الحل النموذجي:\n• تعريف عداد تسلسلي عام (int serial = 0).\n• استخدام حلقة while مع waitpid(-1, &stat, WNOHANG) لحصد جميع الأبناء المنهيين دون حظر (non-blocking) لتفادي بقاء الزومبي (zombie processes).\n• زيادة العداد وطباعة السيريال مع الـ PID.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Problem II: Multiple Choice Questions [15 points]",
+        context: "Select the most appropriate choice for each of the following (as marked in the exam):",
+        subQuestions: [
+          {
+            id: "mcq_1",
+            type: "single",
+            text: "1. The function accept returns successfully when:",
+            opts: [
+              "A. ACK segment is sent to client",
+              "B. There is an entry in incomplete connection queue",
+              "C. Three-way handshake is done",
+              "D. All of given choices",
+              "E. None of given choices"
+            ],
+            ans: 2, // C
+            dispAnswer: "C. Three-way handshake is done",
+            exp: "تم وضع دائرة بالحبر الأزرق وعليها إشارة صح بالحبر الأحمر على الخيار C (Three-way handshake is done).",
+            img: ""
+          },
+          {
+            id: "mcq_2",
+            type: "single",
+            text: "2. If the server's response to the client's SYN is a reset (RST), the error returned to client is:",
+            opts: [
+              "A. EHOSTUNREACH or ENETUNREACH",
+              "B. ETIMEDOUT",
+              "C. EREUSEADDR",
+              "D. EADDRINUSE",
+              "E. ECONNREFUSED"
+            ],
+            ans: 4, // E
+            dispAnswer: "E. ECONNREFUSED",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق ومصحح بالأحمر: عند استقبال RST رداً على SYN فإن الخطأ هو ECONNREFUSED.",
+            img: ""
+          },
+          {
+            id: "mcq_3",
+            type: "single",
+            text: "3. Which of the following socket API system calls can fail with the error EPIPE in errno ?",
+            opts: [
+              "A. read",
+              "B. write",
+              "C. connect",
+              "D. bind",
+              "E. all choices are wrong"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. write",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر: نظام التشغيل يُرجع EPIPE عند استدعاء write على مقبس مغلق أرسل RST.",
+            img: ""
+          },
+          {
+            id: "mcq_4",
+            type: "single",
+            text: "4. Kernel sends SIGPIPE signal to process when:",
+            opts: [
+              "A. A process reads from a socket that has received FIN",
+              "B. A process reads from a socket that has received RST",
+              "C. A process writes to a socket that has received FIN",
+              "D. A process writes to a socket that has received RST",
+              "E. All given choices are wrong"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. A process writes to a socket that has received RST",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر على الخيار D.",
+            img: ""
+          },
+          {
+            id: "mcq_5",
+            type: "single",
+            text: `5. Consider the following piece of code from TCP echo client:
+<pre class="code-block">while (fgets(sendline, MAXLINE, stdin) != NULL) {
+    printf("Input text is: %s", sendline);
+    n = write(sockfd, sendline, strlen(sendline));
+    if (n &lt; 0) perror("str_cli: write error");
+    n = read(sockfd, rcvline, MAXLINE);
+    if (n &lt;= 0) perror("str_cli: read error");
+    rcvline[n] = 0;
+    printf("Received text is: ");
+    fputs(rcvline, stdout);
+}</pre>
+After normal start up of both TCP echo client & server, the server disconnected from network while client is blocking in fgets. If the line contains "Hello World!" is read from stdin. What is the output of the code above?`,
+            opts: [
+              "A. Input text is: Hello World! str_cli: write error",
+              "B. Input text is: Hello World! str_cli: read error",
+              "C. Input text is: Hello World! Received text is: Hello World!",
+              "D. Input text is: Hello World!",
+              "E. No output"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. Input text is: Hello World! str_cli: read error",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر على الخيار B. الإرسال الأول يتم تخزينه في الـ Buffer وينجح، ثم يفشل الـ read بسبب انقطاع الخادم.",
+            img: ""
+          },
+          {
+            id: "mcq_6",
+            type: "single",
+            text: "6. Which of the following is NOT correct about signals?",
+            opts: [
+              "A. A signal is a notification to a process that an important event has occurred.",
+              "B. occur synchronously",
+              "C. sometimes called software interrupts",
+              "D. can be sent by one process to another or to itself",
+              "E. can be sent by the kernel to process"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. occur synchronously",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر على الخيار B (الإشارات غير متزامنة Asynchronous).",
+            img: ""
+          },
+          {
+            id: "mcq_7",
+            type: "single",
+            text: "7. If the Incomplete connection queue is full and a new SYN is received, TCP server will:",
+            opts: [
+              "A. Send RST",
+              "B. Create a new entry on the complete connection queue",
+              "C. Send ACK",
+              "D. Ignore received SYN",
+              "E. C and D"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. Ignore received SYN",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر على الخيار D (يتجاهل الـ SYN للسماح للطرف الآخر بإعادة المحاولة لاحقاً).",
+            img: ""
+          },
+          {
+            id: "mcq_8",
+            type: "single",
+            text: "8. The end that remains in TIME_WAIT state is:",
+            opts: [
+              "A. The end that performs the passive close",
+              "B. The end that performs the passive open",
+              "C. The end that initiate the connection",
+              "D. The end that initiate the termination",
+              "E. The end that transmit the final FIN segments"
+            ],
+            ans: 3, // D
+            dispAnswer: "D. The end that initiate the termination",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر على الخيار D (الطرف الذي يبدأ إغلاق الاتصال Active Closer يدخل في حالة TIME_WAIT).",
+            img: ""
+          },
+          {
+            id: "mcq_9",
+            type: "single",
+            text: "9. To create TCP socket over IPv4, which of the following is the correct calling of socket function?",
+            opts: [
+              "A. socket(AF_INET6, SOCK_STREAM, 0);",
+              "B. socket(AF_INET, SOCK_STREAM, 0);",
+              "C. socket(AF_INET6, SOCK_DGRAM, 0);",
+              "D. socket(AF_INET, SOCK_DGRAM, 0);",
+              "E. socket(AF_INET, SOCK_RAW, 0);"
+            ],
+            ans: 1, // B
+            dispAnswer: "B. socket(AF_INET, SOCK_STREAM, 0);",
+            exp: "معلّم في ورقة الامتحان بالحبر الأزرق مع إشارة صح بالأحمر على الخيار B (IPv4 = AF_INET, TCP = SOCK_STREAM).",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "coding") {
+            interactionHtml = `
+              <div class="answer-input-row">
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل المكتوب بالأحمر
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الحل النموذجي (من ورقة الامتحان):</strong></div>
+                <pre class="code-block" style="color: #5af887; margin-top: 8px;">${sub.dispAnswer}</pre>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            `;
+          } else if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-indicator"></div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      if (sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          if (sub.type === "single") {
+            total++;
+            if (userScores[sub.id]) score++;
+          }
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

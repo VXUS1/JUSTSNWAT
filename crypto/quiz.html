@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Cryptography & Network Security - Quizzes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/cryptography">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Cryptography & Network Security</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Quizzes 1, 2 & 3 Practice Bank</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/cryptography">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/1BZDg0PkhTZdXgdB3_RY9HFbsrirvoYoY";
+
+    const examSections = [
+      {
+        title: "Quiz 1: Symmetric Encryption (AES, DES, 3DES)",
+        context: "Symmetric key cryptography principles and block ciphers:",
+        subQuestions: [
+          {
+            id: "q1_1",
+            type: "single",
+            text: "Question 1: Which of the following is correct regarding AES round keys?",
+            opts: [
+              "a. None of the other answers is correct",
+              "b. Each round key depends on the value of the previous round key",
+              "c. The round keys are identical",
+              "d. The size of the round keys depends on the number of rounds",
+              "e. The size of the round keys is equal to 128 bits"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. The size of the round keys is equal to 128 bits",
+            exp: "في خوارزمية AES، تعمل كل جولة على مصفوفة الحالة المكونة من 128 بت؛ لذا فإن حجم مفتاح كل جولة (Round Key) هو دائماً 128 بت بصرف النظر عن طول المفتاح الكلي.",
+            img: ""
+          },
+          {
+            id: "q1_2",
+            type: "single",
+            text: "Question 2: The size of the plaintext block for the AES cipher is equal to",
+            opts: [
+              "a. 64",
+              "b. 192",
+              "c. 256",
+              "d. 128"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. 128",
+            exp: "حجم الكتلة (Block size) القياسي في خوارزمية AES ثابت دائماً ويساوي 128 بت (16 بايت).",
+            img: ""
+          },
+          {
+            id: "q1_3",
+            type: "single",
+            text: "Question 3: The number of rounds in the DES cipher is equal to",
+            opts: [
+              "a. 12",
+              "b. 10",
+              "c. 16",
+              "d. It depends on the size of the used key",
+              "e. 14"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. 16",
+            exp: "تتكون خوارزمية تشفير DES القياسية (Feistel network) من 16 جولة ثابتة.",
+            img: ""
+          },
+          {
+            id: "q1_4",
+            type: "single",
+            text: "Question 4: In the 3DES cipher, the size of the key is equal to",
+            opts: [
+              "a. 192 bits",
+              "b. 128 bits",
+              "c. 64 bits",
+              "d. 112 bits",
+              "e. 56 bits",
+              "f. 168 bits"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. 112 bits",
+            exp: "الإجابة المعتمدة في الامتحان هي 112 بت (حيث يُستخدم مفتاحان في نمط 2-key 3DES بطول فعال 112 بت).",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Quiz 2: Asymmetric Cryptography & Key Exchange",
+        context: "Public-key cryptography, certificates, and Diffie-Hellman protocol:",
+        subQuestions: [
+          {
+            id: "q2_1",
+            type: "single",
+            text: "Question 1: One of the following is a public-key cryptographic algorithm",
+            opts: [
+              "a. RSA",
+              "b. AES",
+              "c. RC4",
+              "d. A5/1",
+              "e. DES"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. RSA",
+            exp: "خوارزمية RSA هي خوارزمية تشفير بالمفتاح العام (Asymmetric/Public-key)، بينما باقي الخيارات خوارزميات متماثلة (Symmetric).",
+            img: ""
+          },
+          {
+            id: "q2_2",
+            type: "single",
+            text: "Question 2: In asymmetric-key cryptography, the container that holds the public key is called",
+            opts: [
+              "a. Certificate",
+              "b. Public box",
+              "c. Shared box",
+              "d. Digest",
+              "e. None of the other answers is correct"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. Certificate",
+            exp: "الشهادة الرقمية (Digital Certificate / X.509) هي الحاوية الموثقة والموقعة التي تحمل المفتاح العام وهوية صاحبه.",
+            img: ""
+          },
+          {
+            id: "q2_3",
+            type: "single",
+            text: "Question 3: The purpose behind Diffie-Hellman technique is",
+            opts: [
+              "a. To allow two parties to generate their own individual private information",
+              "b. To allow two parties to share a secret key",
+              "c. To allow two parties to decide on which cipher to use",
+              "d. To allow two parties to exchange public information",
+              "e. None of the other answers is correct"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. To allow two parties to share a secret key",
+            exp: "بروتوكول Diffie-Hellman صُمم لتبادل وإنشاء مفتاح سري مشترك (Shared Secret Key) عبر قناة غير آمنة.",
+            img: ""
+          },
+          {
+            id: "q2_4",
+            type: "single",
+            text: "Question 4: In asymmetric-key cryptography, who generates the keys?",
+            opts: [
+              "a. None of the other choices are correct",
+              "b. A trusted third party generates the keys.",
+              "c. The same keys are used by multiple users",
+              "d. Each user generates their keys.",
+              "e. The keys are generated as a joint function between the users"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Each user generates their keys.",
+            exp: "في التشفير غير المتماثل، يقوم كل مستخدم بتوليد زوج المفاتيح الخاص به (المفتاح العام والمفتاح الخاص) بشكل مستقل.",
+            img: ""
+          },
+          {
+            id: "q2_5",
+            type: "single",
+            text: "Question 5: In asymmetric-key cryptography, to be encrypted, the plaintext is first converted to",
+            opts: [
+              "a. Integer values",
+              "b. None of the other choices is correct",
+              "c. Special characters",
+              "d. It can be of any format",
+              "e. English letters"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. Integer values",
+            exp: "تعتمد خوارزميات المفتاح العام (مثل RSA) على عمليات رياضية وحساب باقي القسمة (Modular arithmetic)؛ لذا يُحول النص إلى قيم عددية صحيحة (Integer values).",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Quiz 3: Message Integrity, Hash Functions, MAC & Digital Signatures",
+        context: "Data integrity verification, hashing, MACs, and non-repudiation:",
+        subQuestions: [
+          {
+            id: "q3_1",
+            type: "single",
+            text: "Question 1: In asymmetric-key cryptography, to provide integrity we use the information that belongs to",
+            opts: [
+              "a. Third party",
+              "b. The sender",
+              "c. None of the other answers is correct",
+              "d. The receiver",
+              "e. Both the sender and the receiver"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. The sender",
+            exp: "لتحقيق سلامة البيانات والمصادقة في المفتاح العام، يتم التوقيع باستخدام المفتاح الخاص بالمرسل (The sender's private key).",
+            img: ""
+          },
+          {
+            id: "q3_2",
+            type: "single",
+            text: "Question 2: A cryptographic cipher can be used as the building block of a hashing algorithm",
+            opts: [
+              "True",
+              "False"
+            ],
+            ans: 0, // True
+            dispAnswer: "True",
+            exp: "صحيح؛ يمكن استخدام خوارزميات التشفير الكتلي كوحدات بناء لدوال الهاش (مثل تشييدات Davies-Meyer و Matyas-Meyer-Oseas).",
+            img: ""
+          },
+          {
+            id: "q3_3",
+            type: "single",
+            text: "Question 3: The relationship between a message and its digital signature is",
+            opts: [
+              "a. many-to-many",
+              "b. many-to-one",
+              "c. one-to-one",
+              "d. one-to-many"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. one-to-one",
+            exp: "لكل رسالة معينة توقيع رقمي فريد يطابقها تماماً (One-to-one relationship).",
+            img: ""
+          },
+          {
+            id: "q3_4",
+            type: "single",
+            text: "Question 4: Using MAC can provide",
+            opts: [
+              "a. Non-repudiation",
+              "b. None of the other answers is correct",
+              "c. Message confidentiality",
+              "d. Message authenticity"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Message authenticity",
+            exp: "رمز مصادقة الرسائل (MAC) يوفر سلامة الرسالة والمصادقة على مصدرها (Message authenticity)، لكنه لا يوفر عدم الإنكار (Non-repudiation) نظراً لاشتراك الطرفين بنفس المفتاح السري.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-indicator"></div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

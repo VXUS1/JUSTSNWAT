@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Network Programming - Final Exam Dr. Raed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #79c0ff;
+      margin: 10px 0 14px 0;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/network-programming">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Programming NES 416</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam — Dr. Raed (Complete Deduplicated Bank)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/network-programming">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1gMe_HXNMiKQ8qYV7cHbdOYTFAMU7TJ9g/view";
+
+    const examSections = [
+      {
+        title: "Section 1: Socket API Lifecycle, Setup & Architecture",
+        context: "Questions on basic socket creation, address binding, and lifecycle primitives:",
+        subQuestions: [
+          {
+            id: "dr_q1",
+            type: "single",
+            text: "The first function called when developing a networked application whether a client or a server is:",
+            opts: [
+              "a. None of the given answers",
+              "b. unp.h",
+              "c. bind",
+              "d. accept",
+              "e. socket"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. socket",
+            exp: "سواء كان البرنامج خادماً أم عميلاً، أول خطوة برمجية في نظام المقابس هي إنشاء واصف المقبس عبر دالة socket()[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q2",
+            type: "single",
+            text: "A passive open is performed by:",
+            opts: [
+              "a. None of the given choices",
+              "b. A server using socket, bind, listen system calls",
+              "c. A client using the socket, connect system calls",
+              "d. A client using the socket, bind, connect system calls",
+              "e. A server using socket, bind, accept system calls"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. A server using socket, bind, listen system calls",
+            exp: "الفتح السلبي (Passive open) خاص بالخادم ويتم باستدعاء listen لتحويل المقبس من Active إلى Passive بانتظار اتصالات العملاء[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q3",
+            type: "single",
+            text: "The system call that generates a SYN packet is:",
+            opts: [
+              "a. socket",
+              "b. listen",
+              "c. connect",
+              "d. accept",
+              "e. bind"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. connect",
+            exp: "دالة connect() عند العميل هي المسؤولة عن إرسال حزمة SYN لبدء المصافحة الثلاثية (Three-way handshake)[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q4",
+            type: "single",
+            text: "Which of the following is performed by a listen() function:",
+            opts: [
+              "a. Converts an unconnected socket into an active socket",
+              "b. Assigns a local protocol address to a socket",
+              "c. Converts an unconnected socket into a passive socket",
+              "d. Returns the next completed connection from the front of the completed connection queue"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. Converts an unconnected socket into a passive socket",
+            exp: "وظيفة listen() الأساسية هي تحويل المقبس غير المتصل إلى مقبس استماع سلبي (Passive socket) وتحديد سعة طوابير الانتظار[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q5",
+            type: "single",
+            text: "The normal steps (order) for any TCP server to prepare what we call the listening descriptor:",
+            opts: [
+              "a. listen, bind, accept",
+              "b. socket, bind, and listen",
+              "c. bind, socket, and listen",
+              "d. socket, accept, and listen"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. socket, bind, and listen",
+            exp: "الترتيب القياسي لتحضير مقبس الاستماع في خادم TCP هو: إنشاء المقبس socket()، ثم ربطه bind()، ثم تفعيل الاستماع listen()[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q6",
+            type: "single",
+            text: "Before calling connect() at the server side:",
+            opts: [
+              "a. You must call bind function",
+              "b. None of the given choices is true",
+              "c. You must call socket function",
+              "d. You must call socket and bind functions"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. None of the given choices is true",
+            exp: "الخادم لا يستدعي دالة connect() أصلاً، بل يستدعي accept() لاستقبال الاتصال؛ connect() تستدعى حصراً من جهة العميل[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q7",
+            type: "single",
+            text: "If you start a TCP server without starting the client, then:",
+            opts: [
+              "a. The server will silently terminate",
+              "b. The server will block waiting for the client request",
+              "c. You can't start a server before starting the client",
+              "d. None of the given choices",
+              "e. The server will terminate immediately with an error message"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. The server will block waiting for the client request",
+            exp: "الخادم بطبيعته يبدأ أولاً ويدخل في وضع الحظر (Blocking) داخل accept بانتظار اتصال العميل[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q8",
+            type: "single",
+            text: "Which of the following statements is/are FALSE with regard to bind():",
+            opts: [
+              "a. At the server side, you can specify the IP address and leave it to the kernel to specify the port",
+              "b. Must be called at the server side",
+              "c. None of the given choices",
+              "d. Bind assigns a local protocol address to a socket",
+              "e. Calling bind() is optional at the client side"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. Must be called at the server side",
+            exp: "العبارة الخاطئة هي b، لأن استدعاء bind ليس إلزامياً إجبارياً على الخادم برمجياً؛ فإذا استدعى الخادم listen() دون bind تقوم النواة باختيار منفذ عشوائي (Ephemeral port)[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q9",
+            type: "single",
+            text: "In a TCP server, the client protocol address is returned by _____ while in normal UDP it is returned by _____:",
+            opts: [
+              "a. listen(), accept()",
+              "b. accept(), recvfrom()",
+              "c. listen(), recvfrom()",
+              "d. bind(), recvfrom()",
+              "e. recvfrom(), accept()"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. accept(), recvfrom()",
+            exp: "في TCP تُرجع دالة accept عنوان العميل في وسيط cliaddr، بينما في UDP تُرجع دالة recvfrom عنوان المرسل في وسيط from[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q10",
+            type: "single",
+            text: "What is the correct setup for a client after which you bind to a specific local address and user-selected port? Assume required variables are correctly defined:",
+            opts: [
+              "a. client.sin_addr.s_addr = htonl(INADDR_ANY); client.sin_port = htons(0);",
+              "b. client.sin_addr.s_addr = inet_addr(ip_address); client.sin_port = htons(0);",
+              "c. None of the given choices",
+              "d. client.sin_addr.s_addr = htonl(INADDR_ANY); client.sin_port = htons(PORT);",
+              "e. client.sin_addr.s_addr = inet_addr(ip_address); client.sin_port = htons(PORT);"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. client.sin_addr.s_addr = inet_addr(ip_address); client.sin_port = htons(PORT);",
+            exp: "لتحديد عنوان محلي معين (specific address) نستخدم inet_addr(ip_address)، ولتحديد منفذ مخصص (user-selected port) نمرر PORT إلى htons()[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q11",
+            type: "single",
+            text: "One of the following is NOT a valid socket type for the socket() function:",
+            opts: [
+              "a. SOCK_DGRAM",
+              "b. SOCK_STREAM",
+              "c. SOCK_RAW",
+              "d. SOCK_P"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. SOCK_P",
+            exp: "الأنواع القياسية هي SOCK_STREAM و SOCK_DGRAM و SOCK_RAW و SOCK_SEQPACKET. لا يوجد نوع يسمى SOCK_P[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q12",
+            type: "single",
+            text: "Which of the following is a valid socket type for designing a client:",
+            opts: [
+              "a. SOCK_RAW",
+              "b. SOCK_STREAM",
+              "c. SOCK_DGRAM and SOCK_STREAM",
+              "d. All of the given choices",
+              "e. SOCK_DGRAM"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. All of the given choices",
+            exp: "يمكن للعميل استخدام مقبس تدفقي SOCK_STREAM (مثل عميل ويب TCP)، أو حزمي SOCK_DGRAM (مثل عميل DNS)، أو مقبس خام SOCK_RAW (مثل برامج ping و traceroute)[cite: 24].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 2: Socket Options, Flags & I/O Multiplexing",
+        context: "Questions on select(), fcntl, buffer flags, and socket options:",
+        subQuestions: [
+          {
+            id: "dr_q13",
+            type: "single",
+            text: "The following options are only supported by TCP, except:",
+            opts: [
+              "a. SO_KEEPALIVE",
+              "b. None of the given choices",
+              "c. SO_BROADCAST",
+              "d. SO_LINGER",
+              "e. SO_DEBUG"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. SO_BROADCAST",
+            exp: "البث العام (Broadcast) غير مدعوم بتاتاً في بروتوكول TCP؛ خيار SO_BROADCAST مخصص حصراً لمقابس UDP الحزمية[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q14",
+            type: "single",
+            text: "When using select() with nonblocking connect(), and the connection completes successfully:",
+            opts: [
+              "a. the descriptor becomes readable",
+              "b. The descriptor becomes readable and writable",
+              "c. The descriptor becomes writable",
+              "d. The descriptor becomes readable or writable"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. The descriptor becomes writable",
+            exp: "حسب معيار POSIX و Stevens: عند نجاح الاتصال غير المحظور يصبح الواصف قابلاً للكتابة فقط (writable). أما إذا فشل الاتصال، يصبح قابلاً للقراءة والكتابة معاً[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q15",
+            type: "single",
+            text: "If connect() is called for a nonblocking TCP socket, then:",
+            opts: [
+              "a. The connection might be established immediately if the client and server are on the same host",
+              "b. None of the given choices",
+              "c. The connection cannot be established immediately in all cases",
+              "d. it will always blocks the calling process for at least the RTT to the server",
+              "e. connect() cannot be called on a nonblocking TCP socket"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. The connection might be established immediately if the client and server are on the same host",
+            exp: "إذا كان العميل والخادم يعملان على نفس الجهاز المضيف (Localhost)، فإن المصافحة قد تكتمل فوراً دون إرجاع خطأ EINPROGRESS[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q16",
+            type: "single",
+            text: "Calling the macro FD_SET(int fd, fd_set *fdset):",
+            opts: [
+              "a. Clears all bits in fdset",
+              "b. Checks whether the bit for fd in fdset is set or not",
+              "c. Turns on the bit for fd in fdset",
+              "d. Turns off the bit for fd in fdset",
+              "e. None of the given choices"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. Turns on the bit for fd in fdset",
+            exp: "الماكرو FD_SET يقوم بتفعيل (تشغيل) البت الممثل للواصف fd داخل المجموعة fdset[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q17",
+            type: "single",
+            text: "How come select() says there is data, but read() returns zero?",
+            opts: [
+              "a. You forget to use the FD_ISSET() macro in your code",
+              "b. The other peer has closed the connection",
+              "c. This can't happen",
+              "d. You are using a non-blocking connect()"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. The other peer has closed the connection",
+            exp: "وصول حزمة FIN (إغلاق الطرف الآخر للاتصال) يعتبر حدث قراءة (Read event/EOF)، واستدعاء read() حينها يُرجع 0[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q18",
+            type: "single",
+            text: "Assume you are calling recvfrom() inside a loop to read some server's response and you want to place a timeout on that operation. Which technique is used so that you need only to set it once:",
+            opts: [
+              "a. Use select with its built-in timeout",
+              "b. All of the given choices",
+              "c. Use the SO_RCVTIMEO and SO_SNDTIMEO socket options",
+              "d. Call alarm() with the required amount of time"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. Use the SO_RCVTIMEO and SO_SNDTIMEO socket options",
+            exp: "ضبط خيار المقبس SO_RCVTIMEO عبر setsockopt يتم مرة واحدة ويبقى فعالاً لجميع استدعاءات القراءة داخل الحلقة، عكس select و alarm اللذين يتطلبان إعادة ضبط في كل دورة[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q19",
+            type: "single",
+            text: "The typical code to enable nonblocking I/O on a socket, using fcntl, would be (ignore error-testing):",
+            opts: [
+              "a. int flags = fcntl(fd, F_GETFL, 0); fcntl(fd, F_SETFL, flags | O_NONBLOCK);",
+              "b. int flags = fcntl(fd, F_GETFL, O_NONBLOCK); fcntl(fd, F_SETFL, flags | O_NONBLOCK);",
+              "c. int flags = fcntl(fd, F_GETFL, 0);",
+              "d. flags = O_NONBLOCK; fcntl(fd, F_SETFL, flags);"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. int flags = fcntl(fd, F_GETFL, 0); fcntl(fd, F_SETFL, flags | O_NONBLOCK);",
+            exp: "النمط المعياري: جلب الخصائص الحالية بـ F_GETFL، ثم إضافة بت O_NONBLOCK، ثم حفظها بـ F_SETFL[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q20",
+            type: "single",
+            text: "The purpose of the Nagle algorithm is:",
+            opts: [
+              "a. Increase the number of small packets on a WAN",
+              "b. Reduce the number of small packets on a LAN",
+              "c. Increase the number of small packets on a LAN",
+              "d. Reduce the number of small packets on a WAN"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Reduce the number of small packets on a WAN",
+            exp: "خوارزمية Nagle مصممة لمنع ازدحام شبكات الـ WAN عبر تقليل إرسال الحزم الصغيرة (Tinygrams) وتجميعها حتى وصول ACK[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q21",
+            type: "single",
+            text: "Assume we call recv() for a TCP socket specifying a buffer length of 1,024 along with the MSG_PEEK flag, and the return value is 200. Now, if we immediately call recv() again without specifying MSG_PEEK flag, then:",
+            opts: [
+              "a. It is possible for less than 200 bytes to be returned",
+              "b. It is possible for more than 200 bytes to be returned",
+              "c. The size of the return data will be exactly 200",
+              "d. It is possible for the call to block()"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. It is possible for more than 200 bytes to be returned",
+            exp: "لأن TCP عبارة عن تدفق مستمر (Byte-stream)، قد تصل حزم بيانات إضافية من الشبكة إلى Buffer المقبس بين الاستدعاءين، فتقرأ الدالة أكثر من 200 بايت[cite: 24].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 3: Buffer Management, Raw Sockets & Netstat",
+        context: "Questions on shutdown/close semantics, raw socket delivery, and socket state diagnostics:",
+        subQuestions: [
+          {
+            id: "dr_q22",
+            type: "single",
+            text: "Which of the following statement(s) is/are TRUE regarding shutdown() and close():",
+            opts: [
+              "a. All of the given choices",
+              "b. If the use of close() function at your side generates a FIN packet, and the other end has more data to send, you can still read that data",
+              "c. A shutdown() function with SHUT_RD argument means that any data currently in the socket send buffer will be sent, followed by TCP's normal connection termination sequence",
+              "d. The close() function will always generate a FIN packet regardless of the descriptor's reference count",
+              "e. A shutdown() function with SHUT_RD argument means that no more data can be received on the socket and any data currently in the socket receive buffer is discarded"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. A shutdown() function with SHUT_RD argument means that no more data can be received on the socket and any data currently in the socket receive buffer is discarded",
+            exp: "نص حرفي من كتاب Stevens: استدعاء shutdown مع SHUT_RD يغلق طرف القراءة وأي بيانات موجودة مسبقاً في مخزن الاستقبال يتم التخلص منها فوراً[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q23",
+            type: "single",
+            text: "When SIGPIPE is generated at the client side?",
+            opts: [
+              "a. None of the given choices",
+              "b. When the client writes to a socket that has received FIN earlier",
+              "c. When the client writes to a socket that has received RST earlier",
+              "d. When the server reboots from crashing",
+              "e. SIGPIPE is generated only at the server side, not client side"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. When the client writes to a socket that has received RST earlier",
+            exp: "تتولد إشارة SIGPIPE عند محاولة الكتابة (write) على مقبس تم استقبال حزمة RST عليه مسبقاً[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q24",
+            type: "single",
+            text: "If IP_HDRINCL socket option is set for a raw IP socket, then:",
+            opts: [
+              "a. The user builds the IP header completely",
+              "b. The kernel builds the IP header completely",
+              "c. The user builds most of the IP header contents",
+              "d. The kernel sets the IP header content except the checksum"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. The user builds the IP header completely",
+            exp: "خيار IP_HDRINCL يُعلم النواة بأن البرنامج هو من يبني ترويسة IP الكاملة للحزمة بنفسه[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q25",
+            type: "single",
+            text: "Which of the following is TRUE regarding raw sockets?",
+            opts: [
+              "a. All of the given choices",
+              "b. A copy of a packet can be sent to more than one matching raw socket",
+              "c. Nothing is passed to a raw socket until all fragments have arrived and have been reassembled",
+              "d. All IGMP packets are passed to a raw socket",
+              "e. All IP datagrams with a protocol field that the kernel does not understand are passed to a raw socket"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. All of the given choices",
+            exp: "جميع العبارات صحيحة وتطابق القواعد القياسية في معالجة المقابس الخام (Raw Sockets) بنظام يونكس[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q26",
+            type: "single",
+            text: `Given the following snapshot of running the "netstat" command:
+<pre class="code-block">Local Address        Remote Address       Swind  Send-Q Rwind Recv-Q State
+*.1234               *.*                  0      0      10     0      LISTEN
+localhost.45678      localhost.1234       32768  0      32768  0      ESTABLISHED
+localhost.1234       localhost.45678      32768  0      32768  0      ESTABLISHED
+localhost.45679      localhost.1234       32768  0      32768  0      ESTABLISHED
+localhost.1234       localhost.45679      32768  0      32768  0      ESTABLISHED</pre>
+How many client processes are running?`,
+            opts: [
+              "a. 3",
+              "b. 4",
+              "c. 5",
+              "d. 1",
+              "e. 2",
+              "f. Can't be determined"
+            ],
+            ans: 4, // e (2)
+            dispAnswer: "e. 2 (أو f. Can't be determined)",
+            exp: "يوجد اتصالان مؤسسان على المنفذين العشوائيين للعميل (45678 و 45679)[cite: 24]. في الغالبية الساحقة من أسئلة الامتحانات يمثل كل منفذ عميلاً مستقلاً (2 Client processes)، أو 'لا يمكن الجزم' برمجياً لاحتمال فتح اتصالين من نفس العملية[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q27",
+            type: "single",
+            text: "Which statement is FALSE when dealing with a socket of type SOCK_DGRAM:",
+            opts: [
+              "a. It provides a connectionless service",
+              "b. A client can create a socket and send a datagram to a given server and then immediately send another datagram on the same socket to a different server",
+              "c. None of the given choices",
+              "d. Lack of reliability by default, but this can be built into the application",
+              "e. A server can receive several datagrams on a single UDP socket, each from a different client."
+            ],
+            ans: 2, // c
+            dispAnswer: "c. None of the given choices",
+            exp: "جميع العبارات الأخرى (a, b, d, e) صحيحة تماماً وتصف خصائص مقابس UDP بدقة، لذلك لا توجد أي عبارة خاطئة[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q28",
+            type: "single",
+            text: "If you use the function sendto() in your client application to send a UDP datagram without any content, then at the server's side when trying to read this datagram using recvfrom(), will return:",
+            opts: [
+              "a. -1",
+              "b. Error message",
+              "c. 0",
+              "d. Undetermined"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. 0",
+            exp: "إرسال حزمة UDP فارغة (0-byte payload) صالح ومقبول بروتوكولياً، وترجع دالة recvfrom() القيمة 0 دون أن تعني إغلاق الاتصال كما في TCP[cite: 24].",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Section 4: Concurrency, POSIX Threads & Code Tracing",
+        context: "Questions on processes, POSIX threads, race conditions, and code execution outputs:",
+        subQuestions: [
+          {
+            id: "dr_q29",
+            type: "single",
+            text: "A child server enters zombie state when:",
+            opts: [
+              "a. The kernel doesn't send the SIGQUIT to the parent process",
+              "b. The parent doesn't catch the SIGCHLD signal",
+              "c. The two signals SIGKILL and SIGSTOP cannot be ignored",
+              "d. The client doesn't send the SIGCHLD signal to the parent process",
+              "e. The signal SIGCHLD can't be caught"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. The parent doesn't catch the SIGCHLD signal",
+            exp: "يدخل الابن المنتهي حالة Zombie إذا لم يستقبل الأب إشارة SIGCHLD ويستدعِ wait/waitpid لحذف بياناته من جدول العمليات[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q30",
+            type: "single",
+            text: "If the return value of a fork() is zero, then:",
+            opts: [
+              "a. Zero is an indication of error",
+              "b. You are in the child code",
+              "c. You are in the parent code",
+              "d. fork() can't return zero"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. You are in the child code",
+            exp: "ترجع دالة fork() القيمة 0 داخل كود العملية الابن (Child process)، بينما ترجع رقم PID الابن داخل كود الأب[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q31",
+            type: "single",
+            text: "For a concurrent server:",
+            opts: [
+              "a. No fork() is needed, since the server will handle all client requests iteratively",
+              "b. The fork() in the server spawns a child for each new client, but the parent handles the client requests.",
+              "c. The fork() in the server spawns a child for each new client, and that child handles the client requests",
+              "d. The fork() in the client spawns a child for each server's reply."
+            ],
+            ans: 2, // c
+            dispAnswer: "c. The fork() in the server spawns a child for each new client, and that child handles the client requests",
+            exp: "في الخوادم المتزامنة، ينشئ الأب ابناً مستقلاً لكل عميل جديد عبر fork()، ويتولى الابن خدمة العميل بمفرده[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q32",
+            type: "single",
+            text: "Assume you working in a company whose manager asks you to design a client server application in which the performance is the key design factor. Which model you will be using for that:",
+            opts: [
+              "a. Any one will satisfy the requirement",
+              "b. Multithreading",
+              "c. Nonblocking",
+              "d. Multiprocessing",
+              "e. I/O multiplexing with Blocking select"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. Multithreading",
+            exp: "الخيوط (Threads) تشترك في نفس مساحة الذاكرة وتكلفة إنشائها وتبديل السياق بينها أقل بكثير مقارنة بالعمليات المستقلة[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q33",
+            type: "single",
+            text: "Which of the following is correct when comparing threads and processes?",
+            opts: [
+              "a. Threads are more expensive to create compared to processes",
+              "b. All of the given choices are correct",
+              "c. Processes can block while running some code, while threads can't",
+              "d. Threads are less expensive to create compared to processes",
+              "e. Passing information between processes is easier that in threads because processes share the same global memory"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Threads are less expensive to create compared to processes",
+            exp: "إنشاء الخيوط ومشاركتها للذاكرة أقل استهلاكاً لموارد النظام بكثير مقارنة بالعمليات (Processes)[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q34",
+            type: "single",
+            text: "One important disadvantage of threads is:",
+            opts: [
+              "a. Slower execution time",
+              "b. Synchronizing shared data access",
+              "c. All of the given choices",
+              "d. Difficult to share variables within the same process"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. Synchronizing shared data access",
+            exp: "بسبب مشاركة الخيوط للذاكرة، تصبح مزامنة الوصول للبيانات المشتركة (عبر Mutex/Semaphores) لمنع الـ Race conditions من أصعب التحديات[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q35",
+            type: "single",
+            text: "Executing the statement: pthread_detach(pthread_self()); by Thread A means:",
+            opts: [
+              "a. Thread A wait itself to terminate",
+              "b. main thread cannot wait Thread A",
+              "c. Thread A wait for main thread to terminate",
+              "d. None of the given choices",
+              "e. When Thread A terminates, its thread ID and exit status are retained to main thread"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. main thread cannot wait Thread A",
+            exp: "الخيط المنفصل (Detached) يتم تنظيف موارده تلقائياً عند نهايته ولا يمكن لأي خيط آخر انتظاره عبر pthread_join[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q36",
+            type: "single",
+            text: "Given the following statement: pthread_create(&TT, NULL, B, &A); Which of the following functions will be executed based on that?",
+            opts: [
+              "a. void A(NULL) {...}",
+              "b. void B(NULL) {...}",
+              "c. void B(void * A) {...}",
+              "d. void A(void B) {...}",
+              "e. void * B(void * A) {...}"
+            ],
+            ans: 4, // e
+            dispAnswer: "e. void * B(void * A) {...}",
+            exp: "المعامل الثالث هو اسم الدالة المنفذة B، ويجب أن يطابق بروتوتايب دوال POSIX threads: تأخذ (void *) وترجع (void *)[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q37",
+            type: "single",
+            text: `Given the following code snippet:
+<pre class="code-block">int z = 10;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+void * XYZ(void * arg) {
+    int a = *((int*)arg);
+    pthread_mutex_lock(&mutex);
+    int temp = z;
+    z = a - temp;
+    pthread_mutex_unlock(&mutex);
+    return NULL;
+}
+int main(int argc, char ** argv) {
+    int x = atoi(argv[1]);
+    int y = atoi(argv[2]);
+    pthread_t tt1, tt2;
+    pthread_create(&tt1, NULL, XYZ, &x);
+    pthread_create(&tt2, NULL, XYZ, &y);
+    pthread_join(tt1, NULL);
+    pthread_join(tt2, NULL);
+    printf("%d\\n", z);
+    return 0;
+}</pre>
+If you use the command: $./a.out 50 22 to run the code, then the output will be:`,
+            opts: [
+              "a. 38",
+              "b. 10 or -18 or 38",
+              "c. -18 or 38",
+              "d. 10",
+              "e. -18"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. -18 or 38",
+            exp: "تتبع الحالتين:\n1) إذا نفذ خيط x (50) أولاً: z = 50 - 10 = 40، ثم خيط y (22): z = 22 - 40 = -18[cite: 24].\n2) إذا نفذ خيط y (22) أولاً: z = 22 - 10 = 12، ثم خيط x (50): z = 50 - 12 = 38[cite: 24].\nإذن الناتج هو -18 أو 38[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q38",
+            type: "single",
+            text: "In the same code snippet above, if you run the command with inputs: $./a.out 30 27, then the output will be:",
+            opts: [
+              "a. 10",
+              "b. 7 or 13",
+              "c. 13",
+              "d. 10 or 7 or 13",
+              "e. 7"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. 7 or 13",
+            exp: "1) إذا نفذ خيط x (30) أولاً: z = 30 - 10 = 20، ثم خيط y (27): z = 27 - 20 = 7[cite: 24].\n2) إذا نفذ خيط y (27) أولاً: z = 27 - 10 = 17، ثم خيط x (30): z = 30 - 17 = 13[cite: 24].\nالناتج: 7 أو 13[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q39",
+            type: "single",
+            text: `Given the following code snippet from a client program:
+<pre class="code-block">if (connect(sockfd, (struct sockaddr*) &servaddr, sizeof(servaddr)) > 0) {
+    int code = errno;
+    if (code == ETIMEDOUT) printf("error A\\n");
+    else if (code == ECONNREFUSED) printf("error B\\n");
+    else if (code == EHOSTUNREACH) printf("error C\\n");
+    else printf("other error");
+}
+else printf("OK");</pre>
+What is the output assuming the server's response to the client's SYN is a SYN+ACK?`,
+            opts: [
+              "a. error A",
+              "b. OK",
+              "c. other error",
+              "d. error C",
+              "e. error B",
+              "f. can't be determined"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. OK",
+            exp: "حيلة برمجية من الدكتور: عند نجاح الاتصال (استقبال SYN+ACK)، ترجع دالة connect القيمة 0[cite: 24]. وبما أن الشرط يفحص (connect > 0) فإن الشرط غير محقق (0 ليس أكبر من 0)، فينتقل التنفيذ لكتلة else ويطبع 'OK'[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q40",
+            type: "single",
+            text: "If you execute the following command: solaris% a.out 127.0.0.1 22555, and you got the message: 'error in connecting with the server: invalid IP address', then to fix the error you do:",
+            opts: [
+              "a. Change the IP address",
+              "b. Change the program name to something other than a.out",
+              "c. Switch the order of the IP address and port number at the command line",
+              "d. Run the command as root",
+              "e. Change the port number value"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. Switch the order of the IP address and port number at the command line",
+            exp: "البرنامج يتوقع إدخال المنفذ أولاً ثم الـ IP (أو العكس)؛ فعندما قرأ '22555' كعنوان IP واعتبره inet_pton غير صالح ظهر الخطأ[cite: 24]. الحل هو تبديل الترتيب في سطر الأوامر[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q41",
+            type: "single",
+            text: "Which of the following functions is used to convert a 32-bit integer from network byte order to host byte order:",
+            opts: [
+              "a. ntohl()",
+              "b. ntohs()",
+              "c. htons()",
+              "d. None the given choices",
+              "e. htonl()"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. ntohl()",
+            exp: "الدالة ntohl (Network TO Host Long) تحول عدداً صحيحاً بطول 32-بت من ترتيب الشبكة إلى ترتيب المضيف[cite: 24].",
+            img: ""
+          },
+          {
+            id: "dr_q42",
+            type: "single",
+            text: "The function gethostbyname() is used to:",
+            opts: [
+              "a. All of the given choices",
+              "b. Convert a host name into either an IPv6 address or an IPv4 address",
+              "c. Convert a host name into an IPv6 address only",
+              "d. Convert a host name into an IPv4 address only"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. Convert a host name into an IPv4 address only",
+            exp: "الدالة القديمة gethostbyname() مخصصة لتحويل الاسم لعنوان IPv4 فقط، بينما تدعم الدالة الحديثة getaddrinfo() بروتوكول IPv6[cite: 24].",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-indicator"></div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

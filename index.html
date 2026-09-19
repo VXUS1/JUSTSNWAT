@@ -46,22 +46,7 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* Ambient glow 
-body::before {
-  content: "";
-  position: fixed;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(224, 82, 82, 0.08) 0%, rgba(10, 132, 255, 0.03) 50%, transparent 80%);
-  filter: blur(80px);
-  z-index: -1;
-  pointer-events: none;
-}
-*/
-button, input {
+button, input, textarea, select {
   font: inherit;
   color: inherit;
 }
@@ -81,49 +66,157 @@ a {
 /* ---------- Header ---------- */
 .masthead {
   width: 100%;
-  text-align: center;
-  padding: 46px 20px 28px;
-  background: rgba(7, 9, 14, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 20px clamp(20px, 6vw, 72px);
+  background:
+    radial-gradient(circle at 88% -30%, rgba(10, 132, 255, 0.2), transparent 36%),
+    radial-gradient(circle at 12% -35%, rgba(255, 69, 58, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(18, 24, 38, 0.96), rgba(7, 9, 14, 0.94));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--apple-border);
   position: sticky;
   top: 0;
   z-index: 50;
+  overflow: hidden;
   transition: border-color 0.3s var(--ease-apple);
+}
+
+.masthead::before,
+.masthead::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.masthead::before {
+  width: 22%;
+  min-width: 180px;
+  height: 2px;
+  top: 0;
+  right: 8%;
+  background: linear-gradient(90deg, transparent, #0a84ff, transparent);
+  box-shadow: 0 0 22px rgba(10, 132, 255, 0.7);
+}
+
+.masthead::after {
+  width: 28%;
+  height: 1px;
+  bottom: -1px;
+  left: 6%;
+  background: linear-gradient(90deg, transparent, var(--apple-red));
+  box-shadow: 0 0 16px rgba(255, 69, 58, 0.8);
 }
 
 .masthead.scrolled {
   border-bottom-color: var(--apple-border-strong);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.46);
+}
+
+.masthead > * {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  animation: headerReveal 0.7s var(--ease-apple) both;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--apple-red), #9f1239 68%);
+  box-shadow: 0 7px 22px rgba(255, 69, 58, 0.25);
+}
+
+.brand-mark span {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
 }
 
 .brand {
-  font-size: 2.3rem;
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
   font-weight: 900;
   letter-spacing: 2px;
   color: #ffffff;
   display: inline-block;
   position: relative;
+  text-decoration: none;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.14);
 }
 
 .brand::after {
   content: "";
   position: absolute;
-  bottom: -6px;
+  bottom: -5px;
   left: 10%;
   width: 80%;
-  height: 4px;
-  background-color: var(--apple-red);
+  height: 3px;
+  background: var(--apple-red);
   border-radius: 99px;
-  transform: rotate(-1.5deg);
+  box-shadow: 0 0 12px rgba(255, 69, 58, 0.7);
 }
 
 .sub-brand {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 380px;
+  color: #aeb9ca;
+  font-size: 0.88rem;
+  line-height: 1.5;
   font-weight: 500;
+  animation: headerReveal 0.7s 0.1s var(--ease-apple) both;
+}
+
+.sub-brand::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--apple-green);
+  box-shadow: 0 0 12px rgba(48, 209, 88, 0.8);
+}
+
+@keyframes headerReveal {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-line,
+  .sub-brand {
+    animation: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .masthead {
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 20px 20px;
+  }
+
+  .sub-brand {
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 /* ---------- Footer ---------- */
@@ -143,13 +236,20 @@ footer p {
   font-weight: 700;
 }
 
-
 /* ---------- Search Bar ---------- */
 .bar {
   display: flex;
   gap: 12px;
   align-items: center;
+  position: sticky;
+  top: 128px;
+  z-index: 40;
+  padding: 10px 0;
+  margin-top: -10px;
   margin-bottom: 24px;
+  background: linear-gradient(to bottom, rgba(7, 9, 14, 0.94) 0%, rgba(7, 9, 14, 0.78) 78%, transparent 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .search {
@@ -170,12 +270,167 @@ footer p {
   box-shadow: 0 0 20px rgba(10, 132, 255, 0.25);
 }
 
+@media (max-width: 600px) {
+  .bar {
+    top: 112px;
+  }
+}
+
 /* ---------- Lists & Rows ---------- */
 .list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
+#app.page-enter {
+  animation: pageEnter 0.55s var(--ease-apple) both;
+}
+
+#app.page-leave {
+  animation: pageLeave 0.2s ease-in both;
+  pointer-events: none;
+}
+
+#app.page-enter .subject-head,
+#app.page-enter > .back,
+#app.page-enter > .list > .row {
+  animation: contentReveal 0.45s var(--ease-apple) both;
+}
+
+#app.page-enter > .list > .row:nth-child(2) { animation-delay: 0.06s; }
+#app.page-enter > .list > .row:nth-child(3) { animation-delay: 0.12s; }
+#app.page-enter > .list > .row:nth-child(4) { animation-delay: 0.18s; }
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes pageLeave {
+  from { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  to { opacity: 0; transform: translateY(-14px) scale(0.985); filter: blur(4px); }
+}
+
+@keyframes contentReveal {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app.page-enter,
+  #app.page-leave,
+  #app.page-enter .subject-head,
+  #app.page-enter > .back,
+  #app.page-enter > .list > .row {
+    animation: none;
+  }
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.subject-card {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1 / 1;
+  min-height: 190px;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 22px;
+  border-inline-start: 1px solid var(--apple-border);
+  background: var(--subject-bg, linear-gradient(135deg, #253047, #111827));
+}
+
+.subject-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent 38%),
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.22), transparent 30%);
+  opacity: 0.8;
+  transition: transform 0.45s var(--ease-apple), opacity 0.3s ease;
+}
+
+.subject-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -15% -35% 25%;
+  height: 70%;
+  z-index: -1;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transform: rotate(-18deg);
+  box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.03), 0 0 0 36px rgba(255, 255, 255, 0.025);
+}
+
+.subject-card:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+  border-inline-start-color: rgba(255, 255, 255, 0.75);
+  transform: translateY(-5px);
+}
+
+.subject-card:hover::before {
+  transform: scale(1.12) rotate(3deg);
+  opacity: 1;
+}
+
+.row.subject-card {
+  background: var(--subject-bg, linear-gradient(135deg, #253047, #111827));
+  border-inline-start-color: rgba(255, 255, 255, 0.12);
+}
+
+.row.subject-card:hover {
+  background: var(--subject-bg, linear-gradient(135deg, #253047, #111827));
+  border-inline-start-color: rgba(255, 255, 255, 0.75);
+}
+
+.subject-card .main {
+  position: relative;
+  z-index: 1;
+}
+
+.subject-card .name {
+  font-size: clamp(19px, 2.5vw, 25px);
+  line-height: 1.25;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+.subject-card .meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.subject-card .subject-count {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.subject-card .code {
+  background: rgba(0, 0, 0, 0.24);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.subject-network-protocols { --subject-bg: linear-gradient(135deg, #075985, #172554 72%); }
+.subject-wireless { --subject-bg: linear-gradient(135deg, #0f766e, #164e63 72%); }
+.subject-network-security { --subject-bg: linear-gradient(135deg, #9f1239, #3f0d27 72%); }
+.subject-network-programming { --subject-bg: linear-gradient(135deg, #7c3aed, #312e81 72%); }
+.subject-cryptography { --subject-bg: linear-gradient(135deg, #b45309, #451a03 72%); }
+.subject-unix { --subject-bg: linear-gradient(135deg, #3f6212, #1c1917 72%); }
 
 .row {
   display: flex;
@@ -365,38 +620,6 @@ footer p {
   margin-bottom: 6px;
 }
 
-.skeleton {
-  height: 72px;
-  border-radius: 18px;
-  background: var(--apple-surface);
-  border: 1px solid var(--apple-border);
-  opacity: 0.6;
-}
-
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 30px;
-}
-
-.loading-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--apple-red);
-  animation: loadingBounce 1.4s ease-in-out infinite;
-}
-
-.loading-dot:nth-child(2) { animation-delay: 0.2s; }
-.loading-dot:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes loadingBounce {
-  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
-  40% { transform: scale(1.1); opacity: 1; }
-}
-
 .hint {
   color: var(--text-secondary);
   font-size: 13.5px;
@@ -407,13 +630,292 @@ footer p {
 @media (max-width: 480px) {
   .row { padding: 14px; }
   .row .name { font-size: 16px; }
+
+  .subject-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .subject-card {
+    min-height: 150px;
+    padding: 16px;
+  }
+
+  .subject-card .name {
+    font-size: 18px;
+  }
+
+  .subject-card .subject-count {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 720px) {
+  .subject-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =======================================================
+   ---------- زر ونموذج البلاغات (Netlify Forms) ----------
+   ======================================================= */
+.btn-bug-float {
+  position: fixed;
+  bottom: 56px;
+  right: 24px;
+  z-index: 99;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(22, 28, 42, 0.82);
+  color: var(--text-primary);
+  border: 1px solid var(--apple-border-strong);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: all 0.28s var(--ease-apple);
+}
+
+.btn-bug-float svg {
+  color: var(--apple-red);
+  transition: transform 0.3s var(--ease-apple);
+}
+
+.btn-bug-float:hover {
+  background: rgba(30, 39, 58, 0.95);
+  border-color: rgba(255, 69, 58, 0.5);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(255, 69, 58, 0.22);
+}
+
+.btn-bug-float:hover svg {
+  transform: rotate(-15deg);
+}
+
+.btn-bug-float:active {
+  transform: scale(0.96);
+}
+
+/* Modal Overlay */
+.report-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s var(--ease-apple), visibility 0.3s ease;
+}
+
+.report-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.report-modal {
+  background: linear-gradient(180deg, rgba(24, 31, 48, 0.95) 0%, rgba(13, 17, 28, 0.97) 100%);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 22px;
+  width: 100%;
+  max-width: 480px;
+  padding: 26px 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  transform: translateY(20px) scale(0.97);
+  transition: all 0.3s var(--ease-apple);
+  position: relative;
+  overflow: hidden;
+}
+
+.report-modal-overlay.active .report-modal {
+  transform: translateY(0) scale(1);
+}
+
+.report-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.report-modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-modal-header h3 svg {
+  color: var(--apple-red);
+}
+
+.btn-close-modal {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s var(--ease-apple);
+}
+
+.btn-close-modal:hover {
+  background: rgba(255, 69, 58, 0.2);
+  color: var(--apple-red);
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: start;
+}
+
+.form-group label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: rgba(10, 14, 24, 0.7);
+  border: 1px solid var(--apple-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14.5px;
+  color: var(--text-primary);
+  transition: all 0.2s var(--ease-apple);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 14px rgba(10, 132, 255, 0.25);
+  background: rgba(14, 20, 34, 0.85);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group input[type="file"] {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--apple-border);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 4px 10px;
+  margin-inline-end: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  transition: background 0.2s;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.btn-submit-report {
+  margin-top: 6px;
+  background: linear-gradient(135deg, var(--apple-red), #9f1239);
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255, 69, 58, 0.3);
+  transition: all 0.25s var(--ease-apple);
+}
+
+.btn-submit-report:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 69, 58, 0.45);
+}
+
+.btn-submit-report:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.report-status {
+  display: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.report-status.success {
+  display: block;
+  background: rgba(48, 209, 88, 0.15);
+  border: 1px solid var(--apple-green);
+  color: #85e99e;
+}
+
+.report-status.error {
+  display: block;
+  background: rgba(255, 69, 58, 0.15);
+  border: 1px solid var(--apple-red);
+  color: #ff9b94;
+}
+
+@media (max-width: 480px) {
+  .btn-bug-float {
+    bottom: 48px;
+    right: 16px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
 }
 </style>
 </head>
 <body>
 
 <header class="masthead">
-  <div class="brand">JUSTSNWAT</div>
+  <div class="brand-line">
+    <span class="brand-mark" aria-hidden="true"><span></span></span>
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+  </div>
   <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
 </header>
 
@@ -424,6 +926,75 @@ footer p {
 <footer>
   <p>Designed By Abdallah Al-serhan</p>
 </footer>
+
+<!-- زر التبليغ العائم -->
+<button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+    <path d="m19 7-3 2"></path>
+    <path d="m5 7 3 2"></path>
+    <path d="m19 19-3-2"></path>
+    <path d="m5 19 3-2"></path>
+    <path d="M20 13h-4"></path>
+    <path d="M4 13h4"></path>
+    <path d="m10 4 1 2"></path>
+    <path d="m14 4-1 2"></path>
+  </svg>
+  <span>إبلاغ عن خطأ</span>
+</button>
+
+<!-- نافذة التبليغ المنبثقة (Modal) المجهزة لـ Netlify -->
+<div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="report-modal">
+    <div class="report-modal-header">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        إبلاغ عن خطأ أو ملاحظة
+      </h3>
+      <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+    </div>
+
+    <form class="report-form" name="bug-report" id="bugReportForm" method="POST" data-netlify="true" enctype="multipart/form-data">
+      <!-- حقل ضروري لـ Netlify Forms -->
+      <input type="hidden" name="form-name" value="bug-report">
+      
+      <!-- يتم ملؤها تلقائياً برابط الصفحة واسم المادة المفتوحة -->
+      <input type="hidden" name="current-page" id="reportCurrentPage">
+
+      <div class="form-group">
+        <label for="issue-type">نوع المشكلة</label>
+        <select id="issue-type" name="issue_type" required>
+          <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+          <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+          <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+          <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+        <textarea id="issue-desc" name="description" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="issue-file">لقطة شاشة (اختياري)</label>
+        <input type="file" id="issue-file" name="screenshot" accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label for="user-contact">وسيلة تواصل (اختياري)</label>
+        <input type="text" id="user-contact" name="contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+      </div>
+
+      <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+      <div class="report-status" id="reportStatus"></div>
+    </form>
+  </div>
+</div>
 
 <script>
 (function () {
@@ -438,12 +1009,14 @@ footer p {
     });
   }
 
-  /* ============ قائمة المواد والامتحانات (ثابتة للعرض فقط) ============ */
+  /* ============ قائمة المواد والامتحانات ============ */
   var subjects = [
     { id: "network-protocols", name: "Network Protocols", code: "NES415" },
     { id: "wireless", name: "Wireless", code: "NES441" },
     { id: "network-security", name: "Network Security", code: "NES453" },
-    { id: "network-programming", name: "Network Programming", code: "NES416" }
+    { id: "network-programming", name: "Network Programming", code: "NES416" },
+    { id: "cryptography", name: "Cryptography & Information Security", code: "NES352" },
+    { id: "unix", name: "Unix", code: "NES202" }
   ];
 
   var exams = {
@@ -451,47 +1024,157 @@ footer p {
       {
         id: "quiz-final-2023",
         title: "Final Exam 2023 (امتحان  35 سؤال)",
-        link: "quiz1.html",
+        link: "protocols/protocols-quiz1.html",
         note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
       },
-     {
-        id: "quiz-final-2",
-        title: "Final Exam 2 (امتحان  35 سؤال)",
-        link: "quiz2.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      {
+        id: "quiz-final-2021",
+        title: "Final Exam 2021 (امتحان  50 سؤال)",
+        link: "protocols/protocols-quiz2.html",
+        note: "امتحان الفاينل كامل ومحلول."
+      },
+      {
+        id: "quiz-ch12",
+        title: "Chapter12 Multicasting (كويز  20 سؤال)",
+        link: "protocols/protocols-quiz3.html",
+        note: "كويز 20 سؤال محلول."
       }
     ],
     "wireless": [
       {
-        id: "quiz-final3",
-        title: "Final Exam 2023 (امتحان  35 سؤال)",
-        link: "quiz1.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      }
-],
-    "network-security": [
+        id: "quiz1-wireless",
+        title: "First Exam 2022 Dr.Shorman",
+        link: "wireless/wireless-quiz1.html",
+        note: "امتحان الفيرست كامل ومحلول مع صور الأسئلة الأصلية."
+      },
       {
-        id: "quiz security",
-        title: "Final Exam (امتحان  35 سؤال)",
-        link: "quiz1.html",
+        id: "quiz5-wireless",
+        title: "Quiz CH3 Dr.Shorman",
+        link: "wireless/wireless-quiz5.html",
+        note: "كويز كامل ومحلول."
+      },
+      {
+        id: "quiz2-wireless",
+        title: "Second Exam CH4 Dr.Shorman",
+        link: "wireless/wireless-quiz2.html",
+        note: "امتحان السكند كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "quiz3-wireless",
+        title: "Mid Exam 2021 Dr.Fahed",
+        link: "wireless/wireless-quiz3.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "quiz4-wireless",
+        title: "Mid Exam 2021 Dr.Shorman",
+        link: "wireless/wireless-quiz4.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final1-wireless",
+        title: "Final Exam 2021 Dr.Shorman",
+        link: "wireless/wireless-final1.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final2-wireless",
+        title: "Final Exam 2021 Dr.Fahed",
+        link: "wireless/wireless-final2.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final3-wireless",
+        title: "Final Exam 2021 2nd semester Dr.Shorman",
+        link: "wireless/wireless-final3.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final4-wireless",
+        title: "Final Exam Dr.Shorman",
+        link: "wireless/wireless-final4.html",
         note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
       }
-],
+    ],
+    "network-security": [],
     "network-programming": [
       {
-        id: "quiz programming",
-        title: "Final Exam (امتحان  35 سؤال)",
-        link: "quiz1.html",
+        id: "quiz1-programming",
+        title: "Mid Exam 1st Semester Eng.Rana",
+        link: "Network-prog/mid1.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "quiz2-programming",
+        title: "Mid Exam (2) Eng.Rana",
+        link: "Network-prog/mid2.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "quiz3-programming",
+        title: "Mid Exam (3) Eng.Rana",
+        link: "Network-prog/mid3.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final-programming",
+        title: "Final Exam Dr.Raed",
+        link: "Network-prog/final.html",
         note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
       }
-]
-
-
+    ],
+    "cryptography": [
+      {
+        id: "quiz-crypto",
+        title: "Cryptography Quiz",
+        link: "crypto/quiz.html",
+        note: "كويزات مع الحل."
+      }
+    ],
+    "unix": [
+      {
+        id: "quiz-unix",
+        title: "Mid Exam 1st semester 2021 Unix",
+        link: "unix/mid1.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "quiz2-unix",
+        title: "Mid Exam 2nd semester 2021 Unix",
+        link: "unix/mid2.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "quiz3-unix",
+        title: "Mid Exam 2021 Unix",
+        link: "unix/mid3.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final1-unix",
+        title: "Final Exam 2020 Unix",
+        link: "unix/final1.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final2-unix",
+        title: "Final Exam 2021 Unix",
+        link: "unix/final2.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      {
+        id: "final3-unix",
+        title: "Final Exam 2021 2nd semester Unix",
+        link: "unix/final3.html",
+        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
+      }
+    ],
   };
 
   var currentId = null;
   var search = "";
   var app = document.getElementById("app");
+  var transitionTimer = null;
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -515,18 +1198,32 @@ footer p {
   }
 
   function go(id) {
-    location.hash = id ? "#/s/" + encodeURIComponent(id) : "#/";
+    var nextHash = id ? "#/s/" + encodeURIComponent(id) : "#/";
+    if (location.hash === nextHash) return;
+
+    clearTimeout(transitionTimer);
+    app.classList.remove("page-enter");
+    app.classList.add("page-leave");
+    transitionTimer = setTimeout(function () {
+      location.hash = nextHash;
+    }, 180);
   }
 
   window.addEventListener("hashchange", function () {
     currentId = readHash();
     window.scrollTo(0, 0);
-    render();
+    render(true);
   });
 
   /* ============ العرض ============ */
-  function render() {
+  function render(animate) {
     if (currentId) renderSubject(); else renderHome();
+    if (!animate) return;
+
+    app.classList.remove("page-leave");
+    void app.offsetWidth;
+    app.classList.add("page-enter");
+    setTimeout(function () { app.classList.remove("page-enter"); }, 650);
   }
 
   function renderHome() {
@@ -540,17 +1237,18 @@ footer p {
     if (!list.length) {
       body = '<div class="empty"><strong>لا توجد نتائج</strong>لم نتمكن من العثور على مادة مطابقة.</div>';
     } else {
-      body = '<div class="list">' + list.map(function (s) {
+      body = '<div class="subject-grid">' + list.map(function (s) {
         var examList = exams[s.id] || [];
         var count = examList.length;
         var meta = [];
         if (s.code) meta.push('<span class="code">' + esc(s.code) + "</span>");
-        meta.push(count === 0 ? "لا توجد أسئلة حالياً" : count + (count === 1 ? " نموذج اختبار" : " نماذج اختبارات"));
+        var countLabel = count === 0 ? "لا توجد أسئلة حالياً" : count + (count === 1 ? " نموذج اختبار" : " نماذج اختبارات");
+        meta.push('<span class="subject-count">' + esc(countLabel) + "</span>");
         return '' +
-          '<div class="row" role="button" tabindex="0" data-open="' + esc(s.id) + '">' +
+          '<div class="row subject-card subject-' + esc(s.id) + '" role="button" tabindex="0" data-open="' + esc(s.id) + '">' +
             '<div class="main">' +
               '<div class="name">' + esc(s.name) + "</div>" +
-              '<div class="meta">' + meta.join(" · ") + "</div>" +
+              '<div class="meta">' + meta.join("  ") + "</div>" +
             "</div>" +
             '<span class="chev" aria-hidden="true">' + iconChev() + "</span>" +
           "</div>";
@@ -597,7 +1295,7 @@ footer p {
         
         var linkButtonHtml = "";
         if (isLocalQuiz) {
-          linkButtonHtml = '<a class="btn-quiz" href="' + esc(url) + '">' + iconFlash() + " بدء الاختبار ⚡</a>";
+          linkButtonHtml = '<a class="btn-quiz" href="' + esc(url) + '">' + iconFlash() + " بدء الاختبار </a>";
         } else if (url) {
           linkButtonHtml = '<a class="filelink" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + iconLink() + " فتح الملف ↗</a>";
         }
@@ -630,9 +1328,23 @@ footer p {
   function iconLink() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>'; }
   function iconFlash() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; }
 
-
   /* ============ التفاعل ============ */
   app.addEventListener("click", function (e) {
+    var examLink = e.target.closest("a.btn-quiz");
+    if (examLink) {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      e.preventDefault();
+      var targetUrl = examLink.href;
+      clearTimeout(transitionTimer);
+      app.classList.remove("page-enter");
+      app.classList.add("page-leave");
+      transitionTimer = setTimeout(function () {
+        window.location.href = targetUrl;
+      }, 200);
+      return;
+    }
+
     var t = e.target.closest("[data-open]");
     if (t) go(t.getAttribute("data-open"));
   });
@@ -647,6 +1359,87 @@ footer p {
 
   currentId = readHash();
   render();
+
+  /* ============ تشغيل نافذة ونموذج Netlify ============ */
+  var openBtn = document.getElementById("openReportBtn");
+  var closeBtn = document.getElementById("closeReportBtn");
+  var overlay = document.getElementById("reportOverlay");
+  var form = document.getElementById("bugReportForm");
+  var statusDiv = document.getElementById("reportStatus");
+  var submitBtn = document.getElementById("submitReportBtn");
+  var pageInput = document.getElementById("reportCurrentPage");
+
+  function openModal() {
+    overlay.classList.add("active");
+    overlay.setAttribute("aria-hidden", "false");
+    statusDiv.className = "report-status";
+    statusDiv.style.display = "none";
+    // تسجيل الصفحة والمادة الحالية تلقائياً
+    if (pageInput) {
+      var currentContext = currentId ? "مادة: " + currentId + " | " : "الرئيسية | ";
+      pageInput.value = currentContext + window.location.href;
+    }
+  }
+
+  function closeModal() {
+    overlay.classList.remove("active");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  if (openBtn) openBtn.addEventListener("click", openModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+  if (overlay) {
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeModal();
+    });
+  }
+
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && overlay && overlay.classList.contains("active")) {
+      closeModal();
+    }
+  });
+
+  // إرسال البلاغ بدون مغادرة الصفحة (متوافق 100% مع Netlify للنماذج النصية)
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = "جارِ الإرسال...";
+      statusDiv.style.display = "none";
+
+      var formData = new FormData(form);
+
+      // تحويل البيانات للصيغة التي يقبلها Netlify للنماذج النصية
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString()
+      })
+      .then(function (response) {
+        if (response.ok) {
+          statusDiv.className = "report-status success";
+          statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لمساعدتك!";
+          form.reset();
+          setTimeout(function () {
+            closeModal();
+            submitBtn.disabled = false;
+            submitBtn.textContent = "إرسال البلاغ";
+          }, 2000);
+        } else {
+          throw new Error("Form submission failed");
+        }
+      })
+      .catch(function () {
+        statusDiv.className = "report-status error";
+        statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "إرسال البلاغ";
+      });
+    });
+  }
+
 })();
 </script>
 </body>

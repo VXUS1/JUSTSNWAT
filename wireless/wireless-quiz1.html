@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Wireless Networks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    /* ضبط اتجاه النصوص الإنجليزية لليسار */
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.96rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 180px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    /* تنسيق الصور الأصلية */
+    .q-image-container {
+      display: none;
+      margin: 12px 0;
+      text-align: center;
+    }
+    .q-image-container.show {
+      display: block;
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+    }
+
+    .formula-reference-box {
+      background: rgba(10, 132, 255, 0.05);
+      border: 1px dashed rgba(10, 132, 255, 0.3);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/wireless">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Wireless Networks</div>
+    <div class="subject-subtitle" id="quiz-subtitle">First Exam, December 2021 — Dr. Shorman</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="formula-reference-box ltr-content">
+      <strong>📌 Formulas provided in the exam:</strong><br>
+      • $FSPL = 32.45 + 20\log D + 20\log f$<br>
+      • $PL(d) = PL(d_0) + 10n\log(d/d_0)$<br>
+      • Fresnel Zone Radius: $R = 17.31 \times \sqrt{\frac{N \times d_1 \times d_2}{f \times D}}$<br>
+      • Earth bulge: $H_a = D^2 / 61.5$
+    </div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/wireless">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/1P_wp5ktgwYX_3wFW6KtctGLnoW41Shxl";
+
+    const examSections = [
+      {
+        title: "Question 1 [11 pts]",
+        context: "Optimiza IT company consulted you to install a wireless LAN access point in a single-floor small office building. Optimiza Employees have PDAs with a WLAN interface that will be used to connect to Internet via the access point. The following characteristics are common to both access point and the PDAs:\n• Transmit power: 0.2 W\n• Receive power threshold: 2.77 × 10⁻⁶ mW\n• Frequency: 5 GHz\nYou know the gain of the antenna on the access point is 9 dBi. The outdoor maximum distance (Free space path loss model) at which the tablet can communicate with AP is 144 m.",
+        subQuestions: [
+          {
+            id: "1_1",
+            text: "I. [1 pt] What is the wavelength of the transmitted signal?",
+            acceptedAnswers: ["0.06", "0.06m", "6cm", "0.06 m", "6 cm"],
+            dispAnswer: "0.06 m (6 cm)",
+            exp: "λ = c / f = (3 × 10⁸ m/s) / (5 × 10⁹ Hz) = 0.06 m = 6 cm.",
+            img: "../images/wq1.png"
+          },
+          {
+            id: "1_2",
+            text: "II. [1 pt] What is the AP transmitted power in dBm?",
+            acceptedAnswers: ["23", "23dbm", "23 dbm"],
+            dispAnswer: "23 dBm",
+            exp: "P_Tx = 0.2 W = 200 mW. P_Tx(dBm) = 10 log10(200 / 1) = 23 dBm.",
+            img: "../images/wq2.png"
+          },
+          {
+            id: "1_3",
+            text: "III. [2 pts] Calculate the outdoor path loss?",
+            acceptedAnswers: ["89.59", "89.6", "89.59db", "89.6db", "89.59 db", "89.6 db"],
+            dispAnswer: "89.59 dB (or 89.6 dB)",
+            exp: "FSPL = 32.45 + 20 log10(0.144 km) + 20 log10(5000 MHz) ≈ 89.59 dB.",
+            img: ""
+          },
+          {
+            id: "1_4",
+            text: "IV. [1 pt] If SNR at the receiver is -6.4 dB find the receiver noise floor?",
+            acceptedAnswers: ["-49.17", "-49.2", "-49.17dbm", "-49.2dbm", "-49.17 dbm"],
+            dispAnswer: "-49.17 dBm",
+            exp: "P_Rx = 2.77 × 10⁻⁶ mW = -55.57 dBm. P_Rx = SNR + RNF  ==>  RNF = -55.57 - (-6.4) = -49.17 dBm.",
+            img: ""
+          },
+          {
+            id: "1_5",
+            text: "V. [2 pts] What is the gain of PDA antenna (G_Rx)?",
+            acceptedAnswers: ["2.02", "2.02dbi", "2.02 dbi", "2"],
+            dispAnswer: "2.02 dBi",
+            exp: "P_Rx = P_Tx + G_Tx - FSPL + G_Rx  ==>  G_Rx = -55.57 - 23 - 9 + 89.59 = 2.02 dBi.",
+            img: "../images/wq3.png"
+          },
+          {
+            id: "1_6",
+            text: "VI. [2 pts] For indoor environment here, we use free space loss model for the first meter, then we use the path loss model of path loss exponent n = 1.7 afterwards, calculate the maximum distance inside the building that the PDA can communicate with the AP, assume d0 = 0.5 m?",
+            acceptedAnswers: ["391.3", "391.29", "391", "391m", "391.3m", "391.29m"],
+            dispAnswer: "391.29 m (or 391.3 m)",
+            exp: "PL(d0 = 0.5m) = 40.4 dB. PL(d) = 40.4 + 17 log10(d / 0.5). 89.59 = 40.4 + 17 log10(d / 0.5)  ==>  d = 0.5 × 10^((89.59 - 40.4)/17) ≈ 391.29 m.",
+            img: ""
+          },
+          {
+            id: "1_7",
+            text: "VII. [2 pts] Jordan Telecommunication Commission told Optimiza that their AP power exceeds EIRP healthy level of 30 dBm and asked you to comply with this, you decide to change the antennas' gain, calculate the new Rx and Tx gains so the receiver with same sensitivity will receive the signal without exceeding EIRP of 30?",
+            acceptedAnswers: ["7, 4.02", "7,4.02", "gtx=7, grx=4.02", "gtx=7 grx=4.02", "7 and 4.02"],
+            dispAnswer: "G_Tx = 7 dBi , G_Rx = 4.02 dBi",
+            exp: "EIRP = P_Tx + G_Tx = 23 + G_Tx ≤ 30 dBm ==> New G_Tx = 7 dBi (reduced by 2 dBi). To maintain the link sensitivity: New G_Rx = 2.02 + 2 = 4.02 dBi.",
+            img: "../images/wq4.png"
+          }
+        ]
+      },
+      {
+        title: "Question 2 [4 pts]",
+        context: "Answer the following independent short questions (show your work):",
+        subQuestions: [
+          {
+            id: "2_1",
+            text: "I. [2 pts] Assume the antenna attached to the transmitter was a parabolic dish antenna with 40 dBi, then the highest power received at a distance of 100 m away is 20 W. If instead the antenna is isotropic (unity gain) for lower cost and better coverage in all directions, then what would the receive power be at 100 m away?",
+            acceptedAnswers: ["3", "3dbm", "3 dbm", "2mw", "2 mw", "0.002w"],
+            dispAnswer: "3 dBm (or 2 mW)",
+            exp: "20 W = 43 dBm. Changing the antenna gain from 40 dBi to 0 dBi drops received power by 40 dB: P_new = 43 - 40 = 3 dBm (2 mW).",
+            img: "../images/wq5.png"
+          },
+          {
+            id: "2_2",
+            text: "II. [2 pts] What is the amount of power reflected in dBm from a 4 watt transmitter with VSWR of 1.5?",
+            acceptedAnswers: ["22", "22dbm", "22 dbm", "0.16w", "160mw"],
+            dispAnswer: "22 dBm (or 0.16 W / 160 mW)",
+            exp: "Reflection coefficient Γ = (1.5 - 1) / (1.5 + 1) = 0.2. Reflected power = 4 W × (0.2)² = 0.16 W = 160 mW ==> 10 log10(160) ≈ 22 dBm.",
+            img: ""
+          }
+        ]
+      },
+      {
+        title: "Question 3 [5 pts]",
+        context: "JUST wants to wirelessly bridge its 5 GHz LAN with JUNET office 30 kilometers apart:",
+        subQuestions: [
+          {
+            id: "3_1",
+            text: "I. [2 pts] Find the antenna's height if the land is perfectly flat?",
+            acceptedAnswers: ["21.2", "21.2m", "21.2 m"],
+            dispAnswer: "21.2 m",
+            exp: "At midpoint (d1 = d2 = 15 km): R = 17.31 × √((15 × 15) / (5 × 30)) = 17.31 × √1.5 ≈ 21.2 m.",
+            img: "../images/wq6.png"
+          },
+          {
+            id: "3_2",
+            text: "II. [2 pts] What is the max building height in the mid-point between JUST and JUNET if Fresnel zone blockage cannot exceed 20%?",
+            acceptedAnswers: ["4.24", "4.24m", "4.24 m", "2.24", "2.24m"],
+            dispAnswer: "4.24 m (or 2.24 m)",
+            exp: "Allowable blockage = 20% of 21.2 m = 4.24 m clearance encroachment.",
+            img: ""
+          },
+          {
+            id: "3_3",
+            text: "III. [1 pt] Calculate the Earth bulge height (Ha) if the land is not flat?",
+            acceptedAnswers: ["14.63", "14.63m", "14.63 m"],
+            dispAnswer: "14.63 m",
+            exp: "Ha = D² / 61.5 = (30)² / 61.5 = 900 / 61.5 ≈ 14.63 m.",
+            img: "../images/wq7.png"
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}"
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              
+              ${imageContainerHtml}
+
+              <div class="answer-input-row">
+                <input type="text" 
+                       class="user-ans-input" 
+                       id="input-${sub.id}" 
+                       placeholder="Type answer..." 
+                       onkeydown="if(event.key==='Enter') checkAnswer('${sub.id}')" />
+                <button class="btn" onclick="checkAnswer('${sub.id}')">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function checkAnswer(subId) {
+      let subTarget = null;
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) { subTarget = found; break; }
+      }
+      if (!subTarget) return;
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      if (!inputEl) return;
+
+      const rawVal = inputEl.value.trim().toLowerCase();
+      const isCorrect = subTarget.acceptedAnswers.some(ans => {
+        const cleaned = ans.toLowerCase().trim();
+        return rawVal === cleaned || rawVal.includes(cleaned);
+      });
+
+      if (isCorrect) {
+        inputEl.className = 'user-ans-input correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'user-ans-input wrong';
+        userScores[subId] = false;
+      }
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

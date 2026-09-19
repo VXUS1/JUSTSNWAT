@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Network Protocols - Multicasting Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/network-protocols">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Protocols</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Ch12: Multicasting — Quiz 1st Sem 2024</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/network-protocols">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    // رابط ملف الدرايف الأصلي المطلوب
+    const originalDriveLink = "https://drive.google.com/file/d/1sil-nv_ljJ11xQdH9RZKPo5c-a5iXMUf/view";
+
+    const questionsData = [
+      {
+        id: 1,
+        img: "",
+        q: "What does MOSPF stand for in networking?",
+        opts: [
+          "Multicast Open Source Protocol Framework",
+          "Multicast Open Shortest Path First",
+          "Multicast Overlay Security and Privacy Framework",
+          "Multicast Overlay Security Protocol Framework"
+        ],
+        ans: 1,
+        exp: "MOSPF هو اختصار لـ Multicast Open Shortest Path First، وهو امتداد لبروتوكول OSPF لدعم التوجيه بالبث المتعدد."
+      },
+      {
+        id: 2,
+        img: "",
+        q: "If four hosts on a network belong to the same multicast group, a total of ________ is/are sent in response to an IGMP general query.",
+        opts: [
+          "two membership reports",
+          "one membership report",
+          "four membership reports",
+          "three membership reports"
+        ],
+        ans: 2,
+        exp: "في معيار IGMPv3 تم إلغاء ميزة كتم التقارير (Suppression) لتمكين الراوتر من تتبع دقيق للمصادر والمستقبلين، فيرسل كل جهاز (4 أجهزة) تقريره الخاص. (ملاحظة: في IGMPv1/v2 القديم كان يُرسل تقرير واحد فقط بسبب خاصية Suppression)."
+      },
+      {
+        id: 3,
+        img: "",
+        q: "In an IGMP Membership Query message, what is the role of the 32-bit 'Group Address' field?",
+        opts: [
+          "To indicate the address of the multicast group being queried",
+          "To carry information about specific hosts in the multicast group being queried",
+          "To indicate the source address of the multicast group",
+          "To specify the number of hosts in the multicast group"
+        ],
+        ans: 0,
+        exp: "يحدد هذا الحقل عنوان الـ Multicast Group المستهدفة بالاستعلام. في الاستعلام العام (General Query) تكون قيمته 0.0.0.0، وفي الاستعلام الخاص بالمجموعة يحمل عنوان تلك المجموعة."
+      },
+      {
+        id: 4,
+        img: "",
+        q: "What does DVMRP stand for in networking?",
+        opts: [
+          "Distributed Virtual Multicast Routing Protocol",
+          "Dynamic Virtual Multicast Routing Protocol",
+          "Distance Vector Multicast Routing Protocol",
+          "Datagram Vector Multicast Routing Protocol"
+        ],
+        ans: 2,
+        exp: "DVMRP هو اختصار لـ Distance Vector Multicast Routing Protocol، وهو بروتوكول توجيه يعتمد على خوارزمية شعاع المسافة مع آلية RPM."
+      },
+      {
+        id: 5,
+        img: "",
+        q: "What is the primary purpose of the IGMP protocol?",
+        opts: [
+          "To manage individual device connections in a network",
+          "To route data packets in a unicast communication",
+          "To control access to a network through a gateway",
+          "To collect information about group memberships for multicast communication"
+        ],
+        ans: 3,
+        exp: "وظيفة بروتوكول IGMP الأساسية هي إدارة عضويات مجموعات البث المتعدد وإبلاغ راوتر الـ Multicast بالأجهزة المهتمة بالانضمام."
+      },
+      {
+        id: 6,
+        img: "",
+        q: "The ________ is used when most routers are involved in multicasting.",
+        opts: [
+          "PIM-DM",
+          "PIM",
+          "CBT",
+          "PIM-SM"
+        ],
+        ans: 0,
+        exp: "يستخدم PIM-DM (Dense Mode) في البيئات الكثيفة التي يكون فيها أغلب الراوترات وأجهزة الشبكة مشتركة في استقبال البث، حيث يعتمد أسلوب الإغراق ثم القص (Flood and Prune)."
+      },
+      {
+        id: 7,
+        img: "",
+        q: "A host receives an IGMP general query. When it checks its group list, it finds no entries. What action should the host take?",
+        opts: [
+          "It should send a special query.",
+          "It should send a leave report.",
+          "It should send a membership report.",
+          "No action should be taken."
+        ],
+        ans: 3,
+        exp: "إذا لم يكن الجهاز منضماً لأي مجموعة بث متعدد، فإنه يتجاهل الاستعلام العام ببساطة ولا يقوم بأي إجراء (No action should be taken)."
+      },
+      {
+        id: 8,
+        img: "",
+        q: "How are multicast routing protocols categorized based on the creation of the shortest path trees?",
+        opts: [
+          "Based on geographic location",
+          "Based on the type of trees created: shared trees or source-based trees",
+          "Based on the number of hops",
+          "Based on device priority"
+        ],
+        ans: 1,
+        exp: "تُصنف بروتوكولات البث المتعدد أساساً إلى فئتين بناءً على شكل الشجرة: Source-Based Trees (شجرة لكل مصدر مثل DVMRP و MOSPF) أو Group-Shared Trees (شجرة مشتركة للمجموعة مثل CBT و PIM-SM)."
+      },
+      {
+        id: 9,
+        img: "",
+        q: "In ________, a network can receive a multicast packet from a particular source only through a designated parent router.",
+        opts: [
+          "RPF",
+          "RPB",
+          "RPM",
+          "Both (RPM) and (RPB)"
+        ],
+        ans: 3,
+        exp: "خاصية الـ Designated Parent Router تم تقديمها في RPB لمنع تكرار الحزم للشبكات متعددة المنافذ، وبروتوكول RPM مبني فوق RPB ويستخدم نفس الاستراتيجية."
+      },
+      {
+        id: 10,
+        img: "",
+        q: "How is multicast packet transmission achieved in WANs that do not support physical multicast addressing?",
+        opts: [
+          "By using physical multicast addressing across the WAN",
+          "By broadcasting multicast packets through the network",
+          "By converting multicast packets into unicast packets",
+          "By encapsulating multicast packets in unicast packets through tunneling"
+        ],
+        ans: 3,
+        exp: "في شبكات MBONE أو الشبكات الموسعة غير الداعمة للـ Multicast، يتم تغليف حزمة الـ Multicast داخل حزمة Unicast فيما يعرف بالأنفاق (Tunneling)."
+      },
+      {
+        id: 11,
+        img: "",
+        q: "PIM-DM uses ________ strategies.",
+        opts: [
+          "RPF and pruning/grafting",
+          "RPB and pruning/grafting",
+          "flooding and pruning/grafting",
+          "RPM and pruning/grafting"
+        ],
+        ans: 0,
+        exp: "وفقاً لمرجع التوجيه المعتمد، يستخدم بروتوكول PIM-DM استراتيجية التحقق من مسار العودة (RPF) بالإضافة لرسائل القص والوصل (Pruning and Grafting)."
+      },
+      {
+        id: 12,
+        img: "",
+        q: "The Ethernet multicast address corresponding to the multicast IP address 244.183.37.14 is:",
+        opts: [
+          "01-00-5E-B7-25-0E",
+          "00-00-5E-2F-B7-27",
+          "02-00-5E-B7-27-2F",
+          "01-00-5E-37-25-0E"
+        ],
+        ans: 3,
+        exp: "القاعدة: يبدأ العنوان بـ 01-00-5E متبوعاً بآخر 23 بت من IP. الرقم 183 = 10110111، نأخذ آخر 7 بتات مع الصفر فيصبح 00110111 = 37 بالهيكسا، و 37 = 25 بالهيكسا، و 14 = 0E بالهيكسا. العنوان الناتج: 01-00-5E-37-25-0E."
+      },
+      {
+        id: 13,
+        img: "",
+        q: "In IGMPv3, the membership query message can be used in three different formats. What are these formats?",
+        opts: [
+          "Unicast, Broadcast, and Multicast",
+          "Basic, Advanced, and Expert",
+          "General, Group-Specific, and Group-and-Source-Specific",
+          "General, Multicast, and Anycast"
+        ],
+        ans: 2,
+        exp: "أنواع استعلامات IGMPv3 الثلاثة هي: General Query، و Group-Specific Query، و Group-and-Source-Specific Query."
+      },
+      {
+        id: 14,
+        img: "",
+        q: "What is a key distinction between unicasting and multicasting?",
+        opts: [
+          "Multicasting is only applicable to point-to-point communication.",
+          "Unicasting is only used in local networks, while multicasting is used in wide-area networks.",
+          "Unicasting always involves broadcasting to all network devices.",
+          "Unicasting sends data to a specific destination, while multicasting sends data to a group of destinations."
+        ],
+        ans: 3,
+        exp: "الـ Unicasting يرسل البيانات لوجهة واحدة محددة (One-to-One)، بينما الـ Multicasting يرسل البيانات لمجموعة محددة من الأجهزة المشتركة (One-to-Many)."
+      },
+      {
+        id: 15,
+        img: "",
+        q: "A system uses group-shared trees for multicasting. If there are 100 sources and 5 groups, there is a maximum of ________ different trees.",
+        opts: [
+          "20",
+          "100",
+          "500",
+          "5"
+        ],
+        ans: 3,
+        exp: "في Group-Shared Tree، تُبنى شجرة واحدة فقط لكل مجموعة بغض النظر عن عدد المصادر، وبما أن لدينا 5 مجموعات فالناتج 5 أشجار."
+      },
+      {
+        id: 16,
+        img: "",
+        q: "In multicast link-state routing, what information is exchanged between routers to build a multicast forwarding tree?",
+        opts: [
+          "Group membership information",
+          "Time-to-live (TTL) values",
+          "Routing tables",
+          "Link-state advertisements specific to multicast groups"
+        ],
+        ans: 3,
+        exp: "يتم تبادل إعلانات حالة الوصلة الخاصة بعضوية المجموعات (مثل Group-Membership LSA في MOSPF) لتمكين كل راوتر من رسم الشجرة."
+      },
+      {
+        id: 17,
+        img: "",
+        q: "What does IGMP stand for in networking?",
+        opts: [
+          "Internet Group Management Protocol",
+          "Internet Group Messaging Protocol",
+          "Integrated Gateway Management Protocol",
+          "Integrated Group Multicast Protocol"
+        ],
+        ans: 0,
+        exp: "IGMP يعني Internet Group Management Protocol."
+      },
+      {
+        id: 18,
+        img: "",
+        q: "How does DVMRP handle multicast routing information?",
+        opts: [
+          "By dynamically adjusting the routing metrics based on the multicast group size",
+          "By using a centralized multicast server",
+          "By flooding multicast data to all routers in the network",
+          "By exchanging multicast routing tables periodically"
+        ],
+        ans: 2,
+        exp: "يعتمد بروتوكول DVMRP على استراتيجية الإغراق الأولي (Flooding) عبر شبكة RPB، ثم تقوم الراوترات غير المهتمة بإرسال رسائل Prune لقص المسار."
+      },
+      {
+        id: 19,
+        img: "",
+        q: "What is the range of IPv4 addresses reserved for multicast communication?",
+        opts: [
+          "192.168.0.0 to 192.168.255.255",
+          "172.16.0.0 to 172.31.255.255",
+          "10.0.0.0 to 10.255.255.255",
+          "224.0.0.0 to 239.255.255.255"
+        ],
+        ans: 3,
+        exp: "عناوين Class D المحجوزة للـ Multicast تمتد من 224.0.0.0 حتى 239.255.255.255."
+      },
+      {
+        id: 20,
+        img: "",
+        q: "Which of the following statements about MBONE is true?\n1. The multicast packet is encapsulated inside a unicast packet.\n2. The multicast routers may not be connected directly.",
+        opts: [
+          "Both statements are true",
+          "The multicast packet is encapsulated inside a unicast packet",
+          "Both statements are false",
+          "The multicast routers may not be connected directly"
+        ],
+        ans: 0,
+        exp: "كلا العبارتين صحيحتان؛ شبكة MBONE هي شبكة افتراضية تربط راوترات البث المتعدد عبر أنفاق Unicast تمر خلال راوترات عادية غير متصلة مباشرة بالـ Multicast."
+      }
+    ];
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    let userAnswers = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      const totalQuestions = questionsData.length;
+
+      const subtitleEl = document.getElementById('quiz-subtitle');
+      if (subtitleEl && totalQuestions > 0) {
+        subtitleEl.innerText = `Ch12: Multicasting — ${totalQuestions} Questions`;
+      }
+
+      questionsData.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+        card.id = `q-${q.id}`;
+
+        const optionsHtml = q.opts.map((opt, i) => `
+          <div class="option-item" id="opt-${q.id}-${i}" onclick="chooseAnswer(${q.id}, ${i})">
+            <div class="opt-letter">${letters[i]}</div>
+            <div>${opt}</div>
+          </div>
+        `).join('');
+
+        const hasImage = q.img && q.img.trim() !== "";
+        
+        const imageContainerHtml = hasImage ? `
+          <div class="q-image-container" id="img-box-${q.id}">
+            <img class="q-original-img" 
+                 id="img-${q.id}"
+                 data-src="${q.img}" 
+                 alt="Original Question ${q.id}"
+                 onerror="handleImageFallback(this)" />
+          </div>
+        ` : '';
+
+        const imageButtonHtml = hasImage ? `
+          <button class="btn-action" onclick="toggleOriginalImage(${q.id})">
+            <span>📷</span> عرض صورة السؤال الأصلية
+          </button>
+        ` : '';
+
+        card.innerHTML = `
+          <div class="q-top">
+            <span class="q-badge">Question ${q.id} / ${totalQuestions}</span>
+          </div>
+          <div class="q-text">${q.q}</div>
+
+          ${imageContainerHtml}
+
+          <div class="options-list" id="opts-container-${q.id}">${optionsHtml}</div>
+          
+          <div class="q-actions">
+            ${imageButtonHtml}
+            <button class="btn-action" onclick="toggleSolution(${q.id})">
+              <span>💡</span> عرض الحل والشرح
+            </button>
+            <button class="btn-reset-q" id="reset-btn-${q.id}" onclick="resetSingleQuestion(${q.id})">
+              إعادة السؤال ↻
+            </button>
+          </div>
+
+          <div class="solution-box" id="sol-${q.id}">
+            <div><strong>الإجابة الصحيحة: (${letters[q.ans]})</strong></div>
+            <div style="margin-top: 6px;">${q.exp}</div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function chooseAnswer(qid, optIndex) {
+      const q = questionsData.find(item => item.id === qid);
+      const optsContainer = document.getElementById(`opts-container-${qid}`);
+
+      q.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${qid}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const picked = document.getElementById(`opt-${qid}-${optIndex}`);
+      
+      if (optIndex === q.ans) {
+        userAnswers[qid] = optIndex;
+        if (picked) picked.classList.add('correct');
+      } else {
+        delete userAnswers[qid];
+        if (picked) picked.classList.add('wrong');
+      }
+
+      if (optsContainer) optsContainer.classList.add('locked');
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) {
+        resetBtn.style.display = 'inline-flex';
+      }
+
+      calculateScore();
+    }
+
+    function resetSingleQuestion(qid) {
+      delete userAnswers[qid];
+
+      const q = questionsData.find(item => item.id === qid);
+      const optsContainer = document.getElementById(`opts-container-${qid}`);
+      
+      if (optsContainer) {
+        optsContainer.classList.remove('locked');
+      }
+
+      if (q) {
+        q.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${qid}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) {
+        resetBtn.style.display = 'none';
+      }
+
+      const sol = document.getElementById(`sol-${qid}`);
+      if (sol) {
+        sol.classList.remove('show');
+      }
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let score = 0;
+      const total = questionsData.length;
+      Object.keys(userAnswers).forEach(qid => {
+        const q = questionsData.find(item => item.id == qid);
+        if (q && userAnswers[qid] === q.ans) score++;
+      });
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(qid) {
+      const sol = document.getElementById(`sol-${qid}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      questionsData.forEach(q => {
+        const sol = document.getElementById(`sol-${q.id}`);
+        if (sol) {
+          if (allShown) sol.classList.add('show');
+          else sol.classList.remove('show');
+        }
+      });
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

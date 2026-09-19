@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Unix & Linux Systems - Final Exam 2020</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    pre.code-block {
+      background: #111317;
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #79c0ff;
+      margin: 8px 0 14px 0;
+      white-space: pre-wrap;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .option-item.correct .opt-indicator {
+      border-color: #30d158;
+      background: #30d158;
+    }
+    .option-item.wrong .opt-indicator {
+      border-color: #ff453a;
+      background: #ff453a;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/unix">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Unix & Linux Systems (NES 202)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam 2020 — Solved Question Bank</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/unix">
+        <span>‹</span> الرجوع لقائمة المواد
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1LpPEEzBrr_RtTofS9MLw4biC7dsLpE8b/view";
+
+    const examSections = [
+      {
+        title: "NES 202: Final Exam 2020 Solved Questions",
+        context: "اختر الإجابة الصحيحة لكل من الأسئلة التالية (جميع الحلول مطابقة لامتحان الفاينال الرسمي):",
+        subQuestions: [
+          {
+            id: "fin_q1",
+            type: "single",
+            text: "1. To redirect wc's standard input to come from a file (calc.txt) and save the output in file (result.txt), we use:",
+            opts: [
+              "wc > calc.txt < result.txt",
+              "wc calc.txt result.txt",
+              "wc calc.txt > result.txt",
+              "wc < calc.txt > result.txt",
+              "wc < calc.txt result.txt"
+            ],
+            ans: 3, // wc < calc.txt > result.txt
+            dispAnswer: "wc < calc.txt > result.txt",
+            exp: "إعادة توجيه الإدخال القياسي تتم باستخدام العامل `<` وإعادة توجيه الإخراج القياسي تتم بالعامل `>`.",
+            img: ""
+          },
+          {
+            id: "fin_q2",
+            type: "single",
+            text: "2. To delete all files that end with .sh under your home directory that have not been opened more than a year, and the deletion should be confirmed, we use:",
+            opts: [
+              "find ~ -name \"*.sh\" -atime +365 -exec rm {} \\;",
+              "find ~ -name \"*.sh\" -atime +365 -ok rm {} \\;",
+              "find ~ -name \"*.sh\" -atime +365 -ok rm { \\;",
+              "find . -name \"*.sh\" -atime +1 -exec rm {} \\;",
+              "find . -name \"*.sh\" -atime +1 -ok rm {} \\;"
+            ],
+            ans: 1, // find ~ -name "*.sh" -atime +365 -ok rm {} \;
+            dispAnswer: "find ~ -name \"*.sh\" -atime +365 -ok rm {} \\;",
+            exp: "المجلد الرئيسي هو `~`، والبحث عن عدم الفتح لأكثر من سنة هو `-atime +365`، وتأكيد الحذف التفاعلي لكل ملف يتم بالخيار `-ok` وليس `-exec`.",
+            img: ""
+          },
+          {
+            id: "fin_q3",
+            type: "single",
+            text: "3. If umask value is 345, and you create a directory (dir), what are the permissions of directory (dir)?",
+            opts: [
+              "rwxrw-rw-",
+              "rwxrwxrwx",
+              "-wxr-r-x",
+              "r--r-xrwx",
+              "r---wx-w-"
+            ],
+            ans: 4, // r---wx-w-
+            dispAnswer: "r---wx-w-",
+            exp: "الأذونات الافتراضية للمجلدات هي 777 (rwxrwxrwx). بطرح القناع 345: (7-3=4 أي r--)، (7-4=3 أي -wx)، (7-5=2 أي -w-). الأذونات الناتجة: r---wx-w-.",
+            img: ""
+          },
+          {
+            id: "fin_q4",
+            type: "single",
+            text: "4. Which of the following is considered as relative pathname?",
+            opts: [
+              "/document/nes202",
+              "../../document/nes202",
+              "$HOME/document/nes202",
+              "Output of pwd",
+              "~/Document/nes202"
+            ],
+            ans: 1, // ../../document/nes202
+            dispAnswer: "../../document/nes202",
+            exp: "المسار النسبي لا يبدأ بشرطة مائلة `/` ولا برمز المجلد الرئيسي `~`؛ لذا فالمسار الذي يبدأ بـ `../../` هو مسار نسبي.",
+            img: ""
+          },
+          {
+            id: "fin_q5",
+            type: "single",
+            text: "5. If x=1 and y=1 then what is the output of the following sequence of bash commands:\n[ $x = 1 -a $y = 2 ]; echo$?",
+            opts: [
+              "2",
+              "0",
+              "$?",
+              "1",
+              "No output"
+            ],
+            ans: 3, // 1
+            dispAnswer: "1",
+            exp: "الشرط الأول متحقق ($x = 1)، والشرط الثاني غير متحقق ($y = 2 خطأ لأن y=1). وبما أن الربط بـ AND منطقي (-a) فالنتيجة الكلية خطأ (False)، وحالة الخروج $? للخطأ في شل هي 1.",
+            img: ""
+          },
+          {
+            id: "fin_q6",
+            type: "single",
+            text: "6. The command (ls test1 test2\\ test3) will list the files:",
+            opts: [
+              "test1 and test2 and test3",
+              "test1 test2\\ test3",
+              "test1 and test2\\test3",
+              "test1 and test2\\ and test3",
+              "test1 and test2 test3"
+            ],
+            ans: 4, // test1 and test2 test3
+            dispAnswer: "test1 and test2 test3",
+            exp: "الرمز `\\` يُلغي المعنى الخاص للمسافة (Escape character)، فيعتبر الشل `test2\\ test3` وسيطاً واحداً يمثل ملفاً اسمه 'test2 test3'.",
+            img: ""
+          },
+          {
+            id: "fin_q7",
+            type: "single",
+            text: "7. If the output of pwd is /home/document/nes202, and you run this successful command sequence:\nmkdir one; mkdir ./two\nWhich one of the following is true?",
+            opts: [
+              "document is parent of nes202 and one and two",
+              "nes202 is parent of both one and two",
+              "nes202 is parent of two and two is parent of one",
+              "nes202 is parent of one and one is parent of two",
+              "nes202 is parent of one and document is parent of two"
+            ],
+            ans: 1, // nes202 is parent of both one and two
+            dispAnswer: "nes202 is parent of both one and two",
+            exp: "كلا المجلدين one و ./two يتم إنشاؤهما داخل مجلد العمل الحالي (nes202)، لذا فإن nes202 هو الأب لكليهما.",
+            img: ""
+          },
+          {
+            id: "fin_q8",
+            type: "single",
+            text: "8. The file (test) has the permissions rw-r--r--, what are the permissions of file (test) after execute the command: chmod a=w,u+x test",
+            opts: [
+              "rw-r--r--",
+              "rwxr--r--",
+              "-w--w--w-",
+              "-wx-w--w-",
+              "rwxrw-rw-"
+            ],
+            ans: 3, // -wx-w--w-
+            dispAnswer: "-wx-w--w-",
+            exp: "الأمر الأول `a=w` يجعل الإذن لجميع الفئات كتابة فقط (-w--w--w-)، ثم `u+x` يضيف إذن التنفيذ للمالك ليصبح: -wx-w--w-.",
+            img: ""
+          },
+          {
+            id: "fin_q9",
+            type: "single",
+            text: "9. The files: test1 and test2 are exist in your current directory and you run the command:\ncp test1 test2 dir\nwhich of the following is true?",
+            opts: [
+              "cp will make copy of test1 and test 2 in directory dir if it exists and destroy the original",
+              "cp will make copy of test1 and test 2 in directory dir if it exists and destroy the duplicate",
+              "cp will create directory dir if it does not exist then make copy of test1 and test2 inside it",
+              "cp will make copy of test1 and test 2 in directory dir if it exists and keep the duplicate",
+              "cp will make copy of test1, test2, and dir inside current directory"
+            ],
+            ans: 1, // cp will make copy of test1 and test 2 in directory dir if it exists and destroy the duplicate
+            dispAnswer: "cp will make copy of test1 and test 2 in directory dir if it exists and destroy the duplicate",
+            exp: "الخيار المعتمد في أسئلة الامتحان: إذا كان هناك ملف مكرر بنفس الاسم داخل dir، فإن أمر cp يقوم باستبداله والكتابة فوقه (destroy the duplicate).",
+            img: ""
+          },
+          {
+            id: "fin_q10",
+            type: "single",
+            text: "10. If file (test) has the permissions rw-r-xr--, and its parent directory has the permissions r-xr--r--, so you are permitted to:",
+            opts: [
+              "read but Not edit nor delete test",
+              "read, edit and delete test",
+              "read and edit test only",
+              "not read nor edit nor delete",
+              "read and Delete test only"
+            ],
+            ans: 2, // read and edit test only
+            dispAnswer: "read and edit test only",
+            exp: "الملف يملك إذن `rw-` للمالك (قراءة وتعديل). وحذف الملف يتطلب إذن كتابة `w` على المجلد الأب، وبما أن المجلد يملك `r-x` فقط بدون `w`، فلا يمكن حذف الملف.",
+            img: ""
+          },
+          {
+            id: "fin_q11",
+            type: "single",
+            text: "11. To print the number of differences between files: test.txt and test.doc, which are located in your current directory, we use:",
+            opts: [
+              "cmp -l test.??? | wc -l",
+              "cmp -l test.[txt][doc] | wc -w",
+              "cmp test.??? | wc -w",
+              "cmp test.??? | wc -l",
+              "cmp -l test.[txt][doc] | wc -l"
+            ],
+            ans: 0, // cmp -l test.??? | wc -l
+            dispAnswer: "cmp -l test.??? | wc -l",
+            exp: "الخيار `-l` في أمر cmp يطبع كل بايت مختلف في سطر منفصل؛ وعند تمريره إلى `wc -l` يتم حساب عدد البايتات المختلفة. والنمط `test.???` يتوسع للملفين test.doc و test.txt.",
+            img: ""
+          },
+          {
+            id: "fin_q12",
+            type: "single",
+            text: "12. The file (test.txt) has 3 hard links and 2 symbolic links, the links attributes of file (test.txt) is:",
+            opts: [
+              "3",
+              "2",
+              "5",
+              "4",
+              "6"
+            ],
+            ans: 0, // 3
+            dispAnswer: "3",
+            exp: "خاصية عدد الروابط (Link count attribute) في inode الملف والتي تظهر بأمر `ls -l` تحسب الروابط الصلبة فقط (Hard links) ولا تتأثر بالروابط الرمزية (Symbolic links).",
+            img: ""
+          },
+          {
+            id: "fin_q13",
+            type: "single",
+            text: "13. The file (test) has the permissions rw-w--rw-, what are the permissions of file (test) after execute the command: chmod 456 test",
+            opts: [
+              "-wx-w---x",
+              "rwxrw-r--",
+              "r--r-xrw-",
+              "rw-w-r--",
+              "r-xr--r--"
+            ],
+            ans: 2, // r--r-xrw-
+            dispAnswer: "r--r-xrw-",
+            exp: "الرقم 4 = r-- (User)، الرقم 5 = r-x (Group)، الرقم 6 = rw- (Others). فتصبح الأذونات: r--r-xrw-.",
+            img: ""
+          },
+          {
+            id: "fin_q14",
+            type: "single",
+            text: `14. Consider the following sample output:
+<pre class="code-block">~rana:$ more file1
+cs:451:Computer Science
+cis:651:Computer Information Systems
+se:333:Software Engineering
+nes:320:Network Engineering & Security
+ce:520:Computer Engineering
+mis:360:Management Information Systems
+
+~rana:$ command1; more file2
+cis:651:Computer Information Systems
+ce:520:Computer Engineering
+cs:451:Computer Science
+mis:360:Management Information Systems
+se:333:Software Engineering
+nes:320:Network Engineering & Security</pre>
+Which of the following commands, when executed in place of command1, will result in the file2 as shown above?`,
+            opts: [
+              "sort -r -n -k2 file1 > file2",
+              "sort -t: -r -n -k2 file1 file2",
+              "sort -r -n -k2 file1 file2",
+              "sort -t: -r -n -k2 file1 > file2",
+              "sort -t: -r file1 > file2"
+            ],
+            ans: 3, // sort -t: -r -n -k2 file1 > file2
+            dispAnswer: "sort -t: -r -n -k2 file1 > file2",
+            exp: "الملف مرتب تنازلياً (-r) عددياً (-n) حسب الحقل الثاني (-k2) والمحدد بالنقطتين الرأسيتين (-t:)، مع إعادة توجيه الخرج إلى file2.",
+            img: ""
+          },
+          {
+            id: "fin_q15",
+            type: "single",
+            text: "15. All of the following are valid file names in UNIX/LINUX, EXCEPT:",
+            opts: [
+              "file/name",
+              "file name",
+              "all are invalid",
+              "-filename",
+              "file.name"
+            ],
+            ans: 0, // file/name
+            dispAnswer: "file/name",
+            exp: "الرمز `/` محجوز كفاصل للمجلدات والمسارات في أنظمة يونكس ولينكس، ولا يمكن استخدامه داخل اسم الملف.",
+            img: ""
+          },
+          {
+            id: "fin_q16",
+            type: "single",
+            text: "16. The absolute pathname of directory nes202 is /home/document/nes202, the home directory is /home and the current directory is /home/desktop/unix. To navigate to directory nes202, we use:",
+            opts: [
+              "cd document/nes202",
+              "cd /home/./document/nes202",
+              "cd document/nes202",
+              "cd ../../nes202",
+              "cd ~/document/nes202"
+            ],
+            ans: 4, // cd ~/document/nes202
+            dispAnswer: "cd ~/document/nes202",
+            exp: "الرمز `~` يشير إلى المجلد الرئيسي للمستخدم (/home)، لذا فإن `~/document/nes202` يوصل مباشرة إلى المسار المطلق /home/document/nes202 من أي مكان.",
+            img: ""
+          },
+          {
+            id: "fin_q17",
+            type: "single",
+            text: `17. The output of the following sequence is:
+<pre class="code-block">n=1
+while [ $n -le 6 ]; do
+    echo "$n"
+    n=\`expr $n + 1\`
+    if [ $n -eq 5 ]; then
+        continue
+    fi
+done</pre>`,
+            opts: [
+              "Infinite loop",
+              "12345",
+              "123456",
+              "12346"
+            ],
+            ans: 2, // 123456
+            dispAnswer: "123456",
+            exp: "أمر echo ينفذ في بداية كل دورة قبل زيادة n والتحقق من الشرط؛ فعندما كانت n=4 طُبعت 4 ثم أصبحت n=5 وتم استدعاء continue للدورة التالية، وفي الدورة التالية طُبعت 5 ثم أصبحت n=6 وطُبعت 6.",
+            img: ""
+          },
+          {
+            id: "fin_q18",
+            type: "single",
+            text: `18. Consider the following sample output:
+<pre class="code-block">~rana:$ more file3
+nes:320:Network Engineering & Security
+se:333:Software Engineering
+mis:360:Management Information Systems
+cs:451:Computer Science
+ce:520:Computer Engineering
+cis:651:Computer Information Systems
+
+~rana:$ command1; more file4
+Network Engineering & Security
+Software Engineering
+Computer Engineering</pre>
+Which of the following commands, when executed in place of command1, will result in the file4 as shown above?`,
+            opts: [
+              "grep 'Engineering' file3 | cut -d: -f3 file4",
+              "grep 'Engineering' file3 | cut -d: -f3 > file4",
+              "grep 'Engineering' file3 > file4",
+              "grep '^Engineering' file3 | cut -f3 > file4",
+              "grep 'Engineering' file3 | cut -f3 > file4"
+            ],
+            ans: 1, // grep 'Engineering' file3 | cut -d: -f3 > file4
+            dispAnswer: "grep 'Engineering' file3 | cut -d: -f3 > file4",
+            exp: "أمر grep يستخرج الأسطر المحتوية على كلمة 'Engineering'، ثم يقتطع أمر cut الحقل الثالث المعتمد على النقطتين (-d: -f3)، وتتم إعادة التوجيه إلى file4.",
+            img: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-indicator"></div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية:</strong> ${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const sub = findSubQuestion(subId);
+      if (!sub) return;
+
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

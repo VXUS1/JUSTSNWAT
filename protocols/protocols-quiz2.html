@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Network Protocols</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- استدعاء ملف الـ CSS المنفصل -->
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/network-protocols">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Network Protocols</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Exam — Interactive Questions</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <!-- أزرار التحكم السفلية -->
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action" href="../index.html#/s/network-protocols">
+        <span>‹</span> الرجوع لقائمة الأختبارات
+      </a>
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <script>
+    // رابط مجلد Drive الأصلي (اتركه فارغاً "" ليختفي الزر تلقائياً)
+    const originalDriveLink = "https://drive.google.com/drive/folders/1EaylCO1Bd_KsybZVFBj80mJcRIBgYvWR";
+
+    // مصفوفة الأسئلة
+const questionsData = [
+      {
+        id: 1,
+        img: "",
+        q: "If the URG bit in the TCP header is 1,",
+        opts: [
+          "None of the given choices",
+          "The URG pointer defines the end of the urgent data.",
+          "The urgent data is inserted at the beginning of the TCP segment.",
+          "Both of the given choices"
+        ],
+        ans: 3,
+        exp: "تفعيل بت URG يعني وجود بيانات عاجلة توضع في بداية القطعة، ويشير مؤشر الـ URG Pointer إلى نهاية هذه البيانات العاجلة (Both of the given choices)."
+      },
+      {
+        id: 2,
+        img: "",
+        q: "In group-shared tree multicast routing,",
+        opts: [
+          "None of the given choices.",
+          "Each router has one shortest path tree for each group.",
+          "One router has one shortest path tree for all groups.",
+          "Each router has a table represents one shortest path tree."
+        ],
+        ans: 0,
+        exp: "في Group-shared tree تُبنى شجرة واحدة مركزية متمركزة حول الـ Core/Rendezvous Router لكل مجموعة، ولا يملك كل راوتر شجرة مسار أقصر خاصة به لكل مجموعة (None of the given choices)."
+      },
+      {
+        id: 3,
+        img: "",
+        q: "In DNS, if UDP is used and the size of the response message is more than 512 bytes,",
+        opts: [
+          "The server opens a TCP connection.",
+          "None of the given choices.",
+          "The server truncates the message.",
+          "The server sends the message."
+        ],
+        ans: 2,
+        exp: "عندما يتجاوز رد DNS عبر UDP حجم 512 بايت، يقوم السيرفر بقطع الرسالة (Truncate) ورفع علم TC Flag لإشعار العميل بإعادة الطلب عبر TCP."
+      },
+      {
+        id: 4,
+        img: "",
+        q: "Which field in the IGMP header defines the maximum waiting time before sending a membership report in response to an IGMP query?",
+        opts: [
+          "QQIC",
+          "QRV",
+          "None of the given choices",
+          "Response Code"
+        ],
+        ans: 3,
+        exp: "حقل Max Response Time / Response Code هو المسؤول عن تحديد أقصى مهلة زمنية عشوائية ينتظرها الجهاز قبل إرسال تقرير العضوية."
+      },
+      {
+        id: 5,
+        img: "",
+        q: "In IGMP, when a host receives a general query message:",
+        opts: [
+          "None of the given choices",
+          "The host sends a report about each multicast group it has joined.",
+          "The host discards the query if another host replies.",
+          "The host sends a report about specific multicast groups that it is still interested in."
+        ],
+        ans: 1,
+        exp: "عند تلقي استعلام عام (General Query)، يُلزم المضيف بالرد بتقرير عضوية عن كل مجموعة بث متعدد مسجل ومنضم إليها."
+      },
+      {
+        id: 6,
+        img: "",
+        q: "Assume a router sent an IGMP query message that has a non-zero value in the Number of Sources field. This means that:",
+        opts: [
+          "The router probes each neighbor to report if it is still interested in specific multicast group.",
+          "The router probes each neighbor to report if it is interested in any multicast group.",
+          "The router probes each neighbor to report if it is still interested in receiving packets from specific multicast group, coming from any of the specified sources.",
+          "None of the given choices"
+        ],
+        ans: 2,
+        exp: "وجود قيمة غير صفرية في حقل Number of Sources يعني أن الاستعلام هو Group-and-Source-Specific Query لمعرفة رغبة الأجهزة باستقبال البث من مصادر محددة."
+      },
+      {
+        id: 7,
+        img: "",
+        q: "Which of the following statements about multicast routing is true?\n1. Multicasting starts with one single packet from the source that is duplicated by the routers.\n2. Only one single copy of the multicast packet travels between any two routers.",
+        opts: [
+          "The two given statements are false.",
+          "Multicasting starts with one single packet from the source that is duplicated by the routers.",
+          "Only one single copy of the multicast packet travels between any two routers.",
+          "The two given statements are true."
+        ],
+        ans: 0,
+        exp: "وفقاً لنموذج حل الامتحان فالخيار المعتمد هو (The two given statements are false)، علماً بأنه نظرياً في شبكات البث المتعدد تُرسل حزمة واحدة ويتم تفريعها ولا تسير أكثر من نسخة بين أي راوترين."
+      },
+      {
+        id: 8,
+        img: "",
+        q: "In IP classless routing,",
+        opts: [
+          "None of the given choices",
+          "The routing table contains a supernet mask that has more 1s than the default mask.",
+          "The routing table is stored from the shortest mask to the longest mask.",
+          "The routing table is stored from the longest mask to the shortest mask."
+        ],
+        ans: 3,
+        exp: "في التوجيه غير الفئوي (CIDR)، يُرتب جدول التوجيه من القناع الأطول إلى الأقصر (Longest Prefix Match أولاً)."
+      },
+      {
+        id: 9,
+        img: "",
+        q: "Which of the following statements about the TCP protocol is true?",
+        opts: [
+          "The two given statements are false.",
+          "A TCP host can still send data after receiving a FIN segment.",
+          "The two given statements are true.",
+          "A TCP host can still send data after receiving a zero-window-size advertisement."
+        ],
+        ans: 1,
+        exp: "استقبال قطعة FIN يعني إغلاق قناة الاستقبال من الطرف الآخر فقط (Half-close)، ويظل بإمكان المضيف إرسال بيانات إضافية طالما لم يرسل FIN الخاصة به."
+      },
+      {
+        id: 10,
+        img: "",
+        q: "A host has three processes: S1, S2, and S3.\n- S1 is a member of G1, and likes to receive from only {A, B, C}.\n- S2 is a member of G2, and likes to receive from all except {C, D, F}.\n- S3 is a member of G1, and likes to receive from all except {B, D, E}.\nWhat is the filter type and the list of source addresses that the host will send in the group record of G1?",
+        opts: [
+          "Exclude; D and E",
+          "Include; A, B, C, D, and E",
+          "Exclude; D",
+          "None of the given choices"
+        ],
+        ans: 0,
+        exp: "للمجموعة G1: العملية S3 تستثني {B, D, E} والعملية S1 تطلب {A, B, C}. بما أن S1 تريد B، يُحذف B من قائمة استثناءات المضيف، ويتبقى الاستثناء فقط لـ {D, E} بنمط Exclude."
+      },
+      {
+        id: 11,
+        img: "",
+        q: "Consider the topology: N1 --- R1 --- R2 --- N2 --- R3 --- N3. R1 connected to N1 and R2. R2 connected to R1 and N2. R3 connected to N2 and N3. Assume all routers use OSPF and R3 is DR for N2. Router R2 will advertise a router link LSA with links of type:",
+        opts: [
+          "stub and transient",
+          "only point-to-point",
+          "point-to-point and transient",
+          "point-to-point and stub"
+        ],
+        ans: 2,
+        exp: "الوصلة بين R1 و R2 هي وصلة ثنائية (Point-to-Point)، والشبكة N2 شبكة متعددة الوصول بها DR فتعتبر وصلة عابرة (Transient)."
+      },
+      {
+        id: 12,
+        img: "",
+        q: "A TCP host has a congestion window of 6000 bytes and a receive window of 7000 bytes. The host has sent 2500 bytes that have not been acknowledged. How many more bytes can be sent?",
+        opts: [
+          "2500",
+          "4500",
+          "3500",
+          "None of the given choices"
+        ],
+        ans: 2,
+        exp: "النافذة الفعلية = min(6000, 7000) = 6000 بايت. المتبقي للإرسال = 6000 - 2500 = 3500 بايت."
+      },
+      {
+        id: 13,
+        img: "",
+        q: "A TCP FIN+ACK segment carrying the last chunk of data consumes ______ sequence number(s).",
+        opts: [
+          "two",
+          "no",
+          "one",
+          "None of the given choices"
+        ],
+        ans: 2,
+        exp: "بت الـ FIN يستهلك دائماً رقم تسلسلي واحد مستقل (One sequence number)، بالإضافة إلى أرقام بايتات البيانات إن وجدت."
+      },
+      {
+        id: 14,
+        img: "",
+        q: "A TCP host has received bytes 1000-3999 in order. Assume that the host received out-of-order bytes 4500-4999 and 5500-5999, and duplicate bytes 3500-3999. Determine the blocks of the SACK option to be sent by the host.",
+        opts: [
+          "First block = 3500-4000; Second block = 4500-6000",
+          "First block = 4500-5000; Second block = 5500-6000",
+          "First block = 3500-4000; Second block = 4500-5000; Third block = 5500-6000",
+          "None of the given choices"
+        ],
+        ans: 2,
+        exp: "يحدد خيار SACK الكتل غير المرتبة بالإضافة للكتلة المكررة (D-SACK في البداية 3500-4000)، متبوعة بالكتل غير المتتالية 4500-5000 و 5500-6000."
+      },
+      {
+        id: 15,
+        img: "",
+        q: "In BGP, the ______ message is used by the router to withdraw destinations and/or announce a route to new destinations.",
+        opts: [
+          "Notification",
+          "Keepalive",
+          "Open",
+          "Update"
+        ],
+        ans: 3,
+        exp: "رسالة Update في BGP هي الرسالة المخصصة للإعلان عن مسارات جديدة أو سحب مسارات غير صالحة."
+      },
+      {
+        id: 16,
+        img: "",
+        q: "A router running the RIP protocol has a routing table with 10 entries. It does not receive information about three routes for 200 seconds. How many garbage collection timers are needed to handle this table?",
+        opts: [
+          "3",
+          "1",
+          "7",
+          "10"
+        ],
+        ans: 0,
+        exp: "بعد مرور 180 ثانية تنتهي صلاحية المسارات الثلاثة وتدخل طور الإلغاء، فيُخصص مؤقت جمع مهملات واحد لكل مسار ملغى (3 مؤقتات)."
+      },
+      {
+        id: 17,
+        img: "",
+        q: "A TCP send window holds bytes 351 to 1350. The next byte to be sent is 751. Assume that an ACK segment with window size advertisement 800 and acknowledgment number 651 is received. Determine the byte number of the first byte, last byte, and next byte to be sent in the window.",
+        opts: [
+          "None of the given choices",
+          "851; 1650; 951",
+          "751; 1550; 851",
+          "651; 1450; 751"
+        ],
+        ans: 3,
+        exp: "بداية النافذة = رقم الإقرار = 651. نهاية النافذة = 651 + 800 - 1 = 1450. والبايت التالي للإرسال يظل كما هو 751."
+      },
+      {
+        id: 18,
+        img: "",
+        q: "In TCP, connection reset occurs when:",
+        opts: [
+          "Aborting an established connection by sending a RST segment.",
+          "None of the given choices",
+          "Both of the given choices",
+          "Denying a connection request by sending a RST+ACK segment as a reply to a SYN segment."
+        ],
+        ans: 2,
+        exp: "يحدث الـ Reset إما لرفض طلب اتصال قادم عبر SYN، أو لإلغاء اتصال قائم فجأة عند حدوث خطأ جسيم (Both of the given choices)."
+      },
+      {
+        id: 19,
+        img: "",
+        q: "Assume that a UDP process has started and is granted port number 50142. Which of the following fields in the UDP control-block table will be updated by the control-block module at this stage?",
+        opts: [
+          "Port number and Queue number.",
+          "Process ID and Port number.",
+          "Process ID, Port number, and Queue number.",
+          "Process ID and Queue number."
+        ],
+        ans: 1,
+        exp: "عند بدء تشغيل العملية، تقوم وحدة control-block module بتسجيل معرف العملية Process ID ورقم المنفذ Port number، ويبقى رقم الطابور فارغاً."
+      },
+      {
+        id: 20,
+        img: "",
+        q: "The checksum in TCP is:",
+        opts: [
+          "Optional and its calculation considers the TCP header and pseudoheader.",
+          "Optional and its calculation considers only the TCP header.",
+          "Mandatory and its calculation considers the TCP header and pseudoheader.",
+          "Mandatory and its calculation considers only the TCP header."
+        ],
+        ans: 2,
+        exp: "حساب الـ Checksum في TCP إلزامي دائماً ويشمل ترويسة TCP والترويسة الزائفة (Pseudoheader) وحمولة البيانات."
+      },
+      {
+        id: 21,
+        img: "",
+        q: "In reverse path multicasting, the router sends a ______ message to the upstream router to ______ sending the multicast packets.",
+        opts: [
+          "graft; resume",
+          "None of the given choices",
+          "graft; stop",
+          "prune; resume"
+        ],
+        ans: 0,
+        exp: "رسالة الـ Graft تُرسل لاستئناف استقبال حزم البث المتعدد (Resume) بعد أن كانت مقصوصة بـ Prune."
+      },
+      {
+        id: 22,
+        img: "",
+        q: "Which of the following statements about the BGP routing protocol is true?\n1. A BGP router can have E-BGP session and I-BGP session at the same time.\n2. A BGP router uses the AS_PATH attribute to prevent routing loops.",
+        opts: [
+          "The two given statements are false.",
+          "The two given statements are true.",
+          "A BGP router can have E-BGP session and I-BGP session at the same time.",
+          "A BGP router uses the AS_PATH attribute to prevent routing loops."
+        ],
+        ans: 1,
+        exp: "كلا العبارتين صحيحتان؛ يمكن للراوتر الربط داخلياً وخارجياً في نفس الوقت، وخاصية AS_PATH تُستخدم لمنع اللوب."
+      },
+      {
+        id: 23,
+        img: "",
+        q: "In RIP, the router shares its routing table with:",
+        opts: [
+          "Every router in the autonomous system.",
+          "One of its neighbors.",
+          "None of the given choices",
+          "Its immediate neighbors."
+        ],
+        ans: 3,
+        exp: "في بروتوكول RIP، يتبادل الراوتر جدول التوجيه فقط مع جيرانه المباشرين (Immediate neighbors)."
+      },
+      {
+        id: 24,
+        img: "",
+        q: "A TCP client opens a connection using initial sequence number 4363, sends two segments with payload 1000 bytes each, and closes the connection. What is the sequence number in the second data segment sent by the client?",
+        opts: [
+          "5364",
+          "6364",
+          "6363",
+          "5363"
+        ],
+        ans: 0,
+        exp: "قطعة SYN تستهلك رقماً (4363). البيانات الأولى تبدأ من 4364 وتأخذ 1000 بايت حتى 5363. القطعة الثانية تبدأ بالرقم 5364."
+      },
+      {
+        id: 25,
+        img: "",
+        q: "For the IP multicast address 228.150.32.8, what is the corresponding Ethernet multicast address?",
+        opts: [
+          "01-00-5E-16-20-08",
+          "None of the given choices",
+          "01-00-5E-96-20-08",
+          "01-00-5E-150-32-08"
+        ],
+        ans: 0,
+        exp: "150 بالباينري = 10010110، آخر 7 بتات مع الصفر تعطي 00010110 = 16 بالهيكسا. و 32 = 20، و 8 = 08. العنوان الناتج: 01-00-5E-16-20-08."
+      },
+      {
+        id: 26,
+        img: "",
+        q: "A system has 10 multicast groups and 20 routers running the DVMRP protocol. How many multicast trees are formed?",
+        opts: [
+          "200",
+          "1",
+          "10",
+          "20"
+        ],
+        ans: 0,
+        exp: "يعتمد بروتوكول DVMRP على Source-Based Tree؛ إذا افترضنا أن كل راوتر يمكن أن يكون مصدراً لكل مجموعة، فإن عدد الأشجار = 10 × 20 = 200 شجرة."
+      },
+      {
+        id: 27,
+        img: "",
+        q: "A TCP host receives an acknowledgment with window size of 32750 and window scale factor of 3. What is the window size (in bytes) that the host can use?",
+        opts: [
+          "98250",
+          "294750",
+          "None of the given choices",
+          "262000"
+        ],
+        ans: 3,
+        exp: "معامل التوسيع 3 يعني الضرب بـ 2^3 = 8. الحجم = 32750 × 8 = 262,000 بايت."
+      },
+      {
+        id: 28,
+        img: "",
+        q: "Which of the following TCP options can be changed during data transfer?",
+        opts: [
+          "SACK-permitted",
+          "Maximum segment size",
+          "None of the given choices",
+          "Window scale factor"
+        ],
+        ans: 2,
+        exp: "خيارات MSS و Window Scale و SACK-permitted لا يمكن التفاوض عليها إلا أثناء مرحلة تأسيس الاتصال (SYN) فقط، ولا تتغير أثناء نقل البيانات (None of the given choices)."
+      },
+      {
+        id: 29,
+        img: "",
+        q: "The destination IP address of an IGMP membership report message is:",
+        opts: [
+          "224.0.0.22",
+          "Group address",
+          "None of the given choices",
+          "224.0.0.1"
+        ],
+        ans: 0,
+        exp: "في معيار IGMPv3، تُرسل جميع تقارير العضوية إلى العنوان المخصص لراوترات البث المتعدد 224.0.0.22."
+      },
+      {
+        id: 30,
+        img: "",
+        q: "Which of the following statements about the OSPF routing protocol is true?\n1. A backbone router can also be an area border router.\n2. An area border router advertises an external link LSA.",
+        opts: [
+          "The two given statements are true.",
+          "The two given statements are false.",
+          "A backbone router can also be an area border router.",
+          "An area border router advertises an external link LSA."
+        ],
+        ans: 2,
+        exp: "راوتر الحدود للمنطقة ABR متصل بالمنطقة 0 بالضرورة، فهو Backbone Router في نفس الوقت. أما External LSA فيعلنه الـ ASBR وليس الـ ABR."
+      },
+      {
+        id: 31,
+        img: "",
+        q: "In the DNS message, the query name that maps the domain name 'just.edu.jo' is:",
+        opts: [
+          "just.edu.jo",
+          "None of the given choices",
+          "4just3edu2jo0",
+          "4just3edu2jo"
+        ],
+        ans: 2,
+        exp: "في DNS يسبق كل مقطع بطوله العددي وينتهي بـ 0: كلمة just طولها 4، و edu طولها 3، و jo طولها 2، والختام بـ 0."
+      },
+      {
+        id: 32,
+        img: "",
+        q: "What value is sent for the checksum in the UDP header if the value of the sum is all ones?",
+        opts: [
+          "All ones",
+          "None of the given choices",
+          "Nonzero value",
+          "All zeros"
+        ],
+        ans: 0,
+        exp: "عندما يكون المجموع كله واحدات، تكون المتممة كلها أصفار، وبما أن الصفر محجوز لتعطيل الفحص، يُرسل بدلاً منه All ones."
+      },
+      {
+        id: 33,
+        img: "",
+        q: "In multiple unicasting, the source address is a ______ address and the destination address is a ______ address.",
+        opts: [
+          "multicast ; unicast",
+          "unicast ; multicast",
+          "multicast ; multicast",
+          "unicast ; unicast"
+        ],
+        ans: 3,
+        exp: "في المحاكاة عبر Multiple Unicasting، يقوم المصدر بإرسال نسخ فردية لكل مستقبل، فيكون عنوان المصدر Unicast وعنوان الوجهة Unicast."
+      },
+      {
+        id: 34,
+        img: "",
+        q: "Consider the topology: N1 --- R1 --- R2 --- N2 --- R3 --- N3. All routers use OSPF. The network link LSA for network N1 is advertised by:",
+        opts: [
+          "Router R1",
+          "Router R2",
+          "None of the given choices",
+          "Either router R1 or R2"
+        ],
+        ans: 0,
+        exp: "وفقاً لنموذج حل الامتحان اختار Router R1، علماً بأن Network LSA لا يُرسل إلا بواسطة DR في الشبكات متعددة الوصول (None of the given choices نظرياً إذا اعتبرت Stub)."
+      },
+      {
+        id: 35,
+        img: "",
+        q: "In multicast routing, the Reverse Path Forwarding (RPF) does not:",
+        opts: [
+          "Both of the given choices",
+          "None of the given choices",
+          "Support dynamic membership changes.",
+          "Guarantee that each network receives only one copy of the multicast packet."
+        ],
+        ans: 0,
+        exp: "خوارزمية RPF البسيطة لا تضمن عدم تكرار الحزم بين الشبكات المتعددة، ولا تدعم التغييرات الديناميكية للمجموعات دون بروتوكولات إضافية كـ IGMP (Both of the given choices)."
+      },
+      {
+        id: 36,
+        img: "",
+        q: "Assume that a TCP sender is in the slow start phase. What would happen if it receives three duplicate ACKs?",
+        opts: [
+          "TCP starts the slow start phase again.",
+          "TCP starts the congestion avoidance phase.",
+          "None of the given choices",
+          "TCP continues increasing its congestion window size until a time-out occurs."
+        ],
+        ans: 1,
+        exp: "في خوارزمية Fast Retransmit / Fast Recovery المعتمدة في TCP Reno، يتم إنزال العتبة والبدء مباشرة في طور Congestion Avoidance دون الرجوع لـ Slow Start."
+      },
+      {
+        id: 37,
+        img: "",
+        q: "A DNS client asks a name server for a recursive answer. If the server is not the authority for the domain name,",
+        opts: [
+          "The server returns the IP address of the server that may resolve the query.",
+          "The server sends the query to another server.",
+          "The server discards the query.",
+          "None of the given choices"
+        ],
+        ans: 1,
+        exp: "في الاستعلام التكراري (Recursive)، يتحمل السيرفر مسؤولية جلب الجواب فيقوم بإعادة إرسال الاستعلام إلى سيرفرات أخرى نيابة عن العميل."
+      },
+      {
+        id: 38,
+        img: "",
+        q: "Consider the topology: N1 --- R1 --- R2 --- N2 --- R3 --- N3. Assume that all routers use the OSPF protocol. The network link LSA for network N2 is advertised by:",
+        opts: [
+          "Router R2",
+          "Either router R1 or R2",
+          "None of the given choices",
+          "Router R1"
+        ],
+        ans: 2,
+        exp: "شبكة N2 تتطلب Designated Router لإعلان Network LSA، وبما أن الراوتر المسؤول عنها في المعطيات السابقة هو R3 وهو غير موجود بالخيارات، فالإجابة هي (None of the given choices)."
+      },
+      {
+        id: 39,
+        img: "",
+        q: "Consider the topology: N1 --- R1 --- R2 --- N2 --- R3 --- N3. All routers use OSPF and R3 is DR for N2. Router R3 will advertise a router link LSA with links of type:",
+        opts: [
+          "point-to-point and transient",
+          "stub and transient",
+          "point-to-point and stub",
+          "only point-to-point"
+        ],
+        ans: 1,
+        exp: "الراوتر R3 متصل بالشبكة N2 وهي شبكة عابرة متعددة الوصول (Transient)، وشبكة N3 شبكة طرفية (Stub)، فيعلن عن وصلات من نوع Stub and Transient."
+      },
+      {
+        id: 40,
+        img: "",
+        q: "In multicast distance vector routing, which of the following strategies prevent loops in the systems?",
+        opts: [
+          "RPF",
+          "RPB",
+          "All of the given choices",
+          "RPM"
+        ],
+        ans: 0,
+        exp: "اعتمد الامتحان خيار RPF، علماً بأن RPF و RPB و RPM جميعها عائلة خوارزميات تهدف لمنع حلقات التوجيه."
+      },
+      {
+        id: 41,
+        img: "",
+        q: "In a multicast backbone, non-multicast routers forward ______ packets between two ______ routers.",
+        opts: [
+          "multicast ; multicast",
+          "multicast ; unicast",
+          "unicast ; multicast",
+          "unicast ; unicast"
+        ],
+        ans: 2,
+        exp: "في شبكات MBONE، الراوترات العادية غير الداعمة للـ Multicast تمرر الحزم مغلفة داخل Unicast بين راوترين يدعمان الـ Multicast عبر الـ Tunneling."
+      },
+      {
+        id: 42,
+        img: "",
+        q: "Which of the following statements about indirect delivery is true?\n1. The IP packet goes from router to router until it reaches the one connected to the same network as its final destination.\n2. The sender uses the destination IP address and a routing table to find the IP address of the next router to which the IP packet should be delivered.",
+        opts: [
+          "The IP packet goes from router to router until it reaches the one connected to the same network as its final destination.",
+          "The two given statements are true.",
+          "The two given statements are false.",
+          "The sender uses the destination IP address and a routing table to find the IP address of the next router to which the IP packet should be delivered."
+        ],
+        ans: 0,
+        exp: "اعتمد الامتحان العبارة الأولى كإجابة صحيحة، مع العلم أن كلتا العبارتين تصفان التسليم غير المباشر بدقة."
+      },
+      {
+        id: 43,
+        img: "",
+        q: "Assume that router X reaches network Z through router Y. Using Defining Infinity strategy,",
+        opts: [
+          "None of the given choices",
+          "Router X will advertise to router Y the actual value of the distance to Z",
+          "Router X will advertise to router Y the value of infinity as the distance to Z.",
+          "Router X will not advertise its distance to Z to router Y."
+        ],
+        ans: 2,
+        exp: "في استراتيجية Split Horizon with Poison Reverse (Defining Infinity)، يقوم الراوتر X بإعلان المسافة كـ Infinity للراوتر Y لمنع حلقات التوجيه."
+      },
+      {
+        id: 44,
+        img: "",
+        q: "A router running the RIP protocol has a routing table with 10 entries. It does not receive information about three routes for 200 seconds. How many periodic timers are needed to handle this table?",
+        opts: [
+          "7",
+          "1",
+          "10",
+          "3"
+        ],
+        ans: 1,
+        exp: "مؤقت التحديث الدوري (Periodic / Update Timer) في بروتوكول RIP هو مؤقت عام واحد فقط لكل جدول توجيه في الراوتر."
+      },
+      {
+        id: 45,
+        img: "",
+        q: "Which of the following IP options is used for datagram control?",
+        opts: [
+          "All of the given options",
+          "Strict source route",
+          "End of option",
+          "No operation"
+        ],
+        ans: 1,
+        exp: "خيارات خريطة وتوجيه المسار مثل Strict Source Route و Loose Source Route تُصنف ضمن فئة التحكم بالحزمة (Datagram Control)."
+      },
+      {
+        id: 46,
+        img: "",
+        q: "In OSPF, a summary link to network LSA is flooded by an ______ into its ______.",
+        opts: [
+          "AS boundary router ; area",
+          "area border router ; area",
+          "AS boundary router ; autonomous system",
+          "area border router ; autonomous system"
+        ],
+        ans: 1,
+        exp: "رسائل Type 3 LSA (Summary Link to Network) يُنشئها وينشرها راوتر حدود المنطقة ABR داخل منطقته الخاصة."
+      },
+      {
+        id: 47,
+        img: "",
+        q: "Assume that the UDP input module receives a user datagram with destination port 50142. What would happen if the input module checks the control-block table and finds that a queue has been allocated for this port?",
+        opts: [
+          "The input module creates a queue and send the data to the queue.",
+          "None of the given choices",
+          "The input module sends the data to the corresponding queue.",
+          "The user datagram is dropped and an ICMP error message is sent to the source."
+        ],
+        ans: 2,
+        exp: "إذا كان الطابور مخصصاً وموجوداً بالفعل بالجدول، ترسل وحدة الإدخال البيانات مباشرة إلى الطابور دون إجراء تعديل على الجدول."
+      },
+      {
+        id: 48,
+        img: "",
+        q: "In source-based tree multicast routing,",
+        opts: [
+          "Core router and each other router have shortest path trees for each group.",
+          "Each router has one shortest path tree for each group.",
+          "None of the given choices",
+          "Only core router has a shortest path tree for each group."
+        ],
+        ans: 1,
+        exp: "وفقاً لنموذج حل الامتحان تم اعتماد الخيار B، على الرغم من أن الشجرة لكل مجموعة تمثل Group-shared tree نظرياً."
+      },
+      {
+        id: 49,
+        img: "",
+        q: "If an IP datagram has the More Fragment bit value set to one, it means:",
+        opts: [
+          "The datagram is the last fragment.",
+          "None of the given choices",
+          "The datagram is fragmented.",
+          "The datagram is the only fragment."
+        ],
+        ans: 2,
+        exp: "إذا كانت قيمة بت MF تساوي 1، فهذا يعني أن الحزمة الحالية مقسمة (Fragmented) وتتبعها قطع أخرى."
+      },
+      {
+        id: 50,
+        img: "",
+        q: "How many routers can record their IP addresses in an IP datagram if the value of the length field in the record router option is 27?",
+        opts: [
+          "3",
+          "6",
+          "2",
+          "12"
+        ],
+        ans: 1,
+        exp: "طول الترويسة المخصص للخيارات = 27 بايت. نطرح 3 بايتات للترويسة الخاصة بالخيار يتبقى 24 بايت. بما أن عنوان كل راوتر IPv4 يأخذ 4 بايت: 24 ÷ 4 = 6 راوترات."
+      }
+    ];
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    let userAnswers = {};
+
+    function initQuiz() {
+      // فحص زر رابط ملف الدرايف الأصلي
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      const totalQuestions = questionsData.length;
+
+      const subtitleEl = document.getElementById('quiz-subtitle');
+      if (subtitleEl && totalQuestions > 0) {
+        subtitleEl.innerText = `Final Exam — ${totalQuestions} Questions`;
+      }
+
+      questionsData.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+        card.id = `q-${q.id}`;
+
+        const optionsHtml = q.opts.map((opt, i) => `
+          <div class="option-item" id="opt-${q.id}-${i}" onclick="chooseAnswer(${q.id}, ${i})">
+            <div class="opt-letter">${letters[i]}</div>
+            <div>${opt}</div>
+          </div>
+        `).join('');
+
+        const hasImage = q.img && q.img.trim() !== "";
+        
+        const imageContainerHtml = hasImage ? `
+          <div class="q-image-container" id="img-box-${q.id}">
+            <img class="q-original-img" 
+                 id="img-${q.id}"
+                 data-src="${q.img}" 
+                 alt="Original Question ${q.id}"
+                 onerror="handleImageFallback(this)" />
+          </div>
+        ` : '';
+
+        const imageButtonHtml = hasImage ? `
+          <button class="btn-action" onclick="toggleOriginalImage(${q.id})">
+            <span>📷</span> عرض صورة السؤال الأصلية
+          </button>
+        ` : '';
+
+        card.innerHTML = `
+          <div class="q-top">
+            <span class="q-badge">Question ${q.id} / ${totalQuestions}</span>
+          </div>
+          <div class="q-text">${q.q}</div>
+
+          ${imageContainerHtml}
+
+          <div class="options-list" id="opts-container-${q.id}">${optionsHtml}</div>
+          
+          <div class="q-actions">
+            ${imageButtonHtml}
+            <button class="btn-action" onclick="toggleSolution(${q.id})">
+              <span>💡</span> عرض الحل والشرح
+            </button>
+            <button class="btn-reset-q" id="reset-btn-${q.id}" onclick="resetSingleQuestion(${q.id})">
+              إعادة السؤال ↻
+            </button>
+          </div>
+
+          <div class="solution-box" id="sol-${q.id}">
+            <div><strong>الإجابة الصحيحة: (${letters[q.ans]})</strong></div>
+            <div style="margin-top: 6px;">${q.exp}</div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function chooseAnswer(qid, optIndex) {
+      const q = questionsData.find(item => item.id === qid);
+      const optsContainer = document.getElementById(`opts-container-${qid}`);
+
+      q.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${qid}-${i}`);
+        if (el) el.className = 'option-item';
+      });
+
+      const picked = document.getElementById(`opt-${qid}-${optIndex}`);
+      
+      if (optIndex === q.ans) {
+        userAnswers[qid] = optIndex;
+        if (picked) picked.classList.add('correct');
+      } else {
+        delete userAnswers[qid];
+        if (picked) picked.classList.add('wrong');
+      }
+
+      if (optsContainer) optsContainer.classList.add('locked');
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) {
+        resetBtn.style.display = 'inline-flex';
+      }
+
+      calculateScore();
+    }
+
+    function resetSingleQuestion(qid) {
+      delete userAnswers[qid];
+
+      const q = questionsData.find(item => item.id === qid);
+      const optsContainer = document.getElementById(`opts-container-${qid}`);
+      
+      if (optsContainer) {
+        optsContainer.classList.remove('locked');
+      }
+
+      if (q) {
+        q.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${qid}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) {
+        resetBtn.style.display = 'none';
+      }
+
+      const sol = document.getElementById(`sol-${qid}`);
+      if (sol) {
+        sol.classList.remove('show');
+      }
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let score = 0;
+      const total = questionsData.length;
+      Object.keys(userAnswers).forEach(qid => {
+        const q = questionsData.find(item => item.id == qid);
+        if (q && userAnswers[qid] === q.ans) score++;
+      });
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(qid) {
+      const sol = document.getElementById(`sol-${qid}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      questionsData.forEach(q => {
+        const sol = document.getElementById(`sol-${q.id}`);
+        if (sol) {
+          if (allShown) sol.classList.add('show');
+          else sol.classList.remove('show');
+        }
+      });
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>
