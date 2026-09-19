@@ -247,27 +247,50 @@ footer p {
   padding: 10px 0;
   margin-top: -10px;
   margin-bottom: 24px;
-  background: linear-gradient(to bottom, rgba(7, 9, 14, 0.94) 0%, rgba(7, 9, 14, 0.78) 78%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(7, 9, 14, 0.96) 0%, rgba(7, 9, 14, 0.84) 78%, transparent 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
 .search {
+  position: relative;
   width: 100%;
-  background: var(--apple-surface);
-  border: 1px solid var(--apple-border);
-  border-radius: 99px;
-  padding: 12px 22px;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025) 46%, rgba(10, 132, 255, 0.09)),
+    rgba(22, 28, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 14px 48px 14px 20px;
   color: var(--text-primary);
-  backdrop-filter: blur(20px);
+  caret-color: var(--apple-blue);
   font-size: 15px;
-  transition: all 0.25s var(--ease-apple);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: border-color 0.25s var(--ease-apple), box-shadow 0.25s var(--ease-apple), transform 0.25s var(--ease-apple);
+}
+
+.bar::before {
+  content: "⌕";
+  position: absolute;
+  right: 17px;
+  top: 50%;
+  z-index: 1;
+  color: #7dd3fc;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  line-height: 1;
+  transform: translateY(-55%) rotate(-15deg);
+  pointer-events: none;
 }
 
 .search:focus {
   outline: none;
-  border-color: var(--apple-blue);
-  box-shadow: 0 0 20px rgba(10, 132, 255, 0.25);
+  border-color: rgba(10, 132, 255, 0.8);
+  box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.13), 0 16px 36px rgba(10, 132, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.search::placeholder {
+  color: #9aa8bb;
 }
 
 @media (max-width: 600px) {
@@ -336,8 +359,8 @@ footer p {
 .subject-card {
   position: relative;
   isolation: isolate;
-  aspect-ratio: 1 / 1;
-  min-height: 190px;
+  aspect-ratio: 1.28 / 1;
+  min-height: 156px;
   align-items: flex-end;
   overflow: hidden;
   padding: 22px;
@@ -637,7 +660,8 @@ footer p {
   }
 
   .subject-card {
-    min-height: 150px;
+    aspect-ratio: 1.18 / 1;
+    min-height: 128px;
     padding: 16px;
   }
 

@@ -3,6 +3,20 @@
 
   var homeUrl = "../index.html";
 
+  function setupPageTransition() {
+    var transition = document.createElement("div");
+    transition.className = "page-transition";
+    transition.setAttribute("aria-hidden", "true");
+    transition.innerHTML = '<span class="page-transition-mark"></span>';
+    document.body.appendChild(transition);
+
+    requestAnimationFrame(function () {
+      transition.classList.add("is-ready");
+    });
+
+    return transition;
+  }
+
   function reportMarkup() {
     return '<button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">' +
       '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>' +
@@ -103,17 +117,23 @@
     }
   }
 
+  var pageTransition = setupPageTransition();
   useSharedShell();
   setupReportWidget();
 
   document.addEventListener("click", function (event) {
-    var link = event.target.closest('a[href*="../index.html#/s/"]');
+    var link = event.target.closest("a");
     if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    var target = new URL(link.href, window.location.href);
+    if (target.origin !== window.location.origin || target.pathname.indexOf("/index.html") === -1 || target.hash.indexOf("#/s/") !== 0) return;
 
     event.preventDefault();
     document.body.classList.add("page-leave");
+    pageTransition.classList.remove("is-ready");
+    pageTransition.classList.add("is-leaving");
     setTimeout(function () {
       window.location.href = link.href;
-    }, 200);
+    }, 400);
   });
 })();
