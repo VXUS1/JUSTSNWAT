@@ -1504,10 +1504,8 @@ footer p {
     }
   });
 
+  // إرسال البلاغ لسيرفر نيتفلاي ومنه إلى ديسكورد
   if (form) {
-    // ضع رابط الـ Webhook الخاص بديسكورد هنا
-    var DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw/slack";
-
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       submitBtn.disabled = true;
@@ -1519,14 +1517,13 @@ footer p {
       var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
       var currentUrl = window.location.href;
 
-      // تجهيز رسالة منسقة (Embed) لديسكورد
       var discordPayload = {
         username: "JUSTSNWAT - بلاغات",
         avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
         embeds: [
           {
             title: "🚨 بلاغ عن خطأ جديد",
-            color: 16729390, // لون أحمر متناسق
+            color: 16729390,
             fields: [
               { name: "📌 نوع المشكلة", value: issueType, inline: true },
               { name: "👤 وسيلة التواصل", value: userContact, inline: true },
@@ -1539,13 +1536,14 @@ footer p {
         ]
       };
 
-      fetch(DISCORD_WEBHOOK_URL, {
+      // الإرسال للفنكشن الداخلي (بدون CORS)
+      fetch("/.netlify/functions/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(discordPayload)
       })
       .then(function (response) {
-        if (response.ok || response.status === 204) {
+        if (response.ok) {
           statusDiv.className = "report-status success";
           statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لمساعدتك!";
           form.reset();
@@ -1555,7 +1553,7 @@ footer p {
             submitBtn.textContent = "إرسال البلاغ";
           }, 2000);
         } else {
-          throw new Error("Discord API error");
+          throw new Error("Server error");
         }
       })
       .catch(function () {
