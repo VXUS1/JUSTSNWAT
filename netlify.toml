@@ -1,5 +1,4 @@
 [[plugins]]
   package = "netlify-plugin-checklinks"
   [plugins.inputs]
-    failBuild = false
     checkExternal = false
