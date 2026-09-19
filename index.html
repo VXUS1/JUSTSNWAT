@@ -348,6 +348,56 @@ footer p {
   #app.page-enter > .list > .row {
     animation: none;
   }
+
+  .page-transition {
+    transition: none;
+  }
+}
+
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  background: var(--bg-base);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.42s var(--ease-apple);
+}
+
+.page-transition.is-ready {
+  opacity: 0;
+}
+
+.page-transition.is-leaving {
+  opacity: 1;
+}
+
+.page-transition-mark {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 14px;
+  background: linear-gradient(145deg, var(--apple-red), #9f1239 68%);
+  box-shadow: 0 0 34px rgba(255, 69, 58, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.42s var(--ease-apple);
+}
+
+.page-transition.is-ready .page-transition-mark {
+  transform: scale(1);
+}
+
+.page-transition-mark::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
 }
 
 .subject-grid {
@@ -935,6 +985,8 @@ footer p {
 </head>
 <body>
 
+<div class="page-transition" id="pageTransition" aria-hidden="true"><span class="page-transition-mark"></span></div>
+
 <header class="masthead">
   <div class="brand-line">
     <span class="brand-mark" aria-hidden="true"><span></span></span>
@@ -1200,6 +1252,9 @@ footer p {
   var app = document.getElementById("app");
   var transitionTimer = null;
 
+  var pageTransition = document.getElementById("pageTransition");
+  requestAnimationFrame(function () { pageTransition.classList.add("is-ready"); });
+
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -1363,9 +1418,11 @@ footer p {
       clearTimeout(transitionTimer);
       app.classList.remove("page-enter");
       app.classList.add("page-leave");
+      pageTransition.classList.remove("is-ready");
+      pageTransition.classList.add("is-leaving");
       transitionTimer = setTimeout(function () {
         window.location.href = targetUrl;
-      }, 200);
+      }, 400);
       return;
     }
 
