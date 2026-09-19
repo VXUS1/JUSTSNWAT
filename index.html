@@ -7,8 +7,6 @@
 <meta name="keywords" content="سنوات, أسئلة, شبكات, NES415, NES441, التكنو, JUST">
 <meta name="google" content="notranslate">
 <title>JUSTSNWAT | بنك أسئلة وسنوات</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -1095,7 +1093,12 @@ footer p {
     { id: "network-security", name: "Network Security", code: "NES453" },
     { id: "network-programming", name: "Network Programming", code: "NES416" },
     { id: "cryptography", name: "Cryptography & Information Security", code: "NES352" },
-    { id: "unix", name: "Unix", code: "NES202" }
+    { id: "unix", name: "Unix", code: "NES202" },
+    { id: "computer-networks", name: "Computer Networks", code: "NES312" },
+    { id: "archi", name: "Computer Architecture", code: "CPE352" },
+    { id: "os", name: "Operating Systems \n(قسم هندسة الحاسوب)", code: "CPE473" },
+    { id: "os2", name: "Operating Systems \n(قسم علوم الحاسوب)", code: "CS375" },
+    { id: "data-structures", name: "Data Structures", code: "HSS211CS" },
   ];
 
   var exams = {
@@ -1248,6 +1251,22 @@ footer p {
         note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
       }
     ],
+    "computer-networks": [
+      {
+        id: "quiz-computer-networks",
+        title: "Mid Exam 1st semester 2021 Computer Networks",
+        link: "computer-networks/mid1.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      ],
+    "archi": [
+      {
+        id: "quiz-archi",
+        title: "Mid Exam 1st semester 2021 Computer Architecture",
+        link: "archi/mid1.html",
+        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
+      },
+      ],
   };
 
   var currentId = null;
@@ -1485,24 +1504,48 @@ footer p {
     }
   });
 
-  // إرسال البلاغ بدون مغادرة الصفحة (متوافق 100% مع Netlify للنماذج النصية)
   if (form) {
+    // ضع رابط الـ Webhook الخاص بديسكورد هنا
+    var DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw/slack";
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       submitBtn.disabled = true;
       submitBtn.textContent = "جارِ الإرسال...";
       statusDiv.style.display = "none";
 
-      var formData = new FormData(form);
+      var issueType = document.getElementById("issue-type").value;
+      var issueDesc = document.getElementById("issue-desc").value;
+      var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
+      var currentUrl = window.location.href;
 
-      // تحويل البيانات للصيغة التي يقبلها Netlify للنماذج النصية
-      fetch("/", {
+      // تجهيز رسالة منسقة (Embed) لديسكورد
+      var discordPayload = {
+        username: "JUSTSNWAT - بلاغات",
+        avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
+        embeds: [
+          {
+            title: "🚨 بلاغ عن خطأ جديد",
+            color: 16729390, // لون أحمر متناسق
+            fields: [
+              { name: "📌 نوع المشكلة", value: issueType, inline: true },
+              { name: "👤 وسيلة التواصل", value: userContact, inline: true },
+              { name: "🔗 رابط الصفحة والمادة", value: currentUrl },
+              { name: "📝 وصف المشكلة", value: issueDesc }
+            ],
+            footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+
+      fetch(DISCORD_WEBHOOK_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString()
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(discordPayload)
       })
       .then(function (response) {
-        if (response.ok) {
+        if (response.ok || response.status === 204) {
           statusDiv.className = "report-status success";
           statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لمساعدتك!";
           form.reset();
@@ -1512,7 +1555,7 @@ footer p {
             submitBtn.textContent = "إرسال البلاغ";
           }, 2000);
         } else {
-          throw new Error("Form submission failed");
+          throw new Error("Discord API error");
         }
       })
       .catch(function () {
