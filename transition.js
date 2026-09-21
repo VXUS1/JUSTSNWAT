@@ -39,69 +39,77 @@
     var closeBtn = document.getElementById("closeReportBtn");
     var overlay = document.getElementById("reportOverlay");
     var form = document.getElementById("bugReportForm");
-    var status = document.getElementById("reportStatus");
-    var submit = document.getElementById("submitReportBtn");
+    var statusDiv = document.getElementById("reportStatus");
+    var submitBtn = document.getElementById("submitReportBtn");
 
-    // ضع رابط الـ Worker الخاص بك هنا
     var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
+
+    function openModal() {
+      overlay.classList.add("active");
+      overlay.setAttribute("aria-hidden", "false");
+      statusDiv.className = "report-status";
+      statusDiv.style.display = "none";
+    }
 
     function closeModal() {
       overlay.classList.remove("active");
       overlay.setAttribute("aria-hidden", "true");
     }
 
-    openBtn.addEventListener("click", function () {
-      overlay.classList.add("active");
-      overlay.setAttribute("aria-hidden", "false");
-      status.className = "report-status";
-      status.style.display = "none";
-    });
-    
-    closeBtn.addEventListener("click", closeModal);
-    overlay.addEventListener("click", function (event) { if (event.target === overlay) closeModal(); });
-    document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeModal(); });
-
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      submit.disabled = true;
-      submit.textContent = "جارِ الإرسال...";
-      status.style.display = "none";
-
-      var payload = {
-        issueType: document.getElementById("issue-type").value,
-        issueDesc: document.getElementById("issue-desc").value,
-        userContact: document.getElementById("user-contact").value.trim() || "غير محدد",
-        currentUrl: window.location.href
-      };
-
-      fetch(WORKER_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-      .then(function (res) {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then(function () {
-        status.className = "report-status success";
-        status.style.display = "block";
-        status.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
-        form.reset();
-        setTimeout(function () {
-          closeModal();
-          submit.disabled = false;
-          submit.textContent = "إرسال البلاغ";
-        }, 2000);
-      })
-      .catch(function () {
-        status.className = "report-status error";
-        status.style.display = "block";
-        status.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
-        submit.disabled = false;
-        submit.textContent = "إرسال البلاغ";
+    if (openBtn) openBtn.addEventListener("click", openModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (overlay) {
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) closeModal();
       });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeModal();
     });
+
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.textContent = "جارِ الإرسال...";
+        statusDiv.style.display = "none";
+
+        var payload = {
+          issueType: document.getElementById("issue-type").value,
+          issueDesc: document.getElementById("issue-desc").value,
+          userContact: document.getElementById("user-contact").value.trim() || "غير محدد",
+          currentUrl: window.location.href
+        };
+
+        fetch(WORKER_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+        .then(function (res) {
+          if (!res.ok) throw new Error();
+          return res.json();
+        })
+        .then(function () {
+          statusDiv.className = "report-status success";
+          statusDiv.style.display = "block";
+          statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
+          form.reset();
+          setTimeout(function () {
+            closeModal();
+            submitBtn.disabled = false;
+            submitBtn.textContent = "إرسال البلاغ";
+          }, 2000);
+        })
+        .catch(function () {
+          statusDiv.className = "report-status error";
+          statusDiv.style.display = "block";
+          statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
+          submitBtn.disabled = false;
+          submitBtn.textContent = "إرسال البلاغ";
+        });
+      });
+    }
   }
 
   function useSharedShell() {
