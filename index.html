@@ -1700,67 +1700,48 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     }
 
     if (form) {
-      var DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
+      // ضع هنا رابط الـ Worker الذي نسخته من كلاود فلاير
+var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.textContent = "جارِ الإرسال...";
-        statusDiv.style.display = "none";
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = "جارِ الإرسال...";
+  statusDiv.style.display = "none";
 
-        var issueType = document.getElementById("issue-type").value;
-        var issueDesc = document.getElementById("issue-desc").value;
-        var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
-        var currentUrl = window.location.href;
-        var fileInput = document.getElementById("issue-file");
+  var payload = {
+    issueType: document.getElementById("issue-type").value,
+    issueDesc: document.getElementById("issue-desc").value,
+    userContact: document.getElementById("user-contact").value.trim() || "غير محدد",
+    currentUrl: window.location.href
+  };
 
-        var discordPayload = {
-          username: "JUSTSNWAT | بلاغات",
-          avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
-          embeds: [
-            {
-              title: "🚨 بلاغ جديد عن خطأ / ملاحظة",
-              color: 16729390,
-              fields: [
-                { name: "📌 نوع المشكلة", value: issueType, inline: true },
-                { name: "👤 وسيلة التواصل", value: userContact, inline: true },
-                { name: "🔗 رابط الصفحة", value: currentUrl },
-                { name: "📝 وصف المشكلة", value: issueDesc }
-              ],
-              footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-
-        var formData = new FormData();
-        formData.append("payload_json", JSON.stringify(discordPayload));
-        if (fileInput && fileInput.files && fileInput.files[0]) {
-          formData.append("files[0]", fileInput.files[0]);
-        }
-
-        fetch(DISCORD_WEBHOOK_URL, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData
-        })
-        .then(function () {
-          statusDiv.className = "report-status success";
-          statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
-          form.reset();
-          setTimeout(function () {
-            closeModal();
-            submitBtn.disabled = false;
-            submitBtn.textContent = "إرسال البلاغ";
-          }, 2000);
-        })
-        .catch(function () {
-          statusDiv.className = "report-status error";
-          statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
-          submitBtn.disabled = false;
-          submitBtn.textContent = "إرسال البلاغ";
-        });
-      });
+  fetch(WORKER_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function (res) {
+    if (!res.ok) throw new Error();
+    return res.json();
+  })
+  .then(function () {
+    statusDiv.className = "report-status success";
+    statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
+    form.reset();
+    setTimeout(function () {
+      closeModal();
+      submitBtn.disabled = false;
+      submitBtn.textContent = "إرسال البلاغ";
+    }, 2000);
+  })
+  .catch(function () {
+    statusDiv.className = "report-status error";
+    statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "إرسال البلاغ";
+  });
+});
     }
 
   })();
