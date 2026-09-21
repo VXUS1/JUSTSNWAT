@@ -18,76 +18,98 @@
   }
 
   var openBtn = document.getElementById("openReportBtn");
-    var closeBtn = document.getElementById("closeReportBtn");
-    var overlay = document.getElementById("reportOverlay");
-    var form = document.getElementById("bugReportForm");
-    var statusDiv = document.getElementById("reportStatus");
-    var submitBtn = document.getElementById("submitReportBtn");
+var closeBtn = document.getElementById("closeReportBtn");
+var overlay = document.getElementById("reportOverlay");
+var form = document.getElementById("bugReportForm");
+var statusDiv = document.getElementById("reportStatus");
+var submitBtn = document.getElementById("submitReportBtn");
 
-    function openModal() {
-      overlay.classList.add("active");
-      overlay.setAttribute("aria-hidden", "false");
-      statusDiv.className = "report-status";
-      statusDiv.style.display = "none";
-    }
-
-    function closeModal() {
-      overlay.classList.remove("active");
-      overlay.setAttribute("aria-hidden", "true");
-    }
-
-    if (openBtn) openBtn.addEventListener("click", openModal);
-    if (closeBtn) closeBtn.addEventListener("click", closeModal);
-    if (overlay) {
-      overlay.addEventListener("click", function (e) {
-        if (e.target === overlay) closeModal();
-      });
-    }
-
-    if (form) {
-      // ضع هنا رابط الـ Worker الذي نسخته من كلاود فلاير
-var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  submitBtn.disabled = true;
-  submitBtn.textContent = "جارِ الإرسال...";
+function openModal() {
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden", "false");
+  statusDiv.className = "report-status";
   statusDiv.style.display = "none";
+}
 
-  var payload = {
-    issueType: document.getElementById("issue-type").value,
-    issueDesc: document.getElementById("issue-desc").value,
-    userContact: document.getElementById("user-contact").value.trim() || "غير محدد",
-    currentUrl: window.location.href
-  };
+function closeModal() {
+  overlay.classList.remove("active");
+  overlay.setAttribute("aria-hidden", "true");
+}
 
-  fetch(WORKER_ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-  .then(function (res) {
-    if (!res.ok) throw new Error();
-    return res.json();
-  })
-  .then(function () {
-    statusDiv.className = "report-status success";
-    statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
-    form.reset();
-    setTimeout(function () {
-      closeModal();
+if (openBtn) openBtn.addEventListener("click", openModal);
+if (closeBtn) closeBtn.addEventListener("click", closeModal);
+if (overlay) {
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+}
+
+if (form) {
+  var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var fileInput = document.getElementById("issue-file");
+    var file = fileInput && fileInput.files ? fileInput.files[0] : null;
+
+    // فحص حجم الصورة (حد أقصى 8 ميجابايت)
+    if (file && file.size > 8 * 1024 * 1024) {
+      statusDiv.className = "report-status error";
+      statusDiv.style.display = "block";
+      statusDiv.textContent = "حجم الصورة كبير جداً، الحد الأقصى هو 8 ميجابايت.";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "جارِ الإرسال...";
+    statusDiv.style.display = "none";
+
+    // استخدام FormData لإرسال النصوص والملف معاً
+    var formData = new FormData();
+    formData.append("issueType", document.getElementById("issue-type").value);
+    formData.append("issueDesc", document.getElementById("issue-desc").value);
+    formData.append("userContact", document.getElementById("user-contact").value.trim() || "غير محدد");
+    formData.append("currentUrl", window.location.href);
+
+    if (file) {
+      formData.append("imageFile", file);
+    }
+
+    // تنبيه: لا نضع 'Content-Type' في الـ headers لكي يضبط المتصفح حدود الملف (boundary) تلقائياً
+    fetch(WORKER_ENDPOINT, {
+      method: "POST",
+      body: formData
+    })
+    .then(function (res) {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then(function (data) {
+      if (data.success) {
+        statusDiv.className = "report-status success";
+        statusDiv.style.display = "block";
+        statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
+        form.reset();
+
+        setTimeout(function () {
+          closeModal();
+          submitBtn.disabled = false;
+          submitBtn.textContent = "إرسال البلاغ";
+        }, 2000);
+      } else {
+        throw new Error(data.error || "Server error");
+      }
+    })
+    .catch(function () {
+      statusDiv.className = "report-status error";
+      statusDiv.style.display = "block";
+      statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
       submitBtn.disabled = false;
       submitBtn.textContent = "إرسال البلاغ";
-    }, 2000);
-  })
-  .catch(function () {
-    statusDiv.className = "report-status error";
-    statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
-    submitBtn.disabled = false;
-    submitBtn.textContent = "إرسال البلاغ";
+    });
   });
-});
-    }
+}
 
   function useSharedShell() {
     var oldHeader = document.querySelector("body > header.header");
