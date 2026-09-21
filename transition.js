@@ -149,7 +149,6 @@ if (form) {
 
   var pageTransition = setupPageTransition();
   useSharedShell();
-  setupReportWidget();
 
   document.addEventListener("click", function (event) {
     var link = event.target.closest("a");
