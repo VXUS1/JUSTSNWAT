@@ -42,8 +42,7 @@
     var form = document.getElementById("bugReportForm");
     var status = document.getElementById("reportStatus");
     var submit = document.getElementById("submitReportBtn");
-    var fileInput = document.getElementById("issue-file");
-    var discordWebhookUrl = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
+    var workerEndpoint = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
 
     function closeModal() {
       overlay.classList.remove("active");
@@ -64,27 +63,22 @@
       submit.disabled = true;
       submit.textContent = "جارِ الإرسال...";
 
-      var discordPayload = {
-        username: "JUSTSNWAT | بلاغات",
-        avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
-        embeds: [{
-          title: "🚨 بلاغ جديد عن خطأ / ملاحظة",
-          color: 16729390,
-          fields: [
-            { name: "📌 نوع المشكلة", value: document.getElementById("issue-type").value, inline: true },
-            { name: "👤 وسيلة التواصل", value: document.getElementById("user-contact").value.trim() || "غير محدد", inline: true },
-            { name: "🔗 رابط الصفحة والاختبار", value: window.location.href },
-            { name: "📝 وصف المشكلة", value: document.getElementById("issue-desc").value }
-          ],
-          footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
-          timestamp: new Date().toISOString()
-        }]
+      var payload = {
+        issueType: document.getElementById("issue-type").value,
+        issueDesc: document.getElementById("issue-desc").value,
+        userContact: document.getElementById("user-contact").value.trim() || "غير محدد",
+        currentUrl: window.location.href
       };
-      var formData = new FormData();
-      formData.append("payload_json", JSON.stringify(discordPayload));
-      if (fileInput && fileInput.files && fileInput.files[0]) formData.append("files[0]", fileInput.files[0]);
 
-      fetch(discordWebhookUrl, { method: "POST", mode: "no-cors", body: formData })
+      fetch(workerEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error();
+          return response.json();
+        })
         .then(function () {
           status.className = "report-status success";
           status.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
