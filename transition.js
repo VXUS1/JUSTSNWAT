@@ -26,7 +26,6 @@
         '<form class="report-form" id="bugReportForm">' +
           '<div class="form-group"><label for="issue-type">نوع المشكلة</label><select id="issue-type" name="issue_type" required><option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option><option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option><option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option><option value="اقتراح أو أخرى">اقتراح / أخرى</option></select></div>' +
           '<div class="form-group"><label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label><textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea></div>' +
-          '<div class="form-group"><label for="issue-file">لقطة شاشة (اختياري)</label><input type="file" id="issue-file" accept="image/*"></div>' +
           '<div class="form-group"><label for="user-contact">وسيلة تواصل (اختياري)</label><input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم"></div>' +
           '<button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button><div class="report-status" id="reportStatus"></div>' +
         '</form></div></div>';
@@ -42,7 +41,9 @@
     var form = document.getElementById("bugReportForm");
     var status = document.getElementById("reportStatus");
     var submit = document.getElementById("submitReportBtn");
-    var workerEndpoint = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
+
+    // ضع رابط الـ Worker الخاص بك هنا
+    var WORKER_ENDPOINT = "https://snwat-reporter.YOUR-NAME.workers.dev";
 
     function closeModal() {
       overlay.classList.remove("active");
@@ -53,7 +54,9 @@
       overlay.classList.add("active");
       overlay.setAttribute("aria-hidden", "false");
       status.className = "report-status";
+      status.style.display = "none";
     });
+    
     closeBtn.addEventListener("click", closeModal);
     overlay.addEventListener("click", function (event) { if (event.target === overlay) closeModal(); });
     document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeModal(); });
@@ -62,6 +65,7 @@
       event.preventDefault();
       submit.disabled = true;
       submit.textContent = "جارِ الإرسال...";
+      status.style.display = "none";
 
       var payload = {
         issueType: document.getElementById("issue-type").value,
@@ -70,27 +74,33 @@
         currentUrl: window.location.href
       };
 
-      fetch(workerEndpoint, {
+      fetch(WORKER_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       })
-        .then(function (response) {
-          if (!response.ok) throw new Error();
-          return response.json();
-        })
-        .then(function () {
-          status.className = "report-status success";
-          status.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
-          form.reset();
-          setTimeout(function () { closeModal(); submit.disabled = false; submit.textContent = "إرسال البلاغ"; }, 2000);
-        })
-        .catch(function () {
-          status.className = "report-status error";
-          status.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
+      .then(function (res) {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(function () {
+        status.className = "report-status success";
+        status.style.display = "block";
+        status.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
+        form.reset();
+        setTimeout(function () {
+          closeModal();
           submit.disabled = false;
           submit.textContent = "إرسال البلاغ";
-        });
+        }, 2000);
+      })
+      .catch(function () {
+        status.className = "report-status error";
+        status.style.display = "block";
+        status.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
+        submit.disabled = false;
+        submit.textContent = "إرسال البلاغ";
+      });
     });
   }
 
