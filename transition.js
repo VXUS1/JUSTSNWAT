@@ -19,15 +19,15 @@
 
   function reportMarkup() {
     return '<button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">' +
-      '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>' +
+      '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="14" x="8" y="6" rx="4"></rect><path d="m19 7-3 2"></path><path d="m5 7 3 2"></path><path d="m19 19-3-2"></path><path d="m5 19 3-2"></path><path d="M20 13h-4"></path><path d="M4 13h4"></path><path d="m10 4 1 2"></path><path d="m14 4-1 2"></path></svg>' +
       '<span>إبلاغ عن خطأ</span></button>' +
       '<div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">' +
-        '<div class="report-modal"><div class="report-modal-header"><h3>إبلاغ عن خطأ أو ملاحظة</h3><button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button></div>' +
-        '<form class="report-form" name="bug-report" id="bugReportForm" method="POST" data-netlify="true" enctype="multipart/form-data">' +
-          '<input type="hidden" name="form-name" value="bug-report"><input type="hidden" name="current-page" id="reportCurrentPage">' +
+        '<div class="report-modal"><div class="report-modal-header"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>إبلاغ عن خطأ أو ملاحظة</h3><button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button></div>' +
+        '<form class="report-form" id="bugReportForm">' +
           '<div class="form-group"><label for="issue-type">نوع المشكلة</label><select id="issue-type" name="issue_type" required><option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option><option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option><option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option><option value="اقتراح أو أخرى">اقتراح / أخرى</option></select></div>' +
-          '<div class="form-group"><label for="issue-desc">وصف المشكلة</label><textarea id="issue-desc" name="description" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea></div>' +
-          '<div class="form-group"><label for="user-contact">وسيلة تواصل (اختياري)</label><input type="text" id="user-contact" name="contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم"></div>' +
+          '<div class="form-group"><label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label><textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea></div>' +
+          '<div class="form-group"><label for="issue-file">لقطة شاشة (اختياري)</label><input type="file" id="issue-file" accept="image/*"></div>' +
+          '<div class="form-group"><label for="user-contact">وسيلة تواصل (اختياري)</label><input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم"></div>' +
           '<button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button><div class="report-status" id="reportStatus"></div>' +
         '</form></div></div>';
   }
@@ -42,7 +42,8 @@
     var form = document.getElementById("bugReportForm");
     var status = document.getElementById("reportStatus");
     var submit = document.getElementById("submitReportBtn");
-    var pageInput = document.getElementById("reportCurrentPage");
+    var fileInput = document.getElementById("issue-file");
+    var discordWebhookUrl = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
 
     function closeModal() {
       overlay.classList.remove("active");
@@ -52,9 +53,7 @@
     openBtn.addEventListener("click", function () {
       overlay.classList.add("active");
       overlay.setAttribute("aria-hidden", "false");
-      pageInput.value = document.title + " | " + window.location.href;
       status.className = "report-status";
-      status.textContent = "";
     });
     closeBtn.addEventListener("click", closeModal);
     overlay.addEventListener("click", function (event) { if (event.target === overlay) closeModal(); });
@@ -64,11 +63,31 @@
       event.preventDefault();
       submit.disabled = true;
       submit.textContent = "جارِ الإرسال...";
-      fetch("/", { method: "POST", body: new FormData(form) })
-        .then(function (response) {
-          if (!response.ok) throw new Error("Form submission failed");
+
+      var discordPayload = {
+        username: "JUSTSNWAT | بلاغات",
+        avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
+        embeds: [{
+          title: "🚨 بلاغ جديد عن خطأ / ملاحظة",
+          color: 16729390,
+          fields: [
+            { name: "📌 نوع المشكلة", value: document.getElementById("issue-type").value, inline: true },
+            { name: "👤 وسيلة التواصل", value: document.getElementById("user-contact").value.trim() || "غير محدد", inline: true },
+            { name: "🔗 رابط الصفحة والاختبار", value: window.location.href },
+            { name: "📝 وصف المشكلة", value: document.getElementById("issue-desc").value }
+          ],
+          footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
+          timestamp: new Date().toISOString()
+        }]
+      };
+      var formData = new FormData();
+      formData.append("payload_json", JSON.stringify(discordPayload));
+      if (fileInput && fileInput.files && fileInput.files[0]) formData.append("files[0]", fileInput.files[0]);
+
+      fetch(discordWebhookUrl, { method: "POST", mode: "no-cors", body: formData })
+        .then(function () {
           status.className = "report-status success";
-          status.textContent = "تم إرسال البلاغ بنجاح، شكراً لمساعدتك!";
+          status.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
           form.reset();
           setTimeout(function () { closeModal(); submit.disabled = false; submit.textContent = "إرسال البلاغ"; }, 2000);
         })

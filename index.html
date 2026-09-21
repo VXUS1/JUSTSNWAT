@@ -7,19 +7,24 @@
 <meta name="keywords" content="سنوات, أسئلة, شبكات, NES415, NES441, التكنو, JUST">
 <meta name="google" content="notranslate">
 <title>JUSTSNWAT | بنك أسئلة وسنوات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<!-- Three.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 :root {
-  --bg-base: #07090e;
-  --apple-surface: rgba(22, 28, 42, 0.68);
-  --apple-surface-hover: rgba(30, 39, 58, 0.85);
+  --bg-base: #050608;
+  --apple-surface: rgba(18, 22, 34, 0.75);
+  --apple-surface-hover: rgba(26, 32, 48, 0.9);
   --apple-border: rgba(255, 255, 255, 0.08);
   --apple-border-strong: rgba(255, 255, 255, 0.16);
   --apple-red: #ff453a;
   --apple-blue: #0a84ff;
   --apple-green: #30d158;
+  --apple-gold: #ffd700;
   --text-primary: #f5f5f7;
-  --text-secondary: #86868b;
+  --text-secondary: #8e95a5;
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
   --radius: 16px;
 }
@@ -45,6 +50,8 @@ body {
   flex-direction: column;
   min-height: 100vh;
   letter-spacing: -0.01em;
+  overflow-x: hidden;
+  position: relative;
 }
 
 button, input, textarea, select {
@@ -54,46 +61,40 @@ button, input, textarea, select {
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
 .wrap {
-  max-width: 900px;
+  max-width: 940px;
   margin: 0 auto;
-  padding: 24px 20px 80px;
+  padding: 6px 20px 80px;
   flex: 1;
   width: 100%;
+  position: relative;
+  z-index: 10;
 }
 
-/* ---------- Header ---------- */
+/* ---------- Header & Navbar ---------- */
 .masthead {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 28px;
-  padding: 20px clamp(20px, 6vw, 72px);
-  background:
-    radial-gradient(circle at 88% -30%, rgba(10, 132, 255, 0.2), transparent 36%),
-    radial-gradient(circle at 12% -35%, rgba(255, 69, 58, 0.12), transparent 32%),
-    linear-gradient(180deg, rgba(18, 24, 38, 0.96), rgba(7, 9, 14, 0.94));
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  gap: 20px;
+  padding: 14px clamp(20px, 5vw, 64px);
+  background: linear-gradient(180deg, rgba(14, 18, 28, 0.94) 0%, rgba(6, 7, 10, 0.88) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--apple-border);
   position: sticky;
   top: 0;
-  z-index: 50;
-  overflow: hidden;
+  z-index: 80;
   transition: border-color 0.3s var(--ease-apple);
 }
 
-.masthead::before,
-.masthead::after {
+.masthead::before {
   content: "";
   position: absolute;
-  pointer-events: none;
-}
-
-.masthead::before {
   width: 22%;
   min-width: 180px;
   height: 2px;
@@ -103,31 +104,21 @@ a {
   box-shadow: 0 0 22px rgba(10, 132, 255, 0.7);
 }
 
-.masthead::after {
-  width: 28%;
-  height: 1px;
-  bottom: -1px;
-  left: 6%;
-  background: linear-gradient(90deg, transparent, var(--apple-red));
-  box-shadow: 0 0 16px rgba(255, 69, 58, 0.8);
-}
-
 .masthead.scrolled {
   border-bottom-color: var(--apple-border-strong);
   box-shadow: 0 14px 34px rgba(0,0,0,0.46);
 }
 
-.masthead > * {
-  position: relative;
-  z-index: 1;
+.nav-right-side {
+  display: flex;
+  align-items: center;
+  gap: 22px;
 }
 
 .brand-line {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  flex: none;
-  animation: headerReveal 0.7s var(--ease-apple) both;
 }
 
 .brand-mark {
@@ -150,105 +141,455 @@ a {
 }
 
 .brand {
-  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  font-size: clamp(1.45rem, 3.5vw, 1.9rem);
   font-weight: 900;
   letter-spacing: 2px;
   color: #ffffff;
-  display: inline-block;
-  position: relative;
-  text-decoration: none;
-  text-shadow: 0 0 24px rgba(255, 255, 255, 0.14);
 }
 
-.brand::after {
-  content: "";
+/* قائمة الأقسام المنسدلة */
+.dept-dropdown {
+  position: relative;
+}
+
+.dept-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--apple-border-strong);
+  color: #f5f5f7;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  transition: all 0.25s var(--ease-apple);
+}
+
+.dept-dropdown-btn:hover,
+.dept-dropdown.open .dept-dropdown-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 16px rgba(10, 132, 255, 0.25);
+}
+
+.dept-dropdown-btn svg {
+  transition: transform 0.25s var(--ease-apple);
+}
+
+.dept-dropdown.open .dept-dropdown-btn svg {
+  transform: rotate(180deg);
+}
+
+.dept-dropdown-menu {
   position: absolute;
-  bottom: -5px;
-  left: 10%;
-  width: 80%;
-  height: 3px;
-  background: var(--apple-red);
-  border-radius: 99px;
-  box-shadow: 0 0 12px rgba(255, 69, 58, 0.7);
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 290px;
+  background: rgba(14, 18, 28, 0.96);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.96);
+  transition: all 0.22s var(--ease-apple);
+  z-index: 100;
+}
+
+.dept-dropdown.open .dept-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.dept-menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: transparent;
+  transition: all 0.2s var(--ease-apple);
+  cursor: pointer;
+}
+
+.dept-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(-3px);
+}
+
+.dept-menu-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dept-menu-tag {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(10, 132, 255, 0.18);
+  color: #7dd3fc;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.dept-menu-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 .sub-brand {
   display: flex;
   align-items: center;
-  gap: 9px;
-  max-width: 380px;
+  gap: 8px;
   color: #aeb9ca;
-  font-size: 0.88rem;
-  line-height: 1.5;
+  font-size: 0.86rem;
   font-weight: 500;
-  animation: headerReveal 0.7s 0.1s var(--ease-apple) both;
 }
 
 .sub-brand::before {
   content: "";
   width: 7px;
   height: 7px;
-  flex: none;
   border-radius: 50%;
   background: var(--apple-green);
   box-shadow: 0 0 12px rgba(48, 209, 88, 0.8);
 }
 
-@keyframes headerReveal {
-  from { opacity: 0; transform: translateY(-10px); }
+/* ---------- Title & Hero ---------- */
+.landing-hero {
+  text-align: center;
+  padding-top: 2px;
+  position: relative;
+  z-index: 20;
+}
+
+.landing-subtitle {
+  margin: -8px auto 22px;
+  color: rgba(226, 234, 238, 0.72);
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-weight: 600;
+  text-align: center;
+}
+
+.landing-title-clean {
+  font-size: clamp(2.8rem, 6.5vw, 4.4rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  display: inline-block;
+  background: linear-gradient(110deg, #ffffff 15%, #93c5fd 45%, #ffffff 55%, #dbeafe 75%, #ffffff 100%);
+  background-size: 250% auto;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: titleShimmer 5s ease-in-out infinite, titleFloat 4s ease-in-out infinite;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+}
+
+@keyframes titleShimmer {
+  0% { background-position: 250% center; }
+  100% { background-position: -250% center; }
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* شريط البحث */
+.lux-search-container {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  z-index: 45;
+}
+
+.lux-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(16, 20, 30, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 5px 14px 5px 20px;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.35s var(--ease-apple);
+}
+
+.lux-search-box::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(10, 132, 255, 0), rgba(10, 132, 255, 0.5), rgba(255, 69, 58, 0.4), rgba(10, 132, 255, 0));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-apple);
+  filter: blur(8px);
+}
+
+.lux-search-container.is-focused .lux-search-box {
+  border-color: rgba(10, 132, 255, 0.9);
+  background: rgba(20, 25, 38, 0.96);
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 20px 50px rgba(10, 132, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.lux-search-container.is-focused .lux-search-box::before {
+  opacity: 1;
+}
+
+.lux-search-icon {
+  color: var(--apple-blue);
+  display: grid;
+  place-items: center;
+  flex: none;
+  margin-left: 12px;
+  transition: transform 0.3s var(--ease-apple);
+}
+
+.lux-search-container.is-focused .lux-search-icon {
+  transform: scale(1.15) rotate(-10deg);
+  color: #ffffff;
+}
+
+.lux-search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  caret-color: var(--apple-blue);
+  padding: 10px 0;
+}
+
+.lux-search-input::placeholder {
+  color: #8b95a8;
+  font-weight: 500;
+}
+
+.lux-results-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background: rgba(14, 18, 28, 0.96);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  max-height: 380px;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.98);
+  transition: all 0.25s var(--ease-apple);
+  z-index: 50;
+  text-align: start;
+}
+
+.lux-search-container.is-focused .lux-results-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.lux-result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-apple);
+  border: 1px solid transparent;
+}
+
+.lux-result-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(-4px);
+}
+
+.lux-result-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lux-result-ar {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.lux-result-en {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.lux-result-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lux-code-badge {
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(10, 132, 255, 0.18);
+  color: #7dd3fc;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.lux-count-badge {
+  font-size: 11.5px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.lux-no-results {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+}
+
+/* ---------- Apple-like route transitions ---------- */
+#app.route-leave {
+  animation: routeLeave 0.16s var(--ease-apple) both;
+  pointer-events: none;
+}
+
+#app.route-enter {
+  animation: routeEnter 0.46s var(--ease-apple) both;
+}
+
+#app.route-enter > * {
+  animation: routeContentIn 0.42s var(--ease-apple) both;
+}
+
+#app.route-enter .subject-grid > .subject-card:nth-child(1) { animation-delay: 0.04s; }
+#app.route-enter .subject-grid > .subject-card:nth-child(2) { animation-delay: 0.08s; }
+#app.route-enter .subject-grid > .subject-card:nth-child(3) { animation-delay: 0.12s; }
+#app.route-enter .subject-grid > .subject-card:nth-child(4) { animation-delay: 0.16s; }
+#app.route-enter .subject-grid > .subject-card:nth-child(5) { animation-delay: 0.20s; }
+#app.route-enter .subject-grid > .subject-card:nth-child(6) { animation-delay: 0.24s; }
+
+@keyframes routeLeave {
+  to { opacity: 0; transform: translateY(-10px) scale(0.992); filter: blur(3px); }
+}
+
+@keyframes routeEnter {
+  from { opacity: 0; transform: translateY(12px) scale(0.992); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes routeContentIn {
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand-line,
-  .sub-brand {
+  #app.route-leave,
+  #app.route-enter,
+  #app.route-enter > * {
     animation: none;
   }
 }
 
-@media (max-width: 600px) {
-  .masthead {
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
-    padding: 18px 20px 20px;
-  }
-
-  .sub-brand {
-    justify-content: center;
-    text-align: center;
-  }
+/* =========================================================
+   الكرة ثلاثية الأبعاد (Cyber Particle Globe)
+   ========================================================= */
+.glass-globe-section {
+  position: relative;
+  width: 100%;
+  height: 470px;
+  margin: 6px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  touch-action: none;
+  overflow: hidden;
 }
 
-/* ---------- Footer ---------- */
-footer {
-  background: rgba(10, 14, 22, 0.85);
-  border-top: 1px solid var(--apple-border);
-  padding: 22px 22px;
-  margin-top: auto;
-  text-align: left;
-  backdrop-filter: blur(15px);
+.glass-globe-section:active {
+  cursor: grabbing;
 }
 
-footer p {
-  margin: 4px;
-  color: var(--text-secondary);
-  font-size: 14px;
+#globe-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.globe-tagline {
+  margin: -12px 0 34px;
+  color: rgba(226, 234, 238, 0.72);
+  font-size: clamp(15px, 2vw, 18px);
   font-weight: 700;
+  letter-spacing: 0;
+  text-align: center;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-shadow: 0 0 18px rgba(226, 234, 238, 0.12);
 }
 
-/* ---------- Search Bar ---------- */
+/* =========================================================
+   Department View & Subject View
+   ========================================================= */
+.dept-header {
+  margin: 8px 0 24px;
+}
+
+.dept-header h2 {
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: 900;
+  color: #ffffff;
+  margin: 6px 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.dept-header p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin: 0;
+}
+
 .bar {
   display: flex;
   gap: 12px;
   align-items: center;
   position: sticky;
-  top: 128px;
+  top: 110px;
   z-index: 40;
-  padding: 10px 0;
-  margin-top: -10px;
+  padding: 8px 0;
   margin-bottom: 24px;
-  background: linear-gradient(to bottom, rgba(7, 9, 14, 0.96) 0%, rgba(7, 9, 14, 0.84) 78%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(5, 6, 8, 0.96) 0%, rgba(5, 6, 8, 0.8) 78%, transparent 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -256,28 +597,26 @@ footer p {
 .search {
   position: relative;
   width: 100%;
-  background:
-    linear-gradient(110deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025) 46%, rgba(10, 132, 255, 0.09)),
-    rgba(22, 28, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 16px;
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 999px;
   padding: 14px 48px 14px 20px;
   color: var(--text-primary);
   caret-color: var(--apple-blue);
   font-size: 15px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: border-color 0.25s var(--ease-apple), box-shadow 0.25s var(--ease-apple), transform 0.25s var(--ease-apple);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s var(--ease-apple);
 }
 
 .bar::before {
   content: "⌕";
   position: absolute;
-  right: 17px;
+  right: 18px;
   top: 50%;
   z-index: 1;
-  color: #7dd3fc;
+  color: var(--apple-blue);
   font-family: Georgia, serif;
-  font-size: 25px;
+  font-size: 24px;
   line-height: 1;
   transform: translateY(-55%) rotate(-15deg);
   pointer-events: none;
@@ -285,120 +624,12 @@ footer p {
 
 .search:focus {
   outline: none;
-  border-color: rgba(10, 132, 255, 0.8);
-  box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.13), 0 16px 36px rgba(10, 132, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transform: translateY(-1px);
+  border-color: rgba(10, 132, 255, 0.85);
+  box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15), 0 16px 36px rgba(10, 132, 255, 0.2);
 }
 
 .search::placeholder {
   color: #9aa8bb;
-}
-
-@media (max-width: 600px) {
-  .bar {
-    top: 112px;
-  }
-}
-
-/* ---------- Lists & Rows ---------- */
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-#app.page-enter {
-  animation: pageEnter 0.55s var(--ease-apple) both;
-}
-
-#app.page-leave {
-  animation: pageLeave 0.2s ease-in both;
-  pointer-events: none;
-}
-
-#app.page-enter .subject-head,
-#app.page-enter > .back,
-#app.page-enter > .list > .row {
-  animation: contentReveal 0.45s var(--ease-apple) both;
-}
-
-#app.page-enter > .list > .row:nth-child(2) { animation-delay: 0.06s; }
-#app.page-enter > .list > .row:nth-child(3) { animation-delay: 0.12s; }
-#app.page-enter > .list > .row:nth-child(4) { animation-delay: 0.18s; }
-
-@keyframes pageEnter {
-  from { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(5px); }
-  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-}
-
-@keyframes pageLeave {
-  from { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  to { opacity: 0; transform: translateY(-14px) scale(0.985); filter: blur(4px); }
-}
-
-@keyframes contentReveal {
-  from { opacity: 0; transform: translateX(-16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #app.page-enter,
-  #app.page-leave,
-  #app.page-enter .subject-head,
-  #app.page-enter > .back,
-  #app.page-enter > .list > .row {
-    animation: none;
-  }
-
-  .page-transition {
-    transition: none;
-  }
-}
-
-.page-transition {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  display: grid;
-  place-items: center;
-  background: var(--bg-base);
-  opacity: 1;
-  pointer-events: none;
-  transition: opacity 0.42s var(--ease-apple);
-}
-
-.page-transition.is-ready {
-  opacity: 0;
-}
-
-.page-transition.is-leaving {
-  opacity: 1;
-}
-
-.page-transition-mark {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 14px;
-  background: linear-gradient(145deg, var(--apple-red), #9f1239 68%);
-  box-shadow: 0 0 34px rgba(255, 69, 58, 0.3);
-  transform: scale(0.9);
-  transition: transform 0.42s var(--ease-apple);
-}
-
-.page-transition.is-ready .page-transition-mark {
-  transform: scale(1);
-}
-
-.page-transition-mark::after {
-  content: "";
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
 }
 
 .subject-grid {
@@ -410,69 +641,46 @@ footer p {
 .subject-card {
   position: relative;
   isolation: isolate;
-  aspect-ratio: 1.28 / 1;
-  min-height: 156px;
+  aspect-ratio: 1.25 / 1;
+  min-height: 165px;
   align-items: flex-end;
   overflow: hidden;
   padding: 22px;
   border-inline-start: 1px solid var(--apple-border);
-  background: var(--subject-bg, linear-gradient(135deg, #253047, #111827));
-}
-
-.subject-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent 38%),
-    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.22), transparent 30%);
-  opacity: 0.8;
-  transition: transform 0.45s var(--ease-apple), opacity 0.3s ease;
-}
-
-.subject-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -15% -35% 25%;
-  height: 70%;
-  z-index: -1;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transform: rotate(-18deg);
-  box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.03), 0 0 0 36px rgba(255, 255, 255, 0.025);
+  background: var(--subject-bg, linear-gradient(135deg, rgba(37, 48, 71, 0.82), rgba(17, 24, 39, 0.9)));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-apple);
 }
 
 .subject-card:hover {
   border-color: rgba(255, 255, 255, 0.32);
-  border-inline-start-color: rgba(255, 255, 255, 0.75);
+  border-inline-start-color: var(--apple-blue);
   transform: translateY(-5px);
-}
-
-.subject-card:hover::before {
-  transform: scale(1.12) rotate(3deg);
-  opacity: 1;
-}
-
-.row.subject-card {
-  background: var(--subject-bg, linear-gradient(135deg, #253047, #111827));
-  border-inline-start-color: rgba(255, 255, 255, 0.12);
-}
-
-.row.subject-card:hover {
-  background: var(--subject-bg, linear-gradient(135deg, #253047, #111827));
-  border-inline-start-color: rgba(255, 255, 255, 0.75);
 }
 
 .subject-card .main {
   position: relative;
   z-index: 1;
+  width: 100%;
 }
 
-.subject-card .name {
-  font-size: clamp(19px, 2.5vw, 25px);
-  line-height: 1.25;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+.subject-card .ar-title {
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-weight: 900;
+  line-height: 1.3;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  margin-bottom: 2px;
+}
+
+.subject-card .en-title {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
 }
 
 .subject-card .meta {
@@ -481,6 +689,7 @@ footer p {
   align-items: center;
   gap: 7px;
   color: rgba(255, 255, 255, 0.76);
+  margin-top: 8px;
 }
 
 .subject-card .subject-count {
@@ -488,23 +697,29 @@ footer p {
   width: 100%;
   margin-top: 5px;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 13.5px;
   font-weight: 800;
-  line-height: 1.35;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
 .subject-card .code {
-  background: rgba(0, 0, 0, 0.24);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
 }
 
-.subject-network-protocols { --subject-bg: linear-gradient(135deg, #075985, #172554 72%); }
-.subject-wireless { --subject-bg: linear-gradient(135deg, #0f766e, #164e63 72%); }
-.subject-network-security { --subject-bg: linear-gradient(135deg, #9f1239, #3f0d27 72%); }
-.subject-network-programming { --subject-bg: linear-gradient(135deg, #7c3aed, #312e81 72%); }
-.subject-cryptography { --subject-bg: linear-gradient(135deg, #b45309, #451a03 72%); }
-.subject-unix { --subject-bg: linear-gradient(135deg, #3f6212, #1c1917 72%); }
+.subject-network-protocols { --subject-bg: linear-gradient(135deg, rgba(7, 89, 133, 0.88), rgba(23, 37, 84, 0.92) 72%); }
+.subject-wireless { --subject-bg: linear-gradient(135deg, rgba(15, 118, 110, 0.88), rgba(22, 78, 99, 0.92) 72%); }
+.subject-network-security { --subject-bg: linear-gradient(135deg, rgba(159, 18, 57, 0.88), rgba(63, 13, 39, 0.92) 72%); }
+.subject-network-programming { --subject-bg: linear-gradient(135deg, rgba(124, 58, 237, 0.88), rgba(49, 46, 129, 0.92) 72%); }
+.subject-cryptography { --subject-bg: linear-gradient(135deg, rgba(180, 83, 9, 0.88), rgba(69, 26, 3, 0.92) 72%); }
+.subject-unix { --subject-bg: linear-gradient(135deg, rgba(63, 98, 18, 0.88), rgba(28, 25, 23, 0.92) 72%); }
+.subject-computer-networks { --subject-bg: linear-gradient(135deg, rgba(30, 64, 175, 0.88), rgba(15, 23, 42, 0.92) 72%); }
+.subject-archi { --subject-bg: linear-gradient(135deg, rgba(190, 24, 93, 0.88), rgba(24, 24, 27, 0.92) 72%); }
+.subject-os, .subject-os2 { --subject-bg: linear-gradient(135deg, rgba(75, 85, 99, 0.88), rgba(17, 24, 39, 0.92) 72%); }
+.subject-data-structures { --subject-bg: linear-gradient(135deg, rgba(13, 148, 136, 0.88), rgba(15, 23, 42, 0.92) 72%); }
 
 .row {
   display: flex;
@@ -520,100 +735,32 @@ footer p {
   cursor: pointer;
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   transition: all 0.3s var(--ease-apple);
 }
 
 .row:hover {
   background: var(--apple-surface-hover);
   border-color: var(--apple-border-strong);
-  border-inline-start-color: var(--apple-red);
+  border-inline-start-color: var(--apple-blue);
   transform: translateX(-4px);
 }
 
-.row .main {
-  flex: 1;
-  min-width: 0;
-}
+.row .main { flex: 1; min-width: 0; }
+.row .name { font-weight: 700; font-size: 17.5px; color: #ffffff; }
+.row .meta { color: var(--text-secondary); font-size: 14px; margin-top: 3px; }
+.chev { color: var(--text-secondary); flex: none; }
 
-.row .name {
-  font-weight: 700;
-  font-size: 17.5px;
-  color: #ffffff;
-  overflow-wrap: anywhere;
-}
+.exam { align-items: flex-start; cursor: default; }
+.exam:hover { border-inline-start-color: transparent; background: var(--apple-surface); transform: none; }
+.exam .note { color: #cbd5e1; font-size: 14px; margin-top: 4px; }
 
-.row .meta {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-top: 3px;
-}
-
-.row .code {
-  direction: ltr;
-  unicode-bidi: isolate;
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 13px;
-}
-
-.chev {
-  color: var(--text-secondary);
-  flex: none;
-  transition: transform 0.2s var(--ease-apple);
-}
-
-.row:hover .chev {
-  transform: translateX(-3px);
-  color: #ffffff;
-}
-
-.exam {
-  align-items: flex-start;
-  cursor: default;
-}
-
-.exam:hover {
-  border-inline-start-color: transparent;
-  background: var(--apple-surface);
-  transform: none;
-}
-
-.exam .note {
-  color: #cbd5e1;
-  font-size: 14px;
-  margin-top: 4px;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.filelink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--apple-blue);
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.2s var(--ease-apple);
-}
-
-.filelink:hover {
-  text-decoration: underline;
-  transform: translateX(-3px);
-}
-
-/* Quiz Button */
 .btn-quiz {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   margin-top: 10px;
-  background: linear-gradient(135deg, rgba(255, 69, 58, 0.14) 0%, rgba(10, 132, 255, 0.14) 100%);
+  background: linear-gradient(135deg, rgba(255, 69, 58, 0.18) 0%, rgba(10, 132, 255, 0.18) 100%);
   border: 1px solid var(--apple-red);
   color: #ff9b94;
   padding: 8px 18px;
@@ -631,11 +778,19 @@ footer p {
   box-shadow: 0 4px 18px rgba(255, 69, 58, 0.35);
 }
 
-.btn-quiz:active {
-  transform: scale(0.96);
+.filelink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--apple-blue);
+  text-decoration: none;
+  font-weight: 600;
 }
 
-/* ---------- Navigation Header ---------- */
+.filelink:hover { text-decoration: underline; }
+
 .back {
   display: inline-flex;
   align-items: center;
@@ -647,36 +802,14 @@ footer p {
   cursor: pointer;
   font-size: 15px;
   font-weight: 600;
-  transition: all 0.2s var(--ease-apple);
 }
+.back:hover { color: #ffffff; transform: translateX(4px); }
 
-.back:hover {
-  color: #ffffff;
-  transform: translateX(4px);
-}
+.subject-head { margin: 6px 0 24px; }
+.subject-head h2 { margin: 6px 0 4px; font-size: clamp(24px, 5vw, 32px); font-weight: 800; color: #ffffff; }
+.subject-head .en-subtitle { font-size: 16px; color: var(--apple-blue); font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 4px; }
+.subject-head .sub { color: var(--text-secondary); font-size: 14px; font-family: 'JetBrains Mono', monospace; }
 
-.subject-head {
-  margin: 6px 0 24px;
-}
-
-.subject-head h2 {
-  margin: 6px 0 4px;
-  font-size: clamp(24px, 5vw, 30px);
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-}
-
-.subject-head .sub {
-  color: var(--text-secondary);
-  font-size: 14.5px;
-  direction: ltr;
-  unicode-bidi: isolate;
-  text-align: start;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* ---------- State indicators ---------- */
 .empty {
   border: 1px dashed var(--apple-border);
   border-radius: 18px;
@@ -687,62 +820,31 @@ footer p {
   backdrop-filter: blur(20px);
 }
 
-.empty strong {
-  display: block;
-  color: #ffffff;
-  font-size: 18px;
-  margin-bottom: 6px;
+.hint { color: var(--text-secondary); font-size: 13.5px; margin-top: 20px; text-align: center; }
+
+/* ---------- Footer ---------- */
+footer {
+  background: rgba(5, 6, 10, 0.94);
+  border-top: 1px solid var(--apple-border);
+  padding: 22px;
+  margin-top: auto;
+  text-align: left;
+  backdrop-filter: blur(15px);
+  position: relative;
+  z-index: 20;
 }
+footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight: 700; }
 
-.hint {
-  color: var(--text-secondary);
-  font-size: 13.5px;
-  margin-top: 16px;
-  text-align: center;
-}
-
-@media (max-width: 480px) {
-  .row { padding: 14px; }
-  .row .name { font-size: 16px; }
-
-  .subject-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .subject-card {
-    aspect-ratio: 1.18 / 1;
-    min-height: 128px;
-    padding: 16px;
-  }
-
-  .subject-card .name {
-    font-size: 18px;
-  }
-
-  .subject-card .subject-count {
-    font-size: 15px;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 720px) {
-  .subject-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* =======================================================
-   ---------- زر ونموذج البلاغات (Netlify Forms) ----------
-   ======================================================= */
+/* ---------- Floating Report Button ---------- */
 .btn-bug-float {
   position: fixed;
-  bottom: 56px;
+  bottom: 36px;
   right: 24px;
   z-index: 99;
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  background: rgba(22, 28, 42, 0.82);
+  background: rgba(18, 22, 34, 0.9);
   color: var(--text-primary);
   border: 1px solid var(--apple-border-strong);
   padding: 10px 18px;
@@ -751,38 +853,22 @@ footer p {
   font-weight: 700;
   cursor: pointer;
   backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
   transition: all 0.28s var(--ease-apple);
 }
 
-.btn-bug-float svg {
-  color: var(--apple-red);
-  transition: transform 0.3s var(--ease-apple);
-}
-
+.btn-bug-float svg { color: var(--apple-red); }
 .btn-bug-float:hover {
-  background: rgba(30, 39, 58, 0.95);
+  background: rgba(28, 35, 52, 0.98);
   border-color: rgba(255, 69, 58, 0.5);
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 36px rgba(255, 69, 58, 0.22);
 }
 
-.btn-bug-float:hover svg {
-  transform: rotate(-15deg);
-}
-
-.btn-bug-float:active {
-  transform: scale(0.96);
-}
-
-/* Modal Overlay */
 .report-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 6, 10, 0.72);
+  background: rgba(4, 6, 10, 0.78);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -793,90 +879,26 @@ footer p {
   transition: opacity 0.3s var(--ease-apple), visibility 0.3s ease;
 }
 
-.report-modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
+.report-modal-overlay.active { opacity: 1; visibility: visible; }
 .report-modal {
-  background: linear-gradient(180deg, rgba(24, 31, 48, 0.95) 0%, rgba(13, 17, 28, 0.97) 100%);
+  background: linear-gradient(180deg, rgba(22, 28, 44, 0.96) 0%, rgba(11, 14, 24, 0.98) 100%);
   border: 1px solid var(--apple-border-strong);
   border-radius: 22px;
   width: 100%;
   max-width: 480px;
   padding: 26px 24px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-  transform: translateY(20px) scale(0.97);
-  transition: all 0.3s var(--ease-apple);
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
 }
 
-.report-modal-overlay.active .report-modal {
-  transform: translateY(0) scale(1);
-}
+.report-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.report-modal-header h3 { margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+.report-modal-header h3 svg { color: var(--apple-red); }
+.btn-close-modal { background: rgba(255, 255, 255, 0.08); border: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: var(--text-secondary); }
 
-.report-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.report-modal-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.report-modal-header h3 svg {
-  color: var(--apple-red);
-}
-
-.btn-close-modal {
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  color: var(--text-secondary);
-  transition: all 0.2s var(--ease-apple);
-}
-
-.btn-close-modal:hover {
-  background: rgba(255, 69, 58, 0.2);
-  color: var(--apple-red);
-}
-
-.report-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: start;
-}
-
-.form-group label {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: #cbd5e1;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
+.report-form { display: flex; flex-direction: column; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; text-align: start; }
+.form-group label { font-size: 13.5px; font-weight: 700; color: #cbd5e1; }
+.form-group input, .form-group select, .form-group textarea {
   width: 100%;
   background: rgba(10, 14, 24, 0.7);
   border: 1px solid var(--apple-border);
@@ -884,49 +906,9 @@ footer p {
   padding: 10px 14px;
   font-size: 14.5px;
   color: var(--text-primary);
-  transition: all 0.2s var(--ease-apple);
 }
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--apple-blue);
-  box-shadow: 0 0 14px rgba(10, 132, 255, 0.25);
-  background: rgba(14, 20, 34, 0.85);
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.form-group input[type="file"] {
-  padding: 8px 12px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  cursor: pointer;
-}
-
-.form-group input[type="file"]::file-selector-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--apple-border);
-  border-radius: 8px;
-  color: #ffffff;
-  padding: 4px 10px;
-  margin-inline-end: 10px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 12.5px;
-  transition: background 0.2s;
-}
-
-.form-group input[type="file"]::file-selector-button:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-
+.form-group textarea { resize: vertical; min-height: 80px; }
 .btn-submit-report {
-  margin-top: 6px;
   background: linear-gradient(135deg, var(--apple-red), #9f1239);
   color: #ffffff;
   border: none;
@@ -935,651 +917,853 @@ footer p {
   font-weight: 800;
   font-size: 15px;
   cursor: pointer;
-  box-shadow: 0 4px 18px rgba(255, 69, 58, 0.3);
-  transition: all 0.25s var(--ease-apple);
 }
+.report-status { display: none; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 700; text-align: center; margin-top: 10px; }
+.report-status.success { display: block; background: rgba(48, 209, 88, 0.15); border: 1px solid var(--apple-green); color: #85e99e; }
+.report-status.error { display: block; background: rgba(255, 69, 58, 0.15); border: 1px solid var(--apple-red); color: #ff9b94; }
 
-.btn-submit-report:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(255, 69, 58, 0.45);
+@media (max-width: 680px) {
+  .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .landing-hero { padding-top: 2px; }
+  .glass-globe-section { height: 390px; }
 }
-
-.btn-submit-report:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.report-status {
-  display: none;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.report-status.success {
-  display: block;
-  background: rgba(48, 209, 88, 0.15);
-  border: 1px solid var(--apple-green);
-  color: #85e99e;
-}
-
-.report-status.error {
-  display: block;
-  background: rgba(255, 69, 58, 0.15);
-  border: 1px solid var(--apple-red);
-  color: #ff9b94;
-}
-
 @media (max-width: 480px) {
-  .btn-bug-float {
-    bottom: 48px;
-    right: 16px;
-    padding: 8px 14px;
-    font-size: 13px;
-  }
+  .btn-bug-float { bottom: 20px; right: 16px; padding: 8px 14px; font-size: 13px; }
+  .subject-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
+  <!-- الهيدر العلوي -->
+  <header class="masthead">
+    <div class="nav-right-side">
+      <div class="brand-line">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <a class="brand" href="#/">JUSTSNWAT</a>
+      </div>
 
-<div class="page-transition" id="pageTransition" aria-hidden="true"><span class="page-transition-mark"></span></div>
-
-<header class="masthead">
-  <div class="brand-line">
-    <span class="brand-mark" aria-hidden="true"><span></span></span>
-    <a class="brand" href="index.html">JUSTSNWAT</a>
-  </div>
-  <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
-</header>
-
-<div class="wrap">
-  <main id="app"></main>
-</div>
-
-<footer>
-  <p>Designed By Abdallah Al-serhan</p>
-</footer>
-
-<!-- زر التبليغ العائم -->
-<button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <rect width="8" height="14" x="8" y="6" rx="4"></rect>
-    <path d="m19 7-3 2"></path>
-    <path d="m5 7 3 2"></path>
-    <path d="m19 19-3-2"></path>
-    <path d="m5 19 3-2"></path>
-    <path d="M20 13h-4"></path>
-    <path d="M4 13h4"></path>
-    <path d="m10 4 1 2"></path>
-    <path d="m14 4-1 2"></path>
-  </svg>
-  <span>إبلاغ عن خطأ</span>
-</button>
-
-<!-- نافذة التبليغ المنبثقة (Modal) المجهزة لـ Netlify -->
-<div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="report-modal">
-    <div class="report-modal-header">
-      <h3>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        إبلاغ عن خطأ أو ملاحظة
-      </h3>
-      <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      <!-- قائمة الأقسام المنسدلة -->
+      <div class="dept-dropdown" id="deptDropdown">
+        <button class="dept-dropdown-btn" id="deptDropdownBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span>الأقسام</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="dept-dropdown-menu" id="deptDropdownMenu">
+          <a href="#/dept/nes" class="dept-menu-item">
+            <div class="dept-menu-title">
+              <span>هندسة وأمن شبكات الحاسوب</span>
+              <span class="dept-menu-tag">NES</span>
+            </div>
+            <span class="dept-menu-sub">7 مواد • شبكات ومعلومات</span>
+          </a>
+          <a href="#/dept/cpe" class="dept-menu-item">
+            <div class="dept-menu-title">
+              <span>هندسة الحاسوب</span>
+              <span class="dept-menu-tag">CPE</span>
+            </div>
+            <span class="dept-menu-sub">مادتان • معمارية ونظم تشغيل</span>
+          </a>
+          <a href="#/dept/cs" class="dept-menu-item">
+            <div class="dept-menu-title">
+              <span>علوم الحاسوب</span>
+              <span class="dept-menu-tag">CS</span>
+            </div>
+            <span class="dept-menu-sub">مادتان • تراكيب بيانات ونظم</span>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- تم تجهيز الفورم للديسكورد مباشرة -->
-    <form class="report-form" id="bugReportForm">
-      
-      <div class="form-group">
-        <label for="issue-type">نوع المشكلة</label>
-        <select id="issue-type" required>
-          <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
-          <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
-          <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
-          <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
-        </select>
-      </div>
+  </header>
 
-      <div class="form-group">
-        <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
-        <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="issue-file">لقطة شاشة (اختياري)</label>
-        <input type="file" id="issue-file" accept="image/*">
-      </div>
-
-      <div class="form-group">
-        <label for="user-contact">وسيلة تواصل (اختياري)</label>
-        <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
-      </div>
-
-      <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
-      <div class="report-status" id="reportStatus"></div>
-    </form>
+  <div class="wrap">
+    <main id="app"></main>
   </div>
-</div>
 
-<script>
-(function () {
-  "use strict";
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
 
-  /* ============ Scroll Effect ============ */
-  var masthead = document.querySelector(".masthead");
-  if (masthead) {
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 4) masthead.classList.add("scrolled");
-      else masthead.classList.remove("scrolled");
-    });
-  }
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
 
-  /* ============ قائمة المواد والامتحانات ============ */
-  var subjects = [
-    { id: "network-protocols", name: "Network Protocols", code: "NES415" },
-    { id: "wireless", name: "Wireless", code: "NES441" },
-    { id: "network-security", name: "Network Security", code: "NES453" },
-    { id: "network-programming", name: "Network Programming", code: "NES416" },
-    { id: "cryptography", name: "Cryptography & Information Security", code: "NES352" },
-    { id: "unix", name: "Unix", code: "NES202" },
-    { id: "computer-networks", name: "Computer Networks", code: "NES312" },
-    { id: "archi", name: "Computer Architecture", code: "CPE352" },
-    { id: "os", name: "Operating Systems \n(قسم هندسة الحاسوب)", code: "CPE473" },
-    { id: "os2", name: "Operating Systems \n(قسم علوم الحاسوب)", code: "CS375" },
-    { id: "data-structures", name: "Data Structures", code: "HSS211CS" },
-  ];
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
 
-  var exams = {
-    "network-protocols": [
-      {
-        id: "quiz-final-2023",
-        title: "Final Exam 2023 (امتحان  35 سؤال)",
-        link: "protocols/protocols-quiz1.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz-final-2021",
-        title: "Final Exam 2021 (امتحان  50 سؤال)",
-        link: "protocols/protocols-quiz2.html",
-        note: "امتحان الفاينل كامل ومحلول."
-      },
-      {
-        id: "quiz-ch12",
-        title: "Chapter12 Multicasting (كويز  20 سؤال)",
-        link: "protocols/protocols-quiz3.html",
-        note: "كويز 20 سؤال محلول."
-      }
-    ],
-    "wireless": [
-      {
-        id: "quiz1-wireless",
-        title: "First Exam 2022 Dr.Shorman",
-        link: "wireless/wireless-quiz1.html",
-        note: "امتحان الفيرست كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz5-wireless",
-        title: "Quiz CH3 Dr.Shorman",
-        link: "wireless/wireless-quiz5.html",
-        note: "كويز كامل ومحلول."
-      },
-      {
-        id: "quiz2-wireless",
-        title: "Second Exam CH4 Dr.Shorman",
-        link: "wireless/wireless-quiz2.html",
-        note: "امتحان السكند كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz3-wireless",
-        title: "Mid Exam 2021 Dr.Fahed",
-        link: "wireless/wireless-quiz3.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz4-wireless",
-        title: "Mid Exam 2021 Dr.Shorman",
-        link: "wireless/wireless-quiz4.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final1-wireless",
-        title: "Final Exam 2021 Dr.Shorman",
-        link: "wireless/wireless-final1.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final2-wireless",
-        title: "Final Exam 2021 Dr.Fahed",
-        link: "wireless/wireless-final2.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final3-wireless",
-        title: "Final Exam 2021 2nd semester Dr.Shorman",
-        link: "wireless/wireless-final3.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final4-wireless",
-        title: "Final Exam Dr.Shorman",
-        link: "wireless/wireless-final4.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      }
-    ],
-    "network-security": [],
-    "network-programming": [
-      {
-        id: "quiz1-programming",
-        title: "Mid Exam 1st Semester Eng.Rana",
-        link: "Network-prog/mid1.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz2-programming",
-        title: "Mid Exam (2) Eng.Rana",
-        link: "Network-prog/mid2.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz3-programming",
-        title: "Mid Exam (3) Eng.Rana",
-        link: "Network-prog/mid3.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final-programming",
-        title: "Final Exam Dr.Raed",
-        link: "Network-prog/final.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      }
-    ],
-    "cryptography": [
-      {
-        id: "quiz-crypto",
-        title: "Cryptography Quiz",
-        link: "crypto/quiz.html",
-        note: "كويزات مع الحل."
-      }
-    ],
-    "unix": [
-      {
-        id: "quiz-unix",
-        title: "Mid Exam 1st semester 2021 Unix",
-        link: "unix/mid1.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz2-unix",
-        title: "Mid Exam 2nd semester 2021 Unix",
-        link: "unix/mid2.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "quiz3-unix",
-        title: "Mid Exam 2021 Unix",
-        link: "unix/mid3.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final1-unix",
-        title: "Final Exam 2020 Unix",
-        link: "unix/final1.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final2-unix",
-        title: "Final Exam 2021 Unix",
-        link: "unix/final2.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      },
-      {
-        id: "final3-unix",
-        title: "Final Exam 2021 2nd semester Unix",
-        link: "unix/final3.html",
-        note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية."
-      }
-    ],
-    "computer-networks": [
-      {
-        id: "quiz-computer-networks",
-        title: "Mid Exam 1st semester 2021 Computer Networks",
-        link: "computer-networks/mid1.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    /* =======================================================
+       1. البيانات: تصنيف المواد الـ 11
+       ======================================================= */
+    var allSubjects = [
+      { id: "network-protocols", name: "Network Protocols", arName: "بروتوكولات الشبكات", code: "NES415", dept: "nes" },
+      { id: "wireless", name: "Wireless Networks", arName: "الاتصالات والشبكات اللاسلكية", code: "NES441", dept: "nes" },
+      { id: "network-security", name: "Network Security", arName: "أمن الشبكات والمعلومات", code: "NES453", dept: "nes" },
+      { id: "network-programming", name: "Network Programming", arName: "برمجة الشبكات المتقدمة", code: "NES416", dept: "nes" },
+      { id: "cryptography", name: "Cryptography & Information Security", arName: "التشفير وأمن المعلومات", code: "NES352", dept: "nes" },
+      { id: "unix", name: "Unix Operating System", arName: "نظام التشغيل يونكس", code: "NES202", dept: "nes" },
+      { id: "computer-networks", name: "Computer Networks", arName: "شبكات الحاسوب", code: "NES312", dept: "nes" },
+
+      { id: "archi", name: "Computer Architecture", arName: "معمارية وبنية الحاسوب", code: "CPE352", dept: "cpe" },
+      { id: "os", name: "Operating Systems (CPE)", arName: "نظم التشغيل", code: "CPE473", dept: "cpe" },
+
+      { id: "os2", name: "Operating Systems (CS)", arName: "نظم التشغيل", code: "CS375", dept: "cs" },
+      { id: "data-structures", name: "Data Structures", arName: "تراكيب البيانات والخوارزميات", code: "HSS211CS", dept: "cs" }
+    ];
+
+    var deptMeta = {
+      "nes": { name: "هندسة وأمن شبكات الحاسوب", tag: "NES", desc: "تصفح مواد هندسة الشبكات وأمن المعلومات." },
+      "cpe": { name: "هندسة الحاسوب", tag: "CPE", desc: "تصفح مواد هندسة الحاسوب." },
+      "cs":  { name: "علوم الحاسوب", tag: "CS", desc: "تصفح مواد قسم علوم الحاسوب." }
+    };
+
+    var exams = {
+      "network-protocols": [
+        { id: "quiz-final-2023", title: "Final Exam 2023 (امتحان 35 سؤال)", link: "protocols/protocols-quiz1.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz-final-2021", title: "Final Exam 2021 (امتحان 50 سؤال)", link: "protocols/protocols-quiz2.html", note: "امتحان الفاينل كامل ومحلول." },
+        { id: "quiz-ch12", title: "Chapter12 Multicasting (كويز 20 سؤال)", link: "protocols/protocols-quiz3.html", note: "كويز 20 سؤال محلول." }
       ],
-    "archi": [
-      {
-        id: "quiz-archi",
-        title: "Mid Exam 1st semester 2021 Computer Architecture",
-        link: "archi/mid1.html",
-        note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية."
-      },
+      "wireless": [
+        { id: "quiz1-wireless", title: "First Exam 2022 Dr.Shorman", link: "wireless/wireless-quiz1.html", note: "امتحان الفيرست كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz5-wireless", title: "Quiz CH3 Dr.Shorman", link: "wireless/wireless-quiz5.html", note: "كويز كامل ومحلول." },
+        { id: "quiz2-wireless", title: "Second Exam CH4 Dr.Shorman", link: "wireless/wireless-quiz2.html", note: "امتحان السكند كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz3-wireless", title: "Mid Exam 2021 Dr.Fahed", link: "wireless/wireless-quiz3.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz4-wireless", title: "Mid Exam 2021 Dr.Shorman", link: "wireless/wireless-quiz4.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final1-wireless", title: "Final Exam 2021 Dr.Shorman", link: "wireless/wireless-final1.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final2-wireless", title: "Final Exam 2021 Dr.Fahed", link: "wireless/wireless-final2.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final3-wireless", title: "Final Exam 2021 2nd semester Dr.Shorman", link: "wireless/wireless-final3.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final4-wireless", title: "Final Exam Dr.Shorman", link: "wireless/wireless-final4.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." }
       ],
-  };
+      "network-security": [],
+      "network-programming": [
+        { id: "quiz1-programming", title: "Mid Exam 1st Semester Eng.Rana", link: "Network-prog/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz2-programming", title: "Mid Exam (2) Eng.Rana", link: "Network-prog/mid2.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz3-programming", title: "Mid Exam (3) Eng.Rana", link: "Network-prog/mid3.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final-programming", title: "Final Exam Dr.Raed", link: "Network-prog/final.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." }
+      ],
+      "cryptography": [
+        { id: "quiz-crypto", title: "Cryptography Quiz", link: "crypto/quiz.html", note: "كويزات مع الحل." }
+      ],
+      "unix": [
+        { id: "quiz-unix", title: "Mid Exam 1st semester 2021 Unix", link: "unix/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz2-unix", title: "Mid Exam 2nd semester 2021 Unix", link: "unix/mid2.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "quiz3-unix", title: "Mid Exam 2021 Unix", link: "unix/mid3.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final1-unix", title: "Final Exam 2020 Unix", link: "unix/final1.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final2-unix", title: "Final Exam 2021 Unix", link: "unix/final2.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final3-unix", title: "Final Exam 2021 2nd semester Unix", link: "unix/final3.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." }
+      ],
+      "computer-networks": [
+        { id: "quiz-computer-networks", title: "Mid Exam 1st semester 2021 Computer Networks", link: "computer-networks/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." }
+      ],
+      "archi": [
+        { id: "quiz-archi", title: "Mid Exam 1st semester 2021 Computer Architecture", link: "archi/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." }
+      ],
+      "os": [],
+      "os2": [],
+      "data-structures": []
+    };
 
-  var currentId = null;
-  var search = "";
-  var app = document.getElementById("app");
-  var transitionTimer = null;
-
-  var pageTransition = document.getElementById("pageTransition");
-  requestAnimationFrame(function () { pageTransition.classList.add("is-ready"); });
-
-  function esc(s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-
-  function safeUrl(u) {
-    var t = String(u || "").trim();
-    if (!t) return "";
-    if (t.endsWith(".html") || t.startsWith("#") || t.startsWith("/") || t.startsWith("./")) return t;
-    if (!/^https?:\/\//i.test(t)) t = "https://" + t;
-    try { var p = new URL(t); return (p.protocol === "http:" || p.protocol === "https:") ? p.href : ""; }
-    catch (e) { return ""; }
-  }
-
-  /* ============ التنقل ============ */
-  function readHash() {
-    var m = /^#\/s\/(.+)$/.exec(location.hash || "");
-    return m ? decodeURIComponent(m[1]) : null;
-  }
-
-  function go(id) {
-    var nextHash = id ? "#/s/" + encodeURIComponent(id) : "#/";
-    if (location.hash === nextHash) return;
-
-    clearTimeout(transitionTimer);
-    app.classList.remove("page-enter");
-    app.classList.add("page-leave");
-    transitionTimer = setTimeout(function () {
-      location.hash = nextHash;
-    }, 180);
-  }
-
-  window.addEventListener("hashchange", function () {
-    currentId = readHash();
-    window.scrollTo(0, 0);
-    render(true);
-  });
-
-  /* ============ العرض ============ */
-  function render(animate) {
-    if (currentId) renderSubject(); else renderHome();
-    if (!animate) return;
-
-    app.classList.remove("page-leave");
-    void app.offsetWidth;
-    app.classList.add("page-enter");
-    setTimeout(function () { app.classList.remove("page-enter"); }, 650);
-  }
-
-  function renderHome() {
-    var q = search.trim().toLowerCase();
-    var list = subjects.filter(function (s) {
-      if (!q) return true;
-      return (s.name || "").toLowerCase().indexOf(q) > -1 || (s.code || "").toLowerCase().indexOf(q) > -1;
-    });
-
-    var body = "";
-    if (!list.length) {
-      body = '<div class="empty"><strong>لا توجد نتائج</strong>لم نتمكن من العثور على مادة مطابقة.</div>';
-    } else {
-      body = '<div class="subject-grid">' + list.map(function (s) {
-        var examList = exams[s.id] || [];
-        var count = examList.length;
-        var meta = [];
-        if (s.code) meta.push('<span class="code">' + esc(s.code) + "</span>");
-        var countLabel = count === 0 ? "لا توجد أسئلة حالياً" : count + (count === 1 ? " نموذج اختبار" : " نماذج اختبارات");
-        meta.push('<span class="subject-count">' + esc(countLabel) + "</span>");
-        return '' +
-          '<div class="row subject-card subject-' + esc(s.id) + '" role="button" tabindex="0" data-open="' + esc(s.id) + '">' +
-            '<div class="main">' +
-              '<div class="name">' + esc(s.name) + "</div>" +
-              '<div class="meta">' + meta.join("  ") + "</div>" +
-            "</div>" +
-            '<span class="chev" aria-hidden="true">' + iconChev() + "</span>" +
-          "</div>";
-      }).join("") + "</div>";
+    /* =======================================================
+       2. محرك البحث الذكي
+       ======================================================= */
+    function normalizeArabic(text) {
+      if (!text) return "";
+      return String(text)
+        .trim()
+        .toLowerCase()
+        .replace(/[إأآٱ]/g, "ا")
+        .replace(/[ة]/g, "ه")
+        .replace(/[ى]/g, "ي")
+        .replace(/[ؤ]/g, "و")
+        .replace(/[ئ]/g, "ي")
+        .replace(/[\u064B-\u065F\u0670]/g, "")
+        .replace(/\u0640/g, "")
+        .replace(/[\s\-_]+/g, " ");
     }
 
-    app.innerHTML =
-      '<div class="bar">' +
-        '<input class="search" id="q" type="search" placeholder="ابحث عن مادة…" value="' + esc(search) + '">' +
-      "</div>" + body +
-      '<p class="hint">اضغط على المادة للانتقال إلى نماذج الامتحانات.</p>';
+    function searchSubjects(query, deptFilter) {
+      var pool = deptFilter ? allSubjects.filter(function(s) { return s.dept === deptFilter; }) : allSubjects;
+      var normQ = normalizeArabic(query);
+      if (!normQ) return pool;
 
-    var qInput = document.getElementById("q");
-    if (qInput) {
-      qInput.addEventListener("input", function () { 
-        search = this.value; 
-        var pos = this.selectionStart; 
-        renderHome(); 
-        var reFocus = document.getElementById("q"); 
-        reFocus.focus(); 
-        try { reFocus.setSelectionRange(pos, pos); } catch (e) {} 
+      return pool.filter(function (s) {
+        var normAr = normalizeArabic(s.arName);
+        var normEn = normalizeArabic(s.name);
+        var normCode = normalizeArabic(s.code);
+        return normAr.indexOf(normQ) > -1 || normEn.indexOf(normQ) > -1 || normCode.indexOf(normQ) > -1;
       });
     }
-  }
 
-  function renderSubject() {
-    var s = subjects.find(function (item) { return item.id === currentId; });
+    var app = document.getElementById("app");
+    var deptDropdown = document.getElementById("deptDropdown");
+    var deptDropdownBtn = document.getElementById("deptDropdownBtn");
+    var routeTimer = null;
 
-    if (!s) {
-      app.innerHTML = '<button class="back" id="back">' + iconBack() + " رجوع للمواد</button>" +
-        '<div class="empty"><strong>المادة غير موجودة</strong>الرجاء العودة للقائمة الرئيسية.</div>';
-      document.getElementById("back").addEventListener("click", function () { go(null); });
-      return;
+    if (deptDropdown && deptDropdownBtn) {
+      deptDropdownBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        deptDropdown.classList.toggle("open");
+        var isOpen = deptDropdown.classList.contains("open");
+        deptDropdownBtn.setAttribute("aria-expanded", isOpen);
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!deptDropdown.contains(e.target)) {
+          deptDropdown.classList.remove("open");
+          deptDropdownBtn.setAttribute("aria-expanded", "false");
+        }
+      });
     }
 
-    var subjectExams = exams[currentId] || [];
-    var body = "";
-    if (!subjectExams.length) {
-      body = '<div class="empty"><strong>لا توجد أسئلة بعد</strong>لم تتم إضافة نماذج لهذه المادة حتى الآن.</div>';
-    } else {
-      body = '<div class="list">' + subjectExams.map(function (x) {
-        var url = safeUrl(x.link);
-        var isLocalQuiz = url && (url.endsWith(".html") || url.indexOf("quiz") > -1);
-        
-        var linkButtonHtml = "";
-        if (isLocalQuiz) {
-          linkButtonHtml = '<a class="btn-quiz" href="' + esc(url) + '">' + iconFlash() + " بدء الاختبار </a>";
-        } else if (url) {
-          linkButtonHtml = '<a class="filelink" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + iconLink() + " فتح الملف ↗</a>";
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function safeUrl(u) {
+      var t = String(u || "").trim();
+      if (!t) return "";
+      if (t.endsWith(".html") || t.startsWith("#") || t.startsWith("/") || t.startsWith("./")) return t;
+      if (!/^https?:\/\//i.test(t)) t = "https://" + t;
+      try { var p = new URL(t); return (p.protocol === "http:" || p.protocol === "https:") ? p.href : ""; }
+      catch (e) { return ""; }
+    }
+
+    function parseHash() {
+      var h = location.hash || "";
+      var mSubject = /^#\/s\/(.+)$/.exec(h);
+      if (mSubject) return { type: "subject", id: decodeURIComponent(mSubject[1]) };
+
+      var mDept = /^#\/dept\/(.+)$/.exec(h);
+      if (mDept) return { type: "dept", id: decodeURIComponent(mDept[1]) };
+
+      return { type: "home" };
+    }
+
+    function render(animate) {
+      var route = parseHash();
+      if (deptDropdown) deptDropdown.classList.remove("open");
+
+      if (route.type === "subject") {
+        renderSubject(route.id);
+      } else if (route.type === "dept") {
+        renderDepartment(route.id);
+      } else {
+        renderHome();
+      }
+
+      if (animate) {
+        app.classList.remove("route-leave");
+        void app.offsetWidth;
+        app.classList.add("route-enter");
+        window.setTimeout(function () { app.classList.remove("route-enter"); }, 720);
+      }
+    }
+
+    window.addEventListener("hashchange", function () {
+      clearTimeout(routeTimer);
+      app.classList.remove("route-enter");
+      app.classList.add("route-leave");
+      routeTimer = window.setTimeout(function () {
+        window.scrollTo(0, 0);
+        render(true);
+      }, 150);
+    });
+
+    /* =======================================================
+       3. الصفحة الرئيسية
+       ======================================================= */
+    function renderHome() {
+      app.innerHTML =
+        '<div class="landing-hero">' +
+          '<h1 class="landing-title-clean">JUSTSNWAT</h1>' +
+          '<p class="landing-subtitle">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</p>' +
+
+          '<div class="lux-search-container" id="luxSearchWrap">' +
+            '<div class="lux-search-box">' +
+              '<span class="lux-search-icon">' +
+                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<circle cx="11" cy="11" r="8"></circle>' +
+                  '<line x1="21" y1="21" x2="16.65" y2="16.65"></line>' +
+                '</svg>' +
+              '</span>' +
+              '<input type="search" class="lux-search-input" id="luxSearchInput" placeholder="ابحث عن أي مادة (مثال: بروتوكولات، أمن، معمارية، NES415)..." autocomplete="off">' +
+            '</div>' +
+            '<div class="lux-results-dropdown" id="luxResultsDropdown"></div>' +
+          '</div>' +
+
+          '<div class="glass-globe-section" id="globe-canvas-wrap">' +
+            '<canvas id="globe-canvas"></canvas>' +
+          '</div>' +
+          '<p class="globe-tagline">Learn Practice Get Ready.</p>' +
+        '</div>';
+
+      setupLuxSearch();
+      initWeEvolveGlobe();
+    }
+
+    function setupLuxSearch() {
+      var wrap = document.getElementById("luxSearchWrap");
+      var input = document.getElementById("luxSearchInput");
+      var dropdown = document.getElementById("luxResultsDropdown");
+
+      if (!wrap || !input || !dropdown) return;
+
+      function updateResults(q) {
+        var matches = searchSubjects(q, null);
+        if (!matches.length) {
+          dropdown.innerHTML = '<div class="lux-no-results">لم نجد مادة مطابقة... جرب البحث برمز المادة أو جزء من اسمها.</div>';
+          return;
         }
 
-        return '' +
-          '<div class="row exam">' +
-            '<div class="main">' +
-              '<div class="name">' + esc(x.title) + "</div>" +
-              (x.note ? '<div class="note">' + esc(x.note) + "</div>" : "") +
-              linkButtonHtml +
-            "</div>" +
-          "</div>";
-      }).join("") + "</div>";
+        dropdown.innerHTML = matches.map(function (s) {
+          var count = (exams[s.id] || []).length;
+          var countText = count === 0 ? "قريباً" : count + " نماذج";
+          return '' +
+            '<div class="lux-result-item" data-open="' + esc(s.id) + '">' +
+              '<div class="lux-result-titles">' +
+                '<div class="lux-result-ar">' + esc(s.arName) + '</div>' +
+                '<div class="lux-result-en">' + esc(s.name) + '</div>' +
+              '</div>' +
+              '<div class="lux-result-badges">' +
+                '<span class="lux-code-badge">' + esc(s.code) + '</span>' +
+                '<span class="lux-count-badge">' + esc(countText) + '</span>' +
+              '</div>' +
+            '</div>';
+        }).join("");
+      }
+
+      input.addEventListener("focus", function () {
+        wrap.classList.add("is-focused");
+        updateResults(this.value);
+      });
+
+      input.addEventListener("input", function () {
+        updateResults(this.value);
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!wrap.contains(e.target)) {
+          wrap.classList.remove("is-focused");
+        }
+      });
+
+      window.addEventListener("keydown", function (e) {
+        if ((e.ctrlKey && e.key.toLowerCase() === "k") || (e.key === "/" && document.activeElement !== input)) {
+          e.preventDefault();
+          input.focus();
+        }
+        if (e.key === "Escape") {
+          input.blur();
+          wrap.classList.remove("is-focused");
+        }
+      });
     }
 
-    app.innerHTML =
-      '<button class="back" id="back">' + iconBack() + " رجوع للمواد</button>" +
-      '<div class="subject-head">' +
-        "<h2>" + esc(s.name) + "</h2>" +
-        (s.code ? '<div class="sub">' + esc(s.code) + "</div>" : "") +
-      "</div>" +
-      body;
+    /* =======================================================
+       4. محرك الكرة الأرضية التقنية (weevolveit.com replica)
+       ======================================================= */
+    var globeAnimId = null;
 
-    document.getElementById("back").addEventListener("click", function () { go(null); });
-  }
+    function initWeEvolveGlobe() {
+      var container = document.getElementById("globe-canvas-wrap");
+      var canvas = document.getElementById("globe-canvas");
 
-  /* ============ الأيقونات ============ */
-  function iconChev() { return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'; }
-  function iconBack() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>'; }
-  function iconLink() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>'; }
-  function iconFlash() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; }
+      if (!container || !canvas || typeof THREE === "undefined") return;
+      if (globeAnimId) cancelAnimationFrame(globeAnimId);
 
-  /* ============ التفاعل ============ */
-  app.addEventListener("click", function (e) {
-    var examLink = e.target.closest("a.btn-quiz");
-    if (examLink) {
-      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 1000);
+      camera.position.set(0, 0, 238);
 
-      e.preventDefault();
-      var targetUrl = examLink.href;
-      clearTimeout(transitionTimer);
-      app.classList.remove("page-enter");
-      app.classList.add("page-leave");
-      pageTransition.classList.remove("is-ready");
-      pageTransition.classList.add("is-leaving");
-      transitionTimer = setTimeout(function () {
-        window.location.href = targetUrl;
-      }, 400);
-      return;
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      var globeGroup = new THREE.Group();
+      scene.add(globeGroup);
+
+      var GLOBE_RADIUS = 72;
+
+      // أ. سطح زجاجي شفاف يحافظ على عمق الكرة بدون إطار مضيء
+      var coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.99, 48, 48);
+      var coreMat = new THREE.MeshBasicMaterial({
+        color: 0x0b1219,
+        transparent: true,
+        opacity: 0.52,
+        depthWrite: false
+      });
+      globeGroup.add(new THREE.Mesh(coreGeo, coreMat));
+
+      var silverRim = new THREE.ShaderMaterial({
+        vertexShader: `
+          varying vec3 vNormal;
+          varying vec3 vPosition;
+          void main() {
+            vNormal = normalize(normalMatrix * normal);
+            vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          varying vec3 vNormal;
+          varying vec3 vPosition;
+          void main() {
+            vec3 viewDirection = normalize(-vPosition);
+            float rim = pow(1.0 - abs(dot(viewDirection, vNormal)), 3.0);
+            gl_FragColor = vec4(vec3(0.72, 0.78, 0.82) * rim, rim * 0.3);
+          }
+        `,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        depthWrite: false
+      });
+      globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS * 1.025, 48, 48), silverRim));
+
+      // ب. حدود اليابسة الحقيقية بخطوط ذهبية نظيفة
+      var continentMaterial = new THREE.LineBasicMaterial({
+        color: 0xe2ad45,
+        transparent: true,
+        opacity: 0.86,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      function addLandOutline(ring) {
+        if (!ring || ring.length < 3) return;
+        var outline = ring.map(function (point) {
+          return latLonToVector3(point[1], point[0], GLOBE_RADIUS * 1.006);
+        });
+        globeGroup.add(new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(outline),
+          continentMaterial
+        ));
+      }
+
+      fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson")
+        .then(function (response) { return response.json(); })
+        .then(function (landData) {
+          landData.features.forEach(function (feature) {
+            var geometry = feature.geometry || {};
+            if (geometry.type === "Polygon") {
+              geometry.coordinates.forEach(addLandOutline);
+            } else if (geometry.type === "MultiPolygon") {
+              geometry.coordinates.forEach(function (polygon) {
+                polygon.forEach(addLandOutline);
+              });
+            }
+          });
+        })
+        .catch(function () {
+          // Keep the glass globe and network arcs visible if the map data is unavailable.
+        });
+
+      // ج. مسارات الربط ثلاثية الأبعاد (Network Cyber Arcs)
+      function latLonToVector3(lat, lon, r) {
+        var phi = (90 - lat) * (Math.PI / 180);
+        var theta = (lon + 180) * (Math.PI / 180);
+        return new THREE.Vector3(
+          -(r * Math.sin(phi) * Math.cos(theta)),
+          r * Math.cos(phi),
+          r * Math.sin(phi) * Math.sin(theta)
+        );
+      }
+
+      var hubList = [
+        { lat: 31.95, lon: 35.91 },  // الأردن
+        { lat: 51.50, lon: -0.12 },  // لندن
+        { lat: 40.71, lon: -74.00 }, // نيويورك
+        { lat: 35.67, lon: 139.65 }, // طوكيو
+        { lat: 25.20, lon: 55.27 },  // دبي
+        { lat: -33.86, lon: 151.20 } // سيدني
+      ];
+
+      // علامات متوهجة فوق العواصم
+      hubList.forEach(function (h) {
+        var pos = latLonToVector3(h.lat, h.lon, GLOBE_RADIUS * 1.01);
+        var markerGeo = new THREE.RingGeometry(1.2, 2.0, 16);
+        var markerMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
+        var markerMesh = new THREE.Mesh(markerGeo, markerMat);
+        markerMesh.position.copy(pos);
+        markerMesh.lookAt(0, 0, 0);
+        globeGroup.add(markerMesh);
+      });
+
+      var pulseItems = [];
+      for (var i = 0; i < hubList.length; i++) {
+        var pStart = hubList[i];
+        var pEnd = hubList[(i + 1) % hubList.length];
+
+        var v1 = latLonToVector3(pStart.lat, pStart.lon, GLOBE_RADIUS);
+        var v2 = latLonToVector3(pEnd.lat, pEnd.lon, GLOBE_RADIUS);
+        var mid = new THREE.Vector3().addVectors(v1, v2).multiplyScalar(0.5);
+        var d = v1.distanceTo(v2);
+        mid.normalize().multiplyScalar(GLOBE_RADIUS + d * 0.28);
+
+        var curve = new THREE.QuadraticBezierCurve3(v1, mid, v2);
+        var curvePoints = curve.getPoints(45);
+        var curveGeo = new THREE.BufferGeometry().setFromPoints(curvePoints);
+        var curveMat = new THREE.LineBasicMaterial({
+          color: 0x00d2ff,
+          transparent: true,
+          opacity: 0.38
+        });
+        globeGroup.add(new THREE.Line(curveGeo, curveMat));
+
+        // وميض البيانات السريع
+        var pGeo = new THREE.SphereGeometry(1.2, 8, 8);
+        var pMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        var pMesh = new THREE.Mesh(pGeo, pMat);
+        globeGroup.add(pMesh);
+        pulseItems.push({ mesh: pMesh, curve: curve, t: Math.random() });
+      }
+
+      globeGroup.rotation.y = 2.45;
+      globeGroup.rotation.x = 0.24;
+
+      // هـ. التفاعل والسحب السلس (Smooth Inertia Drag)
+      var isDragging = false;
+      var lastX = 0, lastY = 0;
+      var spinSpeedX = 0, spinSpeedY = 0;
+
+      container.addEventListener("pointerdown", function (e) {
+        isDragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        spinSpeedX = 0;
+        spinSpeedY = 0;
+      });
+
+      window.addEventListener("pointermove", function (e) {
+        if (!isDragging) return;
+        var dx = e.clientX - lastX;
+        var dy = e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+
+        spinSpeedX = dx * 0.0018;
+        spinSpeedY = dy * 0.0018;
+        globeGroup.rotation.y += spinSpeedX;
+        globeGroup.rotation.x += spinSpeedY;
+        globeGroup.rotation.x = Math.max(-0.85, Math.min(0.85, globeGroup.rotation.x));
+      });
+
+      window.addEventListener("pointerup", function () { isDragging = false; });
+
+      window.addEventListener("resize", function () {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+
+      function animate() {
+        globeAnimId = requestAnimationFrame(animate);
+
+        pulseItems.forEach(function (p) {
+          p.t += 0.0018;
+          if (p.t > 1) p.t = 0;
+          var pt = p.curve.getPoint(p.t);
+          p.mesh.position.copy(pt);
+        });
+
+        if (!isDragging) {
+          spinSpeedX *= 0.9;
+          spinSpeedY *= 0.9;
+          globeGroup.rotation.y += spinSpeedX + 0.00045;
+          globeGroup.rotation.x += spinSpeedY;
+          globeGroup.rotation.x = Math.max(-0.85, Math.min(0.85, globeGroup.rotation.x));
+        }
+
+        renderer.render(scene, camera);
+      }
+      animate();
     }
 
-    var t = e.target.closest("[data-open]");
-    if (t) go(t.getAttribute("data-open"));
-  });
+    /* =======================================================
+       5. صفحة القسم
+       ======================================================= */
+    var deptSearch = "";
+    function renderDepartment(deptId) {
+      var meta = deptMeta[deptId] || { name: "القسم الأكاديمي", tag: deptId.toUpperCase(), desc: "تصفح المواد المتاحة." };
+      var matches = searchSubjects(deptSearch, deptId);
 
-  app.addEventListener("keydown", function (e) {
-    if (e.key !== "Enter" && e.key !== " ") return;
-    var t = e.target.closest("[data-open]");
-    if (!t) return;
-    e.preventDefault();
-    go(t.getAttribute("data-open"));
-  });
+      var body = "";
+      if (!matches.length) {
+        body = '<div class="empty"><strong>لا توجد نتائج مطابقة</strong>تأكد من كتابة اسم المادة أو رمزها بالشكل الصحيح.</div>';
+      } else {
+        body = '<div class="subject-grid">' + matches.map(function (s) {
+          var examList = exams[s.id] || [];
+          var count = examList.length;
+          var countLabel = count === 0 ? "لا توجد أسئلة حالياً" : count + (count === 1 ? " نموذج اختبار" : " نماذج اختبارات");
+          return '' +
+            '<div class="row subject-card subject-' + esc(s.id) + '" role="button" tabindex="0" data-open="' + esc(s.id) + '">' +
+              '<div class="main">' +
+                '<div class="ar-title">' + esc(s.arName) + '</div>' +
+                '<div class="en-title">' + esc(s.name) + '</div>' +
+                '<div class="meta">' +
+                  (s.code ? '<span class="code">' + esc(s.code) + '</span>' : '') +
+                  '<span class="subject-count">' + esc(countLabel) + '</span>' +
+                '</div>' +
+              '</div>' +
+              '<span class="chev" aria-hidden="true">' + iconChev() + '</span>' +
+            '</div>';
+        }).join("") + '</div>';
+      }
 
-  currentId = readHash();
-  render();
+      app.innerHTML =
+        '<div style="padding-top: 10px;">' +
+          '<a href="#/" class="back">' + iconBack() + ' رجوع للرئيسية</a>' +
+          '<div class="dept-header">' +
+            '<h2>قسم ' + esc(meta.name) + ' (' + esc(meta.tag) + ')</h2>' +
+            '<p>' + esc(meta.desc) + '</p>' +
+          '</div>' +
+          '<div class="bar">' +
+            '<input class="search" id="deptQuery" type="search" placeholder="ابحث في مواد القسم بالعربي أو الإنجليزي..." value="' + esc(deptSearch) + '">' +
+          '</div>' +
+          body +
+          '<p class="hint">اضغط على أي مادة لعرض ملفات الاختبارات والحلول.</p>' +
+        '</div>';
 
-  /* ============ تشغيل نافذة ونموذج Netlify ============ */
-  var openBtn = document.getElementById("openReportBtn");
-  var closeBtn = document.getElementById("closeReportBtn");
-  var overlay = document.getElementById("reportOverlay");
-  var form = document.getElementById("bugReportForm");
-  var statusDiv = document.getElementById("reportStatus");
-  var submitBtn = document.getElementById("submitReportBtn");
-  var pageInput = document.getElementById("reportCurrentPage");
-
-  function openModal() {
-    overlay.classList.add("active");
-    overlay.setAttribute("aria-hidden", "false");
-    statusDiv.className = "report-status";
-    statusDiv.style.display = "none";
-    // تسجيل الصفحة والمادة الحالية تلقائياً
-    if (pageInput) {
-      var currentContext = currentId ? "مادة: " + currentId + " | " : "الرئيسية | ";
-      pageInput.value = currentContext + window.location.href;
+      var qInput = document.getElementById("deptQuery");
+      if (qInput) {
+        qInput.addEventListener("input", function () {
+          deptSearch = this.value;
+          var pos = this.selectionStart;
+          renderDepartment(deptId);
+          var reFocus = document.getElementById("deptQuery");
+          if (reFocus) {
+            reFocus.focus();
+            try { reFocus.setSelectionRange(pos, pos); } catch (e) {}
+          }
+        });
+      }
     }
-  }
 
-  function closeModal() {
-    overlay.classList.remove("active");
-    overlay.setAttribute("aria-hidden", "true");
-  }
+    /* =======================================================
+       6. صفحة المادة والاختبارات
+       ======================================================= */
+    function renderSubject(subjectId) {
+      var s = allSubjects.find(function (item) { return item.id === subjectId; });
 
-  if (openBtn) openBtn.addEventListener("click", openModal);
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
-
-  if (overlay) {
-    overlay.addEventListener("click", function (e) {
-      if (e.target === overlay) closeModal();
-    });
-  }
-
-  window.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && overlay && overlay.classList.contains("active")) {
-      closeModal();
-    }
-  });
-
-  // إرسال البلاغ بدون مغادرة الصفحة (متوافق 100% مع Netlify للنماذج النصية)
-  /* ============ إرسال البلاغ مباشرة لديسكورد بدون أخطاء CORS ============ */
-  if (form) {
-    // 🔴 حط رابط الويب هوك تبع ديسكورد هون
-    var DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.indexOf("discord.com/api/webhooks") === -1) {
-        alert("يرجى وضع رابط الـ Webhook الخاص بديسكورد داخل الكود أولاً!");
+      if (!s) {
+        app.innerHTML = '<div style="padding-top: 20px;">' +
+          '<a href="#/" class="back">' + iconBack() + ' رجوع للرئيسية</a>' +
+          '<div class="empty"><strong>المادة غير موجودة</strong>الرجاء العودة للقائمة الرئيسية.</div>' +
+        '</div>';
         return;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = "جارِ الإرسال...";
-      statusDiv.style.display = "none";
+      var deptUrl = "#/dept/" + s.dept;
+      var deptName = deptMeta[s.dept] ? deptMeta[s.dept].name : "القسم";
+      var subjectExams = exams[subjectId] || [];
+      var body = "";
 
-      var issueType = document.getElementById("issue-type").value;
-      var issueDesc = document.getElementById("issue-desc").value;
-      var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
-      var currentUrl = window.location.href;
-      var fileInput = document.getElementById("issue-file");
-
-      // تجهيز الرسالة المنسقة (Embed)
-      var discordPayload = {
-        username: "JUSTSNWAT | بلاغات",
-        avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
-        embeds: [
-          {
-            title: "🚨 بلاغ جديد عن خطأ / ملاحظة",
-            color: 16729390, // لون أحمر متناسق
-            fields: [
-              { name: "📌 نوع المشكلة", value: issueType, inline: true },
-              { name: "👤 وسيلة التواصل", value: userContact, inline: true },
-              { name: "🔗 رابط الصفحة والمادة", value: currentUrl },
-              { name: "📝 وصف المشكلة", value: issueDesc }
-            ],
-            footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
-            timestamp: new Date().toISOString()
+      if (!subjectExams.length) {
+        body = '<div class="empty"><strong>لا توجد أسئلة بعد</strong>لم تتم إضافة نماذج لهذه المادة حتى الآن.</div>';
+      } else {
+        body = '<div style="display:flex; flex-direction:column; gap:12px;">' + subjectExams.map(function (x) {
+          var url = safeUrl(x.link);
+          var isLocalQuiz = url && (url.endsWith(".html") || url.indexOf("quiz") > -1);
+          var linkButtonHtml = "";
+          if (isLocalQuiz) {
+            linkButtonHtml = '<a class="btn-quiz" href="' + esc(url) + '">' + iconFlash() + ' بدء الاختبار</a>';
+          } else if (url) {
+            linkButtonHtml = '<a class="filelink" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + iconLink() + ' فتح الملف ↗</a>';
           }
-        ]
-      };
 
-      // استخدام FormData لتجاوز فحص CORS بالمتصفح نهائياً
-      var formData = new FormData();
-      formData.append("payload_json", JSON.stringify(discordPayload));
-
-      // إذا المستخدم اختار صورة نرفقها بالرسالة
-      if (fileInput && fileInput.files && fileInput.files[0]) {
-        formData.append("files[0]", fileInput.files[0]);
+          return '' +
+            '<div class="row exam">' +
+              '<div class="main">' +
+                '<div class="name">' + esc(x.title) + '</div>' +
+                (x.note ? '<div class="note">' + esc(x.note) + '</div>' : '') +
+                linkButtonHtml +
+              '</div>' +
+            '</div>';
+        }).join("") + '</div>';
       }
 
-      // الإرسال مع no-cors يمنع المتصفح من حظر الطلب
-      fetch(DISCORD_WEBHOOK_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
-      })
-      .then(function () {
-        // الطلب مر بنجاح ووصل ديسكورد
-        statusDiv.className = "report-status success";
-        statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
-        form.reset();
-        setTimeout(function () {
-          closeModal();
+      app.innerHTML =
+        '<div style="padding-top: 10px;">' +
+          '<a href="' + deptUrl + '" class="back">' + iconBack() + ' رجوع لقسم ' + esc(deptName) + '</a>' +
+          '<div class="subject-head">' +
+            '<h2>' + esc(s.arName) + '</h2>' +
+            '<div class="en-subtitle">' + esc(s.name) + '</div>' +
+            (s.code ? '<div class="sub">رمز المادة: ' + esc(s.code) + '</div>' : '') +
+          '</div>' +
+          body +
+        '</div>';
+    }
+
+    function iconChev() { return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'; }
+    function iconBack() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>'; }
+    function iconLink() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>'; }
+    function iconFlash() { return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; }
+
+    app.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-open]");
+      if (t) location.hash = "#/s/" + encodeURIComponent(t.getAttribute("data-open"));
+    });
+
+    render();
+
+    /* =======================================================
+       7. ديسكورد وبلاغات الأخطاء
+       ======================================================= */
+    var openBtn = document.getElementById("openReportBtn");
+    var closeBtn = document.getElementById("closeReportBtn");
+    var overlay = document.getElementById("reportOverlay");
+    var form = document.getElementById("bugReportForm");
+    var statusDiv = document.getElementById("reportStatus");
+    var submitBtn = document.getElementById("submitReportBtn");
+
+    function openModal() {
+      overlay.classList.add("active");
+      overlay.setAttribute("aria-hidden", "false");
+      statusDiv.className = "report-status";
+      statusDiv.style.display = "none";
+    }
+
+    function closeModal() {
+      overlay.classList.remove("active");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    if (openBtn) openBtn.addEventListener("click", openModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (overlay) {
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) closeModal();
+      });
+    }
+
+    if (form) {
+      var DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1550894622069497908/cuRgeoQ8vN_Ftq6rvZ7bDCqGiV-KRFL7p6xPRhvnP6FpSm4pzanrzLJ2JCDV0KADDmSw";
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.textContent = "جارِ الإرسال...";
+        statusDiv.style.display = "none";
+
+        var issueType = document.getElementById("issue-type").value;
+        var issueDesc = document.getElementById("issue-desc").value;
+        var userContact = document.getElementById("user-contact").value.trim() || "غير محدد";
+        var currentUrl = window.location.href;
+        var fileInput = document.getElementById("issue-file");
+
+        var discordPayload = {
+          username: "JUSTSNWAT | بلاغات",
+          avatar_url: "https://cdn-icons-png.flaticon.com/512/595/595067.png",
+          embeds: [
+            {
+              title: "🚨 بلاغ جديد عن خطأ / ملاحظة",
+              color: 16729390,
+              fields: [
+                { name: "📌 نوع المشكلة", value: issueType, inline: true },
+                { name: "👤 وسيلة التواصل", value: userContact, inline: true },
+                { name: "🔗 رابط الصفحة", value: currentUrl },
+                { name: "📝 وصف المشكلة", value: issueDesc }
+              ],
+              footer: { text: "نظام التبليغ التلقائي | JUSTSNWAT" },
+              timestamp: new Date().toISOString()
+            }
+          ]
+        };
+
+        var formData = new FormData();
+        formData.append("payload_json", JSON.stringify(discordPayload));
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+          formData.append("files[0]", fileInput.files[0]);
+        }
+
+        fetch(DISCORD_WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        })
+        .then(function () {
+          statusDiv.className = "report-status success";
+          statusDiv.textContent = "تم إرسال البلاغ بنجاح لديسكورد، شكراً لك!";
+          form.reset();
+          setTimeout(function () {
+            closeModal();
+            submitBtn.disabled = false;
+            submitBtn.textContent = "إرسال البلاغ";
+          }, 2000);
+        })
+        .catch(function () {
+          statusDiv.className = "report-status error";
+          statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
           submitBtn.disabled = false;
           submitBtn.textContent = "إرسال البلاغ";
-        }, 2000);
-      })
-      .catch(function () {
-        statusDiv.className = "report-status error";
-        statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
-        submitBtn.disabled = false;
-        submitBtn.textContent = "إرسال البلاغ";
+        });
       });
-    });
-  }
+    }
 
-})();
-</script>
+  })();
+  </script>
 </body>
 </html>
