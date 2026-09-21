@@ -43,7 +43,7 @@
     var submit = document.getElementById("submitReportBtn");
 
     // ضع رابط الـ Worker الخاص بك هنا
-    var WORKER_ENDPOINT = "https://snwat-reporter.YOUR-NAME.workers.dev";
+    var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
 
     function closeModal() {
       overlay.classList.remove("active");
