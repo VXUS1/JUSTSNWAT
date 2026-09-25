@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Fundamentals of Computer Networks - Midterm Exam 2022</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .opt-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      color: transparent;
+      transition: all 0.2s;
+    }
+    .option-item.selected .opt-checkbox {
+      background: var(--apple-blue);
+      border-color: var(--apple-blue);
+      color: #fff;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* تنسيق الجداول الامتحانية */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.86rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 80px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .svg-container {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/computer-networks">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Fundamentals of Computer Networks (NES 312)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Midterm Exam — Fall 2022/2023 (Dec 8, 2022)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/1wsRYhmt5NpqLv9I6Gj-LCjq0dBYoNK1k";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: Multiple Choice Questions (6 Points)",
+        context: "Choose the best answer for each of the following multiple-choice questions:",
+        subQuestions: [
+          {
+            id: "p1_q1",
+            type: "single",
+            text: "Question 1: If a device has the five layers of TCP/IP (Internet) model, then it:",
+            img: "",
+            opts: [
+              "must be core device",
+              "must an edge device",
+              "either an edge or core",
+              "core device applying packet switching"
+            ],
+            ans: 1,
+            dispAnswer: "must an edge device",
+            exp: "أجهزة الحافة والمستخدم النهائي (<bdi>Edge devices / Hosts</bdi>) هي فقط التي تطبق طبقات بروتوكول <bdi>TCP/IP</bdi> الخمس كاملة (بما فيها طبقتي النقل والتطبيقات)، بينما أجهزة قلب الشبكة كالراوترات تطبق الطبقات الثلاث السفلية فقط.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q2",
+            type: "multi",
+            text: "Question 2: Which of the following services is provided by UDP protocol? (check all that apply)",
+            img: "",
+            opts: [
+              "Multiplexing and demultiplexing",
+              "Reliable data transfer",
+              "Flow control",
+              "Congestion control",
+              "Encryption"
+            ],
+            correctAnswers: [0],
+            dispAnswer: "Multiplexing and demultiplexing",
+            exp: "بروتوكول <bdi>UDP</bdi> هو بروتوكول خفيف يوفر بالأساس التجميع وفك التجميع (<bdi>Multiplexing / Demultiplexing</bdi>) باستخدام أرقام المنافذ، مع فحص الأخطاء عبر <bdi>Checksum</bdi>، ولا يوفر التحكم بالتدفق أو الازدحام أو الموثوقية.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q3",
+            type: "single",
+            text: "Question 3: The correct statement about circuit switching compared to packet switching is:",
+            img: "",
+            opts: [
+              "Best for real-time traffic",
+              "Better for burst traffic",
+              "Always provide less delay",
+              "Can handle out of order packet"
+            ],
+            ans: 0,
+            dispAnswer: "Best for real-time traffic",
+            exp: "تعتبر شبكات تبديل الدوائر (<bdi>Circuit switching</bdi>) مثالية للبيانات الفورية واللحظية (<bdi>Real-time traffic</bdi>) مثل المكالمات الصوتية؛ لكونها تحجز سعة نطاق مخصصة وثابتة وتضمن استقرار التأخير.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q4",
+            type: "single",
+            text: "Question 4: Suppose the propagation delay for a packet over a link from Host A and Host B is less than its transmission delay (d_prop < d_trans). At time t = d_trans, where is the first bit of the packet?",
+            img: "",
+            opts: [
+              "The first bit has reached Host B",
+              "Exactly at half of the link",
+              "Has reached B",
+              "Cannot be determined"
+            ],
+            ans: 0,
+            dispAnswer: "The first bit has reached Host B",
+            exp: "تصل البت الأولى إلى الطرف <bdi>B</bdi> فور انقضاء زمن الانتشار <bdi>t = d_prop</bdi>. وبما أن <bdi>d_prop < d_trans</bdi>، فعند اللحظة <bdi>t = d_trans</bdi> تكون البت الأولى قد وصلت مسبقاً وتجاوزت الرابط نحو المضيف <bdi>B</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q5",
+            type: "single",
+            text: "Question 5: The traffic intensity (La/R) of a given system is a network factor which mostly affects:",
+            img: "",
+            opts: [
+              "Transmission delay",
+              "Propagation delay",
+              "Processing delay",
+              "Queuing delay"
+            ],
+            ans: 3,
+            dispAnswer: "Queuing delay",
+            exp: "تؤثر كثافة الحركة (<bdi>Traffic intensity = La/R</bdi>) بشكل مباشر على تأخير الانتظار في الطابور (<bdi>Queuing delay</bdi>)؛ حيث يزداد هذا التأخير بشكل حاد ويتجه إلى ما لا نهاية كلما اقتربت النسبة من 1.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q6",
+            type: "single",
+            text: "Question 6: Which of the following is not considered as an end system?",
+            img: "",
+            opts: [
+              "A mobile phone",
+              "An Ethernet switch",
+              "A laptop PC",
+              "A web server"
+            ],
+            ans: 1,
+            dispAnswer: "An Ethernet switch",
+            exp: "مبدل الإيثرنت (<bdi>Ethernet switch</bdi>) هو جهاز وسيط ضمن البنية التحتية لنقل البيانات في الشبكة وليس نظاماً طرفياً (<bdi>End system / Host</bdi>).",
+            placeholder: ""
+          }
+        ]
+      },
+      {
+        title: "Part 2: Transport Layer Protocol Comparison (6 Points)",
+        context: `Assume timeout values for all three protocols are sufficiently long so 5 consecutive data segments and their ACKs can be received by Host B and Host A respectively.
+Host A sends 5 data segments (Seq 1 to 5, each carries 1 Byte of data) to Host B, and the <strong>2nd segment is lost</strong>. Eventually, all 5 data segments are correctly received.
+Fill in the comparison table:`,
+        subQuestions: [
+          {
+            id: "p2_comp_table",
+            type: "table_part2",
+            text: "Protocol Comparison Table (GBN vs SR vs TCP):",
+            img: "",
+            dispAnswer: `Row a: GBN=9, SR=6, TCP=6
+Row b: GBN=8, SR=5, TCP=5
+Row c: GBN=4, SR=1, TCP=1
+Row d: GBN=5, SR=2, TCP=6
+Row e: GBN=5/9, SR=5/6, TCP=5/6
+Row f: TCP`,
+            exp: "تفصيل البروتوكولات الثلاثة عند فقدان الحزمة رقم 2:\n• في <bdi>GBN</bdi>: يتجاهل المستلم الحزم 3، 4، 5 ويرسل تأكيدات مكررة للحزمة 1، وعند انتهاء المؤقت يعيد المرسل بث الحزم الأربع (2، 3، 4، 5)؛ فيكون المجموع 9 حزم و8 تأكيدات وتأخيرها الأخير 5.\n• في <bdi>SR</bdi>: يقوم المستلم بتخزين الحزم 3، 4، 5 في الذاكرة المؤقتة ويرسل تأكيداً منفرداً لكل منها، ويعيد المرسل بث الحزمة 2 فقط؛ فيكون الإجمالي 6 حزم و5 تأكيدات وآخر تأكيد مرسل هو <bdi>ACK 2</bdi>.\n• في <bdi>TCP</bdi>: تُرسل الحزم 3، 4، 5 فتولد 3 تأكيدات مكررة (<bdi>3 duplicate ACKs</bdi>) تطلب البايت 2، مما يفعل إعادة الإرسال السريع (<bdi>Fast Retransmit</bdi>) فوراً للحزمة 2 فقط دون انتظار المؤقت، وعند وصولها يرسل المستلم تأكيداً تراكمياً برقم <bdi>ACK 6</bdi>، ويكون هو الأسرع إنجازاً."
+          }
+        ]
+      },
+      {
+        title: "Part 3: TCP Operation Trace (5 Points)",
+        context: `The figure below shows a TCP connection between Host A and Host B. Host B has no data to send. Assume timeout values are very long for all segments.
+Fill in the values of (a, b, c, d, e, f, g, h, i, j) and (K, L, M, N, V, W):`,
+        subQuestions: [
+          {
+            id: "p3_tcp_trace",
+            type: "table_part3",
+            text: `TCP Operation Sequence Diagram & Variables:
+<div class="svg-container ltr-content">
+  <svg width="600" height="520" viewBox="0 0 600 520" style="max-width:100%; height:auto;">
+    <defs>
+      <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#0a84ff" />
+      </marker>
+      <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#30d158" />
+      </marker>
+      <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#ff453a" />
+      </marker>
+    </defs>
+
+    <!-- خطوط الوقت -->
+    <line x1="160" y1="40" x2="160" y2="500" stroke="#8e8e93" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="440" y1="40" x2="440" y2="500" stroke="#8e8e93" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- عناوين الأعمدة -->
+    <rect x="110" y="10" width="100" height="26" rx="5" fill="#1c1c1e" stroke="#0a84ff" stroke-width="1.5"/>
+    <text x="160" y="27" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">Host A</text>
+
+    <rect x="390" y="10" width="100" height="26" rx="5" fill="#1c1c1e" stroke="#0a84ff" stroke-width="1.5"/>
+    <text x="440" y="27" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">Host B</text>
+
+    <!-- 1. Seq=93, ACK=a, b Bytes -->
+    <line x1="160" y1="65" x2="432" y2="95" stroke="#0a84ff" stroke-width="2" marker-end="url(#arr-blue)"/>
+    <text x="150" y="60" fill="#79c0ff" font-size="11" text-anchor="end">Seq=93, ACK=a, b Bytes</text>
+
+    <!-- ACK 1: Seq=10, ACK=100 -->
+    <line x1="440" y1="105" x2="168" y2="250" stroke="#30d158" stroke-width="1.8" marker-end="url(#arr-green)"/>
+    <text x="450" y="105" fill="#30d158" font-size="11">Seq=10, ACK=100</text>
+
+    <!-- 2. Seq=c, ACK=10, 20 Bytes (LOST) -->
+    <line x1="160" y1="110" x2="280" y2="125" stroke="#ff453a" stroke-width="2" marker-end="url(#arr-red)"/>
+    <text x="150" y="110" fill="#79c0ff" font-size="11" text-anchor="end">Seq=c, ACK=10, 20 Bytes</text>
+    <text x="290" y="128" fill="#ff453a" font-size="11" font-weight="bold">lost ✕</text>
+
+    <!-- 3. Seq=d, ACK=e, 15 Bytes -->
+    <line x1="160" y1="140" x2="432" y2="170" stroke="#0a84ff" stroke-width="2" marker-end="url(#arr-blue)"/>
+    <text x="150" y="140" fill="#79c0ff" font-size="11" text-anchor="end">Seq=d, ACK=e, 15 Bytes</text>
+
+    <!-- ACK 2: Seq=11, ACK=K -->
+    <line x1="440" y1="175" x2="168" y2="285" stroke="#30d158" stroke-width="1.8" marker-end="url(#arr-green)"/>
+    <text x="450" y="175" fill="#30d158" font-size="11">Seq=11, ACK=K</text>
+
+    <!-- 4. Seq=135, ACK=10, 6 Bytes (LOST) -->
+    <line x1="160" y1="175" x2="280" y2="190" stroke="#ff453a" stroke-width="2" marker-end="url(#arr-red)"/>
+    <text x="150" y="175" fill="#79c0ff" font-size="11" text-anchor="end">Seq=135, ACK=10, 6 Bytes</text>
+    <text x="290" y="193" fill="#ff453a" font-size="11" font-weight="bold">lost ✕</text>
+
+    <!-- 5. Seq=f, ACK=10, 16 Bytes -->
+    <line x1="160" y1="210" x2="432" y2="240" stroke="#0a84ff" stroke-width="2" marker-end="url(#arr-blue)"/>
+    <text x="150" y="210" fill="#79c0ff" font-size="11" text-anchor="end">Seq=f, ACK=10, 16 Bytes</text>
+
+    <!-- ACK 3: Seq=12, ACK=L -->
+    <line x1="440" y1="245" x2="168" y2="330" stroke="#30d158" stroke-width="1.8" marker-end="url(#arr-green)"/>
+    <text x="450" y="245" fill="#30d158" font-size="11">Seq=12, ACK=L</text>
+
+    <!-- 6. Seq=157, ACK=g, 10 Bytes -->
+    <line x1="160" y1="245" x2="432" y2="275" stroke="#0a84ff" stroke-width="2" marker-end="url(#arr-blue)"/>
+    <text x="150" y="245" fill="#79c0ff" font-size="11" text-anchor="end">Seq=157, ACK=g, 10 Bytes</text>
+
+    <!-- ACK 4: Seq=13, ACK=M -->
+    <line x1="440" y1="280" x2="168" y2="365" stroke="#30d158" stroke-width="1.8" marker-end="url(#arr-green)"/>
+    <text x="450" y="280" fill="#30d158" font-size="11">Seq=13, ACK=M</text>
+
+    <!-- Retransmission 1 (Fast Retransmit): Seq=h, ACK=i, j Bytes -->
+    <line x1="160" y1="375" x2="432" y2="405" stroke="#ff9f0a" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+    <text x="150" y="375" fill="#ff9f0a" font-size="11" font-weight="bold" text-anchor="end">Seq=h, ACK=i, j Bytes</text>
+
+    <!-- ACK 5: Seq=14, ACK=N -->
+    <line x1="440" y1="410" x2="168" y2="455" stroke="#30d158" stroke-width="1.8" marker-end="url(#arr-green)"/>
+    <text x="450" y="410" fill="#30d158" font-size="11">Seq=14, ACK=N</text>
+
+    <!-- Retransmission 2: Seq=135, ACK=V, 6 Bytes -->
+    <line x1="160" y1="465" x2="432" y2="485" stroke="#0a84ff" stroke-width="2" marker-end="url(#arr-blue)"/>
+    <text x="150" y="465" fill="#79c0ff" font-size="11" text-anchor="end">Seq=135, ACK=V, 6 Bytes</text>
+
+    <!-- ACK 6: Seq=15, ACK=W -->
+    <line x1="440" y1="490" x2="168" y2="515" stroke="#30d158" stroke-width="1.8" marker-end="url(#arr-green)"/>
+    <text x="450" y="490" fill="#30d158" font-size="11">Seq=15, ACK=W</text>
+  </svg>
+</div>`,
+            img: "",
+            dispAnswer: `a=10, b=7, c=100, d=120, e=10, f=141, g=10, h=100, i=14, j=20
+K=100, L=100, M=100, N=135, V=15, W=167`,
+            exp: "استنتاج خطوات تتبع البروتوكول:\n• الحزمة الأولى تبدأ بـ <bdi>Seq = 93</bdi> وترد عليها المحطة بـ <bdi>ACK = 100</bdi>، إذن حجم البيانات <bdi>b = 100 - 93 = 7</bdi> بايت، وبما أن رد <bdi>B</bdi> كان <bdi>Seq = 10</bdi>، فإن تأكيد <bdi>A</bdi> هو <bdi>a = 10</bdi>.\n• الحزمة الثانية تبدأ بـ <bdi>c = 100</bdi>، وحجمها 20 بايت (تغطي 100-119) وفُقدت بالشبكة.\n• الحزمة الثالثة تبدأ بـ <bdi>d = 120</bdi> وبحجم 15 بايت وتأكيدها <bdi>e = 10</bdi>، وتصل <bdi>B</bdi> خارج الترتيب فيطلب المفقود <bdi>K = 100</bdi>.\n• الحزمة الرابعة تبدأ بـ 135 وتغطي 135-140 وفُقدت بالشبكة.\n• الحزمة الخامسة تبدأ بـ <bdi>f = 141</bdi> وبحجم 16 بايت وتصل فيكرر <bdi>B</bdi> طلب المفقود <bdi>L = 100</bdi>.\n• الحزمة السادسة تبدأ بـ 157 وتأكيدها <bdi>g = 10</bdi> وتصل فيكرر <bdi>B</bdi> طلب المفقود <bdi>M = 100</bdi> (وهو التأكيد المكرر الثالث).\n• يستقبل <bdi>A</bdi> التأكيدات المكررة الثلاثة فيفعل إعادة الإرسال السريع للحزمة المفقودة الأولى برقم <bdi>h = 100</bdi> وبحجمها الأصلي <bdi>j = 20</bdi> بايت وتأكيد الشريحة الأخيرة الواردة من <bdi>B</bdi> هو <bdi>i = 14</bdi>.\n• بوصول الحزمة 100، تصبح البايتات متصلة حتى 134، فيرد <bdi>B</bdi> طالباً الشريحة المفقودة التالية <bdi>N = 135</bdi>.\n• يرسل <bdi>A</bdi> الحزمة 135 وبحجم 6 بايت مع تأكيد <bdi>V = 15</bdi>، وبوصولها تكتمل جميع البيانات المتتالية حتى <bdi>157 + 10 - 1 = 166</bdi>، فيطلب <bdi>B</bdi> البايت التالي النهائي <bdi>W = 167</bdi>."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let multiSelections = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Original Question ${sub.id}" 
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "multi") {
+            multiSelections[sub.id] = new Set();
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="toggleMultiOption('${sub.id}', ${i})">
+                <div class="opt-checkbox" id="check-${sub.id}-${i}">✓</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkMultiAnswer('${sub.id}')">تحقق من الاختيارات</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_part2") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr>
+                      <th style="width:30px;">#</th>
+                      <th style="text-align:left;">Question Field</th>
+                      <th style="width:110px;">GBN</th>
+                      <th style="width:110px;">SR</th>
+                      <th style="width:110px;">TCP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">a</td>
+                      <td style="text-align:left;">How many segments has Host A sent in total?</td>
+                      <td><input type="text" class="table-input" id="p2_a_gbn" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_a_sr" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_a_tcp" placeholder="Enter number..."></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">b</td>
+                      <td style="text-align:left;">How many ACKs has Host B sent in total?</td>
+                      <td><input type="text" class="table-input" id="p2_b_gbn" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_b_sr" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_b_tcp" placeholder="Enter number..."></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">c</td>
+                      <td style="text-align:left;">How many segments has Host A retransmitted?</td>
+                      <td><input type="text" class="table-input" id="p2_c_gbn" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_c_sr" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_c_tcp" placeholder="Enter number..."></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">d</td>
+                      <td style="text-align:left;">Acknowledgment field in the last ACK sent by Host B</td>
+                      <td><input type="text" class="table-input" id="p2_d_gbn" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_d_sr" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_d_tcp" placeholder="Enter number..."></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">e</td>
+                      <td style="text-align:left;">Efficiency of each protocol (useful data / total data)</td>
+                      <td><input type="text" class="table-input" id="p2_e_gbn" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_e_sr" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p2_e_tcp" placeholder="Enter number..."></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">f</td>
+                      <td style="text-align:left;">Which protocol delivers all 5 data segments in shortest time interval?</td>
+                      <td colspan="3"><input type="text" class="table-input" id="p2_f_choice" placeholder="GBN or SR or TCP"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkPart2Table()">تحقق من الجدول</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_part3") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr>
+                      <th>a</th><th>b</th><th>c</th><th>d</th><th>e</th>
+                      <th>f</th><th>g</th><th>h</th><th>i</th><th>j</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" class="table-input" id="p3_a" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_b" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_c" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_d" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_e" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_f" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_g" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_h" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_i" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_j" placeholder="Enter number..."></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="exam-table" style="margin-top:10px;">
+                  <thead>
+                    <tr>
+                      <th>K</th><th>L</th><th>M</th><th>N</th><th>V</th><th>W</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" class="table-input" id="p3_k" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_l" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_m" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_n" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_v" placeholder="Enter number..."></td>
+                      <td><input type="text" class="table-input" id="p3_w" placeholder="Enter number..."></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkPart3Table()">تحقق من المتغيرات</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.92rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right; white-space: pre-wrap;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function toggleMultiOption(subId, optIdx) {
+      const set = multiSelections[subId];
+      const optEl = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (!set || !optEl) return;
+
+      if (set.has(optIdx)) {
+        set.delete(optIdx);
+        optEl.classList.remove('selected');
+      } else {
+        set.add(optIdx);
+        optEl.classList.add('selected');
+      }
+    }
+
+    function checkMultiAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const set = multiSelections[subId];
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !set || !optsBox) return;
+
+      optsBox.classList.add('locked');
+      const correctSet = new Set(sub.correctAnswers);
+      let isAllCorrect = (set.size === correctSet.size);
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (!el) return;
+        if (correctSet.has(i)) {
+          el.className = 'option-item correct';
+          if (!set.has(i)) isAllCorrect = false;
+        } else if (set.has(i)) {
+          el.className = 'option-item wrong';
+          isAllCorrect = false;
+        }
+      });
+
+      if (isAllCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkPart2Table() {
+      const subId = "p2_comp_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const correctValues = {
+        "p2_a_gbn": ["9"], "p2_a_sr": ["6"], "p2_a_tcp": ["6"],
+        "p2_b_gbn": ["8"], "p2_b_sr": ["5"], "p2_b_tcp": ["5"],
+        "p2_c_gbn": ["4"], "p2_c_sr": ["1"], "p2_c_tcp": ["1"],
+        "p2_d_gbn": ["5"], "p2_d_sr": ["2"], "p2_d_tcp": ["6"],
+        "p2_e_gbn": ["5/9", "0.55", "0.56", "55.6%", "55%"],
+        "p2_e_sr": ["5/6", "0.83", "83.3%", "83%"],
+        "p2_e_tcp": ["5/6", "0.83", "83.3%", "83%"],
+        "p2_f_choice": ["tcp"]
+      };
+
+      let allCorrect = true;
+
+      Object.keys(correctValues).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.disabled = true;
+        const val = el.value.trim().toLowerCase().replace(/\s/g, '');
+        const validList = correctValues[id];
+
+        if (validList.some(v => val.includes(v))) {
+          el.className = 'table-input correct';
+        } else {
+          el.className = 'table-input wrong';
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkPart3Table() {
+      const subId = "p3_tcp_trace";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const correctValues = {
+        "p3_a": "10",  "p3_b": "7",   "p3_c": "100", "p3_d": "120", "p3_e": "10",
+        "p3_f": "141", "p3_g": "10",  "p3_h": "100", "p3_i": "14",  "p3_j": "20",
+        "p3_k": "100", "p3_l": "100", "p3_m": "100", "p3_n": "135", "p3_v": "15", "p3_w": "167"
+      };
+
+      let allCorrect = true;
+
+      Object.keys(correctValues).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.disabled = true;
+        const val = el.value.trim().toLowerCase().replace(/[^0-9]/g, '');
+
+        if (val === correctValues[id]) {
+          el.className = 'table-input correct';
+        } else {
+          el.className = 'table-input wrong';
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (sub && sub.type === "multi") {
+        multiSelections[subId] = new Set();
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (subId === "p2_comp_table") {
+        const ids = [
+          "p2_a_gbn", "p2_a_sr", "p2_a_tcp",
+          "p2_b_gbn", "p2_b_sr", "p2_b_tcp",
+          "p2_c_gbn", "p2_c_sr", "p2_c_tcp",
+          "p2_d_gbn", "p2_d_sr", "p2_d_tcp",
+          "p2_e_gbn", "p2_e_sr", "p2_e_tcp",
+          "p2_f_choice"
+        ];
+        ids.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.disabled = false;
+            el.value = '';
+            el.className = 'table-input';
+          }
+        });
+      }
+
+      if (subId === "p3_tcp_trace") {
+        const ids = [
+          "p3_a", "p3_b", "p3_c", "p3_d", "p3_e",
+          "p3_f", "p3_g", "p3_h", "p3_i", "p3_j",
+          "p3_k", "p3_l", "p3_m", "p3_n", "p3_v", "p3_w"
+        ];
+        ids.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.disabled = false;
+            el.value = '';
+            el.className = 'table-input';
+          }
+        });
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+      if (imgBox) imgBox.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>
