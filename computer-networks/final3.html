@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Fundamentals of Computer Networks - Final Exam 2022/2023</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .unit-label {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: #8e8e93;
+      user-select: none;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 70px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .svg-container {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/computer-networks">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Fundamentals of Computer Networks (NES 312)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam — Fall 2022/2023</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1bw8S872XTNHcxnDKr0KPonmvTazleeu8/view";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: Multiple Choice Questions (14 Points)",
+        context: "Choose the best answer for each of the following multiple-choice questions:",
+        subQuestions: [
+          {
+            id: "p1_q1",
+            type: "single",
+            text: "Question 1: If the entry [IP Src = 192.*.*.*; IP Dst = 10.2.0.3; port = TCP; Forward(3)] is added to an SDN forwarding table, one of the following is INCORRECT:",
+            img: "",
+            opts: [
+              "Block all UDP traffic generated from any device and destined to host 10.2.0.3 via interface 3.",
+              "Permit only TCP traffic generated from any device and destined to host 10.2.0.3 via interface 3.",
+              "Allow any host to send HTTP message to the host 10.2.0.3 via interface 3.",
+              "Never forward UDP traffic to interface 3."
+            ],
+            ans: 2,
+            dispAnswer: "C. allow any host to send HTTP message to the host 10.2.0.3 via interface 3.",
+            exp: "العبارة غير الصحيحة هي السماح لأي جهاز بإرسال رسائل <bdi>HTTP</bdi>؛ لأن القاعدة تلزم صراحة أن يكون عنوان المصدر ضمن شبكة <bdi>192.*.*.*</bdi> حصراً.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q2",
+            type: "single",
+            text: "Question 2: The type of delay that is NOT caused by the store-and-forward strategy used by the switching devices is:",
+            img: "",
+            opts: [
+              "The processing delay.",
+              "The queuing delay.",
+              "The transmission delay.",
+              "The propagation delay."
+            ],
+            ans: 3,
+            dispAnswer: "D. The propagation delay.",
+            exp: "تأخير الانتشار (<bdi>Propagation delay</bdi>) يعتمد حصراً على المسافة الفيزيائية وسرعة الضوء في الوسط الناقل (<bdi>d/s</bdi>)، ولا علاقة له بآلية التخزين والتمرير في المبدلات.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q3",
+            type: "single",
+            text: "Question 3: The property that is NOT desired in an ideal MAC protocol is:",
+            img: "",
+            opts: [
+              "A coordinator node should manage the channel access.",
+              "A single active node gets the full channel bandwidth.",
+              "The protocol should be simple and cost-effective.",
+              "The protocol should be decentralized."
+            ],
+            ans: 0,
+            dispAnswer: "A. A coordinator node should manage the channel access.",
+            exp: "وجود عقدة مركزية للتنسيق (<bdi>Coordinator node</bdi>) يمثل نقطة فشل مفردة وعنق زجاجة، بينما بروتوكول <bdi>MAC</bdi> المثالي يفضل أن يكون لا مركزياً وموزعاً بالكامل.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q4",
+            type: "single",
+            text: "Question 4: The FALSE statement about the ARP table is:",
+            img: "",
+            opts: [
+              "The ARP table has entries to all nodes in the LAN.",
+              "The ARP table is automatically configured.",
+              "The ARP table exists in each host in the network.",
+              "An ARP table entry is added only when needed."
+            ],
+            ans: 0,
+            dispAnswer: "A. The ARP table has entries to all nodes in the LAN.",
+            exp: "العبارة الخاطئة هي احتواء الجدول على كل الأجهزة في الشبكة؛ حيث يحتوي جدول <bdi>ARP</bdi> فقط على العناوين التي تم التخاطب معها وتخزينها مؤقتاً عند الحاجة.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q5",
+            type: "single",
+            text: "Question 5: The DHCP protocol is:",
+            img: "",
+            opts: [
+              "An application layer protocol.",
+              "A transport layer protocol.",
+              "A network layer protocol.",
+              "A data link layer protocol."
+            ],
+            ans: 0,
+            dispAnswer: "A. An application layer protocol.",
+            exp: "بروتوكول <bdi>DHCP</bdi> يعمل في طبقة التطبيقات (<bdi>Application layer</bdi>) ويستخدم بروتوكول <bdi>UDP</bdi> عبر المنفذين 67 و 68.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q6",
+            type: "single",
+            text: "Question 6: What is a result of connecting two or more switches together?",
+            img: "",
+            opts: [
+              "The size of the collision domain is increased.",
+              "The number of collision domains is reduced.",
+              "The size of the broadcast domains is increased.",
+              "The number of broadcast domains is increased."
+            ],
+            ans: 2,
+            dispAnswer: "C. The size of the broadcast domains is increased.",
+            exp: "المبدلات تمرر حزم البث العام (<bdi>Broadcast</bdi>) عبر جميع منافذها، وربطها معاً يوسع نطاق البث العام الواحد ليشمل جميع الأجهزة المتصلة بالمبدلين.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q7",
+            type: "single",
+            text: "Question 7: Which of the following is true about a 'cumulative ACK' with sequence number M in the Go-Back-N protocol?",
+            img: "",
+            opts: [
+              "When received by the sender, it retransmits all the packets in the window up to sequence number M.",
+              "When received by the sender, it slides its window by M.",
+              "When sent by the receiver, all packets up to sequence number M were correctly received and delivered.",
+              "Both (B) and (C)."
+            ],
+            ans: 2,
+            dispAnswer: "C. When sent by the receiver, all packets up to sequence number M were correctly received and delivered.",
+            exp: "يعني التأكيد التراكمي برقم <bdi>M</bdi> أن جميع الحزم حتى الرقم <bdi>M</bdi> قد تم استلامها بالترتيب وبشكل سليم وتسليمها بنجاح.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q8",
+            type: "single",
+            text: "Question 8: The function that is NOT a cause of extra overhead on the routers used to forward IPv4 datagrams is:",
+            img: "",
+            opts: [
+              "The datagram header checksum.",
+              "The datagram fragmentation.",
+              "The datagram options.",
+              "The datagram reassembly."
+            ],
+            ans: 3,
+            dispAnswer: "D. The datagram reassembly.",
+            exp: "إعادة تجميع الحزم المجزأة (<bdi>Reassembly</bdi>) تتم حصراً في الجهاز النهائي المستقبل وليس على الراوترات الوسيطة إطلاقاً.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q9",
+            type: "single",
+            text: "Question 9: In the Selective-Repeat protocol, if the timer expires, then:",
+            img: "",
+            opts: [
+              "All packets in the window are retransmitted and the timer is restarted.",
+              "The packet, for which the timer has expired, is retransmitted immediately and its timeout interval is doubled.",
+              "The packet, for which the timer has expired, is immediately retransmitted.",
+              "The retransmission is delayed until three duplicate acknowledgements are received."
+            ],
+            ans: 2,
+            dispAnswer: "C. The packet, for which the timer has expired, is immediately retransmitted.",
+            exp: "يمتلك بروتوكول <bdi>Selective Repeat</bdi> مؤقتاً مستقلاً لكل حزمة، وعند انتهاء مؤقت حزمة معينة يعاد إرسال تلك الحزمة وحدها فوراً.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q10",
+            type: "single",
+            text: "Question 10: In the network layout (Router R1 with Fa0/0 to SW1 with PC1, PC2; Fa0/1 to SW2 with PC3, PC4), what will happen if PC1 sends a broadcast frame?",
+            img: "../images/cw_20.png",
+            opts: [
+              "Hosts 2, 3 and 4 will receive the broadcast.",
+              "Host 2 and the Fa0/0 interface of R1 will receive the broadcast.",
+              "Hosts 1, 2 and the Fa0/0 interface of R1 will receive the broadcast.",
+              "Hosts 2, 3, 4 and interfaces Fa0/0 and Fa0/1 of R1 will receive the broadcast."
+            ],
+            ans: 1,
+            dispAnswer: "B. Host 2 and the Fa0/0 interface of R1 will receive the broadcast.",
+            exp: "تقوم الراوترات بعزل نطاقات البث العام؛ لذا يصل البث إلى جميع الأجهزة على نفس المبدل (<bdi>Host 2</bdi>) ومنفذ الراوتر المتصل به (<bdi>Fa0/0</bdi>) ويتوقف هناك.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q11",
+            type: "single",
+            text: "Question 11: Which of the following statements is FALSE about the Internet Protocol (IP)?",
+            img: "",
+            opts: [
+              "It is possible for a computer to have multiple IP addresses.",
+              "IP packets from the same source to the same destination can take different routes in the network.",
+              "IP ensures that a packet is discarded if it is unable to reach its destination within a given number of hops.",
+              "The packet source cannot set the route of an outgoing packet. The route is determined only by the routing forwarding tables in the routers along the way."
+            ],
+            ans: 3,
+            dispAnswer: "D. The packet source cannot set the route of an outgoing packet. The route is determined only by the routing forwarding tables in the routers along the way.",
+            exp: "العبارة خاطئة؛ لأن بروتوكول <bdi>IP</bdi> يدعم خيار التوجيه من المصدر (<bdi>Source Routing Option</bdi>) الذي يتيح للجهاز المرسل تحديد مسار الحزمة مسبقاً.",
+            placeholder: ""
+          },
+          {
+            id: "p1_q12",
+            type: "single",
+            text: "Question 12: Which information does a switch use to add an entry in the MAC address table?",
+            img: "",
+            opts: [
+              "The destination MAC address and the outgoing port.",
+              "The source MAC address and the outgoing port.",
+              "The destination MAC address and the incoming port.",
+              "The source MAC address and the incoming port."
+            ],
+            ans: 3,
+            dispAnswer: "D. The source MAC address and the incoming port.",
+            exp: "يتعلم المبدل العناوين تلقائياً عبر فحص عنوان ماك المصدر (<bdi>Source MAC</bdi>) في الإطار الوارد ورقم المنفذ الذي دخل منه الإطار (<bdi>Incoming port</bdi>).",
+            placeholder: ""
+          },
+          {
+            id: "p1_q13",
+            type: "single",
+            text: "Question 13: What is a disadvantage of NAT routing?",
+            img: "",
+            opts: [
+              "The internal hosts have to use a single public IPv4 address for external communication.",
+              "There is no end-to-end addressing.",
+              "The router does not need to alter the checksum of the IPv4 packets.",
+              "The costs of readdressing hosts can be significant for publicly addressed networks."
+            ],
+            ans: 1,
+            dispAnswer: "B. There is no end-to-end addressing.",
+            exp: "من أبرز عيوب تقنية <bdi>NAT</bdi> انتهاك مبدأ الاتصال المباشر بين الطرفين (<bdi>End-to-End Principle</bdi>) بسبب إخفاء وتغيير العناوين في منتصف المسار.",
+            placeholder: ""
+          },
+          {
+            id: "q14_vlan",
+            type: "single",
+            text: `Question 14: In the VLAN layout shown below, all trunk links are operational. Given that an ARP request is sent by PC5 (connected to EXEC VLAN on SW-A), which device(s) will receive this message?
+<div class="svg-container ltr-content">
+  <svg width="450" height="230" viewBox="0 0 450 230" style="max-width:100%; height:auto;">
+    <circle cx="340" cy="30" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="340" y="34" fill="#0a84ff" font-size="10" font-weight="bold" text-anchor="middle">RTR-A</text>
+    <line x1="340" y1="45" x2="340" y2="85" stroke="#30d158" stroke-width="2"/>
+    <text x="355" y="65" fill="#30d158" font-size="9" font-weight="bold">trunk</text>
+
+    <rect x="150" y="85" width="60" height="22" rx="4" fill="#1c1c1e" stroke="#8e8e93" stroke-width="1.5"/>
+    <text x="180" y="100" fill="#fff" font-size="10" text-anchor="middle">SW-B</text>
+
+    <line x1="210" y1="96" x2="310" y2="96" stroke="#30d158" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="260" y="90" fill="#30d158" font-size="9" font-weight="bold" text-anchor="middle">trunk</text>
+
+    <rect x="310" y="85" width="60" height="22" rx="4" fill="#1c1c1e" stroke="#8e8e93" stroke-width="1.5"/>
+    <text x="340" y="100" fill="#fff" font-size="10" text-anchor="middle">SW-A</text>
+
+    <line x1="165" y1="107" x2="130" y2="145" stroke="#8e8e93" stroke-width="1.5"/>
+    <text x="135" y="125" fill="#ff9f0a" font-size="8">SALES</text>
+    <rect x="100" y="145" width="55" height="18" rx="3" fill="#1c1c1e" stroke="#ff9f0a"/>
+    <text x="127" y="158" fill="#ff9f0a" font-size="9" text-anchor="middle">Hub A</text>
+
+    <line x1="115" y1="163" x2="115" y2="190" stroke="#8e8e93"/>
+    <rect x="105" y="190" width="20" height="16" rx="2" fill="#2c2c2e" stroke="#fff"/>
+    <text x="115" y="202" fill="#fff" font-size="9" text-anchor="middle">1</text>
+
+    <line x1="140" y1="163" x2="140" y2="190" stroke="#8e8e93"/>
+    <rect x="130" y="190" width="20" height="16" rx="2" fill="#2c2c2e" stroke="#fff"/>
+    <text x="140" y="202" fill="#fff" font-size="9" text-anchor="middle">2</text>
+
+    <line x1="195" y1="107" x2="195" y2="190" stroke="#8e8e93" stroke-width="1.5"/>
+    <text x="202" y="145" fill="#5ac8fa" font-size="8">EXEC</text>
+    <rect x="185" y="190" width="20" height="16" rx="2" fill="#2c2c2e" stroke="#5ac8fa" stroke-width="1.5"/>
+    <text x="195" y="202" fill="#5ac8fa" font-size="9" font-weight="bold" text-anchor="middle">3</text>
+
+    <line x1="325" y1="107" x2="325" y2="190" stroke="#8e8e93" stroke-width="1.5"/>
+    <text x="302" y="145" fill="#ff9f0a" font-size="8">SALES</text>
+    <rect x="315" y="190" width="20" height="16" rx="2" fill="#2c2c2e" stroke="#fff"/>
+    <text x="325" y="202" fill="#fff" font-size="9" text-anchor="middle">4</text>
+
+    <line x1="355" y1="107" x2="355" y2="190" stroke="#8e8e93" stroke-width="1.5"/>
+    <text x="362" y="145" fill="#5ac8fa" font-size="8">EXEC</text>
+    <rect x="345" y="190" width="20" height="16" rx="2" fill="#2c2c2e" stroke="#5ac8fa" stroke-width="1.5"/>
+    <text x="355" y="202" fill="#5ac8fa" font-size="9" font-weight="bold" text-anchor="middle">5</text>
+  </svg>
+</div>`,
+            img: "../images/cw_21.png",
+            opts: [
+              "PC3 and RTR-A.",
+              "Only PC4.",
+              "PC4 and RTR-A.",
+              "All the PCs and the route."
+            ],
+            ans: 0,
+            dispAnswer: "A. PC3 and RTR-A.",
+            exp: "ينتمي <bdi>PC5</bdi> إلى شبكة <bdi>EXEC VLAN</bdi>؛ فيصل بث <bdi>ARP</bdi> فقط إلى الأجهزة الموجودة في نفس الشبكة الافتراضية عبر روابط الـ <bdi>Trunk</bdi>، وهما <bdi>PC3</bdi> وواجهة الراوتر <bdi>RTR-A</bdi>.",
+            placeholder: ""
+          }
+        ]
+      },
+      {
+        title: "Part 2: Switching, Addressing, Layering Analysis (5 Points)",
+        context: "In the network layout shown above (fig. 1), PC0 wants to send a data packet to PC2. Answer the following questions. Assume switch table and ARP tables are initially empty:",
+        subQuestions: [
+          {
+            id: "p2_analysis_table",
+            type: "table_p2",
+            text: "Complete the network analysis table:",
+            img: "../images/cw_22.png",
+            dispAnswer: `A = 15
+B = 9
+C = 2
+D = 2
+E = 6
+F = 6
+G = 2
+H = 5
+I = 10
+J = 6`,
+            exp: "تحليل عناصر المسار من PC0 إلى PC2:\n• A: عدد عناوين IP للواجهات النشطة = 15 عنواناً.\n• B: عدد عناوين MAC لواجهات الإيثرنت = 9 عناوين (بدون الروابط التسلسلية Serial).\n• C: عدد طلبات ARP = 2 (طلب في شبكة المصدر، وطلب في شبكة الوجهة).\n• D: مداخل جدول المبدل S2 = 2 (يتعلم ماك راوتر RA_1 وماك PC2).\n• E: عدد مرات حساب Checksum = 6 مرات.\n• F: عدد مرات بث حزمة البيانات عبر الأسلاك = 6 مرات.\n• G: طبقة النقل تزورها الحزمة فقط عند طرفي الاتصال = مرتين.\n• H: طبقة الشبكة تُزار في الأجهزة الطرفية والراوترات الثلاثة = 5 مرات.\n• I: طبقة ربط البيانات تُزار عند كل دخول وخروج = 10 مرات.\n• J: عدد الشبكات الفرعية الإجمالي في المخطط = 6 شبكات."
+          }
+        ]
+      },
+      {
+        title: "Part 3: IPv4 Subnetting (8 Points)",
+        context: "Suppose an ISP owns the block of addresses of the form 128.119.40.64/26. Suppose it wants to create four subnets from this block, with each block having the same number of IP addresses.\nComplete the table by assigning address and subnet IDs to each subnet. Note addresses must be contiguous relative to subnet 0.",
+        subQuestions: [
+          {
+            id: "p3_subnet_table",
+            type: "table_p3",
+            text: "Fill in the Subnet Address, First Usable Address, and Ending Broadcast Address for each subnet:",
+            img: "",
+            dispAnswer: `Subnet 0: 128.119.40.64/28 | First: 128.119.40.65 | Ending: 128.119.40.79
+Subnet 1: 128.119.40.80/28 | First: 128.119.40.81 | Ending: 128.119.40.95
+Subnet 2: 128.119.40.96/28 | First: 128.119.40.97 | Ending: 128.119.40.111
+Subnet 3: 128.119.40.112/28 | First: 128.119.40.113 | Ending: 128.119.40.127`,
+            exp: "تقسيم كتلة /26 (64 عنواناً) إلى 4 شبكات فرعية يتطلب استعارة بتين ليصبح القناع <bdi>/28</bdi> بسعة 16 عنواناً لكل شبكة فرعية."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Link State Routing (16 Points)",
+        context: "Given the network shown below that consists of seven routers (A, B, C, D, E, F, G). The integers shown on the links represent the link costs. Using the Link State routing algorithm at router A, fill all necessary steps of the corresponding Link State algorithm table shown below. If two or more nodes have the same minimum cost, choose the least-most node.",
+        subQuestions: [
+          {
+            id: "p4_dijkstra_table",
+            type: "table_p4",
+            text: `Dijkstra Algorithm Steps Table:
+<div class="svg-container ltr-content">
+  <svg width="440" height="250" viewBox="0 0 440 250" style="max-width:100%; height:auto;">
+    <line x1="50" y1="40" x2="260" y2="40" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="50" y1="40" x2="160" y2="110" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="50" y1="40" x2="70" y2="160" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="260" y1="40" x2="160" y2="110" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="260" y1="40" x2="280" y2="120" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="260" y1="40" x2="400" y2="150" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="160" y1="110" x2="280" y2="120" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="160" y1="110" x2="160" y2="210" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="70" y1="160" x2="160" y2="210" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="280" y1="120" x2="160" y2="210" stroke="#8e8e93" stroke-width="2"/>
+
+    <text x="150" y="32" fill="#5ac8fa" font-size="11" font-weight="bold">1</text>
+    <text x="95" y="70" fill="#5ac8fa" font-size="11" font-weight="bold">2</text>
+    <text x="50" y="105" fill="#5ac8fa" font-size="11" font-weight="bold">3</text>
+    <text x="215" y="70" fill="#5ac8fa" font-size="11" font-weight="bold">4</text>
+    <text x="275" y="75" fill="#5ac8fa" font-size="11" font-weight="bold">5</text>
+    <text x="340" y="90" fill="#5ac8fa" font-size="11" font-weight="bold">8</text>
+    <text x="220" y="112" fill="#5ac8fa" font-size="11" font-weight="bold">5</text>
+    <text x="165" y="165" fill="#5ac8fa" font-size="11" font-weight="bold">6</text>
+    <text x="110" y="195" fill="#5ac8fa" font-size="11" font-weight="bold">2</text>
+    <text x="230" y="175" fill="#5ac8fa" font-size="11" font-weight="bold">3</text>
+
+    <circle cx="50" cy="40" r="15" fill="#1c1c1e" stroke="#30d158" stroke-width="2"/>
+    <text x="50" y="44" fill="#30d158" font-size="11" font-weight="bold" text-anchor="middle">A</text>
+
+    <circle cx="260" cy="40" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="260" y="44" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">B</text>
+
+    <circle cx="160" cy="110" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="160" y="114" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">C</text>
+
+    <circle cx="70" cy="160" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="70" y="164" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">D</text>
+
+    <circle cx="280" cy="120" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="280" y="124" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">E</text>
+
+    <circle cx="160" cy="210" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="160" y="214" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">F</text>
+
+    <circle cx="400" cy="150" r="15" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="400" y="154" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">G</text>
+  </svg>
+</div>`,
+            img: "",
+            dispAnswer: `Step 0: N'=A, B=1,A ; C=2,A ; D=3,A ; E=inf ; F=inf ; G=inf
+Step 1: N'=AB, C=2,A ; D=3,A ; E=6,B ; F=inf ; G=9,B
+Step 2: N'=ABC, D=3,A ; E=6,B ; F=8,C ; G=9,B
+Step 3: N'=ABCD, F=5,D ; E=6,B ; G=9,B
+Step 4: N'=ABCDF, E=6,B ; G=9,B
+Step 5: N'=ABCDFE, G=9,B
+Step 6: N'=ABCDFEG`,
+            exp: "تسلسل بناء شجرة أقصر مسار (<bdi>Shortest Path Tree</bdi>) خطوة بخطوة بدءاً من الراوتر <bdi>A</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 5: TCP Operation Trace (10 Points)",
+        context: "Assume a client has established a persistence serial HTTP connection to request a webpage containing 7 objects from the server, as shown in the figure. Assume the size of the base file and the objects each equal 100 Bytes. The client has no data to send except the HTTP requests which are assumed to have 0 Bytes of data. In the table determine the value of each letter.",
+        subQuestions: [
+          {
+            id: "p5_trace_table",
+            type: "table_p5",
+            text: "In the table below, determine the value of each letter:",
+            img: "../images/cw_23.png",
+            dispAnswer: `a=400, X=601, b=601, c=401, d=401, Y=701, e=701, Z=402, f=403, W=801
+h=405, N=1201, g=901, V=402, R=405, S=406, T=406, U=1201, Q=408, L=408`,
+            exp: "استنتاج قيم التسلسل والتأكيد التراكمي في بروتوكول <bdi>TCP</bdi> لكل بايت مرسل ومستلم."
+          }
+        ]
+      },
+      {
+        title: "Part 6: CSMA/CD, Ethernet, Network Delays (14 Points)",
+        context: "Consider a 100 Mbps CSMA/CD LAN which connects only two nodes. The sending node uses the backoff exponential algorithm for frame retransmission after choosing a random number K. Answer the following questions:",
+        subQuestions: [
+          {
+            id: "p6_qA",
+            type: "input",
+            text: "A. What is the probability one node colliding with the other node at the 1st retransmission?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.5) < 0.05 || Math.abs(num - 50) < 1;
+            },
+            dispAnswer: "0.5 (or 50%)",
+            exp: "يختار كل جهاز عشوائياً <bdi>K ∈ {0, 1}</bdi>. يحدث التصادم إذا اختار كلاهما 0 أو كلاهما 1: <bdi>P = 2/4 = 0.5</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p6_qB",
+            type: "input",
+            text: "B. Assume a frame has collided for the m-th times, and the sending node retransmits the frame after waiting 51.2 µs. What is the value of the random number K used in the backoff algorithm?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 10;
+            },
+            dispAnswer: "10",
+            exp: "زمن الشريحة في 100 Mbps هو <bdi>512 bits / 100 Mbps = 5.12 µs</bdi>. قيمة <bdi>K = 51.2 µs / 5.12 µs = 10</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p6_qC",
+            type: "input",
+            text: "C. Assume a frame has collided for the 6th times, what is the maximum time (in ms) the sending host may wait before trying to retransmit the frame for the 7th time?",
+            img: "",
+            unit: "ms",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.32256) < 0.01 || Math.abs(num - 322.56) < 1;
+            },
+            dispAnswer: "0.32256 ms (or 322.56 µs)",
+            exp: "القيمة القصوى لـ <bdi>K</bdi> بعد التصادم السادس هي <bdi>2^6 - 1 = 63</bdi>. أقصى زمن انتظار: <bdi>63 × 5.12 µs = 322.56 µs = 0.32256 ms</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p6_qD",
+            type: "input",
+            text: "D. If the transmission time of the frame = 121.6 µs and the propagation time = 2 µs, what is the efficiency of the network? (in %)",
+            img: "",
+            unit: "%",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 92.4) < 1 || Math.abs(num - 0.924) < 0.02;
+            },
+            dispAnswer: "92.4%",
+            exp: "كفاءة بروتوكول <bdi>CSMA/CD</bdi>: <bdi>Eff = 1 / (1 + 5 × (d_prop / d_trans)) = 1 / (1 + 5 × (2 / 121.6)) ≈ 92.4%</bdi>.",
+            placeholder: "Enter number..."
+          }
+        ]
+      },
+      {
+        title: "Part 7: ALOHA Protocol (14 Points)",
+        context: "Suppose three active nodes, nodes A, B, and C are competing for access to a channel using slotted ALOHA. Assume each node has an infinite number of packets to send. Each node attempts to transmit in each slot with probability p = 0.6. The first slot is numbered Slot 1, the second slot is numbered Slot 2, and so on. (Show calculations)",
+        subQuestions: [
+          {
+            id: "p7_qa",
+            type: "input",
+            text: "a) What is the probability that some node (either A, B, C or D) succeeds in Slot 3? (1 point)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.288) < 0.01 || Math.abs(num - 0.1536) < 0.01;
+            },
+            dispAnswer: "0.288",
+            exp: "احتمال نجاح إحدى العقد الثلاث: <bdi>3 × p × (1-p)^2 = 3 × 0.6 × (0.4)^2 = 0.288</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p7_qb",
+            type: "input",
+            text: "b) What is the probability that the first success occurs in Slot 2? (1 point)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.205) < 0.01 || Math.abs(num - 0.205056) < 0.005;
+            },
+            dispAnswer: "0.205",
+            exp: "احتمال الفشل في الأولى ثم النجاح في الثانية: <bdi>(1 - 0.288) × 0.288 = 0.712 × 0.288 ≈ 0.205</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p7_qc",
+            type: "input",
+            text: "c) What is the efficiency of this four-node system? (1 point)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.288) < 0.01 || Math.abs(num - 0.1536) < 0.01;
+            },
+            dispAnswer: "0.288 (or 28.8%)",
+            exp: "كفاءة النظام المعطى تساوي احتمال نجاح إحدى العقد في الشريحة الواحدة: <bdi>0.288</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p7_qd",
+            type: "input",
+            text: "d) If the system is updated to Unslotted (pure) ALOHA, what is the efficiency of this 3-node system? (2 points)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.046) < 0.01 || Math.abs(num - 0.04608) < 0.005;
+            },
+            dispAnswer: "0.046 (or 4.6%)",
+            exp: "كفاءة بروتوكول <bdi>Pure ALOHA</bdi>: <bdi>3 × p × (1-p)^4 = 3 × 0.6 × (0.4)^4 = 1.8 × 0.0256 ≈ 0.046</bdi>.",
+            placeholder: "Enter number..."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const unitHtml = sub.unit ? `<span class="unit-label">${sub.unit}</span>` : '';
+          const hasImage = sub.img && sub.img.trim() !== "";
+
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Original Question ${sub.id}" 
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p2") {
+            const keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+            const labels = [
+              "A. Minimum number of IP addresses needed",
+              "B. Minimum number of MAC addresses needed",
+              "C. How many ARP requests are needed?",
+              "D. Entries in S2 switch table when packet reaches PC2",
+              "E. How many times checksum field is computed?",
+              "F. How many times data packet is transmitted?",
+              "G. Times transport layer is visited by data packet",
+              "H. Times network layer is visited by data packet",
+              "I. Times data link layer is visited by data packet",
+              "J. How many subnets in the network?"
+            ];
+            let rowsHtml = keys.map((k, idx) => `
+              <tr>
+                <td style="font-weight:bold; color:var(--apple-blue);">${k}</td>
+                <td style="text-align:left;">${labels[idx]}</td>
+                <td><input type="text" class="table-input" id="p2_${k.toLowerCase()}" placeholder=""></td>
+              </tr>
+            `).join('');
+
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead><tr><th>No.</th><th>Questions</th><th>Answer</th></tr></thead>
+                  <tbody>${rowsHtml}</tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP2Table()">تحقق من الجدول</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p3") {
+            let rowsHtml = [0, 1, 2, 3].map(s => `
+              <tr>
+                <td style="font-weight:bold; color:var(--apple-blue);">Subnet ${s}</td>
+                <td><input type="text" class="table-input" id="p3_sub_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p3_first_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p3_end_${s}" placeholder=""></td>
+              </tr>
+            `).join('');
+
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Subnet</th><th>Subnet Address (a.b.c.d/x)</th><th>First Usable Address</th><th>Ending (Broadcast) Address</th></tr>
+                  </thead>
+                  <tbody>${rowsHtml}</tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP3Table()">تحقق من التقسيم</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p4") {
+            let steps = [0, 1, 2, 3, 4, 5, 6];
+            let rowsHtml = steps.map(s => `
+              <tr>
+                <td style="font-weight:bold;">${s}</td>
+                <td><input type="text" class="table-input" id="p4_n_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_b_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_c_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_d_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_e_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_f_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_g_${s}" placeholder=""></td>
+              </tr>
+            `).join('');
+
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Step</th><th>N'</th><th>B, p(B)</th><th>C, p(C)</th><th>D, p(D)</th><th>E, p(E)</th><th>F, p(F)</th><th>G, p(G)</th></tr>
+                  </thead>
+                  <tbody>${rowsHtml}</tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP4Table()">تحقق من الخطوات</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p5") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>a</th><th>X</th><th>b</th><th>c</th><th>d</th><th>Y</th><th>e</th><th>Z</th><th>f</th><th>W</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" class="table-input" id="p5_a" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_x" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_b" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_c" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_d" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_y" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_e" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_z" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_f" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_w" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="exam-table" style="margin-top:10px;">
+                  <thead>
+                    <tr><th>h</th><th>N</th><th>g</th><th>V</th><th>R</th><th>S</th><th>T</th><th>U</th><th>Q</th><th>L</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" class="table-input" id="p5_h" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_n" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_g" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_v" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_r" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_s" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_t" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_u" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_q" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_l" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP5Table()">تحقق من المتغيرات</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else {
+            interactionHtml = `
+              <div class="answer-input-row ltr-content">
+                <input type="text" class="text-input-field" id="input-${sub.id}" placeholder="${sub.placeholder || 'Enter answer...'}" onkeydown="if(event.key==='Enter') checkInputAnswer('${sub.id}')">
+                ${unitHtml}
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkInputAnswer('${sub.id}')">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right; white-space: pre-wrap;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkInputAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const inputEl = document.getElementById(`input-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (!sub || !inputEl) return;
+
+      const userVal = inputEl.value.trim();
+      if (!userVal) {
+        alert("يرجى إدخال إجابة أولاً!");
+        return;
+      }
+
+      const isCorrect = sub.validate(userVal);
+      inputEl.disabled = true;
+
+      if (isCorrect) {
+        inputEl.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkP2Table() {
+      const subId = "p2_analysis_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const targets = {
+        "p2_a": ["15", "14"], "p2_b": ["9", "11"], "p2_c": "2", "p2_d": "2",
+        "p2_e": ["6", "5", "8"], "p2_f": ["6", "4"], "p2_g": "2", "p2_h": "5",
+        "p2_i": ["10", "7"], "p2_j": "6"
+      };
+
+      let allCorrect = true;
+      Object.keys(targets).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.disabled = true;
+        const v = el.value.trim();
+        const expected = Array.isArray(targets[id]) ? targets[id] : [targets[id]];
+        if (expected.includes(v)) {
+          el.className = "table-input correct";
+        } else {
+          el.className = "table-input wrong";
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkP3Table() {
+      const subId = "p3_subnet_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const answers = {
+        0: { sub: "128.119.40.64/28", first: "128.119.40.65", end: "128.119.40.79" },
+        1: { sub: "128.119.40.80/28", first: "128.119.40.81", end: "128.119.40.95" },
+        2: { sub: "128.119.40.96/28", first: "128.119.40.97", end: "128.119.40.111" },
+        3: { sub: "128.119.40.112/28", first: "128.119.40.113", end: "128.119.40.127" }
+      };
+
+      let allCorrect = true;
+      [0, 1, 2, 3].forEach(s => {
+        const elSub = document.getElementById(`p3_sub_${s}`);
+        const elFirst = document.getElementById(`p3_first_${s}`);
+        const elEnd = document.getElementById(`p3_end_${s}`);
+
+        const testField = (el, target) => {
+          if (!el) return;
+          el.disabled = true;
+          if (el.value.trim().toLowerCase() === target.toLowerCase()) {
+            el.className = "table-input correct";
+          } else {
+            el.className = "table-input wrong";
+            allCorrect = false;
+          }
+        };
+
+        testField(elSub, answers[s].sub);
+        testField(elFirst, answers[s].first);
+        testField(elEnd, answers[s].end);
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkP4Table() {
+      const subId = "p4_dijkstra_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      let allCorrect = true;
+      for (let s = 0; s <= 6; s++) {
+        ["n", "b", "c", "d", "e", "f", "g"].forEach(col => {
+          const el = document.getElementById(`p4_${col}_${s}`);
+          if (el) {
+            el.disabled = true;
+            if (el.value.trim() !== "") {
+              el.className = "table-input correct";
+            } else {
+              el.className = "table-input";
+            }
+          }
+        });
+      }
+
+      userScores[subId] = true;
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkP5Table() {
+      const subId = "p5_trace_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const targets = {
+        "p5_a": "400", "p5_x": "601", "p5_b": "601", "p5_c": "401", "p5_d": "401",
+        "p5_y": "701", "p5_e": "701", "p5_z": "402", "p5_f": "403", "p5_w": "801",
+        "p5_h": "405", "p5_n": "1201", "p5_g": "901", "p5_v": "402", "p5_r": "405",
+        "p5_s": "406", "p5_t": "406", "p5_u": "1201", "p5_q": "408", "p5_l": "408"
+      };
+
+      let allCorrect = true;
+      Object.keys(targets).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.disabled = true;
+        const v = el.value.trim().toLowerCase();
+        if (v === targets[id]) {
+          el.className = "table-input correct";
+        } else {
+          el.className = "table-input wrong";
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      if (inputEl) {
+        inputEl.disabled = false;
+        inputEl.value = '';
+        inputEl.className = 'text-input-field';
+        inputEl.focus();
+      }
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const tableReset = (prefix, keys) => {
+        keys.forEach(k => {
+          const el = document.getElementById(`${prefix}${k}`);
+          if (el) {
+            el.disabled = false;
+            el.value = '';
+            el.className = 'table-input';
+          }
+        });
+      };
+
+      if (subId === "p2_analysis_table") {
+        tableReset("p2_", ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]);
+      }
+
+      if (subId === "p3_subnet_table") {
+        [0, 1, 2, 3].forEach(s => {
+          tableReset("p3_", [`sub_${s}`, `first_${s}`, `end_${s}`]);
+        });
+      }
+
+      if (subId === "p4_dijkstra_table") {
+        for (let s = 0; s <= 6; s++) {
+          tableReset("p4_", [`n_${s}`, `b_${s}`, `c_${s}`, `d_${s}`, `e_${s}`, `f_${s}`, `g_${s}`]);
+        }
+      }
+
+      if (subId === "p5_trace_table") {
+        tableReset("p5_", ["a", "x", "b", "c", "d", "y", "e", "z", "f", "w", "h", "n", "g", "v", "r", "s", "t", "u", "q", "l"]);
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+      if (imgBox) imgBox.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

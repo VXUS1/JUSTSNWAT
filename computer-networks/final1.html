@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Fundamentals of Computer Networks - Final Exam 2020/2021</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .opt-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--apple-border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      color: transparent;
+      transition: all 0.2s;
+    }
+    .option-item.selected .opt-checkbox {
+      background: var(--apple-blue);
+      border-color: var(--apple-blue);
+      color: #fff;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .unit-label {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: #8e8e93;
+      user-select: none;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 75px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .svg-container {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/computer-networks">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Fundamentals of Computer Networks (NES 312)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam — Second Semester 2020/2021</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1CF7mXS2hoxbiTexWf6z1ignYrBuRpWec/view";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E','F'];
+
+    const examSections = [
+      {
+        title: "Final Exam (Second Semester 2020/2021)",
+        context: "Official Solved Exam — 32 Comprehensive Questions:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "input",
+            text: "Question 1: For the figure shown below, how many subnets are there?",
+            img: "../images/cw_7.png",
+            unit: "subnets",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 8;
+            },
+            dispAnswer: "8",
+            exp: "تحتوي الشبكة على 5 شبكات محلية طرفية (<bdi>LANs</bdi>) بالإضافة إلى 3 روابط مباشرة نقطة لنقطة بين الراوترات الثلاثة (<bdi>Router-to-Router Links</bdi>)؛ فيكون المجموع الكلي: <bdi>5 + 3 = 8 subnets</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q2",
+            type: "multi",
+            text: "Question 2: Which of the following is (are) considered as an end system(s)? (Check all that apply):",
+            img: "",
+            opts: [
+              "A laptop PC.",
+              "An IP router.",
+              "An Ethernet switch.",
+              "A mobile phone.",
+              "A web server."
+            ],
+            correctAnswers: [0, 3, 4],
+            dispAnswer: "A laptop PC, A mobile phone, A web server.",
+            exp: "الأنظمة الطرفية (<bdi>End systems / Hosts</bdi>) هي الأجهزة التي تشغل تطبيقات المستخدمين عند حافة الشبكة، بينما الراوترات ومبدلات الإيثرنت هي أجهزة ربط وسيطة داخل قلب الشبكة.",
+            placeholder: ""
+          },
+          {
+            id: "q3",
+            type: "single",
+            text: "Question 3: In SDN, the forwarding decisions may be made using:",
+            img: "",
+            opts: [
+              "Source MAC address",
+              "Destination MAC address",
+              "Source IP address",
+              "Destination IP address",
+              "All of the given choices"
+            ],
+            ans: 4,
+            dispAnswer: "All of the given choices",
+            exp: "في شبكات <bdi>SDN (OpenFlow)</bdi>، تعتمد قرارات التوجيه على مطابقة الحقول المعممة (<bdi>Match-plus-Action</bdi>) عبر طبقات متعددة تشمل عناوين <bdi>MAC</bdi> وعناوين <bdi>IP</bdi> والمنافذ.",
+            placeholder: ""
+          },
+          {
+            id: "q4_p1",
+            type: "input",
+            text: `Question 4: Suppose three active nodes (A, B, C) compete for channel access using slotted ALOHA with transmission probability p = 0.3 per slot.
+<br><br>1. What is the probability that node A will succeed in slot 5?`,
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.147) < 0.005;
+            },
+            dispAnswer: "0.147",
+            exp: "تنجح العقدة <bdi>A</bdi> عندما ترسل هي ولا ترسل أي من العقدتين الأخريين: <bdi>P = p × (1-p)^2 = 0.3 × (0.7)^2 = 0.147</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q4_p2",
+            type: "input",
+            text: "Question 4 (Part 2): What is the probability that some node (either A, B, or C) will succeed in slot 5?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.441) < 0.005;
+            },
+            dispAnswer: "0.441",
+            exp: "احتمال نجاح أي عقدة من العقد الثلاث: <bdi>3 × p × (1-p)^2 = 3 × 0.147 = 0.441</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q4_p3",
+            type: "input",
+            text: "Question 4 (Part 3): What is the probability that none of the nodes will succeed in slot 5?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.559) < 0.005;
+            },
+            dispAnswer: "0.559",
+            exp: "احتمال عدم نجاح أي عقدة: <bdi>1 - P(نجاح إحدى العقد) = 1 - 0.441 = 0.559</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q5",
+            type: "single",
+            text: "Question 5: The UDP protocol provides:",
+            img: "",
+            opts: [
+              "best-effort data delivery.",
+              "connection-oriented service.",
+              "guaranteed bandwidth.",
+              "in-order data delivery.",
+              "reliable data delivery service."
+            ],
+            ans: 0,
+            dispAnswer: "best-effort data delivery.",
+            exp: "يقدم بروتوكول <bdi>UDP</bdi> خدمة التوصيل بأفضل جهد ممكن (<bdi>Best-effort</bdi>) دون ضمانات على الوصول أو الترتيب أو ثبات النطاق.",
+            placeholder: ""
+          },
+          {
+            id: "q6",
+            type: "input",
+            text: "Question 6: Assume a slotted ALOHA-based network using a shared link of 200 Mbps. What is the maximum effective throughput of the network in the long run? (in Mbps)",
+            img: "",
+            unit: "Mbps",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 73.6) < 1 || Math.abs(num - 73.57) < 1 || Math.abs(num - 74) < 1;
+            },
+            dispAnswer: "≈ 73.6 (or 200/e)",
+            exp: "أقصى كفاءة لبروتوكول <bdi>Slotted ALOHA</bdi> هي <bdi>1/e ≈ 0.368</bdi>. الإنتاجية الفعالة القصوى: <bdi>200 × (1/e) ≈ 73.58 Mbps</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q7_p1",
+            type: "input",
+            text: `Question 7: NAT router has public IP 55.34.112.22 and home network 192.168.1.0/24.
+- Host 192.168.1.1 has 6 ongoing TCP connections to port 80 at 128.119.45.87.
+- Host 192.168.1.2 has 2 ongoing TCP connections to port 443 at 155.18.66.22.
+- Host 192.168.1.3 has 5 ongoing TCP connections to port 80 at 77.18.23.44.
+<br><br>1. How many entries would be in the NAT translation table?`,
+            img: "../images/cw_8.png",
+            unit: "entries",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 13;
+            },
+            dispAnswer: "13",
+            exp: "يتطلب كل اتصال <bdi>TCP</bdi> نشط سطراً مستقلاً في جدول <bdi>NAT</bdi>: <bdi>6 + 2 + 5 = 13 entries</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q7_p2",
+            type: "input",
+            text: "Question 7 (Part 2): What would be the number of entries in the NAT translation table if all connections in Part (1) were made to port 80 on server 128.119.45.87?",
+            img: "",
+            unit: "entries",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 13 || num === 0;
+            },
+            dispAnswer: "13",
+            exp: "يبقى عدد المداخل 13 مدخلاً؛ لأن كل اتصال من داخل الشبكة يُخصص له منفذ <bdi>WAN</bdi> فريد ومستقل بغض النظر عن وجهة السيرفر.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q7_p3",
+            type: "input",
+            text: "Question 7 (Part 3): Host 192.168.1.4 has an ongoing TCP connection from port 9825 with server port 80. The NAT router changes client port to 5559. What will be the value of the destination port field for packets received by host 192.168.1.4?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 9825;
+            },
+            dispAnswer: "9825",
+            exp: "يقوم راوتر <bdi>NAT</bdi> بترجمة منفذ الوجهة للحزم العائدة من 5559 إلى المنفذ الداخلي الأصلي للجهاز وهو <bdi>9825</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q8",
+            type: "input",
+            text: "Question 8: Given the network that consists of five routers (u, v, x, y, z). Each router has a number of ports labeled p1, p2, etc. The integers shown on the links represent the link costs.\nUsing the Link State routing algorithm at router z, the number of iterations needed to reach the least-cost paths to all other destinations is:",
+            img: "../images/cw_9.png",
+            unit: "iterations",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 4;
+            },
+            dispAnswer: "4",
+            exp: "في خوارزمية ديكسترا لشبكة تحتوي على <bdi>n = 5</bdi> عقد، يتطلب إيجاد أقصر مسار لجميع الوجهات الأخرى <bdi>n - 1 = 4</bdi> تكرارات.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q9",
+            type: "table_q9",
+            text: "Question 9: Given the network that consists of five routers (u, v, x, y, z). Each router has a number of ports labeled p1, p2, etc. The integers shown on the links represent the link costs.\nUsing the Link State routing algorithm at router y (if two or more nodes have the same minimum cost, choose the right-most node), do the following:\na) Fill Step 2 of the corresponding Link State algorithm table below.\nb) Fill the corresponding forwarding table below.",
+            img: "../images/cw_10.png",
+            dispAnswer: "Step 2: N'={y,x,v}, D(x)=1,y ; D(z)=4,x ; D(v)=2,y ; D(u)=3,v\nForwarding Table: X -> p2, Z -> p2, V -> p1, U -> p1",
+            exp: "مسار التوجيه من <bdi>y</bdi>:\n• إلى <bdi>X</bdi> مباشرة عبر المنفذ <bdi>p2</bdi>.\n• إلى <bdi>V</bdi> مباشرة عبر المنفذ <bdi>p1</bdi>.\n• إلى <bdi>U</bdi> عبر المسار <bdi>y-v-u</bdi> بمنفذ خروج <bdi>p1</bdi>.\n• إلى <bdi>Z</bdi> عبر المسار <bdi>y-x-z</bdi> بمنفذ خروج <bdi>p2</bdi>."
+          },
+          {
+            id: "q10",
+            type: "single",
+            text: "Question 10: IPv6 has the following advantage over IPv4:",
+            img: "",
+            opts: [
+              "The overhead on the packet size is smaller",
+              "Fragmentation and reassembly is simpler",
+              "Has 4 times the address space",
+              "Limited options since the header size is fixed",
+              "None of the given choices"
+            ],
+            ans: 4,
+            dispAnswer: "None of the given choices",
+            exp: "الخيارات غير صحيحة علمياً؛ مساحة عناوين <bdi>IPv6</bdi> أكبر بـ <bdi>2^96</bdi> ضعفاً وليس 4 أضعاف، والترويسة حجمها أكبر (<bdi>40 bytes</bdi> مقابل <bdi>20 bytes</bdi>).",
+            placeholder: ""
+          },
+          {
+            id: "q11",
+            type: "single",
+            text: "Question 11: Which of the following fields is NOT in an IPv4 header?",
+            img: "",
+            opts: [
+              "Header length",
+              "None of the given choices",
+              "Time to live",
+              "ACK number",
+              "Header checksum"
+            ],
+            ans: 3,
+            dispAnswer: "ACK number",
+            exp: "حقل رقم تأكيد الاستلام (<bdi>ACK number</bdi>) يتبع ترويسة طبقة النقل في <bdi>TCP</bdi> ولا وجود له في ترويسة <bdi>IPv4</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q12_p1",
+            type: "input",
+            text: "Question 12 (Part 1): Sending a 4500-byte datagram (20-byte IP header + 4480-byte data) into a link with MTU = 1500 bytes. How many fragments are generated?",
+            img: "",
+            unit: "fragments",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 4;
+            },
+            dispAnswer: "4",
+            exp: "أقصى حمولة بيانات للشريحة تقبل القسمة على 8 هي 1480 بايت. تقسيم 4480 بايت بيانات ينتج: 1480 + 1480 + 1480 + 40 = 4 شرائح.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q12_p2",
+            type: "input",
+            text: "Question 12 (Part 2): What is the value of the fragmentation flag (M-bit) of the second fragment?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 1;
+            },
+            dispAnswer: "1",
+            exp: "الشريحة الثانية يتبعها شرائح أخرى، فيكون علم المزيد من الشظايا: <bdi>M-bit = 1</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q12_p3",
+            type: "input",
+            text: "Question 12 (Part 3): What is the value of the offset field in the third fragment?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 370;
+            },
+            dispAnswer: "370",
+            exp: "سبق الشريحة الثالثة شريحتان بحمولة <bdi>1480 × 2 = 2960 bytes</bdi>. إزاحة الشريحة الثالثة: <bdi>2960 / 8 = 370</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q13",
+            type: "single",
+            text: "Question 13: In DHCP, the Dynamic Host Configuration Protocol, the DHCP server communicates back to the client via:",
+            img: "",
+            opts: [
+              "A UDP message to the client DHCP process.",
+              "A UDP broadcast to all machines on the LAN.",
+              "A TCP message to the client DHCP process.",
+              "An ICMP message to the client machine.",
+              "None of the given choices"
+            ],
+            ans: 1,
+            dispAnswer: "A UDP broadcast to all machines on the LAN.",
+            exp: "يتواصل سيرفر <bdi>DHCP</bdi> مع العميل عبر رسالة بث عام (<bdi>UDP broadcast</bdi>) إلى العنوان <bdi>255.255.255.255</bdi>؛ لأن العميل لا يمتلك عنوان <bdi>IP</bdi> معتمداً بعد.",
+            placeholder: ""
+          },
+          {
+            id: "q14_p1",
+            type: "single",
+            text: "Question 14 (Part 1): An IP datagram is sent from Host E to Host A. The source and destination MAC addresses in the frame across Link 4 (between Router 2 and Router 1) are:",
+            img: "../images/cw_11.png",
+            opts: [
+              "SA=77-77-77-77-77-77, DA=00-00-00-00-00-00",
+              "SA=55-55-55-55-55-55, DA=33-33-33-33-33-33",
+              "SA=33-33-33-33-33-33, DA=22-22-22-22-22-22",
+              "SA=77-77-77-77-77-77, DA=33-33-33-33-33-33"
+            ],
+            ans: 1,
+            dispAnswer: "SA=55-55-55-55-55-55, DA=33-33-33-33-33-33",
+            exp: "عند عبور الإطار للرابط 4، يخرج من واجهة الراوتر 2 ذات الماك <bdi>55-55-55-55-55-55</bdi> نحو واجهة الراوتر 1 المستقبلة ذات الماك <bdi>33-33-33-33-33-33</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q14_p2",
+            type: "single",
+            text: "Question 14 (Part 2): When the frame in Question 14 is transmitted across Link 2 (to Host A), its source and destination MAC addresses are:",
+            img: "",
+            opts: [
+              "SA=33-33-33-33-33-33, DA=00-00-00-00-00-00",
+              "SA=22-22-22-22-22-22, DA=00-00-00-00-00-00",
+              "SA=55-55-55-55-55-55, DA=22-22-22-22-22-22",
+              "SA=77-77-77-77-77-77, DA=00-00-00-00-00-00"
+            ],
+            ans: 1,
+            dispAnswer: "SA=22-22-22-22-22-22, DA=00-00-00-00-00-00",
+            exp: "يبث الراوتر 1 الإطار الأخير نحو الهدف <bdi>A</bdi> فيكون ماك المصدر هو واجهة الراوتر 1 (<bdi>22-22-22-22-22-22</bdi>) وماك الوجهة هو جهاز الهدف <bdi>A</bdi> (<bdi>00-00-00-00-00-00</bdi>).",
+            placeholder: ""
+          },
+          {
+            id: "q15",
+            type: "single",
+            text: "Question 15: Which of the following statements is true about TCP's retransmission timeout (RTO)?",
+            img: "",
+            opts: [
+              "A source's RTO is always set equal to the last measured RTT.",
+              "A source's RTO is always set equal to the average of the previously measured RTT values.",
+              "RTO is usually picked randomly when the TCP connection is established and it remains fixed for the duration of the flow.",
+              "A source's RTO value is set to adapt to the average and variance of the previously measured RTT values."
+            ],
+            ans: 3,
+            dispAnswer: "A source's RTO value is set to adapt to the average and variance of the previously measured RTT values.",
+            exp: "تعتمد قيمة <bdi>RTO</bdi> على متوسط وعوامل تشتت قياسات زمن الذهاب والإياب وفق معادلة: <bdi>RTO = EstimatedRTT + 4 × DevRTT</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q16",
+            type: "single",
+            text: "Question 16: Datagrams are limited to 1200 bytes (including 20-byte IP header and 20-byte TCP header). How many datagrams are required to send a 5000-byte file?",
+            img: "",
+            opts: [
+              "3 packets",
+              "4 packets",
+              "5 packets",
+              "6 packets",
+              "7 packets"
+            ],
+            ans: 2,
+            dispAnswer: "5 packets",
+            exp: "حمولة البيانات القصوى في الحزمة: <bdi>1200 - 40 = 1160 bytes</bdi>. عدد الحزم: <bdi>ceil(5000 / 1160) = 5 packets</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q17",
+            type: "single",
+            text: "Question 17: Which of the following statements is correct about the logically centralized controller?",
+            img: "",
+            opts: [
+              "A router uses its routing component to compute its forwarding table by communicating with other routers.",
+              "The routing algorithm runs in the router itself.",
+              "Each router acts as a separate entity that implements its own data and control planes.",
+              "None of the statements is correct."
+            ],
+            ans: 3,
+            dispAnswer: "None of the statements is correct.",
+            exp: "في نمط التحكم المركزي المنطقي (<bdi>SDN</bdi>)، تُحسب جداول التوجيه في سيرفر تحكم خارجي ثم تُحقن في الراوترات، والخيارات الثلاثة الأولى تصف التوجيه التقليدي الموزع.",
+            placeholder: ""
+          },
+          {
+            id: "q18_1",
+            type: "single",
+            text: "Question 18 (Part 1): You are the network administrator for justnetworks.com assigned 230.122.2.0/24. Subnet A has 88 hosts, Subnet B has 52 hosts, Subnet C has 40 hosts.<br><br>Which of the following would represent a valid subnetwork mask for subnetwork A?",
+            img: "",
+            opts: [
+              "255.255.255.1",
+              "255.255.255.128",
+              "255.255.255.192",
+              "255.255.255.0"
+            ],
+            ans: 1,
+            dispAnswer: "255.255.255.128",
+            exp: "لدعم 88 جهازاً، يلزم حجز كتلة عناوين تتسع لـ <bdi>88 + 2 = 90</bdi> عنواناً، وأقرب قوة للرقم 2 هي 128 عنواناً (<bdi>7 bits للـ Host</bdi>)، مما يعطي قناع <bdi>/25</bdi> وهو <bdi>255.255.255.128</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q18_2",
+            type: "single",
+            text: "Question 18 (Part 2): Which of the following would represent a valid subnetwork mask for subnetwork B? (Requires 52 hosts)",
+            img: "",
+            opts: [
+              "255.255.255.0",
+              "255.255.255.128",
+              "255.255.255.1",
+              "255.255.255.192"
+            ],
+            ans: 3,
+            dispAnswer: "255.255.255.192",
+            exp: "لدعم 52 جهازاً، يلزم حجز <bdi>52 + 2 = 54</bdi> عنواناً، وأقرب سعة هي 64 عنواناً (<bdi>6 bits للـ Host</bdi>)، مما يعطي قناع <bdi>/26</bdi> وهو <bdi>255.255.255.192</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q18_3",
+            type: "single",
+            text: "Question 18 (Part 3): Which of the following would represent a valid subnetwork ID for subnetwork A?",
+            img: "",
+            opts: [
+              "230.122.2.0/25",
+              "230.122.2.192/25",
+              "230.122.2.0/24",
+              "230.122.2.192/24"
+            ],
+            ans: 0,
+            dispAnswer: "230.122.2.0/25",
+            exp: "تبدأ الكتلة المعطاة <bdi>230.122.2.0/24</bdi> بأول شبكة فرعية للشبكة <bdi>A</bdi> بحجم <bdi>/25</bdi> فيكون عنوانها <bdi>230.122.2.0/25</bdi> (العناوين من 0 إلى 127).",
+            placeholder: ""
+          },
+          {
+            id: "q18_4",
+            type: "single",
+            text: "Question 18 (Part 4): Which of the following would represent a valid subnetwork ID for subnetwork C? (Requires 40 hosts)",
+            img: "",
+            opts: [
+              "230.122.2.192/25",
+              "230.122.2.0/24",
+              "230.122.2.192/26",
+              "230.122.2.192/24"
+            ],
+            ans: 2,
+            dispAnswer: "230.122.2.192/26",
+            exp: "تأخذ الشبكة <bdi>A</bdi> النطاق (0-127)، وتأخذ الشبكة <bdi>B</bdi> النطاق (128-191 بقناع /26)، وتأتي الشبكة <bdi>C</bdi> تالياً في النطاق (192-255 بقناع /26) فيكون عنوانها <bdi>230.122.2.192/26</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q19",
+            type: "multi",
+            text: "Question 19: The layer(s) that must exist in every node in the network is (are) (Check all that apply):",
+            img: "",
+            opts: [
+              "The physical layer.",
+              "The transport layer.",
+              "The data-link layer.",
+              "The network layer.",
+              "The application Layer."
+            ],
+            correctAnswers: [0, 2],
+            dispAnswer: "The physical layer. & The data-link layer.",
+            exp: "الطبقة الفيزيائية وطبقة ربط البيانات توجدان حتماً في كل أجهزة الشبكة بلا استثناء بما فيها مبدلات الطبقة الثانية (<bdi>Switches</bdi>).",
+            placeholder: ""
+          },
+          {
+            id: "q20",
+            type: "single",
+            text: "Question 20: 10 users share an access link. Each is active 80% of the time, needing 100 kbps when active. The strategy providing the best overall performance is:",
+            img: "",
+            opts: [
+              "Either a 1 Mbps circuit-switched link or an 800 kbps packet-switched link as both provide the same performance.",
+              "An 800 kbps circuit-switched link: equally divided.",
+              "An 800 kbps packet-switched link: statistically shared.",
+              "A 1 Mbps circuit-switched link: equally divided."
+            ],
+            ans: 3,
+            dispAnswer: "A 1 Mbps circuit-switched link: equally divided.",
+            exp: "بما أن نسبة النشاط مرتفعة جداً (<bdi>80%</bdi>)، فإن تخصيص رابط دارة بسرعة <bdi>1 Mbps</bdi> مقسمة بالتساوي يضمن لكل مستخدم سرعته كاملة دون أي تأخير أو فقدان حزم.",
+            placeholder: ""
+          },
+          {
+            id: "q21",
+            type: "single",
+            text: "Question 21: To deliver a message to the correct application running on a host, the _______ address must be consulted.",
+            img: "",
+            opts: [
+              "IP",
+              "MAC",
+              "Port",
+              "Subnetmask"
+            ],
+            ans: 2,
+            dispAnswer: "Port",
+            exp: "يحدد رقم المنفذ (<bdi>Port number</bdi>) العملية البرمجية والتطبيق الدقيق المستهدف داخل نظام التشغيل.",
+            placeholder: ""
+          },
+          {
+            id: "q22",
+            type: "single",
+            text: "Question 22: Switch S1 table initially contains entries for Host B and router R1 only. Host A broadcasts an ARP request to Host B. How many entries does switch S1 contain once A has received the ARP response?",
+            img: "../images/cw_12.png",
+            opts: [
+              "not enough information",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ],
+            ans: 3,
+            dispAnswer: "3",
+            exp: "يتعلم المبدل <bdi>S1</bdi> عنوان ماك الجهاز <bdi>A</bdi> عند استقبال طلب الـ <bdi>ARP</bdi> منه ويضيفه للجدول، بينما كان الماك الخاص بالجهاز <bdi>B</bdi> و <bdi>R1</bdi> مخزنين مسبقاً: <bdi>2 + 1 = 3 entries</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q23",
+            type: "multi",
+            text: "Question 23: Which of the following is (are) true about MPLS-based protocols? (check all that apply)",
+            img: "",
+            opts: [
+              "Provide backup routes to overcome link failures.",
+              "Operate between Layer-2 and Layer-3.",
+              "Provide limited scalability to demands of new services.",
+              "Use traffic engineering to reduce network congestion.",
+              "Uses IP address for IP datagram forwarding.",
+              "Work only with Ethernet frames."
+            ],
+            correctAnswers: [0, 1, 3],
+            dispAnswer: "Provide backup routes to overcome link failures. & Operate between Layer-2 and Layer-3. & Use traffic engineering to reduce network congestion.",
+            exp: "يعمل بروتوكول <bdi>MPLS</bdi> كطبقة 2.5، ويوفر مسارات بديلة فورية وهندسة حركة مرور متقدمة باستخدام ملصقات سريعة.",
+            placeholder: ""
+          },
+          {
+            id: "q24",
+            type: "single",
+            text: "Question 24: How many RTTs does it take to download a web page that references 10 very small images using non-persistent HTTP with serial connections?",
+            img: "",
+            opts: [
+              "11 RTTs",
+              "12 RTTs",
+              "22 RTTs",
+              "24 RTTs"
+            ],
+            ans: 2,
+            dispAnswer: "22 RTTs",
+            exp: "يتطلب الملف الأساسي <bdi>2 RTT</bdi>، ويتطلب كل كائن من الكائنات العشرة اتصالاً منفرداً يأخذ <bdi>2 RTT</bdi>: <bdi>2 + (10 × 2) = 22 RTTs</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q25",
+            type: "single",
+            text: "Question 25: Which of the following is not correct about Web cache?",
+            img: "",
+            opts: [
+              "Web cache might reduce the response time.",
+              "Web cache can act as both server and client.",
+              "Web cache contains copies of recently requested objects.",
+              "Web cache doesn't have its own disk space."
+            ],
+            ans: 3,
+            dispAnswer: "Web cache doesn't have its own disk space.",
+            exp: "العبارة غير الصحيحة هي أن الكاش لا يملك قرص تخزين؛ فالكاش يتطلب حتماً مساحة تخزين محلية لحفظ الكائنات المسترجعة.",
+            placeholder: ""
+          },
+          {
+            id: "q26",
+            type: "table_q26",
+            text: "Question 26: Distance Vector Table for Router x with neighbors u (cost 3), y (cost 2), and z (cost 8):",
+            img: "",
+            dispAnswer: "D_x(u) = 3, D_x(y) = 2, D_x(z) = 4, D_x(v) = 7",
+            exp: "تطبيق معادلة بيلمان فورد: <bdi>D_x(v) = min(c(x,y) + D_y(v)) = 2 + 5 = 7</bdi>، و <bdi>D_x(z) = min(c(x,y) + D_y(z)) = 2 + 2 = 4</bdi>."
+          },
+          {
+            id: "q27",
+            type: "multi",
+            text: "Question 27: Which of the following is (are) true about VLANs? (check all that apply):",
+            img: "",
+            opts: [
+              "Speed up routing process.",
+              "Provide efficient use of switches.",
+              "Cancel the need for services provided by the ARP protocol",
+              "Provide less privacy/performance.",
+              "Provide traffic isolation.",
+              "Increasing ease of management for users."
+            ],
+            correctAnswers: [1, 4, 5],
+            dispAnswer: "Provide efficient use of switches. & Provide traffic isolation. & Increasing ease of management for users.",
+            exp: "توفر شبكات <bdi>VLAN</bdi> عزلاً تاماً لحركة البيانات واستخداماً أمثل للمبدلات الفيزيائية وتسهيل إدارة المستخدمين دون التأثير على عمل <bdi>ARP</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "q28_p1",
+            type: "input",
+            text: "Question 28 (Part 1): In the LAN-Router topology, what is the minimum number of ARP tables in the network?",
+            img: "../images/cw_13.png",
+            unit: "tables",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 7;
+            },
+            dispAnswer: "7",
+            exp: "تمتلك كل واجهة شبكة تدعم <bdi>IP</bdi> جدول <bdi>ARP</bdi> خاصاً بها: 6 أجهزة حاسوب + راوتر واحد (واجهتان) = 7 جداول.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q28_p2",
+            type: "input",
+            text: "Question 28 (Part 2): If Host A sends to Host D (same LAN), what is the maximum number of ARP queries needed?",
+            img: "",
+            unit: "queries",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 1;
+            },
+            dispAnswer: "1",
+            exp: "كلا الجهازين في نفس الشبكة المحلية، فيرسل الجهاز <bdi>A</bdi> استعلام <bdi>ARP</bdi> واحداً فقط على نفس الـ <bdi>LAN</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q28_p3",
+            type: "input",
+            text: "Question 28 (Part 3): If Host A sends to Host F (different LAN via Router R1), what is the maximum number of ARP queries needed?",
+            img: "",
+            unit: "queries",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 2;
+            },
+            dispAnswer: "2",
+            exp: "استعلام واحد من <bdi>A</bdi> لمعرفة ماك بوابة الراوتر على <bdi>LAN 1</bdi>، واستعلام ثانٍ من الراوتر لمعرفة ماك الجهاز <bdi>F</bdi> على <bdi>LAN 2</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q29_p1",
+            type: "input",
+            text: "Question 29 (Part 1): A frame collides for the 7th time in a 75 Mbps CSMA/CD network. What is the probability that the node chooses K = 15?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.0078125) < 0.0001;
+            },
+            dispAnswer: "0.0078125 (1/128)",
+            exp: "مجال الاختيار بعد التصادم السابع هو <bdi>{0, 1, ..., 2^7 - 1} = 128</bdi> قيمة. الاحتمال: <bdi>1 / 128 = 0.0078125</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q29_p2",
+            type: "input",
+            text: "Question 29 (Part 2): Based on Question 29, how long should the node wait if K = 15? (in microseconds)",
+            img: "",
+            unit: "µs",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 102.4) < 0.5 || Math.abs(num - 768) < 1;
+            },
+            dispAnswer: "102.4 (or 768)",
+            exp: "فترة الشريحة الزمنية في شبكة 75 Mbps هي: <bdi>512 bits / 75 Mbps ≈ 6.827 µs</bdi>. زمن الانتظار: <bdi>15 × (512 / 75) = 102.4 µs</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q30",
+            type: "multi",
+            text: "Question 30: Which of the following is correct regarding link costs? (Check all that apply):",
+            img: "",
+            opts: [
+              "The link cost increases as the congestion decreases.",
+              "As the link cost decreases, it is more likely to be part of the shortest path.",
+              "The link cost is changed by any node connected to it.",
+              "The link cost may be changed by the routing algorithm.",
+              "The performance of the routing algorithm can be affected by the link cost changes.",
+              "The link cost never changes."
+            ],
+            correctAnswers: [1, 3, 4],
+            dispAnswer: "As link cost decreases, it is more likely part of shortest path. & May be changed by routing algorithm. & Performance affected by cost changes.",
+            exp: "انخفاض كلفة الرابط يزيد احتمالية دخوله في المسار الأقصر، ويمكن للخوارزميات تعديل الأوزان ديناميكياً مما يؤثر على أداء واستقرار الشبكة.",
+            placeholder: ""
+          },
+          {
+            id: "q31",
+            type: "single",
+            text: "Question 31: In a link-state routing protocol:",
+            img: "",
+            opts: [
+              "The state of a link will change based on the state of other links that share the same node.",
+              "Each node begins with only the knowledge of the costs of its own directly attached links.",
+              "A node informs only its neighbor nodes about changes to the state of any of its links.",
+              "The state of a link is dynamically queried to determine whether data can be routed through it.",
+              "All nodes get updates on node connectivity so each node can build a full graph of the network."
+            ],
+            ans: 4,
+            dispAnswer: "All nodes get updates on node connectivity so each node can build a full graph of the network.",
+            exp: "تعتمد خوارزميات حالة الرابط على إذاعة ونشر حالة الروابط (<bdi>Link-State Broadcast</bdi>) لتتلقى كل العقد نفس المعلومات وتبني مخططاً متكاملاً للشبكة.",
+            placeholder: ""
+          },
+          {
+            id: "q32",
+            type: "single",
+            text: "Question 32: The correct statement about hierarchical routing is:",
+            img: "",
+            opts: [
+              "Different AS's must use the same inter-AS and intra-AS routing algorithms.",
+              "Different AS's are completely independent and can use any routing algorithms they prefer.",
+              "Different AS's must use the same intra-AS but not necessarily the same inter-AS routing protocols.",
+              "Different AS's must use the same inter-AS but not necessarily the same intra-AS routing algorithms."
+            ],
+            ans: 3,
+            dispAnswer: "Different AS's must use the same inter-AS but not necessarily the same intra-AS routing algorithms.",
+            exp: "يجب على الأنظمة المستقلة استخدام نفس البروتوكول بين الأنظمة (<bdi>Inter-AS مثل BGP</bdi>) للتنسيق العام، بينما تملك حرية اختيار البروتوكول الداخلي (<bdi>Intra-AS مثل OSPF</bdi>).",
+            placeholder: ""
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let multiSelections = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const unitHtml = sub.unit ? `<span class="unit-label">${sub.unit}</span>` : '';
+          const hasImage = sub.img && sub.img.trim() !== "";
+
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Original Question ${sub.id}" 
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "multi") {
+            multiSelections[sub.id] = new Set();
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="toggleMultiOption('${sub.id}', ${i})">
+                <div class="opt-checkbox" id="check-${sub.id}-${i}">✓</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkMultiAnswer('${sub.id}')">تحقق من الاختيارات</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q9") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr>
+                      <th>Step</th><th>N'</th><th>D(x), p(x)</th><th>D(z), p(z)</th><th>D(v), p(v)</th><th>D(u), p(u)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:bold;">2</td>
+                      <td><input type="text" class="table-input" id="q9_n" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q9_dx" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q9_dz" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q9_dv" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q9_du" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="font-weight:bold; margin:10px 0 6px 0; color:var(--apple-blue);">Forwarding Table at Router y:</div>
+                <table class="exam-table" style="max-width:320px;">
+                  <thead>
+                    <tr><th>Dest Router</th><th>Port Number</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>X</td><td><input type="text" class="table-input" id="q9_px" placeholder=""></td></tr>
+                    <tr><td>Z</td><td><input type="text" class="table-input" id="q9_pz" placeholder=""></td></tr>
+                    <tr><td>V</td><td><input type="text" class="table-input" id="q9_pv" placeholder=""></td></tr>
+                    <tr><td>U</td><td><input type="text" class="table-input" id="q9_pu" placeholder=""></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ9Table()">تحقق من الجدول</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q26") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Router</th><th>Cost to u</th><th>Cost to y</th><th>Cost to z</th><th>Cost to v</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">x</td>
+                      <td><input type="text" class="table-input" id="q26_u" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q26_y" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q26_z" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="q26_v" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ26Table()">تحقق من المداخل</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else {
+            interactionHtml = `
+              <div class="answer-input-row ltr-content">
+                <input type="text" class="text-input-field" id="input-${sub.id}" placeholder="${sub.placeholder || 'Enter answer...'}" onkeydown="if(event.key==='Enter') checkInputAnswer('${sub.id}')">
+                ${unitHtml}
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkInputAnswer('${sub.id}')">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right; white-space: pre-wrap;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function toggleMultiOption(subId, optIdx) {
+      const set = multiSelections[subId];
+      const optEl = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (!set || !optEl) return;
+
+      if (set.has(optIdx)) {
+        set.delete(optIdx);
+        optEl.classList.remove('selected');
+      } else {
+        set.add(optIdx);
+        optEl.classList.add('selected');
+      }
+    }
+
+    function checkMultiAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const set = multiSelections[subId];
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !set || !optsBox) return;
+
+      optsBox.classList.add('locked');
+      const correctSet = new Set(sub.correctAnswers);
+      let isAllCorrect = (set.size === correctSet.size);
+
+      sub.opts.forEach((_, i) => {
+        const el = document.getElementById(`opt-${subId}-${i}`);
+        if (!el) return;
+        if (correctSet.has(i)) {
+          el.className = 'option-item correct';
+          if (!set.has(i)) isAllCorrect = false;
+        } else if (set.has(i)) {
+          el.className = 'option-item wrong';
+          isAllCorrect = false;
+        }
+      });
+
+      if (isAllCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkInputAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const inputEl = document.getElementById(`input-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (!sub || !inputEl) return;
+
+      const userVal = inputEl.value.trim();
+      if (!userVal) {
+        alert("يرجى إدخال إجابة أولاً!");
+        return;
+      }
+
+      const isCorrect = sub.validate(userVal);
+      inputEl.disabled = true;
+
+      if (isCorrect) {
+        inputEl.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkQ9Table() {
+      const subId = "q9";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const fields = [
+        { id: "q9_n", val: ["yxv", "y,x,v", "y, x, v"] },
+        { id: "q9_dx", val: ["1,y", "1, y", "-", ""] },
+        { id: "q9_dz", val: ["4,x", "4, x"] },
+        { id: "q9_dv", val: ["2,y", "2, y", "-", ""] },
+        { id: "q9_du", val: ["3,v", "3, v"] },
+        { id: "q9_px", val: ["p2", "2"] },
+        { id: "q9_pz", val: ["p2", "2"] },
+        { id: "q9_pv", val: ["p1", "1"] },
+        { id: "q9_pu", val: ["p1", "1"] }
+      ];
+
+      let allCorrect = true;
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        if (!el) return;
+        el.disabled = true;
+        const v = el.value.trim().toLowerCase().replace(/\s/g, '');
+        if (f.val.some(target => v === target.replace(/\s/g, ''))) {
+          el.className = 'table-input correct';
+        } else {
+          el.className = 'table-input wrong';
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ26Table() {
+      const subId = "q26";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const fields = [
+        { id: "q26_u", val: "3" },
+        { id: "q26_y", val: "2" },
+        { id: "q26_z", val: "4" },
+        { id: "q26_v", val: "7" }
+      ];
+
+      let allCorrect = true;
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        if (!el) return;
+        el.disabled = true;
+        const v = el.value.trim();
+        if (v === f.val) {
+          el.className = 'table-input correct';
+        } else {
+          el.className = 'table-input wrong';
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      if (inputEl) {
+        inputEl.disabled = false;
+        inputEl.value = '';
+        inputEl.className = 'text-input-field';
+        inputEl.focus();
+      }
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (sub && sub.type === "multi") {
+        multiSelections[subId] = new Set();
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      if (subId === "q9") {
+        ["q9_n", "q9_dx", "q9_dz", "q9_dv", "q9_du", "q9_px", "q9_pz", "q9_pv", "q9_pu"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.disabled = false;
+            el.value = '';
+            el.className = 'table-input';
+          }
+        });
+      }
+
+      if (subId === "q26") {
+        ["q26_u", "q26_y", "q26_z", "q26_v"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.disabled = false;
+            el.value = '';
+            el.className = 'table-input';
+          }
+        });
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+      if (imgBox) imgBox.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

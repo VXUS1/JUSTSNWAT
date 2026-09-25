@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Fundamentals of Computer Networks - First Exam 2019</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 240px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .unit-label {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: #8e8e93;
+      user-select: none;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .svg-container {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/computer-networks">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Fundamentals of Computer Networks (NES 312)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">First Exam — Fall 2019/2020</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1l3lAJVmvqUVZd-yOcbglmfr8Um8Nudco/view";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const examSections = [
+      {
+        title: "Problem 1: Short Answer Questions (50 Points)",
+        context: "Short answer questions (5 points each) covering core concepts of Computer Networks:",
+        subQuestions: [
+          {
+            id: "p1_q1",
+            type: "input",
+            text: "Question 1: IETF stands for ____________",
+            img: "",
+            validate: (input) => {
+              const cleaned = input.toLowerCase().replace(/[^a-z]/g, '');
+              return cleaned.includes("internetengineeringtaskforce");
+            },
+            dispAnswer: "Internet Engineering Task Force",
+            exp: "IETF هو اختصار Internet Engineering Task Force.",
+            placeholder: "Enter the full term..."
+          },
+          {
+            id: "p1_q2",
+            type: "input",
+            text: `Question 2: Consider the following figure. Suppose that A uses traceroute to trace the route to B. How many probes are sent? (Assume no probes are lost)
+<div class="svg-container ltr-content">
+  <svg width="460" height="90" viewBox="0 0 460 90" style="max-width:100%; height:auto;">
+    <line x1="40" y1="45" x2="420" y2="45" stroke="#8e8e93" stroke-width="2"/>
+    <rect x="15" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="37" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">A</text>
+    <circle cx="130" cy="45" r="18" fill="#1c1c1e" stroke="#5ac8fa" stroke-width="2"/>
+    <text x="130" y="50" fill="#5ac8fa" font-size="12" text-anchor="middle">R1</text>
+    <circle cx="210" cy="45" r="18" fill="#1c1c1e" stroke="#5ac8fa" stroke-width="2"/>
+    <text x="210" y="50" fill="#5ac8fa" font-size="12" text-anchor="middle">R2</text>
+    <circle cx="290" cy="45" r="18" fill="#1c1c1e" stroke="#5ac8fa" stroke-width="2"/>
+    <text x="290" y="50" fill="#5ac8fa" font-size="12" text-anchor="middle">R3</text>
+    <rect x="370" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="392" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">B</text>
+  </svg>
+</div>`,
+            img: "",
+            unit: "probes",
+            validate: (input) => {
+              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
+              return num === 12;
+            },
+            dispAnswer: "12",
+            exp: "هنالك 4 قفزات (3 راوترات + الوجهة النهائية B). يرسل traceroute عادةً 3 probes لكل راوتر/وجهة: 4 * 3 = 12 probes.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p1_q3",
+            type: "input",
+            text: "Question 3: The amount of time required to push all of a packet's bits into a link is called the ____________ delay.",
+            img: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim();
+              return val.includes("transmission");
+            },
+            dispAnswer: "transmission",
+            exp: "الوقت اللازم لدفع جميع بتات الحزمة إلى الرابط يُسمى Transmission delay (L/R).",
+            placeholder: "Enter delay type..."
+          },
+          {
+            id: "p1_q4",
+            type: "input",
+            text: "Question 4: Cable and DSL are two residential Internet access technologies. Which one can be described as dedicated and which one as shared?",
+            img: "",
+            validate: (input) => {
+              const val = input.toLowerCase();
+              return (val.includes("dsl") && val.includes("dedicated")) || (val.includes("cable") && val.includes("shared"));
+            },
+            dispAnswer: "DSL is dedicated, Cable is shared",
+            exp: "DSL يوفر قناة مخصصة (Dedicated) من المنزل إلى مقسم الهاتف DSLAM، بينما Cable يعتبر وسيطاً مشتركاً (Shared access).",
+            placeholder: "Enter your answer..."
+          },
+          {
+            id: "p1_q5",
+            type: "input",
+            text: "Question 5: Name two elastic applications:",
+            img: "",
+            validate: (input) => {
+              const val = input.toLowerCase();
+              const matches = ["email", "web", "http", "ftp", "text", "file", "sms"].filter(k => val.includes(k));
+              return matches.length >= 1;
+            },
+            dispAnswer: "E-mail, Web browsing / File transfer (FTP)",
+            exp: "التطبيقات المرنة (Elastic applications) هي التطبيقات التي لا تتطلب معدل نقل ثابت وتتحمل التأخير مثل الإيميل والتصفح ونقل الملفات.",
+            placeholder: "Enter two applications..."
+          },
+          {
+            id: "p1_q6",
+            type: "input",
+            text: "Question 6: Name two applications that can tolerate data loss:",
+            img: "",
+            validate: (input) => {
+              const val = input.toLowerCase();
+              const matches = ["audio", "video", "game", "voip", "stream", "multimedia", "telephony"].filter(k => val.includes(k));
+              return matches.length >= 1;
+            },
+            dispAnswer: "Online games, Audio/Video streaming (or VoIP)",
+            exp: "التطبيقات التي تتحمل فقدان البيانات هي تطبيقات الوسائط المتعددة اللحظية مثل ألعاب الأونلاين والبث المباشر والمكالمات الصوتية.",
+            placeholder: "Enter two applications..."
+          },
+          {
+            id: "p1_q7",
+            type: "input",
+            text: "Question 7: How long does it take to send a file of 2 Mbits from host A to host B over a circuit-switched network? Assume link speeds are 1 Mbps, TDM with 8 slots/sec, and 1 sec to establish circuit.",
+            img: "",
+            unit: "seconds",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 17) < 0.1;
+            },
+            dispAnswer: "17",
+            exp: "معدل الإرسال المتاح للدائرة = 1 Mbps / 8 slots = 125 kbps (أو 1/8 Mbps). زمن النقل = 2 Mbits / (1/8 Mbps) = 16 ثانية. بإضافة 1 ثانية لإنشاء الدائرة (setup time)، يصبح المجموع = 1 + 16 = 17 ثانية.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p1_q8",
+            type: "input",
+            text: `Suppose within your Web browser you click on a link to obtain a Web page. Assume the IP address is cached. The Web page contains a very small HTML file that references 5 very small objects on the same server. Neglecting transmission times, how much roundtrip times (in RTT) is required in:
+<br><br><strong>Question 8:</strong> Non-persistent HTTP with no parallel TCP connections?`,
+            img: "",
+            unit: "RTT",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 12) < 0.1;
+            },
+            dispAnswer: "12",
+            exp: "كل كائن يحتاج 2 RTT (واحد لفتح اتصال TCP والآخر لطلب وجلب الكائن عبر HTTP). لدينا كائن HTML أساسي + 5 كائنات مدمجة = 6 كائنات. المجموع = 6 * 2 = 12 RTT.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p1_q9",
+            type: "input",
+            text: "Question 9: Non-persistent HTTP with 4 parallel TCP connections? (Enter value in RTT)",
+            img: "",
+            unit: "RTT",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 6) < 0.1;
+            },
+            dispAnswer: "6",
+            exp: "تحميل صفحة HTML الأساسية يأخذ 2 RTT. يتبقى 5 كائنات؛ يتم فتح 4 اتصالات متوازية وتحميل 4 كائنات بالتوازي (2 RTT)، ثم الكائن الخامس في دفعة ثانية متوازية (2 RTT). المجموع = 2 + 2 + 2 = 6 RTT.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p1_q10",
+            type: "input",
+            text: "Question 10: Persistent HTTP with pipelining? (Enter value in RTT)",
+            img: "",
+            unit: "RTT",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 3) < 0.1;
+            },
+            dispAnswer: "3",
+            exp: "فتح اتصال TCP يأخذ 1 RTT، طلب وجلب صفحة HTML يأخذ 1 RTT. بعد ذلك، يتم طلب جميع الكائنات الخمسة المتبقية في نفس الوقت عبر الـ pipelining وتصل معاً في 1 RTT إضافي. المجموع = 1 + 1 + 1 = 3 RTT.",
+            placeholder: "Enter number..."
+          }
+        ]
+      },
+      {
+        title: "Problem 2: Store-and-Forward Switches (25 Points)",
+        context: `Hosts A and B are each connected to a store-and-forward switch S via 10-Mbps links. The propagation delay on each link is 0.1 ms.
+<div class="svg-container ltr-content">
+  <svg width="400" height="90" viewBox="0 0 400 90" style="max-width:100%; height:auto;">
+    <line x1="60" y1="45" x2="340" y2="45" stroke="#8e8e93" stroke-width="2"/>
+    <rect x="20" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="42" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">A</text>
+    <rect x="175" y="25" width="50" height="40" rx="4" fill="#1c1c1e" stroke="#30d158" stroke-width="2"/>
+    <text x="200" y="50" fill="#30d158" font-size="13" font-weight="bold" text-anchor="middle">S</text>
+    <rect x="335" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="357" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">B</text>
+    <text x="110" y="35" fill="#8e8e93" font-size="11" text-anchor="middle">10 Mbps</text>
+    <text x="285" y="35" fill="#8e8e93" font-size="11" text-anchor="middle">10 Mbps</text>
+  </svg>
+</div>
+Calculate the total time required to transmit 15,000 bits from A to B:`,
+        subQuestions: [
+          {
+            id: "p2_a",
+            type: "input",
+            text: "(a) [10 points] As a single packet (Enter only the number in ms):",
+            img: "",
+            unit: "ms",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 3.2) < 0.05 || Math.abs(num - 0.0032) < 0.0001;
+            },
+            dispAnswer: "3.2",
+            exp: "d_trans = 15,000 / (10 * 10^6) = 1.5 ms لكل رابط. لكل رابط هنالك d_prop = 0.1 ms. بما أن المحول يعمل بـ Store-and-Forward وعلى رابطين: Total = 2 * (d_trans + d_prop) = 2 * (1.5 + 0.1) = 3.2 ms.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p2_b",
+            type: "input",
+            text: "(b) [15 points] As three 5,000-bit packets sent one right after the other (Enter only the number in ms):",
+            img: "",
+            unit: "ms",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 2.2) < 0.05 || Math.abs(num - 0.0022) < 0.0001;
+            },
+            dispAnswer: "2.2",
+            exp: "لحزمة واحدة 5000 بت: d_trans = 5,000 / 10^7 = 0.5 ms. الحزمة الأولى تصل B عند: 2 * (0.5 + 0.1) = 1.2 ms. بما أن الإرسال عبر خط أنابيب (pipelining)، كل حزمة لاحقة تصل بعد 0.5 ms إضافية. الوقت الكلي = 1.2 + 0.5 + 0.5 = 2.2 ms.",
+            placeholder: "Enter number..."
+          }
+        ]
+      },
+      {
+        title: "Problem 3: Proxy Server & Delays (25 Points)",
+        context: `An institutional network is connected to the Internet:
+- Transmission rate of access link = 1.5 Mbps
+- Transmission rate of LAN = 10 Mbps
+- Average object size = 750,000 bits
+- Average request rate = 1.5 requests/sec
+- Internet delay = 4 seconds
+- Average access delay formula: Δ / (1 - Δ * β), where Δ = L/R_access and β is arrival rate.
+- LAN delay = L / R_LAN (ignoring prop/proc/queue).`,
+        subQuestions: [
+          {
+            id: "p3_a",
+            type: "input",
+            text: "a. [7 Points] Determine the traffic intensity of the access link:",
+            img: "../images/cw_1.png",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.75) < 0.02;
+            },
+            dispAnswer: "0.75",
+            exp: "Δ = 750,000 / 1,500,000 = 0.5 s. β = 1.5 requests/s. Traffic intensity = Δ * β = 0.5 * 1.5 = 0.75.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p3_b",
+            type: "input",
+            text: "b. [8 Points] Determine the total average response time (Enter only the number in seconds):",
+            img: "",
+            unit: "seconds",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 6.075) < 0.05 || Math.abs(num - 6.08) < 0.05;
+            },
+            dispAnswer: "6.075",
+            exp: "LAN delay = 750,000 / 10^7 = 0.075 s. Access delay = 0.5 / (1 - 0.75) = 2 s. Internet delay = 4 s. Total = 0.075 + 2 + 4 = 6.075 s.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "p3_c",
+            type: "input",
+            text: "c. [10 Points] Now suppose a cache is installed with hit ratio = 0.7. Find the total response time (Enter only the number in seconds):",
+            img: "",
+            unit: "seconds",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 1.22) < 0.08 || Math.abs(num - 1.24) < 0.08 || Math.abs(num - 1.15) < 0.1;
+            },
+            dispAnswer: "≈ 1.22",
+            exp: "في حالة الـ Hit (بنسبة 0.7): التأخير = LAN delay = 0.075 s. في حالة الـ Miss (بنسبة 0.3): يصل الرابط معدل طلبات β_new = 0.3 * 1.5 = 0.45 req/s. بالتالي Access delay الجديد = 0.5 / (1 - 0.5 * 0.45) = 0.5 / 0.775 ≈ 0.645 s. زمن الـ Miss = 0.075 + 0.645 + 4 = 4.72 s. الإجمالي = 0.7 * (0.075) + 0.3 * (4.72) ≈ 1.22 ثانية.",
+            placeholder: "Enter number..."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const unitHtml = sub.unit ? `<span class="unit-label">${sub.unit}</span>` : '';
+          const hasImage = sub.img && sub.img.trim() !== "";
+
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Original Question ${sub.id}" 
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          const interactionHtml = `
+            <div class="answer-input-row ltr-content">
+              <input type="text" class="text-input-field" id="input-${sub.id}" placeholder="${sub.placeholder || 'Enter answer...'}" onkeydown="if(event.key==='Enter') checkInputAnswer('${sub.id}')">
+              ${unitHtml}
+              <button class="btn" id="btn-check-${sub.id}" onclick="checkInputAnswer('${sub.id}')">تحقق</button>
+              ${imageButtonHtml}
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function checkInputAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const inputEl = document.getElementById(`input-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (!sub || !inputEl) return;
+
+      const userVal = inputEl.value.trim();
+      if (!userVal) {
+        alert("يرجى إدخال إجابة أولاً!");
+        return;
+      }
+
+      const isCorrect = sub.validate(userVal);
+      inputEl.disabled = true;
+
+      if (isCorrect) {
+        inputEl.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      const inputEl = document.getElementById(`input-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
+
+      delete userScores[subId];
+
+      if (inputEl) {
+        inputEl.disabled = false;
+        inputEl.value = '';
+        inputEl.className = 'text-input-field';
+        inputEl.focus();
+      }
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+      if (imgBox) imgBox.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

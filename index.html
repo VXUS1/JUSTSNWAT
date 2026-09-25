@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="بنك أسئلة وسنوات سابقة لطلاب هندسة الشبكات والجامعة - امتحانات وحلول لمواد NES.">
+<meta name="description" content="بنك أسئلة السنوات سابقة لطلاب التكنو - امتحانات وحلول.">
 <meta name="keywords" content="سنوات, أسئلة, شبكات, NES415, NES441, التكنو, JUST">
 <meta name="google" content="notranslate">
 
-<title>JUSTSNWAT | بنك أسئلة وسنوات</title>
+<title>JUSTSNWAT | بنك أسئلة السنوات السابقة</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <!-- Three.js Library -->
@@ -248,22 +248,21 @@ a {
   color: var(--text-secondary);
 }
 
-.sub-brand {
+.dept-menu-all {
+  margin-top: 4px;
+  border-top: 1px solid var(--apple-border);
+  padding-top: 9px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #aeb9ca;
-  font-size: 0.86rem;
-  font-weight: 500;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--apple-blue);
+  text-decoration: none;
+  padding-bottom: 4px;
 }
-
-.sub-brand::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--apple-green);
-  box-shadow: 0 0 12px rgba(48, 209, 88, 0.8);
+.dept-menu-all:hover {
+  text-decoration: underline;
 }
 
 /* ---------- Title & Hero ---------- */
@@ -434,16 +433,16 @@ a {
   gap: 2px;
 }
 
-.lux-result-ar {
+.lux-result-en {
   font-size: 15.5px;
   font-weight: 800;
   color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.lux-result-en {
+.lux-result-ar {
   font-size: 12.5px;
   color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
 }
 
 .lux-result-badges {
@@ -491,13 +490,6 @@ a {
 #app.route-enter > * {
   animation: routeContentIn 0.42s var(--ease-apple) both;
 }
-
-#app.route-enter .subject-grid > .subject-card:nth-child(1) { animation-delay: 0.04s; }
-#app.route-enter .subject-grid > .subject-card:nth-child(2) { animation-delay: 0.08s; }
-#app.route-enter .subject-grid > .subject-card:nth-child(3) { animation-delay: 0.12s; }
-#app.route-enter .subject-grid > .subject-card:nth-child(4) { animation-delay: 0.16s; }
-#app.route-enter .subject-grid > .subject-card:nth-child(5) { animation-delay: 0.20s; }
-#app.route-enter .subject-grid > .subject-card:nth-child(6) { animation-delay: 0.24s; }
 
 @keyframes routeLeave {
   to { opacity: 0; transform: translateY(-10px) scale(0.992); filter: blur(3px); }
@@ -560,6 +552,141 @@ a {
 }
 
 /* =========================================================
+   تصميم بطاقات الأقسام (Department Showcase Cards)
+   ========================================================= */
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 14px;
+}
+
+.dept-showcase-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(24, 30, 48, 0.75) 0%, rgba(13, 17, 28, 0.88) 100%);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 24px;
+  padding: 32px 20px 24px;
+  cursor: pointer;
+  overflow: hidden;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  transition: all 0.35s var(--ease-apple);
+}
+
+.dept-showcase-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--dept-accent, var(--apple-blue));
+  opacity: 0.8;
+  box-shadow: 0 0 20px var(--dept-accent, var(--apple-blue));
+}
+
+.dept-showcase-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.65), 0 0 35px var(--dept-glow, rgba(10, 132, 255, 0.25));
+}
+
+.dept-orb {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(42, 94, 150, 0.95), rgba(18, 48, 85, 0.98) 75%);
+  border: 3px solid #38bdf8;
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+  display: grid;
+  place-items: center;
+  margin-bottom: 20px;
+  transition: transform 0.4s var(--ease-apple), box-shadow 0.4s var(--ease-apple);
+}
+
+.dept-showcase-card:hover .dept-orb {
+  transform: scale(1.08);
+  box-shadow: 0 0 34px rgba(56, 189, 248, 0.65), inset 0 2px 8px rgba(255, 255, 255, 0.5);
+}
+
+.dept-showcase-card.card-cpe .dept-orb {
+  background: radial-gradient(circle at 35% 30%, rgba(29, 99, 156, 0.95), rgba(16, 50, 88, 0.98) 75%);
+  border-color: #00d2ff;
+  box-shadow: 0 0 24px rgba(0, 210, 255, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+}
+
+.dept-showcase-card.card-cs .dept-orb {
+  background: radial-gradient(circle at 35% 30%, rgba(31, 95, 148, 0.95), rgba(15, 45, 80, 0.98) 75%);
+  border-color: #38bdf8;
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+}
+
+.dept-orb-svg {
+  width: 62px;
+  height: 62px;
+  display: block;
+}
+
+.dept-title-box {
+  margin-bottom: 8px;
+}
+
+/* الإنجليزي بارز وكبير، والعربي تحته أصغر */
+.dept-title-box h3 {
+  margin: 0 0 3px;
+  font-size: 18.5px;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.3;
+}
+
+.dept-title-box .dept-ar-sub {
+  font-size: 13.5px;
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.dept-showcase-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 16px;
+  line-height: 1.5;
+  min-height: 40px;
+}
+
+.dept-card-footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+  margin-top: auto;
+}
+
+.dept-btn-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #7dd3fc;
+  font-size: 13px;
+  font-weight: 800;
+  transition: gap 0.2s ease;
+}
+
+.dept-showcase-card:hover .dept-btn-enter {
+  gap: 9px;
+  color: #ffffff;
+}
+
+/* =========================================================
    Department View & Subject View
    ========================================================= */
 .dept-header {
@@ -570,8 +697,16 @@ a {
   font-size: clamp(24px, 4.5vw, 34px);
   font-weight: 900;
   color: #ffffff;
-  margin: 6px 0 6px;
+  margin: 6px 0 2px;
+  font-family: 'JetBrains Mono', monospace;
   letter-spacing: -0.02em;
+}
+
+.dept-header .dept-ar-head {
+  color: var(--apple-blue);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px;
 }
 
 .dept-header p {
@@ -667,20 +802,22 @@ a {
   width: 100%;
 }
 
-.subject-card .ar-title {
-  font-size: clamp(17px, 2.2vw, 21px);
-  font-weight: 900;
+/* الإنجليزي بارز وكبير، والعربي تحته أصغر */
+.subject-card .en-title-main {
+  font-size: clamp(17px, 2.1vw, 20px);
+  font-weight: 800;
   line-height: 1.3;
   color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  letter-spacing: -0.02em;
 }
 
-.subject-card .en-title {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.72);
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 500;
+.subject-card .ar-title-sub {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 600;
 }
 
 .subject-card .meta {
@@ -856,8 +993,8 @@ a {
 .back:hover { color: #ffffff; transform: translateX(4px); }
 
 .subject-head { margin: 6px 0 24px; }
-.subject-head h2 { margin: 6px 0 4px; font-size: clamp(24px, 5vw, 32px); font-weight: 800; color: #ffffff; }
-.subject-head .en-subtitle { font-size: 16px; color: var(--apple-blue); font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 4px; }
+.subject-head h2 { margin: 6px 0 2px; font-size: clamp(24px, 5vw, 32px); font-weight: 800; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+.subject-head .ar-subtitle { font-size: 16px; color: var(--apple-blue); font-weight: 700; margin-bottom: 4px; }
 .subject-head .sub { color: var(--text-secondary); font-size: 14px; font-family: 'JetBrains Mono', monospace; }
 
 .empty {
@@ -972,19 +1109,12 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 .report-status.success { display: block; background: rgba(48, 209, 88, 0.15); border: 1px solid var(--apple-green); color: #85e99e; }
 .report-status.error { display: block; background: rgba(255, 69, 58, 0.15); border: 1px solid var(--apple-red); color: #ff9b94; }
 
-
-@media (prefers-reduced-motion: reduce) {
-  #app.page-enter,
-  #app.page-leave,
-  #app.page-enter .subject-head,
-  #app.page-enter > .back,
-  #app.page-enter > .list > .row {
-    animation: none;
-  }
+@media (max-width: 820px) {
+  .departments-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-
 @media (max-width: 680px) {
   .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .departments-grid { grid-template-columns: 1fr; }
   .landing-hero { padding-top: 2px; }
   .glass-globe-section { height: 390px; }
 }
@@ -1014,29 +1144,29 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         <div class="dept-dropdown-menu" id="deptDropdownMenu">
           <a href="#/dept/nes" class="dept-menu-item">
             <div class="dept-menu-title">
-              <span>هندسة وأمن شبكات الحاسوب</span>
+              <span>Network Engineering & Security</span>
               <span class="dept-menu-tag">NES</span>
             </div>
-            <span class="dept-menu-sub">7 مواد • شبكات ومعلومات</span>
+            <span class="dept-menu-sub">هندسة وأمن شبكات الحاسوب • 7 مواد</span>
           </a>
           <a href="#/dept/cpe" class="dept-menu-item">
             <div class="dept-menu-title">
-              <span>هندسة الحاسوب</span>
+              <span>Computer Engineering</span>
               <span class="dept-menu-tag">CPE</span>
             </div>
-            <span class="dept-menu-sub">مادتان • معمارية ونظم تشغيل</span>
+            <span class="dept-menu-sub">هندسة الحاسوب • مادتان</span>
           </a>
           <a href="#/dept/cs" class="dept-menu-item">
             <div class="dept-menu-title">
-              <span>علوم الحاسوب</span>
+              <span>Computer Science</span>
               <span class="dept-menu-tag">CS</span>
             </div>
-            <span class="dept-menu-sub">مادتان • تراكيب بيانات ونظم</span>
+            <span class="dept-menu-sub">علوم الحاسوب • مادتان</span>
           </a>
+          <a href="#/depts" class="dept-menu-all">استعراض كافة الأقسام ←</a>
         </div>
       </div>
     </div>
-
   </header>
 
   <div class="wrap">
@@ -1126,17 +1256,17 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       { id: "unix", name: "Unix Operating System", arName: "نظام التشغيل يونكس", code: "NES202", dept: "nes" },
       { id: "computer-networks", name: "Computer Networks", arName: "شبكات الحاسوب", code: "NES312", dept: "nes" },
 
-      { id: "archi", name: "Computer Architecture", arName: "معمارية وبنية الحاسوب", code: "CPE352", dept: "cpe" },
+      { id: "archi", name: "Computer Architecture", arName: "معمارية الحاسوب", code: "CPE352", dept: "cpe" },
       { id: "os", name: "Operating Systems (CPE)", arName: "نظم التشغيل", code: "CPE473", dept: "cpe" },
 
       { id: "os2", name: "Operating Systems (CS)", arName: "نظم التشغيل", code: "CS375", dept: "cs" },
-      { id: "data-structures", name: "Data Structures", arName: "تراكيب البيانات والخوارزميات", code: "HSS211CS", dept: "cs" }
+      { id: "data-structures", name: "Data Structures", arName: "تراكيب البيانات", code: "HSS211CS", dept: "cs" }
     ];
 
     var deptMeta = {
-      "nes": { name: "هندسة وأمن شبكات الحاسوب", tag: "NES", desc: "تصفح مواد هندسة الشبكات وأمن المعلومات." },
-      "cpe": { name: "هندسة الحاسوب", tag: "CPE", desc: "تصفح مواد هندسة الحاسوب." },
-      "cs":  { name: "علوم الحاسوب", tag: "CS", desc: "تصفح مواد قسم علوم الحاسوب." }
+      "nes": { name: "Network Engineering & Security", arName: "هندسة وأمن شبكات الحاسوب", tag: "NES", desc: "تصفح مواد هندسة الشبكات وأمن المعلومات." },
+      "cpe": { name: "Computer Engineering", arName: "هندسة الحاسوب", tag: "CPE", desc: "تصفح مواد هندسة الحاسوب." },
+      "cs":  { name: "Computer Science", arName: "علوم الحاسوب", tag: "CS", desc: "تصفح مواد قسم علوم الحاسوب." }
     };
 
     var exams = {
@@ -1175,7 +1305,16 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         { id: "final3-unix", title: "Final Exam 2021 2nd semester Unix", link: "unix/final3.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." }
       ],
       "computer-networks": [
-        { id: "quiz-computer-networks", title: "Mid Exam 1st semester 2021 Computer Networks", link: "computer-networks/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." }
+        { id: "first-computer-networks", title: "First Exam 1st semester 2019/2020", link: "computer-networks/first1.html", note: "امتحان الفيرست كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "first2-computer-networks", title: "First Exam 2nd semester 2020", link: "computer-networks/first2.html", note: "امتحان الفيرست كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "second-computer-networks", title: "Second Exam 1st semester 2019", link: "computer-networks/second.html", note: "امتحان السكند كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "mid-computer-networks", title: "Mid Exam 2nd semester 2020", link: "computer-networks/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "mid2-computer-networks", title: "Mid Exam 1st semester 2022/2023", link: "computer-networks/mid2.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final1-computer-networks", title: "Final Exam 1st semester 2020/2021", link: "computer-networks/final1.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final2-computer-networks", title: "Final Exam 2nd semester 2021", link: "computer-networks/final2.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final3-computer-networks", title: "Final Exam 2nd semester 2022", link: "computer-networks/final3.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+        { id: "final4-computer-networks", title: "Final Exam 2nd semester 2023", link: "computer-networks/final4.html", note: "امتحان الفاينل كامل ومحلول مع صور الأسئلة الأصلية." },
+
       ],
       "archi": [
         { id: "quiz-archi", title: "Mid Exam 1st semester 2021 Computer Architecture", link: "archi/mid1.html", note: "امتحان الميد كامل ومحلول مع صور الأسئلة الأصلية." }
@@ -1254,6 +1393,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
     function parseHash() {
       var h = location.hash || "";
+      if (h === "#/depts") return { type: "departments_list" };
+
       var mSubject = /^#\/s\/(.+)$/.exec(h);
       if (mSubject) return { type: "subject", id: decodeURIComponent(mSubject[1]) };
 
@@ -1271,6 +1412,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         renderSubject(route.id);
       } else if (route.type === "dept") {
         renderDepartment(route.id);
+      } else if (route.type === "departments_list") {
+        renderDepartmentsList();
       } else {
         renderHome();
       }
@@ -1345,8 +1488,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
           return '' +
             '<div class="lux-result-item" data-open="' + esc(s.id) + '">' +
               '<div class="lux-result-titles">' +
-                '<div class="lux-result-ar">' + esc(s.arName) + '</div>' +
                 '<div class="lux-result-en">' + esc(s.name) + '</div>' +
+                '<div class="lux-result-ar">' + esc(s.arName) + '</div>' +
               '</div>' +
               '<div class="lux-result-badges">' +
                 '<span class="lux-code-badge">' + esc(s.code) + '</span>' +
@@ -1384,7 +1527,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     }
 
     /* =======================================================
-       4. محرك الكرة الأرضية التقنية (weevolveit.com replica)
+       4. محرك الكرة الأرضية التقنية (Three.js)
        ======================================================= */
     var globeAnimId = null;
 
@@ -1408,7 +1551,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       var GLOBE_RADIUS = 72;
 
-      // أ. سطح زجاجي شفاف يحافظ على عمق الكرة بدون إطار مضيء
       var coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.99, 48, 48);
       var coreMat = new THREE.MeshBasicMaterial({
         color: 0x0b1219,
@@ -1444,7 +1586,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       });
       globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS * 1.025, 48, 48), silverRim));
 
-      // ب. حدود اليابسة الحقيقية بخطوط ذهبية نظيفة
       var continentMaterial = new THREE.LineBasicMaterial({
         color: 0xe2ad45,
         transparent: true,
@@ -1478,11 +1619,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
             }
           });
         })
-        .catch(function () {
-          // Keep the glass globe and network arcs visible if the map data is unavailable.
-        });
+        .catch(function () {});
 
-      // ج. مسارات الربط ثلاثية الأبعاد (Network Cyber Arcs)
       function latLonToVector3(lat, lon, r) {
         var phi = (90 - lat) * (Math.PI / 180);
         var theta = (lon + 180) * (Math.PI / 180);
@@ -1502,7 +1640,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         { lat: -33.86, lon: 151.20 } // سيدني
       ];
 
-      // علامات متوهجة فوق العواصم
       hubList.forEach(function (h) {
         var pos = latLonToVector3(h.lat, h.lon, GLOBE_RADIUS * 1.01);
         var markerGeo = new THREE.RingGeometry(1.2, 2.0, 16);
@@ -1534,7 +1671,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         });
         globeGroup.add(new THREE.Line(curveGeo, curveMat));
 
-        // وميض البيانات السريع
         var pGeo = new THREE.SphereGeometry(1.2, 8, 8);
         var pMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
         var pMesh = new THREE.Mesh(pGeo, pMat);
@@ -1545,7 +1681,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       globeGroup.rotation.y = 2.45;
       globeGroup.rotation.x = 0.24;
 
-      // هـ. التفاعل والسحب السلس (Smooth Inertia Drag)
       var isDragging = false;
       var lastX = 0, lastY = 0;
       var spinSpeedX = 0, spinSpeedY = 0;
@@ -1604,11 +1739,146 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     }
 
     /* =======================================================
-       5. صفحة القسم
+       5. صفحة قائمة الأقسام مع الأيقونات الثلاث المستوحاة من الصورة
+       ======================================================= */
+    function renderDepartmentsList() {
+      // 1. أيقونة الشبكات النظيفة والمطابقة للصورة تماماً (3 شاشات متصلة بشبكة)
+      var iconNesSvg = `
+        <svg class="dept-orb-svg" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- خطوط الشبكة والربط الشبكي -->
+          <path d="M34 23 V33 M20 33 H48 M20 33 V38 M48 33 V38" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          
+          <!-- عقد التوزيع الشبكي -->
+          <circle cx="34" cy="33" r="2.2" fill="#ffffff" />
+          
+          <!-- الشاشة المركزية العلوية -->
+          <g>
+            <rect x="23" y="9" width="22" height="15" rx="3" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-width="2.5" />
+            <line x1="28" y1="19.5" x2="40" y2="19.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M31 24 H37 M34 24 V27 M30 27 H38" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+          </g>
+
+          <!-- الشاشة السفلية اليسرى -->
+          <g>
+            <rect x="9" y="37" width="22" height="15" rx="3" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-width="2.5" />
+            <line x1="14" y1="47.5" x2="26" y2="47.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M17 52 H23 M20 52 V55 M16 55 H24" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+          </g>
+
+          <!-- الشاشة السفلية اليمنى -->
+          <g>
+            <rect x="37" y="37" width="22" height="15" rx="3" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-width="2.5" />
+            <line x1="42" y1="47.5" x2="54" y2="47.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M45 52 H51 M48 52 V55 M44 55 H52" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+          </g>
+        </svg>
+      `;
+
+      // 2. أيقونة شاشة الحاسوب (هندسة الحاسوب)
+      var iconCpeSvg = `
+        <svg class="dept-orb-svg" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- إطار الشاشة الكبير -->
+          <rect x="13" y="14" width="42" height="29" rx="3.5" stroke="#ffffff" stroke-width="2.6" fill="#ffffff" fill-opacity="0.14" />
+          <line x1="13" y1="36" x2="55" y2="36" stroke="#ffffff" stroke-width="2" />
+          <circle cx="34" cy="39.5" r="1.6" fill="#ffffff" />
+          <!-- قاعدة الشاشة -->
+          <path d="M30.5 43 L28.5 52 L39.5 52 L37.5 43" stroke="#ffffff" stroke-width="2.4" fill="#ffffff" fill-opacity="0.18" stroke-linejoin="round" />
+          <line x1="24" y1="52" x2="44" y2="52" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" />
+        </svg>
+      `;
+
+      // 3. أيقونة الشاشة البرمجية (علوم الحاسوب)
+      var iconCsSvg = `
+        <svg class="dept-orb-svg" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- إطار الشاشة البرمجية -->
+          <rect x="13" y="14" width="42" height="29" rx="3.5" stroke="#ffffff" stroke-width="2.6" fill="#ffffff" fill-opacity="0.14" />
+          <!-- وسم البرمجة </> -->
+          <path d="M28 20.5 L24 24.5 L28 28.5" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M40 20.5 L44 24.5 L40 28.5" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+          <line x1="35.5" y1="19.5" x2="32.5" y2="29.5" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" />
+          <!-- أسطر الكود البرمجية -->
+          <line x1="20" y1="33" x2="48" y2="33" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+          <line x1="20" y1="37.5" x2="48" y2="37.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+          <!-- قاعدة الشاشة -->
+          <path d="M30.5 43 L28.5 52 L39.5 52 L37.5 43" stroke="#ffffff" stroke-width="2.4" fill="#ffffff" fill-opacity="0.18" stroke-linejoin="round" />
+          <line x1="24" y1="52" x2="44" y2="52" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" />
+        </svg>
+      `;
+
+      var deptsData = [
+        { 
+          id: "nes", 
+          name: "Network Engineering & Security", 
+          arName: "هندسة وأمن شبكات الحاسوب", 
+          tag: "NES", 
+          desc: "شبكات، اتصالات لاسلكية، وتشفير وأمن معلومات.",
+          icon: iconNesSvg,
+          accent: "#38bdf8",
+          glow: "rgba(56, 189, 248, 0.35)",
+          cls: "card-nes"
+        },
+        { 
+          id: "cpe", 
+          name: "Computer Engineering", 
+          arName: "هندسة الحاسوب", 
+          tag: "CPE", 
+          desc: "معمارية وبنية الحاسوب، عتاد، ونظم تشغيل.",
+          icon: iconCpeSvg,
+          accent: "#00d2ff",
+          glow: "rgba(0, 210, 255, 0.35)",
+          cls: "card-cpe"
+        },
+        { 
+          id: "cs",  
+          name: "Computer Science", 
+          arName: "علوم الحاسوب", 
+          tag: "CS",  
+          desc: "تراكيب بيانات وخوارزميات، برمجيات، ونظم تشغيل.",
+          icon: iconCsSvg,
+          accent: "#38bdf8",
+          glow: "rgba(56, 189, 248, 0.35)",
+          cls: "card-cs"
+        }
+      ];
+
+      var cardsHtml = deptsData.map(function(d) {
+        var count = allSubjects.filter(function(s) { return s.dept === d.id; }).length;
+        return '' +
+          '<div class="dept-showcase-card ' + d.cls + '" style="--dept-accent:' + d.accent + '; --dept-glow:' + d.glow + ';" role="button" tabindex="0" onclick="location.hash=\'#/dept/' + esc(d.id) + '\'">' +
+            '<div class="dept-orb">' +
+              d.icon +
+            '</div>' +
+            '<div class="dept-title-box">' +
+              '<h3>' + esc(d.name) + '</h3>' +
+              '<div class="dept-ar-sub">' + esc(d.arName) + '</div>' +
+            '</div>' +
+            '<p class="dept-showcase-desc">' + esc(d.desc) + '</p>' +
+            '<div class="dept-card-footer">' +
+              '<span class="lux-code-badge">' + esc(d.tag) + ' • ' + count + ' مواد</span>' +
+              '<span class="dept-btn-enter">دخول القسم ' + iconChev() + '</span>' +
+            '</div>' +
+          '</div>';
+      }).join("");
+
+      app.innerHTML =
+        '<div style="padding-top: 10px;">' +
+          '<a href="#/" class="back">' + iconBack() + ' رجوع للرئيسية</a>' +
+          '<div class="dept-header" style="margin-bottom: 22px;">' +
+            '<h2>الأقسام والتخصصات الأكاديمية</h2>' +
+            '<p>اختر التخصص لاستعراض المواد ونماذج الأسئلة والامتحانات المحلولة.</p>' +
+          '</div>' +
+          '<div class="departments-grid">' +
+            cardsHtml +
+          '</div>' +
+        '</div>';
+    }
+
+    /* =======================================================
+       6. صفحة القسم
        ======================================================= */
     var deptSearch = "";
     function renderDepartment(deptId) {
-      var meta = deptMeta[deptId] || { name: "القسم الأكاديمي", tag: deptId.toUpperCase(), desc: "تصفح المواد المتاحة." };
+      var meta = deptMeta[deptId] || { name: deptId.toUpperCase(), arName: "القسم الأكاديمي", tag: deptId.toUpperCase(), desc: "تصفح المواد المتاحة." };
       var matches = searchSubjects(deptSearch, deptId);
 
       var body = "";
@@ -1622,8 +1892,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
           return '' +
             '<div class="row subject-card subject-' + esc(s.id) + '" role="button" tabindex="0" data-open="' + esc(s.id) + '">' +
               '<div class="main">' +
-                '<div class="ar-title">' + esc(s.arName) + '</div>' +
-                '<div class="en-title">' + esc(s.name) + '</div>' +
+                '<div class="en-title-main">' + esc(s.name) + '</div>' +
+                '<div class="ar-title-sub">' + esc(s.arName) + '</div>' +
                 '<div class="meta">' +
                   (s.code ? '<span class="code">' + esc(s.code) + '</span>' : '') +
                   '<span class="subject-count">' + esc(countLabel) + '</span>' +
@@ -1636,13 +1906,14 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       app.innerHTML =
         '<div style="padding-top: 10px;">' +
-          '<a href="#/" class="back">' + iconBack() + ' رجوع للرئيسية</a>' +
+          '<a href="#/depts" class="back">' + iconBack() + ' رجوع للأقسام</a>' +
           '<div class="dept-header">' +
-            '<h2>قسم ' + esc(meta.name) + ' (' + esc(meta.tag) + ')</h2>' +
+            '<h2>' + esc(meta.name) + ' (' + esc(meta.tag) + ')</h2>' +
+            '<div class="dept-ar-head">' + esc(meta.arName) + '</div>' +
             '<p>' + esc(meta.desc) + '</p>' +
           '</div>' +
           '<div class="bar">' +
-            '<input class="search" id="deptQuery" type="search" placeholder="ابحث في مواد القسم بالعربي أو الإنجليزي..." value="' + esc(deptSearch) + '">' +
+            '<input class="search" id="deptQuery" type="search" placeholder="ابحث في مواد القسم بالإنجليزي أو بالعربي..." value="' + esc(deptSearch) + '">' +
           '</div>' +
           body +
           '<p class="hint">اضغط على أي مادة لعرض ملفات الاختبارات والحلول.</p>' +
@@ -1664,15 +1935,15 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     }
 
     /* =======================================================
-       6. صفحة المادة والاختبارات
+       7. صفحة المادة والاختبارات
        ======================================================= */
     function renderSubject(subjectId) {
       var s = allSubjects.find(function (item) { return item.id === subjectId; });
 
       if (!s) {
         app.innerHTML = '<div style="padding-top: 20px;">' +
-          '<a href="#/" class="back">' + iconBack() + ' رجوع للرئيسية</a>' +
-          '<div class="empty"><strong>المادة غير موجودة</strong>الرجاء العودة للقائمة الرئيسية.</div>' +
+          '<a href="#/depts" class="back">' + iconBack() + ' رجوع للأقسام</a>' +
+          '<div class="empty"><strong>المادة غير موجودة</strong>الرجاء العودة لقائمة الأقسام.</div>' +
         '</div>';
         return;
       }
@@ -1710,8 +1981,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         '<div style="padding-top: 10px;">' +
           '<a href="' + deptUrl + '" class="back">' + iconBack() + ' رجوع لقسم ' + esc(deptName) + '</a>' +
           '<div class="subject-head">' +
-            '<h2>' + esc(s.arName) + '</h2>' +
-            '<div class="en-subtitle">' + esc(s.name) + '</div>' +
+            '<h2>' + esc(s.name) + '</h2>' +
+            '<div class="ar-subtitle">' + esc(s.arName) + '</div>' +
             (s.code ? '<div class="sub">رمز المادة: ' + esc(s.code) + '</div>' : '') +
           '</div>' +
           body +
@@ -1748,105 +2019,102 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     });
 
     render();
+
     /* =======================================================
-       7. ديسكورد وبلاغات الأخطاء
+       8. ديسكورد وبلاغات الأخطاء
        ======================================================= */
-   var openBtn = document.getElementById("openReportBtn");
-var closeBtn = document.getElementById("closeReportBtn");
-var overlay = document.getElementById("reportOverlay");
-var form = document.getElementById("bugReportForm");
-var statusDiv = document.getElementById("reportStatus");
-var submitBtn = document.getElementById("submitReportBtn");
+    var openBtn = document.getElementById("openReportBtn");
+    var closeBtn = document.getElementById("closeReportBtn");
+    var overlay = document.getElementById("reportOverlay");
+    var form = document.getElementById("bugReportForm");
+    var statusDiv = document.getElementById("reportStatus");
+    var submitBtn = document.getElementById("submitReportBtn");
 
-function openModal() {
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden", "false");
-  statusDiv.className = "report-status";
-  statusDiv.style.display = "none";
-}
-
-function closeModal() {
-  overlay.classList.remove("active");
-  overlay.setAttribute("aria-hidden", "true");
-}
-
-if (openBtn) openBtn.addEventListener("click", openModal);
-if (closeBtn) closeBtn.addEventListener("click", closeModal);
-if (overlay) {
-  overlay.addEventListener("click", function (e) {
-    if (e.target === overlay) closeModal();
-  });
-}
-
-if (form) {
-  var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    var fileInput = document.getElementById("issue-file");
-    var file = fileInput && fileInput.files ? fileInput.files[0] : null;
-
-    // فحص حجم الصورة (حد أقصى 8 ميجابايت)
-    if (file && file.size > 8 * 1024 * 1024) {
-      statusDiv.className = "report-status error";
-      statusDiv.style.display = "block";
-      statusDiv.textContent = "حجم الصورة كبير جداً، الحد الأقصى هو 8 ميجابايت.";
-      return;
+    function openModal() {
+      overlay.classList.add("active");
+      overlay.setAttribute("aria-hidden", "false");
+      statusDiv.className = "report-status";
+      statusDiv.style.display = "none";
     }
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "جارِ الإرسال...";
-    statusDiv.style.display = "none";
-
-    // استخدام FormData لإرسال النصوص والملف معاً
-    var formData = new FormData();
-    formData.append("issueType", document.getElementById("issue-type").value);
-    formData.append("issueDesc", document.getElementById("issue-desc").value);
-    formData.append("userContact", document.getElementById("user-contact").value.trim() || "غير محدد");
-    formData.append("currentUrl", window.location.href);
-
-    if (file) {
-      formData.append("imageFile", file);
+    function closeModal() {
+      overlay.classList.remove("active");
+      overlay.setAttribute("aria-hidden", "true");
     }
 
-    // تنبيه: لا نضع 'Content-Type' في الـ headers لكي يضبط المتصفح حدود الملف (boundary) تلقائياً
-    fetch(WORKER_ENDPOINT, {
-      method: "POST",
-      body: formData
-    })
-    .then(function (res) {
-      if (!res.ok) throw new Error();
-      return res.json();
-    })
-    .then(function (data) {
-      if (data.success) {
-        statusDiv.className = "report-status success";
-        statusDiv.style.display = "block";
-        statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
-        form.reset();
+    if (openBtn) openBtn.addEventListener("click", openModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (overlay) {
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) closeModal();
+      });
+    }
 
-        setTimeout(function () {
-          closeModal();
+    if (form) {
+      var WORKER_ENDPOINT = "https://justsnwat-reporter.abdalserhan20.workers.dev/";
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var fileInput = document.getElementById("issue-file");
+        var file = fileInput && fileInput.files ? fileInput.files[0] : null;
+
+        if (file && file.size > 8 * 1024 * 1024) {
+          statusDiv.className = "report-status error";
+          statusDiv.style.display = "block";
+          statusDiv.textContent = "حجم الصورة كبير جداً، الحد الأقصى هو 8 ميجابايت.";
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "جارِ الإرسال...";
+        statusDiv.style.display = "none";
+
+        var formData = new FormData();
+        formData.append("issueType", document.getElementById("issue-type").value);
+        formData.append("issueDesc", document.getElementById("issue-desc").value);
+        formData.append("userContact", document.getElementById("user-contact").value.trim() || "غير محدد");
+        formData.append("currentUrl", window.location.href);
+
+        if (file) {
+          formData.append("imageFile", file);
+        }
+
+        fetch(WORKER_ENDPOINT, {
+          method: "POST",
+          body: formData
+        })
+        .then(function (res) {
+          if (!res.ok) throw new Error();
+          return res.json();
+        })
+        .then(function (data) {
+          if (data.success) {
+            statusDiv.className = "report-status success";
+            statusDiv.style.display = "block";
+            statusDiv.textContent = "تم إرسال البلاغ بنجاح، شكراً لك!";
+            form.reset();
+
+            setTimeout(function () {
+              closeModal();
+              submitBtn.disabled = false;
+              submitBtn.textContent = "إرسال البلاغ";
+            }, 2000);
+          } else {
+            throw new Error(data.error || "Server error");
+          }
+        })
+        .catch(function () {
+          statusDiv.className = "report-status error";
+          statusDiv.style.display = "block";
+          statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
           submitBtn.disabled = false;
           submitBtn.textContent = "إرسال البلاغ";
-        }, 2000);
-      } else {
-        throw new Error(data.error || "Server error");
-      }
-    })
-    .catch(function () {
-      statusDiv.className = "report-status error";
-      statusDiv.style.display = "block";
-      statusDiv.textContent = "حدث خطأ أثناء الإرسال، تأكد من اتصالك بالإنترنت.";
-      submitBtn.disabled = false;
-      submitBtn.textContent = "إرسال البلاغ";
-    });
-  });
-}
+        });
+      });
+    }
 
   })();
-  
   </script>
 </body>
 </html>

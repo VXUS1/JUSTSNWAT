@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Fundamentals of Computer Networks - Final Exam 2022/2023</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .unit-label {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: #8e8e93;
+      user-select: none;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 70px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .svg-container {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/computer-networks">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Fundamentals of Computer Networks (NES 312)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam — Fall 2022/2023 (Official Paper)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah Al-serhan</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/1_IK9Yffbh_W9Alx3vDCqTE39GpHvbnx-";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: [10 pts, each 0.5 marks] [CLOs: 2-9: Data link, network, Transport layers]",
+        context: "Mark each of the following statements with False/True (F/T):",
+        subQuestions: [
+          {
+            id: "tf_1",
+            type: "single",
+            text: "1. Collision cannot occur in token ring networks",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "في شبكات <bdi>Token Ring</bdi>، لا ترسل المحطة البيانات إلا بعد حيازة الرمز المميز (<bdi>Token</bdi>)، مما يمنع حدوث أي تصادم."
+          },
+          {
+            id: "tf_2",
+            type: "single",
+            text: "2. TCP relies on port addressing to multiplex received segments",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "عند الاستقبال، تعتمد طبقة النقل على أرقام المنافذ لفك التجميع (<bdi>Demultiplexing</bdi>) وتسليم البيانات للتطبيق المناسب، بينما التجميع (<bdi>Multiplexing</bdi>) يحدث عند الإرسال."
+          },
+          {
+            id: "tf_3",
+            type: "single",
+            text: "3. MLPS is a layer 2/3 protocol",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يعمل بروتوكول <bdi>MPLS</bdi> بين الطبقة الثانية والثالثة ويصنف اصطلاحاً كبروتوكول <bdi>Layer 2.5</bdi>."
+          },
+          {
+            id: "tf_4",
+            type: "single",
+            text: "4. MLPS is classified as a packet-switched networks",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تعتمد تقنية <bdi>MPLS</bdi> على توجيه الحزم والملصقات (<bdi>Packet-switched</bdi>) دون حجز دارات مخصصة مسبقاً."
+          },
+          {
+            id: "tf_5",
+            type: "single",
+            text: "5. The switch MAC table displays the VLAN which the host belong to",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "في المبدلات الحديثة، يربط جدول <bdi>MAC</bdi> كل عنوان برقم المنفذ ورقم الشبكة الافتراضية (<bdi>VLAN ID</bdi>) الخاصة به."
+          },
+          {
+            id: "tf_6",
+            type: "single",
+            text: "6. DHCP messages are carried in UDP datagrams",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تُرسل رسائل بروتوكول <bdi>DHCP</bdi> عبر حزم <bdi>UDP</bdi> باستخدام المنفذين 67 و 68."
+          },
+          {
+            id: "tf_7",
+            type: "single",
+            text: "7. DHCP may provide the host with the name and IP address of DNS sever",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "من خيارات بروتوكول <bdi>DHCP</bdi> تزويد العميل بعنوان خادم أسماء النطاقات (<bdi>DNS Server IP</bdi>) واسم النطاق."
+          },
+          {
+            id: "tf_8",
+            type: "single",
+            text: "8. Trunk port is used to interconnect different VLANS",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "منفذ <bdi>Trunk</bdi> ينقل حركة بيانات عدة شبكات <bdi>VLANs</bdi> بين المبدلات، لكن التوجيه والربط بين شبكات مختلفة يتطلب راوتر أو مبدل طبقة ثالثة (<bdi>Inter-VLAN Routing</bdi>)."
+          },
+          {
+            id: "tf_9",
+            type: "single",
+            text: "9. A router with 3 interfaces could have up to 3 ARP tables",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "يمتلك الراوتر جدول <bdi>ARP</bdi> مركزياً واحداً لنظام التشغيل يجمع عناوين كافة الواجهات."
+          },
+          {
+            id: "tf_10",
+            type: "single",
+            text: "10. The maximum size of Ethernet frame is 1500 Bytes",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الـ <bdi>1500 Bytes</bdi> هي سعة حمولة البيانات القصوى (<bdi>MTU</bdi>)، بينما الحجم الأقصى للإطار شاملاً الترويسة والذيل هو <bdi>1518 Bytes</bdi>."
+          },
+          {
+            id: "tf_11",
+            type: "single",
+            text: "11. Once an entry is placed in an ARP table of a host it can be used as long as the host is up",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "مداخل جدول <bdi>ARP</bdi> مؤقتة وتُحذف بعد انقضاء زمن البقاء (<bdi>Timeout / TTL</bdi>) لضمان التحديث المستمر."
+          },
+          {
+            id: "tf_12",
+            type: "single",
+            text: "12. In CSMA/CD, if a collision happens, a host must wait for t=K*256 bit times (K=random number)",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "في معيار الإيثرنت (<bdi>CSMA/CD</bdi>)، فترة الشريحة هي 512 بت؛ فينتظر المضيف زمناً قدره <bdi>t = K × 512 bit times</bdi>."
+          },
+          {
+            id: "tf_13",
+            type: "single",
+            text: "13. The VLAN tag carries the port ID connected to the source Host",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "تحمل علامة <bdi>802.1Q</bdi> رقم الشبكة الافتراضية (<bdi>VLAN ID</bdi>) وأولويات الخدمة، ولا علاقة لها برقم منفذ الجهاز المصدر."
+          },
+          {
+            id: "tf_14",
+            type: "single",
+            text: "14. IPV6 packet cannot have more than one header",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "يدعم بروتوكول <bdi>IPv6</bdi> ترويسات التوسعة المتعددة (<bdi>Extension Headers</bdi>) المتتابعة بين الترويسة الثابتة وحمولة البيانات."
+          },
+          {
+            id: "tf_15",
+            type: "single",
+            text: "15. In RIP, each node sends its own distance vector to all nodes in the network every 30 secs",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "يرسل بروتوكول <bdi>RIP</bdi> تحديثاته إلى الراوترات المجاورة المباشرة فقط (<bdi>Neighbors</bdi>) وليس إلى كافة عقد الشبكة."
+          },
+          {
+            id: "tf_16",
+            type: "single",
+            text: "16. The MAC address (1A-2F-BB-76-M9-AD) is a valid Ethernet address",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "العنوان غير صالح؛ لأن الحرف <bdi>'M'</bdi> ليس من ضمن الرموز الست عشرية الصحيحة (<bdi>0-9, A-F</bdi>)."
+          },
+          {
+            id: "tf_17",
+            type: "single",
+            text: "17. Self-learning switches will never broadcast a frame having a valid MAC address",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "إذا كان ماك الوجهة غير مسجل في جدول المبدل بعد (<bdi>Unknown Unicast</bdi>)، يقوم المبدل ببث الإطار عبر كافة المنافذ للبحث عنه."
+          },
+          {
+            id: "tf_18",
+            type: "single",
+            text: "18. 802.1Q protocol should not adds/removed additional header fields for frames forwarded between trunk ports",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "يضيف بروتوكول <bdi>802.1Q</bdi> وسماً بطول 4 بايت عند إرسال الإطار عبر روابط <bdi>Trunk</bdi> ويزيله عند التسليم لمنافذ الوصول."
+          },
+          {
+            id: "tf_19",
+            type: "single",
+            text: "19. In MPLS datagram the IP address is removed from the IP datagram",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "تبقى ترويسة <bdi>IP</bdi> وعناوينها كما هي دون مساس؛ ويتم فقط إدراج ملصق <bdi>MPLS</bdi> كترويسة إضافية."
+          },
+          {
+            id: "tf_20",
+            type: "single",
+            text: "20. Out-of-order segments are well handled by TCP standard",
+            img: "",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "معيار وثيقة <bdi>RFC</bdi> لبروتوكول <bdi>TCP</bdi> لا يحدد آلية موحدة إلزامية لمعالجة الحزم غير المرتبة، بل يترك الأمر لخيار المطور."
+          }
+        ]
+      },
+      {
+        title: "Part 2: [6 points] [CLO7: ALOHA Protocol]",
+        context: "Suppose four active nodes—nodes A, B, C and D—are competing for access to a channel using slotted ALOHA. Assume each node has an infinite number of packets to send. Each node attempts to transmit in each slot with probability p=0.5. The first slot is numbered Slot 1, the second slot is numbered Slot 2, and so on.",
+        subQuestions: [
+          {
+            id: "p2_qa",
+            type: "input",
+            text: "a. What is the probability that some node (either A, B, C or D) succeeds in Slot 3? (1 point)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.25) < 0.01 || Math.abs(num - 25) < 1;
+            },
+            dispAnswer: "0.25 (or 25%)",
+            exp: "احتمال نجاح إحدى العقد الأربع: <bdi>4 × p × (1-p)^3 = 4 × 0.5 × (0.5)^3 = 4 × 0.0625 = 0.25</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "p2_qb",
+            type: "input",
+            text: "b. What is the efficiency of this four-node system? (1 point)",
+            img: "",
+            unit: "%",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 25) < 1 || Math.abs(num - 0.25) < 0.02;
+            },
+            dispAnswer: "25% (or 0.25)",
+            exp: "كفاءة النظام هي احتمال حدوث إرسال ناجح في أي شريحة زمنية وتساوي <bdi>25%</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "p2_qc",
+            type: "input",
+            text: "c. What is the probability that the first success occurs in Slot 3? (2 point)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.140625) < 0.005 || Math.abs(num - 0.141) < 0.005;
+            },
+            dispAnswer: "0.140625",
+            exp: "احتمال الفشل في أول شريحتين ثم النجاح في الثالثة: <bdi>(1 - 0.25)^2 × 0.25 = (0.75)^2 × 0.25 = 0.5625 × 0.25 = 0.140625</bdi>.",
+            placeholder: ""
+          },
+          {
+            id: "p2_qd",
+            type: "input",
+            text: "d. What is the probability that node A succeeds for the first time in Slot 3? (2 point)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.0549) < 0.005 || Math.abs(num - 0.05493) < 0.005;
+            },
+            dispAnswer: "≈ 0.05493 (225 / 4096)",
+            exp: "احتمال نجاح العقدة <bdi>A</bdi> في شريحة: <bdi>0.5 × (0.5)^3 = 0.0625 = 1/16</bdi>. احتمال نجاحها للمرة الأولى في الشريحة الثالثة: <bdi>(1 - 1/16)^2 × (1/16) = (15/16)^2 × (1/16) ≈ 0.05493</bdi>.",
+            placeholder: ""
+          }
+        ]
+      },
+      {
+        title: "Part 4: [8 points, 0.5 each value] [CLO8: IP addressing & Subnetting]",
+        context: "Company has a block of IP addresses that starts at 187.88.99.64/26 and four equal-size subnets. Complete the table by assigning address and subnet IDs to each subnet. (7 points)",
+        subQuestions: [
+          {
+            id: "p4_sub_table",
+            type: "table_p4_subnet",
+            text: "Complete the table by assigning address and subnet IDs to each subnet:",
+            img: "",
+            dispAnswer: `sub1: Subnet ID = 187.88.99.64/28 | Starting = 187.88.99.65 | Ending = 187.88.99.78 | Broadcast = 187.88.99.79
+sub2: Subnet ID = 187.88.99.80/28 | Starting = 187.88.99.81 | Ending = 187.88.99.94 | Broadcast = 187.88.99.95
+sub3: Subnet ID = 187.88.99.96/28 | Starting = 187.88.99.97 | Ending = 187.88.99.110 | Broadcast = 187.88.99.111
+sub4: Subnet ID = 187.88.99.112/28 | Starting = 187.88.99.113 | Ending = 187.88.99.126 | Broadcast = 187.88.99.127`,
+            exp: "تقسيم الكتلة الأصلية /26 (64 عنواناً) إلى 4 شبكات فرعية متساوية يعطي 16 عنواناً لكل شبكة بقناع <bdi>/28</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 5: [3 points; 1 pt for a value] [CLO7: Routing Algorithms]",
+        context: "Given a network that consists of five routers (u, v, x, y, z). Router x has three neighbors u, y and z, to which the link costs are as follows: c(x,u)=4, c(x,y)=4 and c(x,z)=6. Use the Distance Vector routing algorithm to fill the missing entries in the distance vector table shown below for router x.",
+        subQuestions: [
+          {
+            id: "p5_dv_table",
+            type: "table_p5_dv",
+            text: "Fill the missing entries in the Distance Vector table for router x:",
+            img: "",
+            dispAnswer: "Router X: cost to u = 4 | cost to y = 4 | cost to z = 6 | cost to v = 7",
+            exp: "تطبيق معادلة بيلمان فورد للراوتر x:\n• إلى u مباشرة: <bdi>c(x,u) = 4</bdi>.\n• إلى y مباشرة: <bdi>c(x,y) = 4</bdi>.\n• إلى z مباشرة: <bdi>c(x,z) = 6</bdi>.\n• إلى v: <bdi>min(c(x,u)+8, c(x,y)+8, c(x,z)+1) = min(12, 12, 6+1) = 7</bdi> (عبر z)."
+          }
+        ]
+      },
+      {
+        title: "Part 6: [5 points, 0.5 each value] [CLO9: Routing Algorithms]",
+        context: `Use the network shown in the figure to complete the table for the shortest path from router z to all nodes using Dijkstra's algorithm.
+<div class="svg-container ltr-content">
+  <svg width="450" height="240" viewBox="0 0 450 240" style="max-width:100%; height:auto;">
+    <line x1="220" y1="35" x2="220" y2="120" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="220" y1="35" x2="250" y2="85" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="220" y1="120" x2="250" y2="85" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="250" y1="85" x2="310" y2="105" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="250" y1="85" x2="370" y2="85" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="220" y1="120" x2="310" y2="105" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="220" y1="120" x2="290" y2="175" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="310" y1="105" x2="290" y2="175" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="310" y1="105" x2="370" y2="140" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="370" y1="85" x2="370" y2="140" stroke="#8e8e93" stroke-width="2"/>
+    <line x1="290" y1="175" x2="370" y2="140" stroke="#8e8e93" stroke-width="2"/>
+
+    <text x="210" y="80" fill="#5ac8fa" font-size="11" font-weight="bold">8</text>
+    <text x="240" y="55" fill="#5ac8fa" font-size="11" font-weight="bold">12</text>
+    <text x="230" y="110" fill="#5ac8fa" font-size="11" font-weight="bold">6</text>
+    <text x="280" y="90" fill="#5ac8fa" font-size="11" font-weight="bold">3</text>
+    <text x="310" y="80" fill="#5ac8fa" font-size="11" font-weight="bold">7</text>
+    <text x="265" y="120" fill="#5ac8fa" font-size="11" font-weight="bold">3</text>
+    <text x="245" y="155" fill="#5ac8fa" font-size="11" font-weight="bold">6</text>
+    <text x="290" y="145" fill="#5ac8fa" font-size="11" font-weight="bold">4</text>
+    <text x="345" y="115" fill="#5ac8fa" font-size="11" font-weight="bold">4</text>
+    <text x="378" y="115" fill="#5ac8fa" font-size="11" font-weight="bold">2</text>
+    <text x="330" y="170" fill="#5ac8fa" font-size="11" font-weight="bold">3</text>
+
+    <circle cx="220" cy="35" r="14" fill="#1c1c1e" stroke="#30d158" stroke-width="2"/>
+    <text x="220" y="39" fill="#30d158" font-size="11" font-weight="bold" text-anchor="middle">z</text>
+
+    <circle cx="220" cy="120" r="14" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="220" y="124" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">x</text>
+
+    <circle cx="250" cy="85" r="14" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="250" y="89" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">y</text>
+
+    <circle cx="310" cy="105" r="14" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="310" y="109" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">v</text>
+
+    <circle cx="290" cy="175" r="14" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="290" y="179" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">w</text>
+
+    <circle cx="370" cy="85" r="14" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="370" y="89" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">t</text>
+
+    <circle cx="370" cy="140" r="14" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
+    <text x="370" y="144" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">u</text>
+  </svg>
+</div>`,
+        subQuestions: [
+          {
+            id: "p6_dijkstra_table",
+            type: "table_p6_dijkstra",
+            text: "Complete Dijkstra's algorithm table for the shortest path from router z to all nodes:",
+            img: "",
+            dispAnswer: `Step 0 (Printed): N'=z | D(x)=8,z | D(u)=inf | D(v)=inf | D(w)=inf | D(y)=12,z | D(t)=inf
+Step 1 (Printed): N'=zx | D(u)=inf | D(v)=11,x | D(w)=14,x | D(y)=12,z | D(t)=inf
+Step 2 (Printed): N'=zxv | D(u)=14,v | D(w)=14,x | D(y)=12,z | D(t)=15,v
+Step 3 (Solve): N'=zxvy | D(u)=14,v | D(w)=14,x | D(t)=15,v
+Step 4 (Solve): N'=zxvyu | D(w)=14,x | D(t)=15,v
+Step 5 (Solve): N'=zxvyuw | D(t)=15,v
+Step 6 (Solve): N'=zxvyuwt`,
+            exp: "خطوات خوارزمية ديكسترا من الراوتر z بإضافة العقدة الأقرب في كل خطوة ومطابقة تماماً لورقة الامتحان المطبوعة."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const unitHtml = sub.unit ? `<span class="unit-label">${sub.unit}</span>` : '';
+          const hasImage = sub.img && sub.img.trim() !== "";
+
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Original Question ${sub.id}" 
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${opt === "True" ? "T" : (opt === "False" ? "F" : letters[i])}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p4_subnet") {
+            let rowsHtml = [1, 2, 3, 4].map(s => `
+              <tr>
+                <td style="font-weight:bold; color:var(--apple-blue);">sub${s}</td>
+                <td><input type="text" class="table-input" id="p4_sub_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_start_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_end_${s}" placeholder=""></td>
+                <td><input type="text" class="table-input" id="p4_bcast_${s}" placeholder=""></td>
+              </tr>
+            `).join('');
+
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Subnet</th><th>Subnet ID</th><th>Starting usable address</th><th>Ending usable Address</th><th>Broadcast address</th></tr>
+                  </thead>
+                  <tbody>${rowsHtml}</tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP4SubnetTable()">تحقق من التقسيم</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p5_dv") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:550px;">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Router</th><th>cost to u</th><th>cost to y</th><th>cost to z</th><th>cost to v</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:bold; color:var(--apple-blue);">X</td>
+                      <td><input type="text" class="table-input" id="p5_u" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_y" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_z" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="p5_v" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">u</td><td>0</td><td>7</td><td>8</td><td>8</td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">y</td><td>6</td><td>0</td><td>5</td><td>8</td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">z</td><td>5</td><td>1</td><td>0</td><td>1</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP5DvTable()">تحقق من الجدول</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_p6_dijkstra") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>step</th><th>N'</th><th>D(x), p(x)</th><th>D(u), p(u)</th><th>D(v), p(v)</th><th>D(w), p(w)</th><th>D(y), p(y)</th><th>D(t), p(t)</th></tr>
+                  </thead>
+                  <tbody>
+                    <!-- Step 0 (مطبوع مسبقاً بالامتحان) -->
+                    <tr>
+                      <td style="font-weight:bold;">0</td>
+                      <td style="color:#79c0ff; font-weight:bold;">z</td>
+                      <td style="color:#79c0ff;">8,z</td>
+                      <td style="color:#8e8e93;">&infin;</td>
+                      <td style="color:#8e8e93;">&infin;</td>
+                      <td style="color:#8e8e93;">&infin;</td>
+                      <td style="color:#79c0ff;">12,z</td>
+                      <td style="color:#8e8e93;">&infin;</td>
+                    </tr>
+                    <!-- Step 1 (مطبوع مسبقاً بالامتحان) -->
+                    <tr>
+                      <td style="font-weight:bold;">1</td>
+                      <td style="color:#79c0ff; font-weight:bold;">zx</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">&infin;</td>
+                      <td style="color:#79c0ff;">11,x</td>
+                      <td style="color:#79c0ff;">14,x</td>
+                      <td style="color:#79c0ff;">12,z</td>
+                      <td style="color:#8e8e93;">&infin;</td>
+                    </tr>
+                    <!-- Step 2 (مطبوع مسبقاً بالامتحان) -->
+                    <tr>
+                      <td style="font-weight:bold;">2</td>
+                      <td style="color:#79c0ff; font-weight:bold;">zxv</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#79c0ff;">14,v</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#79c0ff;">14,x</td>
+                      <td style="color:#79c0ff;">12,z</td>
+                      <td style="color:#79c0ff;">15,v</td>
+                    </tr>
+                    <!-- Steps 3 إلى 6 (المطلوبة من الطالب للحل) -->
+                    <tr>
+                      <td style="font-weight:bold;">3</td>
+                      <td><input type="text" class="table-input" id="p6_n_3" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td><input type="text" class="table-input" id="p6_u_3" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td><input type="text" class="table-input" id="p6_w_3" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td><input type="text" class="table-input" id="p6_t_3" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">4</td>
+                      <td><input type="text" class="table-input" id="p6_n_4" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td><input type="text" class="table-input" id="p6_w_4" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td><input type="text" class="table-input" id="p6_t_4" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">5</td>
+                      <td><input type="text" class="table-input" id="p6_n_5" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td><input type="text" class="table-input" id="p6_t_5" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">6</td>
+                      <td><input type="text" class="table-input" id="p6_n_6" placeholder=""></td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                      <td style="color:#8e8e93;">-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkP6DijkstraTable()">تحقق من خطوات ديكسترا</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else {
+            interactionHtml = `
+              <div class="answer-input-row ltr-content">
+                <input type="text" class="text-input-field" id="input-${sub.id}" placeholder="${sub.placeholder || 'Enter answer...'}" onkeydown="if(event.key==='Enter') checkInputAnswer('${sub.id}')">
+                ${unitHtml}
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkInputAnswer('${sub.id}')">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right; white-space: pre-wrap;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkInputAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const inputEl = document.getElementById(`input-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (!sub || !inputEl) return;
+
+      const userVal = inputEl.value.trim();
+      if (!userVal) {
+        alert("يرجى إدخال إجابة أولاً!");
+        return;
+      }
+
+      const isCorrect = sub.validate(userVal);
+      inputEl.disabled = true;
+
+      if (isCorrect) {
+        inputEl.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkP4SubnetTable() {
+      const subId = "p4_sub_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const answers = {
+        1: { sub: "187.88.99.64/28", start: "187.88.99.65", end: "187.88.99.78", bcast: "187.88.99.79" },
+        2: { sub: "187.88.99.80/28", start: "187.88.99.81", end: "187.88.99.94", bcast: "187.88.99.95" },
+        3: { sub: "187.88.99.96/28", start: "187.88.99.97", end: "187.88.99.110", bcast: "187.88.99.111" },
+        4: { sub: "187.88.99.112/28", start: "187.88.99.113", end: "187.88.99.126", bcast: "187.88.99.127" }
+      };
+
+      let allCorrect = true;
+      [1, 2, 3, 4].forEach(s => {
+        ["sub", "start", "end", "bcast"].forEach(col => {
+          const el = document.getElementById(`p4_${col}_${s}`);
+          if (!el) return;
+          el.disabled = true;
+          if (el.value.trim().toLowerCase() === answers[s][col].toLowerCase()) {
+            el.className = "table-input correct";
+          } else {
+            el.className = "table-input wrong";
+            allCorrect = false;
+          }
+        });
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkP5DvTable() {
+      const subId = "p5_dv_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const targets = { "p5_u": "4", "p5_y": "4", "p5_z": "6", "p5_v": "7" };
+      let allCorrect = true;
+
+      Object.keys(targets).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.disabled = true;
+        if (el.value.trim() === targets[id]) {
+          el.className = "table-input correct";
+        } else {
+          el.className = "table-input wrong";
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkP6DijkstraTable() {
+      const subId = "p6_dijkstra_table";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = (val) => val.trim().toLowerCase().replace(/\s/g, '');
+
+      let allCorrect = true;
+
+      const checkField = (id, validArray) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.disabled = true;
+        const v = clean(el.value);
+        if (validArray.some(target => v === clean(target))) {
+          el.className = "table-input correct";
+        } else {
+          el.className = "table-input wrong";
+          allCorrect = false;
+        }
+      };
+
+      // Step 3
+      checkField("p6_n_3", ["zxvy", "z,x,v,y", "zxv,y"]);
+      checkField("p6_u_3", ["14,v", "14, v"]);
+      checkField("p6_w_3", ["14,x", "14, x"]);
+      checkField("p6_t_3", ["15,v", "15, v"]);
+
+      // Step 4
+      checkField("p6_n_4", ["zxvyu", "z,x,v,y,u", "zxvyw", "z,x,v,y,w"]);
+      checkField("p6_w_4", ["14,x", "14, x", "14,u", "14, u"]);
+      checkField("p6_t_4", ["15,v", "15, v"]);
+
+      // Step 5
+      checkField("p6_n_5", ["zxvyuw", "z,x,v,y,u,w", "zxvywu"]);
+      checkField("p6_t_5", ["15,v", "15, v"]);
+
+      // Step 6
+      checkField("p6_n_6", ["zxvyuwt", "z,x,v,y,u,w,t", "zxvywut"]);
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      if (inputEl) {
+        inputEl.disabled = false;
+        inputEl.value = '';
+        inputEl.className = 'text-input-field';
+        inputEl.focus();
+      }
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.type === "single") {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const tableReset = (prefix, keys) => {
+        keys.forEach(k => {
+          const el = document.getElementById(`${prefix}${k}`);
+          if (el) {
+            el.disabled = false;
+            el.value = '';
+            el.className = 'table-input';
+          }
+        });
+      };
+
+      if (subId === "p4_sub_table") {
+        [1, 2, 3, 4].forEach(s => {
+          tableReset("p4_", [`sub_${s}`, `start_${s}`, `end_${s}`, `bcast_${s}`]);
+        });
+      }
+
+      if (subId === "p5_dv_table") {
+        tableReset("p5_", ["u", "y", "z", "v"]);
+      }
+
+      if (subId === "p6_dijkstra_table") {
+        tableReset("p6_", [
+          "n_3", "u_3", "w_3", "t_3",
+          "n_4", "w_4", "t_4",
+          "n_5", "t_5",
+          "n_6"
+        ]);
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+      if (imgBox) imgBox.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

@@ -332,9 +332,6 @@
     <div id="quiz-list"></div>
 
     <div class="bottom-nav-bar">
-      <a class="btn-bottom-action" href="../index.html#/s/unix">
-        <span>‹</span> الرجوع لقائمة المواد
-      </a>
       <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
         <span>📁</span> ملف الأسئلة الأصلي ↗
       </a>
@@ -408,6 +405,16 @@
   <script>
     const originalDriveLink = "https://drive.google.com/file/d/1LqfkK8qxySVqe4_GhrH-e0gsXsbM-sTI/view";
 
+    // دالة حماية النصوص لمنع كسر عناصر الـ HTML
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     const examSections = [
       {
         title: "Final Exam 2021 (Second Semester) — NES 202",
@@ -420,7 +427,7 @@
             opts: ["True", "False"],
             ans: 1, // False
             dispAnswer: "False",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: False[cite: 28].",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: False.",
             img: ""
           },
           {
@@ -438,7 +445,7 @@ To kill the above job, What should we type on terminal?`,
             ],
             ans: 1, // fg %1 then [Ctrl-c]
             dispAnswer: "fg %1 then [Ctrl-c]",
-            exp: "لإنهاء مهمة تعمل في الخلفية (Background) يجب أولاً إعادتها للواجهة (Foreground) عبر fg %1 ثم إرسال إشارة المقاطعة [Ctrl-c][cite: 28].",
+            exp: "لإنهاء مهمة تعمل في الخلفية (Background) يجب أولاً إعادتها للواجهة (Foreground) عبر fg %1 ثم إرسال إشارة المقاطعة [Ctrl-c].",
             img: ""
           },
           {
@@ -448,7 +455,7 @@ To kill the above job, What should we type on terminal?`,
             opts: ["True", "False"],
             ans: 0, // True
             dispAnswer: "True",
-            exp: "الخيار المحدد في ورقة الامتحان: True[cite: 28]. يبحث find في شجرة المجلد كاملة بما فيها المجلدات المخفية.",
+            exp: "الخيار المحدد في ورقة الامتحان: True. يبحث find في شجرة المجلد كاملة بما فيها المجلدات المخفية.",
             img: ""
           },
           {
@@ -458,7 +465,7 @@ To kill the above job, What should we type on terminal?`,
             opts: ["True", "False"],
             ans: 1, // False
             dispAnswer: "False",
-            exp: "الخيار المحدد في ورقة الامتحان: False[cite: 28]. يمكن للأب أن يموت قبل الابن وتصبح العملية يتيمة (Orphan process) تتبناها عملية init.",
+            exp: "الخيار المحدد في ورقة الامتحان: False. يمكن للأب أن يموت قبل الابن وتصبح العملية يتيمة (Orphan process) تتبناها عملية init.",
             img: ""
           },
           {
@@ -473,7 +480,7 @@ To kill the above job, What should we type on terminal?`,
             ],
             ans: 2, // the file chapter0[1-3] only
             dispAnswer: "the file chapter0[1-3] only",
-            exp: "الخيار المحدد في المربع الأحمر في ورقة الامتحان: the file chapter0[1-3] only[cite: 28].",
+            exp: "الخيار المحدد في المربع الأحمر في ورقة الامتحان: the file chapter0[1-3] only.",
             img: ""
           },
           {
@@ -494,21 +501,21 @@ dialout:x:18:root,henry</pre>`,
               { placeholder: "[ Command 4 ]" }
             ],
             codeSuffix: `
-bin`,
+ bin`,
             pool: [
               "tail -1 group1",
-              "cut -d\",\" -f2",
               "cut -d\":\" -f1 group1",
               "grep bin group1",
               "head -2",
               "head -2 group1",
               "tail -1",
               "cut -d\":\" -f2",
-              "grep root group1"
+              "grep root group1",
+              "cut -d\"a\" -f2"
             ],
-            correctSequence: ["grep bin group1", "cut -d\",\" -f2", "tail -1", "head -2"],
-            dispAnswer: "grep bin group1 | cut -d\",\" -f2 | tail -1 | head -2",
-            exp: "مطابق لأسهم الحل وحل الصفحة 9 في الامتحان[cite: 28]: grep يستخرج السطر المحتوي على bin، ثم cut يقتطع الحقل الثاني المعتمد على الفاصلة `,` وهو bin، ثم tail و head يمرران السطر.",
+            correctSequence: ["grep bin group1", "cut -d\":\" -f2", "tail -1", "head -2"],
+            dispAnswer: "grep bin group1 | cut -d\":\" -f2 | tail -1 | head -2",
+            exp: "مطابق لأسهم الحل وحل الصفحة 9 في الامتحان: grep يستخرج السطر المحتوي على bin، ثم cut يقتطع الحقل الثاني المعتمد على النقطتين الرأسيتين وهو bin، ثم tail و head يمرران السطر.",
             img: ""
           },
           {
@@ -518,7 +525,7 @@ bin`,
             opts: ["True", "False"],
             ans: 0, // True
             dispAnswer: "True",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: True[cite: 28]. الدخول إلى المجلد عبر cd لا يغير وقت الوصول atime له.",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: True. الدخول إلى المجلد عبر cd لا يغير وقت الوصول atime له.",
             img: ""
           },
           {
@@ -533,7 +540,7 @@ bin`,
             ],
             ans: 2, // rm ?*.*[!1238]
             dispAnswer: "rm ?*.*[!1238]",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: rm ?*.*[!1238][cite: 28]. الرمز `?*` يضمن وجود حرف على الأقل قبل النقطة، و `[!1238]` ينفي وجود هذه الأرقام في الحرف الأخير.",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: rm ?*.*[!1238]. الرمز `?*` يضمن وجود حرف على الأقل قبل النقطة، و `[!1238]` ينفي وجود هذه الأرقام في الحرف الأخير.",
             img: ""
           },
           {
@@ -548,7 +555,7 @@ bin`,
             ],
             ans: 2, // cat, wc, gzip
             dispAnswer: "cat, wc, gzip",
-            exp: "الخيار المحدد في ورقة الامتحان: cat, wc, gzip[cite: 28]. هذه الأوامر تقبل قراءة البيانات من الإدخال القياسي (Standard Input/stdin).",
+            exp: "الخيار المحدد في ورقة الامتحان: cat, wc, gzip. هذه الأوامر تقبل قراءة البيانات من الإدخال القياسي (Standard Input/stdin).",
             img: ""
           },
           {
@@ -626,7 +633,7 @@ At least one input was null`,
               "./script1.sh"
             ],
             dispAnswer: "1) ./script1.sh root script1\n2) ./script1.sh root group1\n3) ./script1.sh root\n4) ./script1.sh",
-            exp: "مطابق لأسهم الحل المعتمدة في ورقة الامتحان[cite: 28].",
+            exp: "مطابق لأسهم الحل المعتمدة في ورقة الامتحان.",
             img: ""
           },
           {
@@ -641,7 +648,7 @@ At least one input was null`,
             ],
             ans: 0, // cp note[0-1][0-9] ..
             dispAnswer: "cp note[0-1][0-9] ..",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: cp note[0-1][0-9] ..[cite: 28]. يطابق الخانة الأولى من 0 إلى 1 والخانة الثانية من 0 إلى 9.",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: cp note[0-1][0-9] .. يطابق الخانة الأولى من 0 إلى 1 والخانة الثانية من 0 إلى 9.",
             img: ""
           },
           {
@@ -661,7 +668,7 @@ At least one input was null`,
               }
             ],
             dispAnswer: "1) $?, 2) 0",
-            exp: "مطابق للأسهم والكتابة الحمراء المعتمدة في الامتحان[cite: 28]: الأولى تتبع التنصيص المفرد فتطبع '$?' نصاً، والثانية تشير إلى '0'.",
+            exp: "مطابق للأسهم والكتابة الحمراء المعتمدة في الامتحان: الأولى تتبع التنصيص المفرد فتطبع '$?' نصاً، والثانية تشير إلى '0'.",
             img: ""
           },
           {
@@ -693,7 +700,7 @@ which of the following represents COM1?`,
             ],
             ans: 0, // sort -t: -k 3 -n group1
             dispAnswer: "sort -t: -k 3 -n group1",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: sort -t: -k 3 -n group1[cite: 28]. تم الترتيب عددياً حسب الحقل الثالث المفصول بالنقطتين.",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: sort -t: -k 3 -n group1. تم الترتيب عددياً حسب الحقل الثالث المفصول بالنقطتين.",
             img: ""
           },
           {
@@ -713,7 +720,7 @@ What is the output of executing the command line: <strong>ls *[!a-z][01]</strong
             ],
             ans: 0, // chapter01
             dispAnswer: "chapter01",
-            exp: "الملف chapter01 ينتهي بـ 01؛ حيث 0 يطابق `[!a-z]` و 1 يطابق `[01]`[cite: 28].",
+            exp: "الملف chapter01 ينتهي بـ 01؛ حيث 0 يطابق `[!a-z]` و 1 يطابق `[01]`.",
             img: ""
           },
           {
@@ -731,7 +738,7 @@ The permissions of file date.sh is:`,
             ],
             ans: 0, // -r--r--rw-
             dispAnswer: "-r--r--rw-",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: -r--r--rw-[cite: 28]. الأذونات الافتراضية 666، وبطرح umask 220 ينتج 446 أي -r--r--rw-.",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: -r--r--rw-. الأذونات الافتراضية 666، وبطرح umask 220 ينتج 446 أي -r--r--rw-.",
             img: ""
           },
           {
@@ -746,7 +753,7 @@ The permissions of file date.sh is:`,
             ],
             ans: 3, // fork, exec, wait
             dispAnswer: "fork, exec, wait",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: fork, exec, wait[cite: 28].",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: fork, exec, wait.",
             img: ""
           },
           {
@@ -783,7 +790,7 @@ The permissions of file date.sh is:`,
               }
             ],
             dispAnswer: "1) Process attributes are stored in the process table\n2) The first process\n3) A process can have multiple children",
-            exp: "مطابق تماماً للخيارات المحددة في الامتحان[cite: 28].",
+            exp: "مطابق تماماً للخيارات المحددة في الامتحان.",
             img: ""
           },
           {
@@ -886,7 +893,7 @@ arg_check.o: arg_check.c arg_check.h
               "-c rec_deposit.c"
             ],
             dispAnswer: "1) rec_deposit\n2) -o rec_deposit\n3) rec_deposit.o\n4) quit.h arg_check.h\n5) -c rec_deposit.c",
-            exp: "مطابق لأسهم الحل المعتمدة في ورقة الامتحان[cite: 28]: الهدف النهائي هو rec_deposit مع الخيار `-o rec_deposit`، واعتمادية rec_deposit.o تعتمد على rec_deposit.c و quit.h arg_check.h وتُترجم بـ `-c rec_deposit.c`.",
+            exp: "مطابق لأسهم الحل المعتمدة في ورقة الامتحان: الهدف النهائي هو rec_deposit مع الخيار `-o rec_deposit`، واعتمادية rec_deposit.o تعتمد على rec_deposit.c و quit.h arg_check.h وتُترجم بـ `-c rec_deposit.c`.",
             img: ""
           },
           {
@@ -901,7 +908,7 @@ arg_check.o: arg_check.c arg_check.h
             ],
             ans: 1, // concatenate and save...
             dispAnswer: "concatenate and save the content of files header.h, imp.c and main.c in the file project.c",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: concatenate and save the content of files header.h, imp.c and main.c in the file project.c[cite: 28].",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: concatenate and save the content of files header.h, imp.c and main.c in the file project.c.",
             img: ""
           },
           {
@@ -916,7 +923,7 @@ arg_check.o: arg_check.c arg_check.h
             ],
             ans: 0, // empty (no output)
             dispAnswer: "empty (no output)",
-            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: empty (no output)[cite: 28]. أمر cmp لا يطبع أي شيء عندما يكون الملفان متطابقين تماماً.",
+            exp: "الخيار المحدد بالمربع الأحمر في ورقة الامتحان: empty (no output). أمر cmp لا يطبع أي شيء عندما يكون الملفان متطابقين تماماً.",
             img: ""
           },
           {
@@ -926,7 +933,7 @@ arg_check.o: arg_check.c arg_check.h
             opts: ["True", "False"],
             ans: 1, // False
             dispAnswer: "False",
-            exp: "الخيار المحدد في ورقة الامتحان: False[cite: 28]. يمكن استخدام أمر mv لإعادة تسمية كل من الملفات العادية والمجلدات.",
+            exp: "الخيار المحدد في ورقة الامتحان: False. يمكن استخدام أمر mv لإعادة تسمية كل من الملفات العادية والمجلدات.",
             img: ""
           },
           {
@@ -962,7 +969,7 @@ student_list`,
             ],
             correctSequence: ["ls -t | head -1", "ls -rS | tail -1"],
             dispAnswer: "1) ls -t | head -1\n2) ls -rS | tail -1 (أو ls -S | tail -1)",
-            exp: "مطابق لورقة الامتحان[cite: 28]: files_list هو الأحدث تعديلاً (Apr 28)، و student_list هو الأصغر حجماً (18 بايت).",
+            exp: "مطابق لورقة الامتحان: files_list هو الأحدث تعديلاً (Apr 28)، و student_list هو الأصغر حجماً (18 بايت).",
             img: ""
           }
         ]
@@ -1092,8 +1099,8 @@ student_list`,
               <div class="dnd-options-pool ltr-content" id="pool-${sub.id}">
                 ${sub.pool.map((pItem, pIdx) => `
                   <div class="dnd-chip" id="chip-${sub.id}-${pIdx}" draggable="true" 
-                       ondragstart="dragChipStart(event, '${sub.id}', '${pItem}')" 
-                       onclick="chipClickInsert('${sub.id}', '${pItem}')">${pItem}</div>
+                       ondragstart="dragChipStart(event, '${sub.id}',${pIdx})" 
+                       onclick="chipClickInsert('${sub.id}', ${pIdx})">${escapeHtml(pItem)}</div>
                 `).join('')}
               </div>
               <div class="answer-input-row">
@@ -1110,7 +1117,7 @@ student_list`,
                 <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 6px;">${sp.label}</div>
                 <select class="sub-select" id="drop-${sub.id}-${sidx}">
                   <option value="">-- اختر الإجابة --</option>
-                  ${sp.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                  ${sp.options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('')}
                 </select>
               </div>
             `).join('');
@@ -1133,7 +1140,7 @@ student_list`,
               ${interactionHtml}
               <div class="solution-box" id="sol-${sub.id}">
                 <div><strong>الإجابة المعتمدة في الامتحان:</strong></div>
-                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace;">${escapeHtml(sub.dispAnswer)}</div>
                 <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">${sub.exp}</div>
               </div>
             </div>
@@ -1185,7 +1192,11 @@ student_list`,
 
     let activeDragData = null;
 
-    function dragChipStart(e, subId, itemValue) {
+    // تم التعديل: الاعتماد على pIdx لجلب القيمة من المصفوفة بأمان تام
+    function dragChipStart(e, subId, pIdx) {
+      const state = slotDndState[subId];
+      if (!state) return;
+      const itemValue = state.pool[pIdx];
       activeDragData = { subId, itemValue };
       e.dataTransfer.setData('text/plain', JSON.stringify(activeDragData));
     }
@@ -1204,10 +1215,12 @@ student_list`,
       activeDragData = null;
     }
 
-    function chipClickInsert(subId, itemValue) {
+    // تم التعديل: النقر يعتمد أيضاً على pIdx بدلاً من إرسال النص
+    function chipClickInsert(subId, pIdx) {
       const state = slotDndState[subId];
       if (!state || state.locked) return;
 
+      const itemValue = state.pool[pIdx];
       const emptySlotIdx = state.slotsValues.findIndex(v => v === null);
       if (emptySlotIdx !== -1) {
         placeItemInSlot(subId, emptySlotIdx, itemValue);
@@ -1269,8 +1282,8 @@ student_list`,
       if (poolEl) {
         poolEl.innerHTML = state.pool.map((pItem, pIdx) => `
           <div class="dnd-chip" id="chip-${subId}-${pIdx}" draggable="true" 
-               ondragstart="dragChipStart(event, '${subId}', '${pItem}')" 
-               onclick="chipClickInsert('${subId}', '${pItem}')">${pItem}</div>
+               ondragstart="dragChipStart(event, '${subId}', ${pIdx})" 
+               onclick="chipClickInsert('${subId}', ${pIdx})">${escapeHtml(pItem)}</div>
         `).join('');
       }
     }
