@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | المهارات الحياتية (Life Skills) - أسئلة الفاينل (Module 2 Lec 3+4)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ls">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">المهارات الحياتية (Life Skills)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Module 2 (Lectures 3 & 4) — أسئلة امتحان الفاينل (Problem-Solving & Decision-Making)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ls">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    const examSections = [
+      {
+        title: "Part 1: Lecture 3 - Problem Framing, Definition & Decision-Making (Questions 1 – 19)",
+        context: "Official questions on problem statements, framing boundaries, difference between problem-solving and decision-making, and core skills:",
+        subQuestions: [
+          {
+            id: "ls_m2_1",
+            type: "single",
+            text: "1. Problem statements about the problem frame are ______.",
+            opts: ["long and detailed", "with solutions", "concise and clear", "with secondary symptoms"],
+            ans: 2,
+            dispAnswer: "c) concise and clear",
+            exp: "العبارات التي تصف وتحدد إطار المشكلة يجب أن تتسم بالإيجاز والوضوح الشديدين[cite: 10]."
+          },
+          {
+            id: "ls_m2_2",
+            type: "single",
+            text: "2. Your problem statement should begin with one or two sentences describing ______.",
+            opts: [
+              "a vision of what is possible if the problem is solved",
+              "what the specific issues are",
+              "the primary symptoms of and evidence for the problem",
+              "None of the above"
+            ],
+            ans: 0,
+            dispAnswer: "a) a vision of what is possible if the problem is solved",
+            exp: "صياغة جملة المشكلة تبدأ بجملة أو جملتين ترسمان رؤية واضحة للنتائج والفرص الممكنة حال التمكن من حل المشكلة[cite: 10]."
+          },
+          {
+            id: "ls_m2_3",
+            type: "single",
+            text: "3. Writing your problem statement multiple times is expected ______.",
+            opts: [
+              "to start providing direct solutions",
+              "to capture changes in your understanding of the problem",
+              "to include generalized similar findings about the problem",
+              "to decide how to state your decisions"
+            ],
+            ans: 1,
+            dispAnswer: "b) to capture changes in your understanding of the problem",
+            exp: "إعادة كتابة صياغة المشكلة لعدة مرات يساعد في رصد وتضمين أي تطور أو تغير يطرأ على فهمك لأبعاد المشكلة[cite: 10]."
+          },
+          {
+            id: "ls_m2_4",
+            type: "single",
+            text: "4. Before you start solving anything, you need to be sure that you are working on the right problem. This means you are certain that you have ______ the problem correctly.",
+            opts: ["diagnosed", "solved", "framed", "excluded", "All of the above", "a & c"],
+            ans: 5,
+            dispAnswer: "f) a & c",
+            exp: "قبل الشروع في الحل، يجب التأكد من العمل على المشكلة الصحيحة عبر تشخيصها وتأطيرها بدقة (Diagnosed & Framed)[cite: 10]."
+          },
+          {
+            id: "ls_m2_5",
+            type: "single",
+            text: "5. A problem is defined as: 'a situation in which we are ______ to find ourselves and perceive it as harmful, in need of resolution or overcoming.'",
+            opts: ["willing", "unwilling", "pleased"],
+            ans: 1,
+            dispAnswer: "b) unwilling",
+            exp: "تُعرّف المشكلة بأنها وضع غير مرغوب فيه نجد أنفسنا بداخله وندركه كأمر ضار يحتاج إلى حل أو تجاوز[cite: 10]."
+          },
+          {
+            id: "ls_m2_6",
+            type: "single",
+            text: "6. Solving most problems requires some sort of ______. This means a method of proceeding from the beginning which may be systematic or may involve trial and error.",
+            opts: ["goal", "obstacle", "frame", "strategy"],
+            ans: 3,
+            dispAnswer: "d) strategy",
+            exp: "حل المشكلات يقتضي وجود استراتيجية (خطة عمل أو أسلوب تقدم) قد تكون منهجية منتظمة أو قائمة على التجربة والخطأ[cite: 10]."
+          },
+          {
+            id: "ls_m2_7",
+            type: "single",
+            text: "7. Learning problem-solving techniques is ______ for working professionals in any field.",
+            opts: ["a must", "not a must", "not necessary", "probably important"],
+            ans: 0,
+            dispAnswer: "a) a must",
+            exp: "تعلم مهارات وأساليب حل المشكلات أمر إلزامي وأساسي لا غنى عنه لأي ممارس ومهني في سوق العمل[cite: 10]."
+          },
+          {
+            id: "ls_m2_8",
+            type: "single",
+            text: "8. Which of the following is NOT of the core skills that the best problem solvers generally possess?",
+            opts: ["Creativity", "Teamwork", "Low emotional intelligence", "Logical thinking skills"],
+            ans: 2,
+            dispAnswer: "c) Low emotional intelligence",
+            exp: "انخفاض الذكاء العاطفي ليس من صفات المتميزين؛ بل يتطلب حل المشكلات ذكاءً عاطفياً عالياً وتفكيراً منطقياً وإبداعاً[cite: 10]."
+          },
+          {
+            id: "ls_m2_9",
+            type: "single",
+            text: "9. Problem-solving and decision-making are terms that are often used interchangeably. You cannot solve a problem without making a decision. The main difference is that the first is ______ and the second is ______.",
+            opts: ["a process / an action", "an action / a process"],
+            ans: 0,
+            dispAnswer: "a) a process / an action",
+            exp: "حل المشكلات مسار وعملية متكاملة (Process)، بينما اتخاذ القرار هو تصرف وإجراء فعلي محدد (Action)[cite: 10]."
+          },
+          {
+            id: "ls_m2_10",
+            type: "single",
+            text: "10. ______ is the process of choosing a solution based on your judgment, situation, facts, knowledge or a combination of available data.",
+            opts: ["Decision-making", "Problem-solving"],
+            ans: 0,
+            dispAnswer: "a) Decision-making",
+            exp: "اتخاذ القرار هو اختيار الحل الأنسب من بين البدائل استناداً إلى الحقائق والمعرفة المتاحة والتقدير الشخصي[cite: 10]."
+          },
+          {
+            id: "ls_m2_11",
+            type: "single",
+            text: "11. It is believed that how one diagnoses and frames a problem can determine how they then address it.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "طريقة تشخيصك وتأطيرك للمشكلة هي التي تحدد بشكل مباشر المسار الذي ستتبعه للتعامل معها ومعالجتها[cite: 10]."
+          },
+          {
+            id: "ls_m2_12",
+            type: "single",
+            text: "12. Framing a problem involves defining the problem and bounding it, then deciding what to include and exclude and how to proceed.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تأطير المشكلة يعني تحديد حدودها وأبعادها وما يجب تضمينه أو استبعاده لتركيز الجهود نحو الحل[cite: 10]."
+          },
+          {
+            id: "ls_m2_13",
+            type: "single",
+            text: "13. While problem framing is typically treated as something that happens at the beginning of a design project, it is important to remember that it is a process that continues until the design is finalized.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "التأطير ليس مجرد خطوة ابتدائية فحسب، بل هو عملية مستمرة تتطور وتتعدل حتى اكتمال المشروع والحل النهائي[cite: 10]."
+          },
+          {
+            id: "ls_m2_14",
+            type: "single",
+            text: "14. If we had not encountered obstacles on the way to achieving the given goal, there would be a problem that needs to be solved.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فإذا لم تكن هناك عقبات في طريق تحقيق الهدف، فلن توجد مشكلة أصلاً تتطلب الحل[cite: 10]."
+          },
+          {
+            id: "ls_m2_15",
+            type: "single",
+            text: "15. Problem-solving ability is the ability of a person to participate in intellectual processing in order to understand and solve problems in which a solution process is not immediately apparent.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "مهارة حل المشكلات هي قدرة فكرية لمعالجة الأمور المعقدة التي لا تظهر حلولها الفورية للعيان من النظرة الأولى[cite: 10]."
+          },
+          {
+            id: "ls_m2_16",
+            type: "single",
+            text: "16. Problem-solving is the process of finding solutions by using simple applications of previously learned procedures.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "حل المشكلات يتطلب تفكيراً نقدياً وإبداعاً وليس مجرد تطبيق روتيني آلي لإجراءات سابقة محفوظة[cite: 10]."
+          },
+          {
+            id: "ls_m2_17",
+            type: "single",
+            text: "17. Problem-solving skills help you determine the source of a problem and find an effective solutions.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تساعد هذه المهارات في كشف الأسباب الجذرية للمشكلة والوصول إلى حلول ناجحة وفعالة[cite: 10]."
+          },
+          {
+            id: "ls_m2_18",
+            type: "single",
+            text: "18. Addressing a group problem or systemic social problem requires you to work individually without other team members.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "المشكلات الاجتماعية أو المؤسسية المعقدة تتطلب عملاً جماعياً وتكاملاً بين أعضاء الفريق[cite: 10]."
+          },
+          {
+            id: "ls_m2_19",
+            type: "single",
+            text: "19. Both Problem-solving and decision-making are applicable to all careers and industries.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "حل المشكلات وصنع القرار مهارات أساسية قابلة للتطبيق في مختلف الوظائف والمجالات والصناعات[cite: 10]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Lecture 4 - Problem-Solving Models, Steps & Implementation (Questions 20 – 39)",
+        context: "Official questions on the Six-Step Model, generating/analyzing alternatives, implementation monitoring, and best practices:",
+        subQuestions: [
+          {
+            id: "ls_m2_20",
+            type: "single",
+            text: "20. One of the following is not one of the different models dealing with how to solve a problem:",
+            opts: [
+              "The Creative Problem-Solving Model - Mindtools",
+              "Analytical Problem-Solving Approach",
+              "The Fred Nickols' Four-Step Model",
+              "The Six-Step Model",
+              "The Ten-Step Model"
+            ],
+            ans: 4,
+            dispAnswer: "e) The Ten-Step Model",
+            exp: "نموذج الخطوات العشر (Ten-Step Model) ليس من النماذج العلمية المعتمدة في مادة المساق لحل المشكلات[cite: 10]."
+          },
+          {
+            id: "ls_m2_21",
+            type: "single",
+            text: "21. The first step of the Six-Step Model is:",
+            opts: [
+              "Problem Analysis",
+              "Problem Definition",
+              "Establishing Goals",
+              "Generating Possible Solutions",
+              "Implementation"
+            ],
+            ans: 1,
+            dispAnswer: "b) Problem Definition",
+            exp: "الخطوة الأولى والأساسية في نموذج الخطوات الست هي تحديد وتعريف المشكلة (Problem Definition) بدقة[cite: 10]."
+          },
+          {
+            id: "ls_m2_22",
+            type: "single",
+            text: "22. In defining a problem, define or state your issue in as specific terms as possible so it's easy to understand. To determine the needs of the issue, you might ask yourself the following except:",
+            opts: [
+              "What factors are contributing to this issue?",
+              "Who is the person involved in solving the issue?",
+              "When is this issue occurring?",
+              "Where is this issue taking place?"
+            ],
+            ans: 1,
+            dispAnswer: "b) Who is the person involved in solving the issue?",
+            exp: "السؤال عن الشخص الذي سيتولى الحل لا يرتبط بتشخيص وتحديد أصل المشكلة وظروف حدوثها[cite: 10]."
+          },
+          {
+            id: "ls_m2_23",
+            type: "single",
+            text: "23. There are different ways to define a problem through:",
+            opts: [
+              "interviewing",
+              "brainstorming",
+              "conducting questionnaires",
+              "All of the above",
+              "a & b"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "يمكن تحديد وحصر المشكلة من خلال المقابلات، وجلسات العصف الذهني، وتوزيع الاستبيانات الميدانية[cite: 10]."
+          },
+          {
+            id: "ls_m2_24",
+            type: "single",
+            text: "24. One useful question to help analyze the problem is:",
+            opts: [
+              "Who is solving this problem?",
+              "How is this problem benefiting other people?",
+              "Who else is developing problem?",
+              "How do other people deal with this problem?"
+            ],
+            ans: 3,
+            dispAnswer: "d) How do other people deal with this problem?",
+            exp: "الاستفسار عن تجارب الآخرين وكيفية تعاملهم مع مشكلات مماثلة يقدم رؤى تحليلية قيمة للمشكلة[cite: 10]."
+          },
+          {
+            id: "ls_m2_25",
+            type: "single",
+            text: "25. Within the stage of generating possible solutions, it can be very helpful to ______.",
+            opts: [
+              "ask what was done in similar problems",
+              "know how others handled the issue",
+              "ask others (friends, books, internet...)",
+              "write all ideas systematically",
+              "All of the above",
+              "b & c"
+            ],
+            ans: 4,
+            dispAnswer: "e) All of the above",
+            exp: "في مرحلة توليد الحلول: مراجعة تجارب مشابهة، واستشارة الخبراء، والبحث المكتبي والإنترنت، وتدوين كافة الأفكار[cite: 10]."
+          },
+          {
+            id: "ls_m2_26",
+            type: "single",
+            text: "26. When analyzing a solution, some considerations to keep in mind include:",
+            opts: [
+              "Is it irrelevant to the studied situation?",
+              "Is it realistic?",
+              "Is it manageable?",
+              "What are the good vs bad consequences?",
+              "All of the above",
+              "b & c"
+            ],
+            ans: 5,
+            dispAnswer: "f) b & c",
+            exp: "وفق مفتاح إجابات المساق؛ فإن واقعية الحل وقابليته للتنفيذ والسيطرة (Realistic & Manageable) هما المعياران الأبرز[cite: 10]."
+          },
+          {
+            id: "ls_m2_27",
+            type: "single",
+            text: "27. Of the advantages of the Six-Step Model is that it ______.",
+            opts: [
+              "ensures consistency, as everyone understands the approach to be used",
+              "boosts bias and preconceptions, leading to greater subjectivity",
+              "supports divisions and discourages collaborative working",
+              "provides unjustifiable solutions"
+            ],
+            ans: 0,
+            dispAnswer: "a) ensures consistency, as everyone understands the approach to be used",
+            exp: "ميزة نموذج الخطوات الست أنه يضمن التناسق والاتساق؛ حيث يتبع جميع أعضاء الفريق نهجاً موحداً وواضحاً[cite: 10]."
+          },
+          {
+            id: "ls_m2_28",
+            type: "single",
+            text: "28. One of the following is not a tip for improving your problem-solving approach:",
+            opts: [
+              "Clearly define the problem",
+              "Agree on a process",
+              "Acquire more technical knowledge",
+              "Don't use active listening"
+            ],
+            ans: 3,
+            dispAnswer: "d) Don't use active listening",
+            exp: "عدم الاستماع الفعال يفسد حل المشكلات؛ فالاستماع النشط من أهم ركائز تطوير المهارة[cite: 10]."
+          },
+          {
+            id: "ls_m2_29",
+            type: "single",
+            text: "29. One of the following is a tip for improving your problem-solving approach:",
+            opts: [
+              "Avoid opportunities to solve the problem in order not to be distracted",
+              "Do practices on problem-solving",
+              "Observe how others cause problems",
+              "Don't focus on the solutions"
+            ],
+            ans: 1,
+            dispAnswer: "b) Do practices on problem-solving",
+            exp: "التدريب العملي المستمر وممارسة تمارين التفكير المنطقي هما أفضل نصيحة لصقل مهارة حل المشكلات[cite: 10]."
+          },
+          {
+            id: "ls_m2_30",
+            type: "single",
+            text: "30. Once the problem is defined, you need to think about it from one perspective to insure and understand that you are working on one dimension of the problem.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ بل يجب فحص المشكلة من زوايا ورؤى متعددة لفهم كافة أبعادها[cite: 10]."
+          },
+          {
+            id: "ls_m2_31",
+            type: "single",
+            text: "31. Within the stage of analyzing your solutions, you need to examine each alternative and write down both the advantages and disadvantages to each.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "في مرحلة تحليل الحلول، يتعين تقييم كل بديل بدقة عبر إدراج نقاط القوة والضعف والمزايا والعيوب[cite: 10]."
+          },
+          {
+            id: "ls_m2_32",
+            type: "single",
+            text: "32. Implementing a chosen solution involves on-going monitoring of the effectiveness of the solution to make sure that it actually solved the problem.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تنفيذ الحل يتطلب متابعة ومراقبة مستمرة للنتائج لضمان زوال المشكلة وتحقق الهدف[cite: 10]."
+          },
+          {
+            id: "ls_m2_33",
+            type: "single",
+            text: "33. In the Six-Step Model, all six steps are not followed in order as a flexible cycle, beginning with identifying the Problem. Each step may be completed after or before moving on to the next step.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الخطوات تتبع تسلسلاً منطقياً مرتباً؛ فلا يمكن القفز للحل دون تعريف المشكلة وتحليلها أولاً[cite: 10]."
+          },
+          {
+            id: "ls_m2_34",
+            type: "single",
+            text: "34. An advantage of the Six-Step Model is that it eliminates the confusion caused when people use different problem-solving techniques on the same issue.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "توحيد النموذج يقضي على الارتباك الناتج عن تضارب أساليب الحل الفردية داخل الفريق[cite: 10]."
+          },
+          {
+            id: "ls_m2_35",
+            type: "single",
+            text: "35. If you find yourself getting overwhelmed and distracted during the problem-solving process, go back to step one and make sure you are approaching a singular problem.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "عند التشتت والإرهاق الذهني، يُنصح بالعودة للخطوة الأولى للتأكد من التركيز على مشكلة واحدة ومحددة[cite: 10]."
+          },
+          {
+            id: "ls_m2_36",
+            type: "single",
+            text: "36. Problem-solving requires you to take in a variety of inputs and opinions and carefully analyze them.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "يتطلب حل المشكلات الاستماع لمدخلات وآراء متباينة وتحليلها بعناية لاستنباط أفضل قرار[cite: 10]."
+          },
+          {
+            id: "ls_m2_37",
+            type: "single",
+            text: "37. You may have colleagues who are skilled problem solvers. Observing how those colleagues solve problems may leave you distracted and confused.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "مراقبة ومتابعة الزملاء البارعين في حل المشكلات هي فرصة ممتازة للتعلم واكتساب الخبرات[cite: 10]."
+          },
+          {
+            id: "ls_m2_38",
+            type: "single",
+            text: "38. If you don't have strong working technical knowledge in your industry, you can achieve more through additional coursework, training or practice.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "يمكن تعزيز المعرفة التقنية التخصصية من خلال التدريب الإضافي والدورات والممارسة المستمرة[cite: 10]."
+          },
+          {
+            id: "ls_m2_39",
+            type: "single",
+            text: "39. If you are solving a problem as part of a team, it's very important that each one chooses different rules and procedures before you start the problem-solving process.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "نجاح الفريق يقتضي الاتفاق الجماعي على قواعد ومنهجية موحدة قبل البدء بالعمل[cite: 10]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

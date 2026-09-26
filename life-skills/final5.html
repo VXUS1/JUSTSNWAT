@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | المهارات الحياتية (Life Skills) - أسئلة الفاينل (Module 6)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ls">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">المهارات الحياتية (Life Skills)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Module 6 — أسئلة امتحان الفاينل (Conflict Management & Resolution)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ls">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+    const examSections = [
+      {
+        title: "Part 1: Conflict Definitions, Synonyms & Academic Views (Questions 1 – 12)",
+        context: "Official questions covering definitions of conflict, goal incompatibility, synonyms, and disciplinary classifications (Psychology, Sociology, Political Science):",
+        subQuestions: [
+          {
+            id: "ls_m6_1",
+            type: "single",
+            text: "1. Conflict is an existing state of ______ between two or more people.",
+            opts: ["hostility", "compatibility", "dispute", "harmony", "All of the above", "a & c"],
+            ans: 5,
+            dispAnswer: "f) a & c",
+            exp: "الصراع هو حالة قائمة من العداوة (Hostility) والخلاف/النزاع (Dispute) بين طرفين أو أكثر[cite: 14]."
+          },
+          {
+            id: "ls_m6_2",
+            type: "single",
+            text: "2. Which of the following is not of the meanings of conflict?",
+            opts: [
+              "Two or more parties have an accord",
+              "Pursuit of incompatible goals",
+              "Collision course",
+              "Opposition to existing view, stand, or position."
+            ],
+            ans: 0,
+            dispAnswer: "a) Two or more parties have an accord",
+            exp: "الاتفاق والتوافق (Accord) يتناقض تماماً مع مفهوم الصراع والنزاع[cite: 14]."
+          },
+          {
+            id: "ls_m6_3",
+            type: "single",
+            text: "3. Conflict is said to exist when two or more groups engage in a struggle over values and claims to status, power and resources in which the aims of the opponents are to ______ the rivals.",
+            opts: ["neutralize", "injure", "eliminate", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "في الصراعات الجماعية، تتنوع أهداف الخصوم بين تحييد المنافس (Neutralize)، أو إلحاق الضرر به (Injure)، أو إقصائه واستبعاده (Eliminate)[cite: 14]."
+          },
+          {
+            id: "ls_m6_4",
+            type: "single",
+            text: "4. In politics, conflict is more ______ defined.",
+            opts: ["implicitly", "explicitly", "externally", "extrinsically"],
+            ans: 1,
+            dispAnswer: "b) explicitly",
+            exp: "يُعرّف الصراع في العلوم السياسية بصورة صريحة ومباشرة وواضحة (Explicitly defined)[cite: 14]."
+          },
+          {
+            id: "ls_m6_5",
+            type: "single",
+            text: "5. Conflict is a demonstration of cross-purposes of distinct or similar political groups which often ends in political violence, and political violence, when contextualized in the Weberian sense is an ______ weapon to ventilate anger.",
+            opts: ["unacceptable", "acceptable", "illogical", "illegal"],
+            ans: 1,
+            dispAnswer: "b) acceptable",
+            exp: "حسب المفهوم الفيبري (Weberian sense)، يُعتبر العنف السياسي وسيلة وأداة مقبولة في سياقها لتفريغ الغضب والتوتر[cite: 14]."
+          },
+          {
+            id: "ls_m6_6",
+            type: "single",
+            text: "6. Goal incompatibility implies opposing or ______ opposed motives or pursuits.",
+            opts: ["symmetrically", "geometrically", "incompletely", "diametrically"],
+            ans: 3,
+            dispAnswer: "d) diametrically",
+            exp: "تعارض الأهداف يعني وجود دوافع وأهداف متعارضة تماماً وبالكلية وبشكل قطري (Diametrically opposed)[cite: 14]."
+          },
+          {
+            id: "ls_m6_7",
+            type: "single",
+            text: "7. Conflict connotes different perceptions, which ______ result in hostility.",
+            opts: ["must normally", "should always", "may not necessarily", "necessarily"],
+            ans: 2,
+            dispAnswer: "c) may not necessarily",
+            exp: "الصراع يعبر عن اختلاف وجهات النظر والتصورات، وهذا الاختلاف ليس بالضرورة أن يؤدي دائماً إلى عداوة صريحة[cite: 14]."
+          },
+          {
+            id: "ls_m6_8",
+            type: "single",
+            text: "8. Which of the following is a synonym of conflict?",
+            opts: ["Accord", "Concord", "Discord", "Chord"],
+            ans: 2,
+            dispAnswer: "c) Discord",
+            exp: "كلمة Discord تعني الخلاف والنزاع والشقاق، وهي مرادف مباشر لكلمة Conflict[cite: 14]."
+          },
+          {
+            id: "ls_m6_9",
+            type: "single",
+            text: "9. Which of the following is not a synonym of conflict?",
+            opts: ["Combat", "Contest", "Contrast", "Contented"],
+            ans: 3,
+            dispAnswer: "d) Contented",
+            exp: "كلمة Contented تعني القناعة والرضا، ولا ترتبط نهائياً بمرادفات الصراع والنزاع[cite: 14]."
+          },
+          {
+            id: "ls_m6_10",
+            type: "single",
+            text: "10. Psychology as a discipline has espoused on ______ conflict.",
+            opts: ["intra-personal", "inter-personal", "intra-group", "inter-group"],
+            ans: 0,
+            dispAnswer: "a) intra-personal",
+            exp: "يركز علم النفس (Psychology) بالدرجة الأولى على الصراع الداخلي داخل الفرد نفسه (Intra-personal conflict)[cite: 14]."
+          },
+          {
+            id: "ls_m6_11",
+            type: "single",
+            text: "11. Sociology identifies ______ conflicts.",
+            opts: [
+              "inter-personal",
+              "intra-group",
+              "intra-unit",
+              "inter-group",
+              "All of the above",
+              "b & c"
+            ],
+            ans: 4,
+            dispAnswer: "e) All of the above",
+            exp: "علم الاجتماع يدرس ويحدد الصراعات الاجتماعية بكافة مستوياتها (بين الأفراد، داخل الجماعة، داخل الوحدة، وبين الجماعات)[cite: 14]."
+          },
+          {
+            id: "ls_m6_12",
+            type: "single",
+            text: "12. Political Science and History have identified ______ conflicts.",
+            opts: [
+              "inter-ethnic",
+              "intra-ethnic",
+              "inter-state",
+              "international.",
+              "All of the above",
+              "a & d",
+              "b & c"
+            ],
+            ans: 5,
+            dispAnswer: "f) a & d",
+            exp: "وفق مفتاح إجابات المساق المعتمد في الملف، تم تحديد الخيار (f: a & d) لتركيز العلوم السياسية والتاريخ على الصراعات العرقية والدولية[cite: 14]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Levels of Conflict - Intrapersonal, Interpersonal & Group/State (Questions 13 – 22)",
+        context: "Official questions covering internal collapse, micro interpersonal conflict, types of societal conflicts, and intra/inter-state factors:",
+        subQuestions: [
+          {
+            id: "ls_m6_13",
+            type: "single",
+            text: "13. Intra-personal conflict refers to a state of ______ in an individual shaped by the state of mind.",
+            opts: ["displosion", "eclosion", "implosion", "emulsion", "explosion"],
+            ans: 2,
+            dispAnswer: "c) implosion",
+            exp: "الصراع الداخلي يُعدّ حالة من 'الانفجار الداخلي' والانهيار نحو الداخل (Implosion) الناجم عن اضطراب الحالة النفسية[cite: 14]."
+          },
+          {
+            id: "ls_m6_14",
+            type: "single",
+            text: "14. Anger, depression, confusion, etc. are situations, that may dictate the state of collapsing violently inward (implosion), could in extreme cases lead to ______.",
+            opts: ["suicide", "aggression", "erratic behavior", "addiction", "All of the above"],
+            ans: 0,
+            dispAnswer: "a) suicide",
+            exp: "في الحالات القصوى والحرجة، قد يؤدي الانهيار النفسي الداخلي الناتج عن الاكتئاب والغضب الشديد إلى الانتحار (Suicide)[cite: 14]."
+          },
+          {
+            id: "ls_m6_15",
+            type: "single",
+            text: "15. Inter-personal conflict is what has been described as '______' in the micro sense.",
+            opts: ["man against man", "man against self", "man against society", "man against nature"],
+            ans: 0,
+            dispAnswer: "a) man against man",
+            exp: "الصراع بين الأشخاص على المستوى الجزئي المحدود يُوصف بـ 'إنسان ضد إنسان' (Man against man)[cite: 14]."
+          },
+          {
+            id: "ls_m6_16",
+            type: "single",
+            text: "16. Human trafficking is an example of '______' conflict.",
+            opts: ["man against man", "man against self", "man against society", "man against nature"],
+            ans: 2,
+            dispAnswer: "c) man against society",
+            exp: "الاتجار بالبشر وانتهاك القوانين الإنسانية يُمثل صراعاً موجهاً ضد المجتمع ومنظومته الأخلاقية والقانونية[cite: 14]."
+          },
+          {
+            id: "ls_m6_17",
+            type: "single",
+            text: "17. Desertification is an example of '______' conflict.",
+            opts: ["man against man", "man against self", "man against society", "man against nature"],
+            ans: 3,
+            dispAnswer: "d) man against nature",
+            exp: "التصحر والتغير المناخي يُمثلان مواجهة وصراعاً بين الإنسان والبيئة الطبيعية (Man against nature)[cite: 14]."
+          },
+          {
+            id: "ls_m6_18",
+            type: "single",
+            text: "18. ______ refers to the kind of disagreement or feud that takes place between two or more sectarian or religious groups, ethnic groups, communities, or interest groups.",
+            opts: ["Intra-Group conflict", "Inter-Group conflict", "Intra-State conflict", "Global conflict"],
+            ans: 1,
+            dispAnswer: "b) Inter-Group conflict",
+            exp: "الصراع بين المجموعات (Inter-Group) هو النزاع الذي يدور بين طائفتين أو مجموعتين عرقيتين أو دينيتين مختلفتين فأكثر[cite: 14]."
+          },
+          {
+            id: "ls_m6_19",
+            type: "single",
+            text: "19. ______ as land, uneven development, resource control and revenue-sharing formula could cause a conflict within a state.",
+            opts: ["Economic factors", "Social factors", "Socio-ethnic factors", "Political factors"],
+            ans: 0,
+            dispAnswer: "a) Economic factors",
+            exp: "النزاع على الأراضي والموارد الطبيعية وتوزيع الإيرادات والتنمية غير المتوازنة تمثل عوامل اقتصادية (Economic factors)[cite: 14]."
+          },
+          {
+            id: "ls_m6_20",
+            type: "single",
+            text: "20. ______ such as real or perceived ethnic balancing or ethnic cleansing could also be a factor of intra-state conflict.",
+            opts: ["Economic factors", "Social factors", "Socio-ethnic factors", "Political factors"],
+            ans: 2,
+            dispAnswer: "c) Socio-ethnic factors",
+            exp: "التوازن العرقي أو التطهير العرقي والتفرقة العرقية تُعدّ عوامل اجتماعية-عرقية مسببة للنزاعات الداخلية[cite: 14]."
+          },
+          {
+            id: "ls_m6_21",
+            type: "single",
+            text: "21. ______ such as power-sharing, power equation or zoning formula in public administration, lopsidedness (disequilibrium) in political appointments, quota system and the likes could cause intra-state conflict.",
+            opts: ["Economic factors", "Social factors", "Socio-ethnic factors", "Political factors"],
+            ans: 3,
+            dispAnswer: "d) Political factors",
+            exp: "تقاسم السلطة ونظام المحاصصة والخلل في التعيينات والمناصب الإدارية العليا تمثل عوامل سياسية مباشرة للنزاع[cite: 14]."
+          },
+          {
+            id: "ls_m6_22",
+            type: "single",
+            text: "22. ______ can be caused by territorial encroachment by another state, breakdown of diplomatic ties, exportation of toxic or contrabands to another country, et cetera.",
+            opts: ["Intra-state conflict", "Inter-state conflict", "Inter-group conflict", "Intra-group conflict"],
+            ans: 1,
+            dispAnswer: "b) Inter-state conflict",
+            exp: "الصراع بين الدول (Inter-state) ينجم عن التعدي على الحدود الإقليمية، أو قطع العلاقات الدبلوماسية، أو الخلافات الحدودية[cite: 14]."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Key Benefits of Conflict Resolution & Management (Questions 23 – 29)",
+        context: "Official questions on how constructive conflict brings change, builds relationships, opens minds, and stimulates ideas:",
+        subQuestions: [
+          {
+            id: "ls_m6_23",
+            type: "single",
+            text: "23. 'Conflict can act as a stimulus for new thoughts and new points of view.' Which key benefit of conflict resolution does this statement indicate?",
+            opts: [
+              "New Ideas emerge out of Conflict",
+              "Conflict brings about a change",
+              "Conflict Builds Relationships",
+              "Conflict Opens Minds",
+              "Conflict Beats Competition"
+            ],
+            ans: 0,
+            dispAnswer: "a) New Ideas emerge out of Conflict",
+            exp: "الصراع يحفز ظهور وجهات نظر غير مألوفة، مما يؤدي إلى توليد أفكار جديدة وبناءة (New Ideas emerge)[cite: 14]."
+          },
+          {
+            id: "ls_m6_24",
+            type: "single",
+            text: "24. 'Conflict can force people to ask difficult questions: Questions which have answers that can break deadlocks.' Which key benefit of conflict resolution does this statement indicate?",
+            opts: [
+              "New Ideas emerge out of Conflict",
+              "Conflict brings about a change",
+              "Conflict Builds Relationships",
+              "Conflict Opens Minds"
+            ],
+            ans: 1,
+            dispAnswer: "b) Conflict brings about a change",
+            exp: "طرح الأسئلة الصعبة وكسر الجمود القائم يفتح الطريق نحو التغيير الإيجابي والتطوير (Brings about a change)[cite: 14]."
+          },
+          {
+            id: "ls_m6_25",
+            type: "single",
+            text: "25. 'Settlements arising out of conflict often bring people closer: at work or even in their personal lives.' Which key benefit of conflict resolution does this statement indicate?",
+            opts: [
+              "New Ideas emerge out of Conflict",
+              "Conflict brings about a change",
+              "Conflict Builds Relationships",
+              "Conflict Opens Minds",
+              "Conflict Beats Competition"
+            ],
+            ans: 2,
+            dispAnswer: "c) Conflict Builds Relationships",
+            exp: "التوصل إلى تسويات عادلة بعد الخلاف يعزز التفاهم ويقرب الأطراف من بعضهم ويبني علاقات أمتن[cite: 14]."
+          },
+          {
+            id: "ls_m6_26",
+            type: "single",
+            text: "26. 'Conflict can foster innovation and broaden people's perspectives to fresh, new and unexplored ideas.' Which key benefit of conflict resolution does this statement indicate?",
+            opts: [
+              "New Ideas emerge out of Conflict",
+              "Conflict brings about a change",
+              "Conflict Builds Relationships",
+              "Conflict Opens Minds",
+              "Conflict Beats Competition"
+            ],
+            ans: 3,
+            dispAnswer: "d) Conflict Opens Minds",
+            exp: "توسيع مدارك الأفراد وتوجيههم نحو أفكار مبتكرة وغير مستكشفة يعني أن الصراع يفتح العقول (Opens Minds)[cite: 14]."
+          },
+          {
+            id: "ls_m6_27",
+            type: "single",
+            text: "27. 'Conflict keeps the product and ideas fresh and always ready to fight the competition.' Which key benefit of conflict resolution does this statement indicate?",
+            opts: [
+              "New Ideas emerge out of Conflict",
+              "Conflict brings about a change",
+              "Conflict Beats Competition",
+              "Conflict Builds Relationships",
+              "Conflict Opens Minds"
+            ],
+            ans: 2,
+            dispAnswer: "c) Conflict Beats Competition",
+            exp: "تحدي الأفكار القائمة يجدد المنتجات ويجعلها دائماً متفوقة وقادرة على هزيمة المنافسة (Beats Competition)[cite: 14]."
+          },
+          {
+            id: "ls_m6_28",
+            type: "single",
+            text: "28. Which of the following is not a way to resolve conflict?",
+            opts: [
+              "Acknowledge Conflict",
+              "Look for Win-Win",
+              "Communicate",
+              "Let parts of the conflict be hidden",
+              "Negotiate to resolve conflict."
+            ],
+            ans: 3,
+            dispAnswer: "d) Let parts of the conflict be hidden",
+            exp: "إخفاء أجزاء من الصراع أو التغاضي عنها لا يحل المشكلة بل يؤجل انفجارها، والحل يقتضي الشفافية والاعتراف به[cite: 14]."
+          },
+          {
+            id: "ls_m6_29",
+            type: "single",
+            text: "29. 'The 'Ostrich Attitude' i.e. burying your head in the sand hoping that the problem will go away does not work in the real world.' Which way of conflict resolution does this statement indicate?",
+            opts: [
+              "Look for Win-Win",
+              "Communicate",
+              "Acknowledge Conflict",
+              "Negotiate to resolve conflict"
+            ],
+            ans: 2,
+            dispAnswer: "c) Acknowledge Conflict",
+            exp: "رفض أسلوب النعامة بدفن الرأس في الرمال يؤكد على ضرورة الاعتراف بوجود الصراع ومواجهته أولاً (Acknowledge Conflict)[cite: 14]."
+          }
+        ]
+      },
+      {
+        title: "Part 4: True or False Concepts & Statements (Questions 30 – 40)",
+        context: "Official True/False statements covering interpersonal realities, addictive habits, physical vs. non-physical conflict, and family/faith disputes:",
+        subQuestions: [
+          {
+            id: "ls_m6_30",
+            type: "single",
+            text: "30. Conflict technically means an existing state of disconnect between two or more parties on a private issue.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الصراع ليس مجرد انفصال في قضية خاصة، بل هو نزاع وتعارض في الأهداف أو القيم أو الموارد على نطاق عام أو خاص[cite: 14]."
+          },
+          {
+            id: "ls_m6_31",
+            type: "single",
+            text: "31. Different perceptions, values or world-views may transcend just 'differences' and result in the extreme connotation of conflict.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "اختلاف الرؤى والقيم قد يتجاوز حدود التباين البسيط ليصل إلى المعنى الحاد والعميق للصراع[cite: 14]."
+          },
+          {
+            id: "ls_m6_32",
+            type: "single",
+            text: "32. Conflict may simply mean 'a different perception' or view to an issue or situation; it may mean a different interpretation of a motive, or a different world-view.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "يمكن للصراع أن يعبر ببساطة عن مجرد اختلاف في تفسير الدوافع أو تباين في المنظور تجاه موقف معين[cite: 14]."
+          },
+          {
+            id: "ls_m6_33",
+            type: "single",
+            text: "33. Experience in human society has shown that there aren't degrees of variation in conflicts.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فالصراعات تتفاوت بشدة في درجاتها وحدتها من خلاف لفظي عابر إلى صراع مدمر[cite: 14]."
+          },
+          {
+            id: "ls_m6_34",
+            type: "single",
+            text: "34. It is important to know that inter-personal conflicts are largely dictated by circumstances around a person.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الصراعات بين الأشخاص تنشأ أساساً من التفاعل المباشر وتعارض الإرادات بين الأفراد أنفسهم وليس فقط بالظروف المحيطة[cite: 14]."
+          },
+          {
+            id: "ls_m6_35",
+            type: "single",
+            text: "35. Smoking, drug use, alcoholism, as well as lying are some addictive habits that man may continually contend with; even when he desires to stop, he may find himself continuing it. This is intra-personal conflict or 'man against self'.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "المعاناة مع العادات الإدمانية ومحاولة التوقف عنها تُمثّل صراعاً داخلياً ونفسياً للإنسان ضد ذاته (Man against self)[cite: 14]."
+          },
+          {
+            id: "ls_m6_36",
+            type: "single",
+            text: "36. Conflict always translates to physical exchange of blows. Malice or 'cold attitude' to each other already underscores conflict. Conflict thus also means explicit hostility.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الصراع لا يعني بالضرورة الاشتباك الجسدي؛ فالعداوة الخفية والبرود والنفور يُعدّ صراعاً دون تبادل ضربات[cite: 14]."
+          },
+          {
+            id: "ls_m6_37",
+            type: "single",
+            text: "37. Family conflict occurs in a family unit. Sociologists would describe this as inter-unit conflict.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "النزاع داخل الأسرة الواحدة يُصنف سوسيولوجياً كصراع داخل الوحدة/المجموعة (Intra-unit / Intra-group) وليس بين وحدات مختلفة[cite: 14]."
+          },
+          {
+            id: "ls_m6_38",
+            type: "single",
+            text: "38. Rudeness, claim to seniority, laziness, truancy at school, and lying are all factors that may cause familial conflicts.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "السلوكيات السلبية والتقصير الدراسي والكسل والكذب والتمرد على الأكبر سناً كلها أسباب تؤدي إلى نشوب خلافات أسرية[cite: 14]."
+          },
+          {
+            id: "ls_m6_39",
+            type: "single",
+            text: "39. The contention between Christians and Moslems in Nigeria is a classic example of intra-faith conflict.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "النزاع بين ديانتين مختلفتين (مسيحية وإسلام) يُعد صراعاً بين أديان (Inter-faith) وليس داخل دين واحد (Intra-faith)[cite: 14]."
+          },
+          {
+            id: "ls_m6_40",
+            type: "single",
+            text: "40. Global conflict should not be mistaken for inter-state conflict, although it also connotes international conflict. This kind of international conflict however transcends the type which involves two or more sovereign states. It is however instructive to note that a conflict between two or more states could become a full-blown global conflict.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الصراع العالمي يتجاوز حدود النزاع الثنائي بين دولتين، مع إمكانية تحول نزاع بين دول إلى حرب وصراع عالمي شامل[cite: 14]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

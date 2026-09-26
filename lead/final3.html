@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | التربية الوطنية والمسؤولية المجتمعية - مكمل الوحدة السابعة</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      direction: rtl;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/lead">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">التربية الوطنية والمسؤولية المجتمعية</div>
+    <div class="subject-subtitle" id="quiz-subtitle">الوحدة السابعة: المواطنة والمسؤولية المجتمعية (أسئلة مقترحة شاملة لمكمل فاينل)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/mil">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+
+    const examSections = [
+      {
+        title: "الجزء الأول: النشأة التاريخية للمواطنة والمفاهيم الفلسفية (الأسئلة 1 – 10)",
+        context: "أسئلة مكمل الوحدة حول تطور المواطنة في اليونان وروما، أرسطو، الجنسية والمواطنة، ونظريات المسؤولية المجتمعية:",
+        subQuestions: [
+          {
+            id: "nat7_1",
+            type: "single",
+            text: "1) أين نشأت فكرة ومفهوم المواطنة لأول مرة في التاريخ القديم؟",
+            opts: ["الحضارة الصينية", "المدن اليونانية والرومانية", "الحضارة المصرية القديمة", "بلاد ما بين النهرين"],
+            ans: 1,
+            dispAnswer: "ب) المدن اليونانية والرومانية",
+            exp: "نشأت بذور المواطنة الأولى في دول المدن اليونانية (كأثينا) ثم تطورت وتوسعت في الإمبراطورية الرومانية[cite: 28]."
+          },
+          {
+            id: "nat7_2",
+            type: "single",
+            text: "2) من كان يحق له الحصول على صفة المواطنة في اليونان القديمة؟",
+            opts: ["جميع السكان بما فيهم العبيد", "الرجال الأحرار ومالكي الأراضي فقط", "النساء والأطفال", "الأجانب المقيمين في المدينة"],
+            ans: 1,
+            dispAnswer: "ب) الرجال الأحرار ومالكي الأراضي فقط",
+            exp: "كانت المواطنة في أثينا نادياً مغلقاً ونخبوياً مقصوراً على الذكور الأحرار من ملّاك الأراضي واستثنت العبيد والنساء والأجانب[cite: 28]."
+          },
+          {
+            id: "nat7_3",
+            type: "single",
+            text: "3) ما الفرق الأساسي بين المواطنة في اليونان وروما القديمة؟",
+            opts: [
+              "كانت في روما أكثر انفتاحاً وشملت طبقات وشعوباً أوسع",
+              "كانت في اليونان تشمل العبيد والطبقات الكادحة",
+              "لم يكن هناك أي فرق بينهما إطلاقاً",
+              "كانت في روما مقصورة على النخبة الأرستقراطية فقط"
+            ],
+            ans: 0,
+            dispAnswer: "أ) كانت في روما أكثر انفتاحًا وشملت طبقات أوسع",
+            exp: "اتسمت المواطنة الرومانية بطابع قانوني عملي وتوسعت لتمنح صفة المواطن للشعوب الخاضعة لحكم روما وطبقات أوسع[cite: 28]."
+          },
+          {
+            id: "nat7_4",
+            type: "single",
+            text: "4) ما هي القيمة الأخلاقية والإنسانية الأساسية التي تعكسها المواطنة الحقة؟",
+            opts: ["الطبقية والتفاضل", "المساواة أمام القانون", "التمييز الفئوي", "الانعزال عن المجتمع"],
+            ans: 1,
+            dispAnswer: "ب) المساواة",
+            exp: "المواطنة في جوهرها تعكس مبدأ المساواة والعدالة في الحقوق والواجبات لجميع الأفراد دون تمييز[cite: 28]."
+          },
+          {
+            id: "nat7_5",
+            type: "single",
+            text: "5) ما هو أحد أهم الأهداف الاستراتيجية لترسيخ المواطنة الفاعلة؟",
+            opts: ["التمييز بين المواطنين", "التحريض على النزاعات", "المشاركة السياسية الفاعلة في الشأن العام", "تعزيز الفوارق الطبقية"],
+            ans: 2,
+            dispAnswer: "ج) المشاركة السياسية الفاعلة",
+            exp: "تهدف المواطنة إلى تحويل الفرد من متلقٍ سلبي إلى مشارك إيجابي وفاعل في صنع القرار وبناء مجتمعه[cite: 28]."
+          },
+          {
+            id: "nat7_6",
+            type: "single",
+            text: "6) ما الذي يميز سلوك المواطن الصالح الإيجابي تجاه وطنه؟",
+            opts: ["التهرب من دفع الضرائب", "المشاركة الواعية في الحياة العامة والسياسية", "عدم احترام القوانين", "اللامبالاة بالشأن العام"],
+            ans: 1,
+            dispAnswer: "ب) المشاركة في الحياة السياسية",
+            exp: "المواطن الصالح يمارس حقوقه الدستورية بالمشاركة السياسية البناءة ويحترم القوانين ويتحمل مسؤولياته[cite: 28]."
+          },
+          {
+            id: "nat7_7",
+            type: "single",
+            text: "7) ما الفرق الدقيق بين مفهومي 'الجنسية' و'المواطنة'؟",
+            opts: [
+              "الجنسية رابطة قانونية وسياسية، والمواطنة ممارسة فعلية تشمل الحقوق والواجبات",
+              "لا يوجد أي فرق بينهما فهما مصطلحان مترادفان",
+              "الجنسية تعني الولاء القلبي فقط",
+              "المواطنة رابطة لا تتضمن أي حقوق"
+            ],
+            ans: 0,
+            dispAnswer: "أ) الجنسية رابطة قانونية والمواطنة تشمل الحقوق والواجبات",
+            exp: "الجنسية هي الصفة والتبعية القانونية للدولة، بينما المواطنة هي الممارسة الواعية للحقوق والالتزام بالواجبات والمسؤولية[cite: 28]."
+          },
+          {
+            id: "nat7_8",
+            type: "single",
+            text: "8) من هو الفيلسوف الإغريقي الذي ربط المواطنة بشكل وثيق بالمشاركة في الشأن العام للمدينة؟",
+            opts: ["أفلاطون", "أرسطو", "سقراط", "إيمانويل كانط"],
+            ans: 1,
+            dispAnswer: "ب) أرسطو",
+            exp: "عرّف أرسطو المواطن بأنه من يشارك في إدارة شؤون المدينة وممارسة السلطة التشريعية والقضائية[cite: 28]."
+          },
+          {
+            id: "nat7_9",
+            type: "single",
+            text: "9) ما هي إحدى النظريات السوسيولوجية التي تفسر المسؤولية المجتمعية؟",
+            opts: ["نظرية المؤامرة", "نظرية النسق الاجتماعي (البنائية الوظيفية)", "نظرية الصراع الطبقي", "نظرية الفوضى"],
+            ans: 1,
+            dispAnswer: "ب) نظرية النسق الاجتماعي",
+            exp: "تنظر نظرية النسق الاجتماعي إلى المجتمع كنظام متكامل يؤدي فيه كل عنصر مسؤولياته لضمان توازن واستقرار الكل[cite: 28]."
+          },
+          {
+            id: "nat7_10",
+            type: "single",
+            text: "10) ما هو أحد أبرز المعوقات الذاتية التي تعرقل أداء المسؤولية المجتمعية لدى الأفراد؟",
+            opts: ["الوازع الديني والأخلاقي القوي", "الكسل وضعف الهمة والاتكالية", "التشجيع على العمل التطوعي", "وضوح الرؤية والأهداف"],
+            ans: 1,
+            dispAnswer: "ب) الكسل وضعف الهمة",
+            exp: "فتور العزيمة وضعف المبادرة والكسل من أهم العوامل التي تحول دون قيام الفرد بواجبه تجاه محيطه[cite: 28]."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثاني: المفاهيم والقيم الدستورية والمواطنة الصالحة (الأسئلة 11 – 20)",
+        context: "أسئلة مكمل الوحدة بصيغة (صح / خطأ) حول شمولية المواطنة، الولاء والانتماء، والمواطنة الفاعلة:",
+        subQuestions: [
+          {
+            id: "nat7_11",
+            type: "single",
+            text: "11) المواطنة في اليونان القديمة كانت تشمل العبيد والنساء والعمال الأجانب:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ لأنها كانت امتيازاً نخبوياً مقصوراً على الذكور الأحرار البالغين من ملّاك الأراضي[cite: 28]."
+          },
+          {
+            id: "nat7_12",
+            type: "single",
+            text: "12) المواطنة تعني المساواة التامة في الحقوق والواجبات بين جميع الأفراد أمام القانون:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "المساواة وعدم التمييز بسبب العرق أو الجنس أو الدين هي حجر الزاوية للمواطنة الدستورية[cite: 28]."
+          },
+          {
+            id: "nat7_13",
+            type: "single",
+            text: "13) الجنسية والمواطنة مصطلحان مترادفان متطابقان تماماً في المعنى والدلالة ولا فرق بينهما:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الجنسية صفة قانونية تمنحها الدولة، والمواطنة حالة وممارسة مدنية وسلوكية للمسؤوليات والحقوق[cite: 28]."
+          },
+          {
+            id: "nat7_14",
+            type: "single",
+            text: "14) الولاء للوطن يولد مع الإنسان كغريزة حتمية ولا يحتاج إلى تنمية أو اكتساب:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الولاء قيمة وسلوك يكتسب ويُصقل بالتربية والتنشئة الوطنية والمشاركة والممارسة الفعلية[cite: 28]."
+          },
+          {
+            id: "nat7_15",
+            type: "single",
+            text: "15) المسؤولية المجتمعية تعني التزام وتحمل الفرد لنتائج وآثار أفعاله وقراراته تجاه المجتمع والبيئة:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "المسؤولية المجتمعية التزام أخلاقي وتطوعي ومجتمعي يسعى لتحقيق الصالح العام والمنفعة المشتركة[cite: 28]."
+          },
+          {
+            id: "nat7_16",
+            type: "single",
+            text: "16) المواطنة لا تشمل أي واجبات أو التزامات على الفرد، بل تقتصر على نيل الحقوق والمكتسبات فقط:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "المواطنة علاقة تبادلية وتكاملية متوازنة بين الحقوق المكفولة والواجبات والمسؤوليات الملزمة[cite: 28]."
+          },
+          {
+            id: "nat7_17",
+            type: "single",
+            text: "17) الانتماء والولاء مفهومان متطابقان كلياً ولا يوجد أي تمايز دلالي بينهما:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الانتماء يرتبط بالشعور بالانتساب للأرض والجماعة والوعي بقضاياها، بينما الولاء هو الإخلاص والتفاني السلوكي الصادق لهذا الانتماء[cite: 28]."
+          },
+          {
+            id: "nat7_18",
+            type: "single",
+            text: "18) من صفات ومسؤوليات المواطن الصالح الدفاع عن حقوقه وحقوق الآخرين وصون الحريات العامة:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "المواطنة الإيجابية توجب حماية الحقوق الذاتية والدفاع عن كرامة وحقوق المجتمع بأسره[cite: 28]."
+          },
+          {
+            id: "nat7_19",
+            type: "single",
+            text: "19) التهرب من دفع الضرائب والرسوم القانونية يُعتبر من مظاهر المواطنة الصالحة والذكاء المالي:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "التهرب الضريبي جريمة وسلوك سلبي يضر بالاقتصاد الوطني ويعطل الخدمات العامة وحقوق الأجيال[cite: 28]."
+          },
+          {
+            id: "nat7_20",
+            type: "single",
+            text: "20) المسؤولية المجتمعية تقتصر وتقتصر حصراً على الحكومات دون الأفراد ومؤسسات المجتمع:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "المسؤولية المجتمعية شراكة تكاملية يتقاسمها الأفراد، والقطاع الخاص، ومنظمات المجتمع المدني، والحكومة[cite: 28]."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثالث: الحقوق والحريات، نظريات العقد الاجتماعي، والتنشئة الأسرية (الأسئلة 21 – 30)",
+        context: "أسئلة مكمل الوحدة بصيغة (صح / خطأ) حول الحقوق المدنية، الوحدة الوطنية، رواد العقد الاجتماعي، والتنمية الشاملة:",
+        subQuestions: [
+          {
+            id: "nat7_21",
+            type: "single",
+            text: "21) الحرية الشخصية والحقوق المدنية تشمل حق التنقل واختيار مكان السكن والإقامة وحرمة المراسلات:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "كفل الدستور والقوانين حقوق التنقل والإقامة والخصوصية الشخصية كحقوق مدنية أصيلة[cite: 28]."
+          },
+          {
+            id: "nat7_22",
+            type: "single",
+            text: "22) المواطنة في العصر الحديث لا تهتم بالمشاركة السياسية والانتخابات وتقتصر على العمل الاقتصادي:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "المشاركة السياسية الفاعلة والرقابة على السلطات ركيزة أساسية للديمقراطية والمواطنة الحديثة[cite: 28]."
+          },
+          {
+            id: "nat7_23",
+            type: "single",
+            text: "23) الوحدة الوطنية تعني التلاحم والتكاتف والتناغم القوي بين جميع أطياف وأفراد المجتمع:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "الوحدة الوطنية هي صمام الأمان والدرع الحامي لاستقرار الوطن ومنعته في مواجهة التحديات[cite: 28]."
+          },
+          {
+            id: "nat7_24",
+            type: "single",
+            text: "24) المواطنة ممارسة معزولة ومجردة لا تتأثر نهائياً بالهوية الثقافية للمجتمع وقيمه:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "ترتبط المواطنة بالهوية الثقافية والتاريخية التي تعطي للمجتمع خصوصيته وروابطه الحضارية[cite: 28]."
+          },
+          {
+            id: "nat7_25",
+            type: "single",
+            text: "25) الفساد الإداري والمالي يعزز المسؤولية المجتمعية ويقوي مؤسسات الدولة:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الفساد آفة مدمرة تقوض سيادة القانون وتهدر الثقة العامة وتعيق التنمية المجتمعية[cite: 28]."
+          },
+          {
+            id: "nat7_26",
+            type: "single",
+            text: "26) التربية الأسرية والتنشئة المنزلية لا تؤثر في تنمية وغرس قيم المسؤولية المجتمعية لدى الأبناء:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الأسرة هي المحضن الأول والأساس لغرس قيم الانتماء والتعاون والإيثار والمسؤولية في النشء[cite: 28]."
+          },
+          {
+            id: "nat7_27",
+            type: "single",
+            text: "27) المسؤولية المجتمعية مفهوم شامل يمتد ليشمل الجوانب التنموية والاقتصادية والبيئية المستدامة:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "تتضمن المسؤولية المجتمعية حماية البيئة، والترشيد، ودعم التعليم، والمساهمة في التنمية المستدامة[cite: 28]."
+          },
+          {
+            id: "nat7_28",
+            type: "single",
+            text: "28) تبلورت نظرية العقد الاجتماعي في الفكر السياسي الحديث على يد فلاسفة كبار منهم جون لوك وجان جاك روسو وتوماس هوبز:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "أرست نظرية العقد الاجتماعي شرعية الدولة الحديثة على أساس اتفاق حر يضمن الحقوق والحريات وسيادة القانون[cite: 28]."
+          },
+          {
+            id: "nat7_29",
+            type: "single",
+            text: "29) المواطنة الفاعلة والمنتجة تتطلب الوعي الحقوقي المقترن بالوعي بالواجبات والالتزامات الوطنية:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "الوعي المزدوج بالحقوق والواجبات هو ما يحقق توازن المجتمع الديمقراطي وتقدمه[cite: 28]."
+          },
+          {
+            id: "nat7_30",
+            type: "single",
+            text: "30) اللامبالاة والسلبية والتنصل من الشأن العام تُعدّ من مظاهر المسؤولية المجتمعية القوية:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "اللامبالاة مظهر خطير من مظاهر ضعف الانتماء والانسحاب السلبي المعرقل لنهضة المجتمع[cite: 28]."
+          }
+        ]
+      },
+      {
+        title: "الجزء الرابع: التطبيقات التحليلية لأركان المواطنة والعقد الاجتماعي وأدوار الجامعات (الأسئلة 31 – 40)",
+        context: "أسئلة تحليلية موضوعية وتطبيقية حول تصنيف الحقوق، فلسفة أرسطو وأفلاطون، والعقد الاجتماعي، ودور التعليم العالي:",
+        subQuestions: [
+          {
+            id: "nat7_31",
+            type: "single",
+            text: "31) شخص يتمتع بكافة حقوقه وخدماته داخل الدولة، لكنه يرفض أداء الواجبات المطلوبة منه تجاه مجتمعه. أي عبارة تفسر موقفه بشكل أدق وفق مفهوم المواطنة؟",
+            opts: [
+              "موقفه طبيعي لأن الحقوق منفصلة تماماً عن الواجبات",
+              "موقفه يتعارض جوهرياً مع الطبيعة التبادلية والتكاملية للعلاقة بين الحقوق والواجبات",
+              "موقفه صحيح لأن الدولة وحدها مسؤولة ومكلفة بإدارة المجتمع",
+              "موقفه يدل على قوة الانتماء للوطن"
+            ],
+            ans: 1,
+            dispAnswer: "ب) موقفه يتعارض مع الطبيعة التبادلية للعلاقة بين الحقوق والواجبات",
+            exp: "المواطنة تقوم على معادلة تبادلية لا تنفصم؛ فلا مواطنة حقة دون الوفاء بالواجبات التي تقابل الحقوق[cite: 28]."
+          },
+          {
+            id: "nat7_32",
+            type: "single",
+            text: "32) أي موقف من الآتي يجسد أركان وعناصر المواطنة الثلاثة بصورة أكثر شمولاً وتكاملاً؟",
+            opts: [
+              "الإقامة داخل الدولة والالتزام بالقوانين فقط دون أي تفاعل",
+              "حب الوطن العاطفي والدفاع عنه دون المشاركة في شؤونه العامة",
+              "الانتماء للأرض، والمشاركة الفاعلة، والمساواة أمام القانون",
+              "الحصول على الحقوق السياسية دون الالتزام بأي واجبات مدنية"
+            ],
+            ans: 2,
+            dispAnswer: "ج) الانتماء للأرض، والمشاركة، والمساواة",
+            exp: "تكتمل المواطنة باجتماع أركانها الجوهرية: الانتماء المكاني والوجداني، والمشاركة العامة، ومبدأ المساواة والعدالة[cite: 28]."
+          },
+          {
+            id: "nat7_33",
+            type: "single",
+            text: "33) إذا كان المواطن يستطيع ممارسة نشاطه المدني، واختيار مكان إقامته، والتنقل بحرية، وحماية خصوصيته ومراسلاته ضمن القانون، فإن هذه الحقوق تُصنف أساساً ضمن:",
+            opts: ["الحقوق السياسية", "الحقوق الاجتماعية", "الحقوق المدنية", "الحقوق الجماعية التضامنية"],
+            ans: 2,
+            dispAnswer: "ج) الحقوق المدنية",
+            exp: "حقوق الأمان الشخصي، والتنقل، والإقامة، وحرمة الخصوصية والمراسلات تمثل جوهر الحريات والحقوق المدنية[cite: 28]."
+          },
+          {
+            id: "nat7_34",
+            type: "single",
+            text: "34) أي حالة وممارسة مما يلي تمثل ممارسة لحق سياسي أصيل وليس حقاً مدنياً أو اجتماعياً؟",
+            opts: [
+              "الحصول على الرعاية والخدمات الصحية الأساسية",
+              "حرية اختيار مكان الإقامة والسكن",
+              "الحق الدستوري في المشاركة في الانتخابات والاقتراع والترشح للبرلمان",
+              "حماية خصوصية الفرد وأسراره ومراسلاته"
+            ],
+            ans: 2,
+            dispAnswer: "ج) الحق في المشاركة في الانتخابات والترشح لها",
+            exp: "الانتخاب، الترشح، وتشكيل الأحزاب والانضمام إليها هي حقوق سياسية تنظم مشاركة المواطن في تداول وإدارة السلطة[cite: 28]."
+          },
+          {
+            id: "nat7_35",
+            type: "single",
+            text: "35) ما الفرق الأكثر دقة بين مفهومي الانتماء والولاء كما وردا في الدراسات الوطنية؟",
+            opts: [
+              "الانتماء مكتسب بالتدريب، بينما الولاء يولد غريزياً مع الإنسان",
+              "الانتماء يرتبط بوعي الفرد بوطنه وقضاياه، بينما الولاء هو صدق وترجمة هذا الانتماء في السلوك والوفاء",
+              "الانتماء يعني الطاعة العمياء فقط، والولاء يعني الحصول على المكاسب",
+              "لا يوجد أي فرق بينهما فهما مفهومان متطابقان"
+            ],
+            ans: 1,
+            dispAnswer: "ب) الانتماء يرتبط بوعي الفرد بوطنه وقضاياه، بينما الولاء هو صدق هذا الانتماء",
+            exp: "الانتماء هو الوعي بالهوية والارتباط بالأرض، والولاء هو التعبير الإيجابي المخلص والعملي عن هذا الارتباط[cite: 28]."
+          },
+          {
+            id: "nat7_36",
+            type: "single",
+            text: "36) وفقاً للرؤية الفلسفية لأرسطو في كتابه 'السياسة'، أي تصرف يعكس المواطنة بصورة حقيقية وسليمة؟",
+            opts: [
+              "تقديم المصلحة الفردية الشخصية حتى لو تعارضت مع مصلحة المدينة والدولة",
+              "الامتناع والانعزال عن المشاركة في إدارة الشأن العام",
+              "تغليب الصالح العام للمدينة مع التمسك بالمساواة التامة أمام القانون",
+              "الالتزام بالقانون مع التنازل عن حرية اتخاذ القرار"
+            ],
+            ans: 2,
+            dispAnswer: "ج) تغليب الصالح العام للمدينة مع المساواة أمام القانون",
+            exp: "رأى أرسطو أن الإنسان كائن سياسي بطبعه، وأن المواطنة الحقة تتحقق بتقديم خير وصالح المدينة والمساواة المشتركة[cite: 28]."
+          },
+          {
+            id: "nat7_37",
+            type: "single",
+            text: "37) أي عبارة تميز بشكل فلسفي صحيح بين تصور أفلاطون وتصور أرسطو لمفهوم المواطنة؟",
+            opts: [
+              "أفلاطون ركز على المشاركة في الشأن العام، وأرسطو ركز على العقد الاجتماعي",
+              "أفلاطون ربط المواطنة بالانتماء والولاء والصالح العام وفضائل المدينة الفاضلة، بينما أرسطو أكد على المشاركة العملية في الحكم والشأن العام",
+              "كلاهما قدّم المفهوم الحرفي نفسه للمواطنة دون أي اختلاف",
+              "أفلاطون رفض فكرة الصالح العام، بينما أرسطو رفض المساواة أمام القانون"
+            ],
+            ans: 1,
+            dispAnswer: "ب) أفلاطون ربط المواطنة بالانتماء والولاء والصالح العام، بينما أرسطو أكد المشاركة في الشأن العام",
+            exp: "ركز أفلاطون في جمهوريته على العدالة وتأدية كل طبقة لدورها للصالح العام، بينما اشترط أرسطو الممارسة والمشاركة الفعلية في القضاء والإدارة[cite: 28]."
+          },
+          {
+            id: "nat7_38",
+            type: "single",
+            text: "38) وفقاً لفلسفة العقد الاجتماعي الدستورية عند هوبز ولوك وروسو ومونتسكيو، ما الأساس الذي يحكم العلاقة بين الفرد والدولة؟",
+            opts: [
+              "خضوع الفرد التام للدولة دون أي حقوق أو ضمانات",
+              "منظومة الحقوق والواجبات والعلاقة القانونية التعاقدية التي تضمن وتصون حريات وحقوق الأفراد",
+              "إلغاء القانون وسيادته لصالح الحرية الفردية المطلقة",
+              "اعتماد المواطنة على الوازع العاطفي القبلي فقط"
+            ],
+            ans: 1,
+            dispAnswer: "ب) الحقوق والواجبات والعلاقة القانونية التي تضمن حقوق الأفراد وحرياتهم",
+            exp: "العقد الاجتماعي نقل الإنسان من حالة الفوضى إلى المجتمع المدني المنظم بعقد قانوني يحفظ الحريات والحقوق المتبادلة[cite: 28]."
+          },
+          {
+            id: "nat7_39",
+            type: "single",
+            text: "39) جامعة تسعى لتفعيل وترسيخ المسؤولية المجتمعية والمواطنة لدى طلبتها. أي حزمة من الإجراءات والبرامج تتفق بصورة نموذجية مع هذا الهدف؟",
+            opts: [
+              "التركيز على الحفظ الآلي الصامت وتقليص الحوار والمناظرات",
+              "تنمية مهارات التفكير الناقد، وحل المشكلات، واحترام الرأي الآخر، وتعزيز الانخراط في خدمة وتطوير قضايا الوطن",
+              "عزل الطلبة عن قضايا ومشكلات مجتمعهم المحلي لتجنب الاختلافات",
+              "الاهتمام بالتحصيل النظري الصرف وإهمال المهارات الحياتية والريادية"
+            ],
+            ans: 1,
+            dispAnswer: "ب) تنمية التفكير الناقد وحل المشكلات واحترام الفكر الآخر وتعزيز الاهتمام بقضايا الوطن",
+            exp: "الجامعات الحديثة منابر لبناء الوعي، وصقل التفكير النقدي، وربط البحث العلمي بخدمة قضايا التنمية المجتمعية[cite: 28]."
+          },
+          {
+            id: "nat7_40",
+            type: "single",
+            text: "40) أي موقف وتوجه يُعبّر بصورة أدق وأشمل عن ممارسة المسؤولية المجتمعية الفاعلة؟",
+            opts: [
+              "القيام بالأعمال والخدمات المجتمعية فقط عندما يكون الفرد ملزماً ومجبراً قانونياً عليها تحت طائلة العقاب",
+              "اعتبار المسؤولية المجتمعية عبئاً يقع على عاتق المؤسسات الحكومية والبلديات وحدها",
+              "مشاركة مختلف القطاعات (العام والخاص والمدني) والأفراد في خدمة وتنمية المجتمع انطلاقاً من الالتزام القيمي والسلوك الإيجابي",
+              "اقتصار مفهوم المسؤولية المجتمعية على أنشطة جمع التبرعات وحماية البيئة فقط"
+            ],
+            ans: 2,
+            dispAnswer: "ج) مشاركة مختلف القطاعات في خدمة المجتمع انطلاقا من الإحساس بالمسؤولية والالتزام بالقيم والسلوكيات الإيجابية",
+            exp: "المسؤولية المجتمعية الحقيقية تنبع من الحس الأخلاقي والانتماء الصادق والشراكة الوطنية الشاملة بين كافة قطاعات المجتمع[cite: 28]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

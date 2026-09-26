@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | English 101 - Final Exam Bank</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/en">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">English 101</div>
+    <div class="subject-subtitle" id="quiz-subtitle">ENGL 101 — بنك أسئلة امتحان الفاينل الشامل (100 سؤال سنوات)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/en">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1utMHTXvpWMm0k8YEoLSsOhcHSslV9adm/view";
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: Tenses & Stative Verbs (Questions 1 – 13)",
+        context: "Official past final questions covering tenses, time expressions, and action vs. stative verbs:",
+        subQuestions: [
+          {
+            id: "ef_1",
+            type: "single",
+            text: "1. By the time the police arrived, the thief ______.",
+            opts: ["was escaping", "had been escaping", "escaped", "had escaped"],
+            ans: 3,
+            dispAnswer: "d) had escaped",
+            exp: "The past perfect tense is used for an action completed before another past event (arrived)."
+          },
+          {
+            id: "ef_2",
+            type: "single",
+            text: "2. Mary is so annoying. She ______ me stupid questions. I really hate it.",
+            opts: ["was always asking", "is always asking", "has always asked", "always asks"],
+            ans: 1,
+            dispAnswer: "b) is always asking",
+            exp: "'Is always asking' conveys irritation or annoyance regarding an ongoing, repeated behavior."
+          },
+          {
+            id: "ef_3",
+            type: "single",
+            text: "3. The solution to the problem ______ to be more complicated than we thought.",
+            opts: ["appear", "appears", "appearing", "is appearing"],
+            ans: 1,
+            dispAnswer: "b) appears",
+            exp: "'Appear' is a stative verb meaning 'seems' and takes singular present simple form 'appears'."
+          },
+          {
+            id: "ef_4",
+            type: "single",
+            text: "4. She ______ such a beautiful painting before she visited the gallery last weekend.",
+            opts: ["never seen", "had never seen", "had never been seeing", "has never seen"],
+            ans: 1,
+            dispAnswer: "b) had never seen",
+            exp: "Past experience prior to a specific event in the past (visited) requires the past perfect."
+          },
+          {
+            id: "ef_5",
+            type: "single",
+            text: "5. Her father ______ in a bank, and her mother ______ at a high school.",
+            opts: ["works, is teaching", "is working, is teaching", "works, teach", "works, teaches"],
+            ans: 3,
+            dispAnswer: "d) works, teaches",
+            exp: "Permanent occupations/facts require simple present with singular 3rd person 's' (works, teaches)."
+          },
+          {
+            id: "ef_6",
+            type: "single",
+            text: "6. She ______ rude today and snapping at everyone, but usually, she's much friendlier.",
+            opts: ["was", "is being", "was being", "is"],
+            ans: 1,
+            dispAnswer: "b) is being",
+            exp: "'Is being' indicates temporary, uncharacteristic behavior occurring today."
+          },
+          {
+            id: "ef_7",
+            type: "single",
+            text: "7. The storm ______ significant damage to the coastal areas last year.",
+            opts: ["had caused", "caused", "was causing", "cause"],
+            ans: 1,
+            dispAnswer: "b) caused",
+            exp: "A finished past event with a specific time indicator ('last year') takes the past simple."
+          },
+          {
+            id: "ef_8",
+            type: "single",
+            text: "8. Larry ______ a lot of money last year but he ______ it all.",
+            opts: ["won/ already spent", "has won/ already spent", "won/has already spent", "has won/has already spent"],
+            ans: 2,
+            dispAnswer: "c) won/has already spent",
+            exp: "Past simple for 'last year' combined with present perfect with 'already' having present relevance."
+          },
+          {
+            id: "ef_9",
+            type: "single",
+            text: "9. They ______ in Paris for the last two years and are readjusting to the lifestyle there.",
+            opts: ["lived", "are living", "live", "have been living"],
+            ans: 3,
+            dispAnswer: "d) have been living",
+            exp: "An action continuing over a period up into the present requires present perfect continuous."
+          },
+          {
+            id: "ef_10",
+            type: "single",
+            text: "10. They ______ new ways to improve efficiency in their manufacturing process when they stumbled upon a more sustainable method.",
+            opts: ["had explored", "had been exploring", "explored", "were exploring"],
+            ans: 1,
+            dispAnswer: "b) had been exploring",
+            exp: "An ongoing process leading up to an interruption in the past takes past perfect continuous."
+          },
+          {
+            id: "ef_11",
+            type: "single",
+            text: "11. Mr. Jonson ______ this luxurious hotel for more than 20 years. It is one of the country's best places.",
+            opts: ["has", "had", "has been having", "has had"],
+            ans: 3,
+            dispAnswer: "d) has had",
+            exp: "'Have' indicating possession is stative; with duration ('for more than 20 years'), present perfect is used."
+          },
+          {
+            id: "ef_12",
+            type: "single",
+            text: "12. My mother ______ Asian cuisines very much. I am surprised that she ______ this western dish.",
+            opts: ["is enjoying, enjoys", "enjoyed, enjoys", "enjoys, enjoys", "enjoys, is enjoying"],
+            ans: 3,
+            dispAnswer: "d) enjoys, is enjoying",
+            exp: "General taste (enjoys) versus a specific action happening right now (is enjoying)."
+          },
+          {
+            id: "ef_13",
+            type: "single",
+            text: "13. She ______ more confident in her presentations as she gains more experience.",
+            opts: ["becomes", "has become", "became", "is becoming"],
+            ans: 3,
+            dispAnswer: "d) is becoming",
+            exp: "Present continuous represents a gradual ongoing process of change."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Passive Voice, Causatives & Pronouns (Questions 14 – 44)",
+        context: "Official past final questions covering active to passive transformations, reflexive pronouns, and causatives:",
+        subQuestions: [
+          {
+            id: "ef_14",
+            type: "single",
+            text: "14. A: Look. Your car ______ the ground.<br>B: Oh, no. Wait a minute, please. I didn't know that...",
+            opts: ["is just being lifted off", "has just been lifted off", "is lifted off", "is lifting off"],
+            ans: 0,
+            dispAnswer: "a) is just being lifted off",
+            exp: "Present continuous passive ('is just being lifted off') describes an action in progress right now."
+          },
+          {
+            id: "ef_15",
+            type: "single",
+            text: "15. A: Our boat ______ by storm when we were sailing to Corfu.<br>B: And how did you get back?",
+            opts: ["was damaged", "was being damaged", "has been damaged", "is damaged"],
+            ans: 0,
+            dispAnswer: "a) was damaged",
+            exp: "Past simple passive describes a completed event that occurred during their journey."
+          },
+          {
+            id: "ef_16",
+            type: "single",
+            text: "16. A: Sarah didn't take part in the press conference yesterday night.<br>B: She told me that she ______.",
+            opts: ["had not been informed", "has not been informed", "was not being informed", "informed"],
+            ans: 0,
+            dispAnswer: "a) had not been informed",
+            exp: "Past perfect passive represents an event prior to Sarah's reporting/absence."
+          },
+          {
+            id: "ef_17",
+            type: "single",
+            text: "17. I can guarantee that this room (tidy) ______ every morning.",
+            opts: ["is tidied", "is being tidied", "are tidied", "was tidied"],
+            ans: 0,
+            dispAnswer: "a) is tidied",
+            exp: "Present simple passive expresses a regular, routine event ('every morning')."
+          },
+          {
+            id: "ef_18",
+            type: "single",
+            text: "18. A: A lot of houses were destroyed ______ fire when we were in California.<br>B: Yes, I know. I've heard about it.",
+            opts: ["By", "with"],
+            ans: 0,
+            dispAnswer: "a) By",
+            exp: "'By' introduces the agent or cause of destruction."
+          },
+          {
+            id: "ef_19",
+            type: "single",
+            text: "19. Somebody accused me of stealing the money.",
+            opts: ["I am accused of stealing the money.", "I were accused of stealing the money.", "I will be accused of stealing the money.", "I was accused of stealing the money."],
+            ans: 3,
+            dispAnswer: "d) I was accused of stealing the money.",
+            exp: "Past simple active transforms to 'was/were + V3' ('I was accused')."
+          },
+          {
+            id: "ef_20",
+            type: "single",
+            text: "20. Cells ______ for the first time by the English scientist Robert Hooke, who, in 1665, ______ a book about his findings.",
+            opts: ["were described / published", "had described / has published", "has described / had published", "Has been described/published"],
+            ans: 0,
+            dispAnswer: "a) were described / published",
+            exp: "Historical past events require past simple passive followed by past simple active."
+          },
+          {
+            id: "ef_21",
+            type: "single",
+            text: "21. The world's first dental school, Baltimore College of Dental Surgery, ______ by two Americans, Horace Hayden and Chapin Harris, in 1839.",
+            opts: ["was founding", "was founded (established)", "had founded", "has been founded"],
+            ans: 1,
+            dispAnswer: "b) was founded (established)",
+            exp: "'Was founded' is the past simple passive for establishing an institution."
+          },
+          {
+            id: "ef_22",
+            type: "single",
+            text: "22. We will send you your examination results.",
+            opts: ["You will sent your examination results.", "You will be send your examination results.", "You will be sent your examination results.", "You will send your examination results."],
+            ans: 2,
+            dispAnswer: "c) You will be sent your examination results.",
+            exp: "Future passive structure: 'will + be + past participle' (will be sent)."
+          },
+          {
+            id: "ef_23",
+            type: "single",
+            text: "23. The kids enjoyed ______ when they visited Disneyland.",
+            opts: ["himself", "them", "themselves", "their"],
+            ans: 2,
+            dispAnswer: "c) themselves",
+            exp: "Reflexive pronoun for plural 'the kids' is 'themselves'."
+          },
+          {
+            id: "ef_24",
+            type: "single",
+            text: "24. I didn't realize that someone was recording our conversation.",
+            opts: [
+              "I didn't realize that our conversation had being recorded.",
+              "I didn't realize that our conversation was recorded.",
+              "I didn't realize that our conversation was being recorded.",
+              "I didn't realize that our conversation had been recorded."
+            ],
+            ans: 2,
+            dispAnswer: "c) I didn't realize that our conversation was being recorded.",
+            exp: "Past continuous passive requires 'was/were + being + V3'."
+          },
+          {
+            id: "ef_25",
+            type: "single",
+            text: "25. The works of Shakespeare ______ into every major language in the world.",
+            opts: ["are going to translate", "have been translated", "had translated", "had been translating"],
+            ans: 1,
+            dispAnswer: "b) have been translated",
+            exp: "Present perfect passive indicates completion with current relevance."
+          },
+          {
+            id: "ef_26",
+            type: "single",
+            text: "26. I really hate ______ waiting at the dentist.",
+            opts: ["being kept", "to have kept", "having kept", "to keep"],
+            ans: 0,
+            dispAnswer: "a) being kept",
+            exp: "Passive gerund 'being kept' follows verbs of feeling/preference like 'hate'."
+          },
+          {
+            id: "ef_27",
+            type: "single",
+            text: "27. The twins ______ after by a German nanny for the last three years, so they can both speak German quite fluently.",
+            opts: ["were being looked", "have been looked", "will have looked", "have been looking"],
+            ans: 1,
+            dispAnswer: "b) have been looked",
+            exp: "Present perfect passive expresses care that has continued for three years."
+          },
+          {
+            id: "ef_28",
+            type: "single",
+            text: "28. I'll have to come by bus as my car ______.",
+            opts: ["is repairing", "is being repaired", "Was being repaired", "Has been repaired"],
+            ans: 1,
+            dispAnswer: "b) is being repaired",
+            exp: "Present continuous passive denotes an ongoing process happening now."
+          },
+          {
+            id: "ef_29",
+            type: "single",
+            text: "29. Archaeologists ______ the gold in a cave near the top of the mountain.",
+            opts: ["were discovered", "was discovered", "discovered", "Have been discovered"],
+            ans: 2,
+            dispAnswer: "c) discovered",
+            exp: "The subject 'Archaeologists' performs the action, requiring active past simple."
+          },
+          {
+            id: "ef_30",
+            type: "single",
+            text: "30. 'The government has to take precautions against the hunters to protect the elephants because they are becoming extinct.' = Precautions ______ against the hunters to protect the elephants because they are becoming extinct.",
+            opts: ["are to be taken", "were to be taken", "has to be taken", "have to be taken"],
+            ans: 3,
+            dispAnswer: "d) have to be taken",
+            exp: "Plural subject 'Precautions' requires 'have to be + past participle'."
+          },
+          {
+            id: "ef_31",
+            type: "single",
+            text: "31. There isn't any ice cream in the refrigerator now. It all ______.",
+            opts: ["was/been eaten", "has/been eaten", "had/eaten", "had/been eaten"],
+            ans: 1,
+            dispAnswer: "b) has/been eaten",
+            exp: "Result in the present ('isn't any now') demands present perfect passive ('has been eaten')."
+          },
+          {
+            id: "ef_32",
+            type: "single",
+            text: "32. Ali ______ his credit card ______.",
+            opts: ["has/change", "get/to change", "made/to change", "had/changed"],
+            ans: 3,
+            dispAnswer: "d) had/changed",
+            exp: "Causative pattern: have/had + object + past participle ('had his credit card changed')."
+          },
+          {
+            id: "ef_33",
+            type: "single",
+            text: "33. He is the kind of man who doesn't do even a simple favor without ______.",
+            opts: ["be paid", "to have been paid", "being paid", "paying"],
+            ans: 2,
+            dispAnswer: "c) being paid",
+            exp: "Prepositions like 'without' are followed by a passive gerund ('being paid')."
+          },
+          {
+            id: "ef_34",
+            type: "single",
+            text: "34. The Remembrance Day and the Veteran's Day ______ on the 11th of November every year.",
+            opts: ["Celebrated", "are celebrated", "will be celebrated", "is celebrated"],
+            ans: 1,
+            dispAnswer: "b) are celebrated",
+            exp: "Plural compound subject takes plural present simple passive ('are celebrated')."
+          },
+          {
+            id: "ef_35",
+            type: "single",
+            text: "35. The people next door disappeared 6 months ago. They ______ since then.",
+            opts: ["aren't seen", "haven't been seen", "weren't seen", "weren't being seen"],
+            ans: 1,
+            dispAnswer: "b) haven't been seen",
+            exp: "'Since then' triggers the present perfect passive ('haven't been seen')."
+          },
+          {
+            id: "ef_36",
+            type: "single",
+            text: "36. Tim injured ______ while playing football.",
+            opts: ["He", "herself", "themselves", "himself"],
+            ans: 3,
+            dispAnswer: "d) himself",
+            exp: "Singular masculine reflexive pronoun is 'himself'."
+          },
+          {
+            id: "ef_37",
+            type: "single",
+            text: "37. The hotel, which ______ only last year, ______ with a solarium and sauna.",
+            opts: ["was completed / is equipped", "had completed / was equipped", "has been completed / will be equipped", "completed/ was equipped"],
+            ans: 0,
+            dispAnswer: "a) was completed / is equipped",
+            exp: "Past completion ('last year' -> was completed) with present state ('is equipped')."
+          },
+          {
+            id: "ef_38",
+            type: "single",
+            text: "38. Lucy had her car ______ yesterday.",
+            opts: ["steal", "stole", "stealing", "stolen"],
+            ans: 3,
+            dispAnswer: "d) stolen",
+            exp: "Causative construction: 'had + object + past participle' (had her car stolen)."
+          },
+          {
+            id: "ef_39",
+            type: "single",
+            text: "39. One of the following sentences is incorrect:",
+            opts: [
+              "The painting in the National Gallery was damaged with a knife. It's obvious.",
+              "The painting in the National Gallery was damaged by a knife. It's obvious."
+            ],
+            ans: 0,
+            dispAnswer: "a) The painting in the National Gallery was damaged with a knife. It's obvious.",
+            exp: "Designated answer in the key identifies sentence (a)."
+          },
+          {
+            id: "ef_40",
+            type: "single",
+            text: "40. A: Did you turn off the photocopier?<br>B: The manager ______ already ______ it off.",
+            opts: ["had/turned", "has/turned", "had been/ turned", "was/turned"],
+            ans: 0,
+            dispAnswer: "a) had/turned",
+            exp: "Past perfect active ('had turned') indicates completion prior to the conversation."
+          },
+          {
+            id: "ef_41",
+            type: "single",
+            text: "41. The room was dark as it was midnight, but I saw him sitting near the window ______.",
+            opts: ["by himself", "himself", "itself", "by itself"],
+            ans: 0,
+            dispAnswer: "a) by himself",
+            exp: "'By himself' means alone / unaccompanied."
+          },
+          {
+            id: "ef_42",
+            type: "single",
+            text: "42. They were fighting with each other and making ______ cry, but then their mother told them to behave ______.",
+            opts: ["themselves / themselves", "yourselves / themselves", "themselves /herself", "themselves/ yourselves"],
+            ans: 0,
+            dispAnswer: "a) themselves / themselves",
+            exp: "Both refer back to the plural third-person subject 'they' / 'them'."
+          },
+          {
+            id: "ef_43",
+            type: "single",
+            text: "43. Wawel Castle ______ the Polish kings.",
+            opts: ["was built", "was built by", "built", "is building"],
+            ans: 1,
+            dispAnswer: "b) was built by",
+            exp: "Passive structure with agent: 'was built by'."
+          },
+          {
+            id: "ef_44",
+            type: "single",
+            text: "44. Which sentence is correct?",
+            opts: [
+              "The clay was made of the vase.",
+              "The vase was made of clay.",
+              "The vase was made by clay.",
+              "The clay was made with vase."
+            ],
+            ans: 1,
+            dispAnswer: "b) The vase was made of clay.",
+            exp: "'Made of' is used when the material (clay) has not fundamentally changed its identity."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Vocabulary, Phrasal Verbs & Cultural Reading (Questions 45 – 72)",
+        context: "Official past final questions covering textbook cultural units (Terracotta Army, Aboriginal culture, idioms & phrasal verbs):",
+        subQuestions: [
+          {
+            id: "ef_45",
+            type: "single",
+            text: "45. The farmers found the first ______ statue.",
+            opts: ["guard", "life-sized", "armory", "tomb"],
+            ans: 1,
+            dispAnswer: "b) life-sized",
+            exp: "'Life-sized' means having the same size as a real human being."
+          },
+          {
+            id: "ef_46",
+            type: "single",
+            text: "46. Each one of statues is ______ and rare.",
+            opts: ["unique", "facial expression", "height", "reign"],
+            ans: 0,
+            dispAnswer: "a) unique",
+            exp: "'Unique' means one of a kind, each having distinct facial expressions."
+          },
+          {
+            id: "ef_47",
+            type: "single",
+            text: "47. The first great fortresses that would become part of the Great Wall of China were also built during his ______.",
+            opts: ["emperor", "reign", "model", "armory"],
+            ans: 1,
+            dispAnswer: "b) reign",
+            exp: "'Reign' refers to the period during which a sovereign rules."
+          },
+          {
+            id: "ef_48",
+            type: "single",
+            text: "48. The statues were made to ______ the tomb of Qin Shi Huang.",
+            opts: ["protect", "ruin", "guard", "reveal"],
+            ans: 0,
+            dispAnswer: "a) protect",
+            exp: "Key specifies 'protect' as the primary design purpose."
+          },
+          {
+            id: "ef_49",
+            type: "single",
+            text: "49. 'Police officers were examining the evidence.' This sentence has the same meaning of:",
+            opts: [
+              "The evidence was examined by the police officers.",
+              "The evidence examined by the police officers.",
+              "The evidence was being examined by the police officers.",
+              "The evidence were examined by the police officers."
+            ],
+            ans: 2,
+            dispAnswer: "c) The evidence was being examined by the police officers.",
+            exp: "Past continuous active transforms to 'was being + V3'."
+          },
+          {
+            id: "ef_50",
+            type: "single",
+            text: "50. 'We are going to announce the results on Friday' has the same meaning of: 'The results is going to be announced on Friday.'",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "False because 'results' is plural and requires 'are going to be announced', not 'is'."
+          },
+          {
+            id: "ef_51",
+            type: "single",
+            text: "51. What ______ 'modern civilization' is the result of accumulated knowledge applied to practical life.",
+            opts: ["is called", "called", "had been called", "may call", "was being called"],
+            ans: 0,
+            dispAnswer: "a) is called",
+            exp: "Present simple passive expresses a universal factual definition."
+          },
+          {
+            id: "ef_52",
+            type: "single",
+            text: "52. The test book called 'Advanced English Tests' ______ by two young brilliant men in 2025.",
+            opts: ["re-published", "was re-published", "will be re-published", "had been re-published"],
+            ans: 2,
+            dispAnswer: "c) will be re-published",
+            exp: "Designated answer in the key indicates future passive 'will be re-published'."
+          },
+          {
+            id: "ef_53",
+            type: "single",
+            text: "53. The temple, which the archaeologists explored, ______ as a place of worship in the 15th century.",
+            opts: ["is used", "was being used", "had used", "was used", "should have been used"],
+            ans: 2,
+            dispAnswer: "c) had used",
+            exp: "Marked answer as designated in the official examination answer key."
+          },
+          {
+            id: "ef_54",
+            type: "single",
+            text: "54. This site ______ in 1920.",
+            opts: ["was dig", "was excavated", "was buried", "was protected"],
+            ans: 1,
+            dispAnswer: "b) was excavated",
+            exp: "'Was excavated' means dug up and explored systematically by archaeologists."
+          },
+          {
+            id: "ef_55",
+            type: "single",
+            text: "55. The buried treasure ______ for hundreds of years.",
+            opts: ["had remained untouched", "was kept untouched", "was untouched", "had still untouched"],
+            ans: 1,
+            dispAnswer: "b) was kept untouched",
+            exp: "Marked answer as designated in the official examination answer key."
+          },
+          {
+            id: "ef_56",
+            type: "single",
+            text: "56. When a speedboat ______ fiberglass, this means that it is very light but still quite strong.",
+            opts: ["is out of", "is made of", "is made out of", "of"],
+            ans: 1,
+            dispAnswer: "b) is made of",
+            exp: "'Is made of' designates the material used in manufacturing."
+          },
+          {
+            id: "ef_57",
+            type: "single",
+            text: "57. My friend really ______; she orders for a dessert every time we go out.",
+            opts: ["has a sugary tooth", "with sweet tooth", "has a sweet tooth", "is sugary"],
+            ans: 2,
+            dispAnswer: "c) has a sweet tooth",
+            exp: "The English idiom 'have a sweet tooth' means having a strong fondness for sweet foods."
+          },
+          {
+            id: "ef_58",
+            type: "single",
+            text: "58. There are works of art from around the world ______ in the national gallery.",
+            opts: ["in show", "on show", "on display= shown", "in display"],
+            ans: 2,
+            dispAnswer: "c) on display= shown",
+            exp: "'On display' (or on show) means exhibited to the public."
+          },
+          {
+            id: "ef_59",
+            type: "single",
+            text: "59. Many people like to ______ photographs in the spectacular sites here.",
+            opts: ["stop to", "pose for", "crave out", "line to"],
+            ans: 1,
+            dispAnswer: "b) pose for",
+            exp: "'Pose for photographs' is the natural collocation."
+          },
+          {
+            id: "ef_60",
+            type: "single",
+            text: "60. This special sculpture was made by one of the ______ artists.",
+            opts: ["original", "local", "ordinary", "people"],
+            ans: 1,
+            dispAnswer: "b) local",
+            exp: "'Local artists' refers to creators belonging to that specific area or community."
+          },
+          {
+            id: "ef_61",
+            type: "single",
+            text: "61. A ______ is a traditional Australian Aboriginal musical instrument.",
+            opts: ["Garma", "didgeridoo", "sound", "bark"],
+            ans: 1,
+            dispAnswer: "b) didgeridoo",
+            exp: "A didgeridoo is a wind instrument developed by Indigenous Australians."
+          },
+          {
+            id: "ef_62",
+            type: "single",
+            text: "62. A tree will die if a ring of ______ is removed.",
+            opts: ["park", "bark", "bond", "ground"],
+            ans: 1,
+            dispAnswer: "b) bark",
+            exp: "'Bark' is the tough outer covering of a tree trunk."
+          },
+          {
+            id: "ef_63",
+            type: "single",
+            text: "63. They are the ______ residents of this island. They have been here for thousands of years.",
+            opts: ["Yolngo", "Australian", "aboriginal", "Garma"],
+            ans: 2,
+            dispAnswer: "c) aboriginal",
+            exp: "'Aboriginal' denotes indigenous people who have inhabited a region from early times."
+          },
+          {
+            id: "ef_64",
+            type: "single",
+            text: "64. Some cultures believed that all things have their own ______ and ______.",
+            opts: ["life- post life", "life- death", "soul-spirit", "holy-highlighted"],
+            ans: 2,
+            dispAnswer: "c) soul-spirit",
+            exp: "Reflects animist beliefs in traditional Indigenous cultures."
+          },
+          {
+            id: "ef_65",
+            type: "single",
+            text: "65. A: I'd like to mail this package, please.<br>B: ______.",
+            opts: ["It's a gift", "Put on the scale, please", "Thank you", "$ 5, please"],
+            ans: 1,
+            dispAnswer: "b) Put on the scale, please",
+            exp: "Standard postal customer service interaction response."
+          },
+          {
+            id: "ef_66",
+            type: "single",
+            text: "66. A: How would you like to send it?<br>B: ______.",
+            opts: ["What are the choices?", "Ok", "It's a gift", "So, how much?"],
+            ans: 0,
+            dispAnswer: "a) What are the choices?",
+            exp: "Natural dialogue inquiry to know delivery options (regular, express, airmail)."
+          },
+          {
+            id: "ef_67",
+            type: "single",
+            text: "67. I know that I have to ______ trying over and over and never give up.",
+            opts: ["keep out", "keep it up", "keep on", "keep it down"],
+            ans: 2,
+            dispAnswer: "c) keep on",
+            exp: "'Keep on' means to continue doing something without stopping."
+          },
+          {
+            id: "ef_68",
+            type: "single",
+            text: "68. The teacher ______ the honest student ______ with a little warning.",
+            opts: ["let-in", "let-off", "let-down", "let of"],
+            ans: 1,
+            dispAnswer: "b) let-off",
+            exp: "'Let someone off' means to forgive or excuse without punishment."
+          },
+          {
+            id: "ef_69",
+            type: "single",
+            text: "69. She promised me not to ______ me ______ again!",
+            opts: ["let-off", "keep- up", "keep- down", "let-down"],
+            ans: 3,
+            dispAnswer: "d) let-down",
+            exp: "'Let down' means to disappoint someone or fail to keep a promise."
+          },
+          {
+            id: "ef_70",
+            type: "single",
+            text: "70. Everyone has to eat healthy food in order to ______ his/her strength.",
+            opts: ["keep- on", "keep- up", "keep down", "keep out"],
+            ans: 2,
+            dispAnswer: "c) keep down",
+            exp: "Marked answer as designated in the official examination answer key."
+          },
+          {
+            id: "ef_71",
+            type: "single",
+            text: "71. I have already read a sign saying 'Building work in progress ______!'",
+            opts: ["Keep on", "Let-off", "Keep out"],
+            ans: 2,
+            dispAnswer: "c) Keep out",
+            exp: "'Keep out' is a warning sign forbidding entry to unauthorized individuals."
+          },
+          {
+            id: "ef_72",
+            type: "single",
+            text: "72. Students ______ to eat inside the library.",
+            opts: ["must allow", "are not allowed", "will not allow", "don't be allowed"],
+            ans: 1,
+            dispAnswer: "b) are not allowed",
+            exp: "Passive prohibition structure: 'are not allowed to'."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Impersonal Reporting, Advanced Passive & Adjectives (Questions 73 – 83)",
+        context: "Official past final questions covering impersonal passive reporting, participle adjectives, and graphs:",
+        subQuestions: [
+          {
+            id: "ef_73",
+            type: "single",
+            text: "73. 'I didn't fix the problem' The passive equivalent for this is:",
+            opts: ["he hadn't fixed it", "The problem wasn't fixed by I", "The problem wasn't fixed by me", "I wasn't fixed the problem"],
+            ans: 2,
+            dispAnswer: "c) The problem wasn't fixed by me",
+            exp: "Past simple passive negative with agent pronoun 'by me'."
+          },
+          {
+            id: "ef_74",
+            type: "single",
+            text: "74. 'It is said that these herbs are good for you' has the same meaning of:",
+            opts: ["Herbs are said to be good for you.", "Someone has said that these herbs can be good for us."],
+            ans: 0,
+            dispAnswer: "a) Herbs are said to be good for you.",
+            exp: "Personal reporting structure: 'Subject + is/are said + to + infinitive'."
+          },
+          {
+            id: "ef_75",
+            type: "single",
+            text: "75. 'The Police reported that the number of car accidents had increased' is equal to 'The number of car accidents was reported to have increased.'",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "Past active reporting transforms to 'was reported to have + past participle'."
+          },
+          {
+            id: "ef_76",
+            type: "single",
+            text: "76. 'The doctors claim that this new technique is a revolution for heart problems' has the same meaning of:",
+            opts: [
+              "The new techniques were claimed by doctors to be a revolution for heart problems",
+              "This new technique is claimed to be a revolution for heart diseases.",
+              "Doctors are claimed to get new techniques",
+              "All of the answers are correct"
+            ],
+            ans: 1,
+            dispAnswer: "b) This new technique is claimed to be a revolution for heart diseases.",
+            exp: "Present active reporting becomes 'is claimed to be'."
+          },
+          {
+            id: "ef_77",
+            type: "single",
+            text: "77. Scientists thought that many unknown mammals still live in the middle of Asian jungles. The passive equivalent for this active sentence is:",
+            opts: [
+              "Many unknown mammals are thought to live in the middle of Asian jungles.",
+              "It was thought that many unknown mammals still live in the middle of Asian jungles.",
+              "Many unknown mammals were thought to live in the middle of Asian jungles.",
+              "Both B+C are correct"
+            ],
+            ans: 3,
+            dispAnswer: "d) Both B+C are correct",
+            exp: "Both impersonal 'It was thought that...' and personal 'Many... were thought to live' are valid past passive equivalents."
+          },
+          {
+            id: "ef_78",
+            type: "single",
+            text: "78. People think that the number thirteen is unlucky in some parts of the world. The passive voice of this sentence is:",
+            opts: [
+              "The number thirteen has been thought to be unlucky in some parts of the world.",
+              "The number thirteen is thought unlucky to be in some parts of the world.",
+              "The number thirteen was thought to be unlucky in some parts of the world.",
+              "The number thirteen is thought to be unlucky in some parts of the world."
+            ],
+            ans: 3,
+            dispAnswer: "d) The number thirteen is thought to be unlucky in some parts of the world.",
+            exp: "Present reporting transforms to 'is thought to be'."
+          },
+          {
+            id: "ef_79",
+            type: "single",
+            text: "79. By the time she ______ fifty years old, Britney Spears ______.",
+            opts: ["was/will have made", "will be/ will have been making", "is/will make", "is/will have made"],
+            ans: 3,
+            dispAnswer: "d) is/will have made",
+            exp: "Time clause in the present ('is') followed by future perfect ('will have made') for completion by that point."
+          },
+          {
+            id: "ef_80",
+            type: "single",
+            text: "80. If we look at the figure, the horizontal axis shows ______ and the vertical axis shows ______. The interval on the vertical axis is ______.",
+            opts: [
+              "age/percentage of women with cervical cancer/ two",
+              "residence and age/ percentage of women/ ten",
+              "age and residence/ rate per 100,000 women/ one",
+              "residence / rate per 1000,000 people/ five"
+            ],
+            ans: 2,
+            dispAnswer: "c) age and residence/ rate per 100,000 women/ one",
+            exp: "Designated answer according to the official graph interpretation key."
+          },
+          {
+            id: "ef_81",
+            type: "single",
+            text: "81. People think that the number thirteen is unlucky in some parts of the world. The passive voice of this sentence is:",
+            opts: [
+              "The number thirteen has been thought to be unlucky in some parts of the world.",
+              "The number thirteen is thought unlucky to be in some parts of the world.",
+              "The number thirteen was thought to be unlucky in some parts of the world.",
+              "The number thirteen is thought to be unlucky in some parts of the world."
+            ],
+            ans: 3,
+            dispAnswer: "d) The number thirteen is thought to be unlucky in some parts of the world.",
+            exp: "Standard passive reporting construction."
+          },
+          {
+            id: "ef_82",
+            type: "single",
+            text: "82. She quickly became ______ when she couldn't work out the puzzle.",
+            opts: ["Frustrating", "Frustrated"],
+            ans: 1,
+            dispAnswer: "b) Frustrated",
+            exp: "-ed adjective describes the person's internal feeling/state."
+          },
+          {
+            id: "ef_83",
+            type: "single",
+            text: "83. The comedian was ______; I laughed so hard I was almost crying.",
+            opts: ["fascinating", "fascinated"],
+            ans: 0,
+            dispAnswer: "a) fascinating",
+            exp: "-ing adjective describes the characteristic of the performer causing the feeling."
+          }
+        ]
+      },
+      {
+        title: "Part 5: Idioms, Future Forms, Articles & Linguistic Skills (Questions 84 – 100)",
+        context: "Official past final questions covering articles, vocabulary relations, future perfect/continuous, and graph analysis:",
+        subQuestions: [
+          {
+            id: "ef_84",
+            type: "single",
+            text: "84. Try to get ______ the house, this will make you feel relaxed.",
+            opts: ["off", "out", "together", "around"],
+            ans: 1,
+            dispAnswer: "b) out",
+            exp: "'Get out of the house' means leaving the house to relax."
+          },
+          {
+            id: "ef_85",
+            type: "single",
+            text: "85. Let's go out and have a round; this might help ______ the problem for a while.",
+            opts: ["taking your mind off", "making your mind blank off", "making up your mind off", "take care of your mind"],
+            ans: 0,
+            dispAnswer: "a) taking your mind off",
+            exp: "The idiom 'take your mind off something' means stop worrying about it temporarily."
+          },
+          {
+            id: "ef_86",
+            type: "single",
+            text: "86. When I reached my house, I noticed that ______.",
+            opts: ["the windows got been closed", "the windows were not closed", "I had not been closed the windows", "the windows had not been closed"],
+            ans: 3,
+            dispAnswer: "d) the windows had not been closed",
+            exp: "Past perfect passive ('had not been closed') refers to a situation existing prior to reaching home."
+          },
+          {
+            id: "ef_87",
+            type: "single",
+            text: "87. When will lunch be ready? I am ______; I haven't eaten since last night.",
+            opts: ["boiling", "starving", "freezing", "hilarious"],
+            ans: 1,
+            dispAnswer: "b) starving",
+            exp: "'Starving' is an extreme adjective meaning extremely hungry."
+          },
+          {
+            id: "ef_88",
+            type: "single",
+            text: "88. You should take your car to the mechanic to ______.",
+            opts: ["the breaks have repaired", "have the breaks repaired", "have repair the breaks", "have the breaks repair"],
+            ans: 1,
+            dispAnswer: "b) have the breaks repaired",
+            exp: "Causative structure: have + object + past participle."
+          },
+          {
+            id: "ef_89",
+            type: "single",
+            text: "89. By the time we get home, they ______.",
+            opts: ["will have played", "will play", "will be playing", "will have been playing"],
+            ans: 3,
+            dispAnswer: "d) will have been playing",
+            exp: "Designated answer in the key indicates future perfect continuous."
+          },
+          {
+            id: "ef_90",
+            type: "single",
+            text: "90. Do you think the teacher ______ our homework by Monday morning?",
+            opts: ["will mark", "has marked", "has will marked", "will have marked"],
+            ans: 3,
+            dispAnswer: "d) will have marked",
+            exp: "'By + future time' requires future perfect ('will have marked')."
+          },
+          {
+            id: "ef_91",
+            type: "single",
+            text: "91. I heard in ______ news that all the prisoners will be released from ______ prison.",
+            opts: ["X / X", "the / X", "X / the", "the / the"],
+            ans: 1,
+            dispAnswer: "b) the / X",
+            exp: "'The news' takes the definite article, while 'released from prison' takes zero article when referring to the primary purpose."
+          },
+          {
+            id: "ef_92",
+            type: "single",
+            text: "92. I like listening to ______ music while I'm working, but I don't like ______ music that my college puts on.",
+            opts: ["X / X", "the / the", "the / X", "X / the"],
+            ans: 3,
+            dispAnswer: "d) X / the",
+            exp: "Music in general takes zero article (X), whereas specific music ('that my college puts on') takes 'the'."
+          },
+          {
+            id: "ef_93",
+            type: "single",
+            text: "93. I didn't GET the message you sent yesterday. Would you send it again? GET means:",
+            opts: ["Receive", "Become", "Buy", "Understand"],
+            ans: 3,
+            dispAnswer: "d) Understand",
+            exp: "Marked answer as designated in the official examination answer key."
+          },
+          {
+            id: "ef_94",
+            type: "single",
+            text: "94. I heard in ______ news that all the prisoners will be released from ______ prison.",
+            opts: ["X / X", "the / X", "X / the", "the / the"],
+            ans: 1,
+            dispAnswer: "b) the / X",
+            exp: "'The news' takes definite article; 'from prison' takes zero article."
+          },
+          {
+            id: "ef_95",
+            type: "single",
+            text: "95. ______ long hair when you were a kid?",
+            opts: ["Had you got / Did you have", "Had you got", "Did you got", "Did you have"],
+            ans: 3,
+            dispAnswer: "d) Did you have",
+            exp: "Past simple interrogative for state/possession: 'Did you have'."
+          },
+          {
+            id: "ef_96",
+            type: "single",
+            text: "96. 'My brother bought furniture for his house, but he didn't like the table.' The underlined words furniture and table are:",
+            opts: ["antonyms", "synonyms", "hyponyms", "meronyms"],
+            ans: 2,
+            dispAnswer: "c) hyponyms",
+            exp: "A table is a specific type of furniture; hierarchical superordinate-hyponym relation."
+          },
+          {
+            id: "ef_97",
+            type: "single",
+            text: "97. A: Can I call you tomorrow?<br>B: Sure, I'll be home this time tomorrow, John and I ______ the house.",
+            opts: ["Are cleaning", "Shall cleaning", "Will cleaning", "Will be cleaning"],
+            ans: 3,
+            dispAnswer: "d) Will be cleaning",
+            exp: "Future continuous ('will be cleaning') denotes an activity in progress at a specific time in the future."
+          },
+          {
+            id: "ef_98",
+            type: "single",
+            text: "98. Because there was ______ huge rainstorm, ______ flight was delayed for more than ______ hour.",
+            opts: ["A / X / X / X", "A / a / a / the", "X / the / x / x", "A / the / an / x"],
+            ans: 3,
+            dispAnswer: "d) A / the / an / x",
+            exp: "'A huge rainstorm', 'the flight', 'an hour'."
+          },
+          {
+            id: "ef_99",
+            type: "single",
+            text: "99. The meaning of the underlined word 'vary' in paragraph two can be guessed through using ______.",
+            opts: ["synonymy", "exemplification", "paraphrasing", "antonymy"],
+            ans: 1,
+            dispAnswer: "b) exemplification",
+            exp: "Context clues through examples provide the meaning of 'vary' in the text."
+          },
+          {
+            id: "ef_100",
+            type: "single",
+            text: "100. From the given figure, the bar graph, we can conclude that:",
+            opts: [
+              "the younger women are the more they suffer from cervical cancer",
+              "in both regions, the border and the US, the older women become the higher the rate",
+              "the rate of cervical cancer mortality among",
+              "women in the US of all ages suffer from cervical cancer more than women"
+            ],
+            ans: 1,
+            dispAnswer: "b) in both regions, the border and the US, the older women become the higher",
+            exp: "Trend analysis of the graph shows rates increase with age across both regions."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

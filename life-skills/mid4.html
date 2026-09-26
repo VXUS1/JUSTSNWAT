@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | المهارات الحياتية (Life Skills) - أسئلة الميد (Lec 4)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ls">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">المهارات الحياتية (Life Skills)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Module 1 (Lecture 4) — أسئلة امتحان منتصف الفصل (Written Communication & Technical Writing)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ls">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+    const examSections = [
+      {
+        title: "Part 1: General & Effective Writing Strategies (Questions 1 – 12)",
+        context: "Multiple-choice questions covering writing skills, outlining, strong verbs, editing, and writing types:",
+        subQuestions: [
+          {
+            id: "ls4_1",
+            type: "single",
+            text: "1. Writing is a ______ that can be learnt by doing and practicing.",
+            opts: ["method", "strategy", "skill", "project", "design"],
+            ans: 2,
+            dispAnswer: "c) skill",
+            exp: "الكتابة هي مهارة مكتسبة وليست مجرد موهبة فطرية، ويمكن تعلمها وتطويرها بالممارسة المستمرة والتمرين[cite: 9]."
+          },
+          {
+            id: "ls4_2",
+            type: "single",
+            text: "2. One of the best ways to become a good writer is to become a good ______.",
+            opts: ["reader", "listener", "speaker", "communicator"],
+            ans: 0,
+            dispAnswer: "a) reader",
+            exp: "من أفضل الطرق والوسائل لتصبح كاتباً متميزاً هي أن تكون قارئاً نهماً وجيداً[cite: 9]."
+          },
+          {
+            id: "ls4_3",
+            type: "single",
+            text: "3. Which of the following is not a strategy of effective writing?",
+            opts: ["Use an outline", "Decide what information you need to include", "Answer the 5 Hs and W", "Be simple and direct"],
+            ans: 2,
+            dispAnswer: "c) Answer the 5 Hs and W",
+            exp: "القاعدة الصحفية الصحيحة هي الـ (5 Ws and H)، لذلك فإن صيغة (5 Hs and W) خاطئة وليست استراتيجية كتابية[cite: 9]."
+          },
+          {
+            id: "ls4_4",
+            type: "single",
+            text: "4. Effective writing is about conveying your thoughts and purposes in a clear way, and that starts with ______ showing a clear objective achieved through a beginning, a middle, and an end.",
+            opts: ["a brainstorming", "an outline", "strong verbs", "a limited number of adjectives and adverbs"],
+            ans: 1,
+            dispAnswer: "b) an outline",
+            exp: "الكتابة الفعالة تبدأ بإعداد مخطط هيكلي (Outline) يوضح الهدف عبر مقدمة وعرض وخاتمة[cite: 9]."
+          },
+          {
+            id: "ls4_5",
+            type: "single",
+            text: "5. Clear, effective writing uses clear, strong verbs. One element of using strong verbs is to write in ______.",
+            opts: ["passive voice", "past simple", "long sentences", "active voice"],
+            ans: 3,
+            dispAnswer: "d) active voice",
+            exp: "استخدام الأفعال القوية والواضحة يقتضي بالدرجة الأولى الكتابة بصيغة المبني للمعلوم (Active voice)[cite: 9]."
+          },
+          {
+            id: "ls4_6",
+            type: "single",
+            text: "6. Aim for a 'diction' that is simple and direct. This means that you should ______.",
+            opts: ["use short sentences", "choose simple and strong verbs", "use simple phrases", "choose simple and direct words"],
+            ans: 3,
+            dispAnswer: "d) choose simple and direct words",
+            exp: "المقصود بالأسلوب اللفظي البسيط والمباشر هو انتقاء كلمات وألفاظ واضحة وغير معقدة[cite: 9]."
+          },
+          {
+            id: "ls4_7",
+            type: "single",
+            text: "7. ______ is the process of looking at each sentence's efficiency and identifying and correcting any errors in grammar, punctuation, and spelling.",
+            opts: ["Editing", "Revising", "Proofreading", "All of the above"],
+            ans: 0,
+            dispAnswer: "a) Editing",
+            exp: "التحرير (Editing) هو عملية فحص فعالية كل جملة وتصحيح الأخطاء النحوية والإملائية وعلامات الترقيم[cite: 9]."
+          },
+          {
+            id: "ls4_8",
+            type: "single",
+            text: "8. Poems are considered an example of ______.",
+            opts: ["expressive writing", "expository writing", "journalism", "technical writing"],
+            ans: 0,
+            dispAnswer: "a) expressive writing",
+            exp: "تُعد القصائد الشعرية نموذجاً بارزاً للكتابة التعبيرية العاطفية الذاتية (Expressive writing)[cite: 9]."
+          },
+          {
+            id: "ls4_9",
+            type: "single",
+            text: "9. Narratives are considered an example of ______.",
+            opts: ["expressive writing", "expository writing", "journalism", "technical writing"],
+            ans: 1,
+            dispAnswer: "b) expository writing",
+            exp: "القصص والروايات السردية تُصنّف وفق سياق المادة ضمن الكتابة التفسيرية/الإيضاحية (Expository writing)[cite: 9]."
+          },
+          {
+            id: "ls4_10",
+            type: "single",
+            text: "10. Technical writing is a type of writing where the author is writing about a particular subject that requires ______.",
+            opts: ["direction", "explanation", "instruction", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "تتطلب الكتابة التقنية توجيهاً وشرحاً وإرشادات دقيقة لتوجيه القارئ لإنجاز المهام[cite: 9]."
+          },
+          {
+            id: "ls4_11",
+            type: "single",
+            text: "11. ______ are not of the areas included in technical writing.",
+            opts: ["Memos", "E-mails", "Letters", "Reports", "Short messages"],
+            ans: 4,
+            dispAnswer: "e) Short messages",
+            exp: "الرسائل النصية السريعة والقصيرة لا تُعدّ من مجالات وأشكال الكتابة التقنية والمهنية[cite: 9]."
+          },
+          {
+            id: "ls4_12",
+            type: "single",
+            text: "12. People read literature ______, essays ______, and journalism ______. People read technical writing ______.",
+            opts: [
+              "for enlightenment / for news / to accomplish a job / for pleasure",
+              "for pleasure / for enlightenment / to accomplish a job / for news",
+              "for pleasure / for enlightenment / for news / to accomplish a job",
+              "for pleasure / for news / to accomplish a job / for enlightenment"
+            ],
+            ans: 2,
+            dispAnswer: "c) for pleasure / for enlightenment / for news / to accomplish a job",
+            exp: "يقرأ الناس الأدب للمتعة، والمقالات للاستنارة والفكر، والصحافة للأخبار، بينما تُقرأ الكتابة التقنية لإنجاز وظيفة ومهمة[cite: 9]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Technical Writing Traits & Document Design (Questions 13 – 20)",
+        context: "Multiple-choice questions covering technical style, layout, document design traits, and highlighting techniques:",
+        subQuestions: [
+          {
+            id: "ls4_13",
+            type: "single",
+            text: "13. 'Technical writing should be concise, using short words, short sentences, and short paragraphs.' This statement emphasizes how the ______ in technical writing should be.",
+            opts: ["style", "grammar", "document design", "brainstorming process"],
+            ans: 0,
+            dispAnswer: "a) style",
+            exp: "استخدام الكلمات والجمل والفقرات القصيرة والمباشرة يحدد أسلوب الكتابة التقنية (Style)[cite: 9]."
+          },
+          {
+            id: "ls4_14",
+            type: "single",
+            text: "14. Document ______ refers to the physical layout of the correspondence.",
+            opts: ["style", "design", "subject matter", "outline"],
+            ans: 1,
+            dispAnswer: "b) design",
+            exp: "تصميم المستند (Document design) يركز على المظهر والتنسيق البصري والمادي للمراسلات[cite: 9]."
+          },
+          {
+            id: "ls4_15",
+            type: "single",
+            text: "15. Which of the following is not a trait of technical writing?",
+            opts: ["Clarity", "Conciseness", "Accessible document design", "Necessity", "Audience recognition", "Accuracy"],
+            ans: 3,
+            dispAnswer: "d) Necessity",
+            exp: "سمات الكتابة التقنية الست هي: الوضوح، الإيجاز، التصميم الميسر، معرفة الجمهور، الدقة، والشمول؛ و'الضرورة' ليست سمة فنية منها[cite: 9]."
+          },
+          {
+            id: "ls4_16",
+            type: "single",
+            text: "16. Clarity can be achieved through the following questions EXCEPT:",
+            opts: [
+              "Who is the audience?",
+              "What do you plan to do?",
+              "When should the job be completed?",
+              "Where will the work take place?",
+              "Why is the task being undertaken?",
+              "How long does it take to perform the task?"
+            ],
+            ans: 5,
+            dispAnswer: "f) How long does it take to perform the task?",
+            exp: "يتحقق الوضوح بالإجابة على (من، ماذا، متى، أين، لماذا، كيف)، بينما زمن التنفيذ ليس سؤالاً هيكلياً للوضوح[cite: 9]."
+          },
+          {
+            id: "ls4_17",
+            type: "single",
+            text: "17. Conciseness in technical writing can be achieved through ______.",
+            opts: [
+              "avoiding short words",
+              "using short sentences",
+              "using prepositional phrases",
+              "changing all multisyllabic words",
+              "All of the above"
+            ],
+            ans: 1,
+            dispAnswer: "b) using short sentences",
+            exp: "يتحقق الإيجاز (Conciseness) من خلال استخدام الجمل القصيرة والمباشرة وحذف الحشو الزائد[cite: 9]."
+          },
+          {
+            id: "ls4_18",
+            type: "single",
+            text: "18. Which of the following is not one of the highlighting techniques used to make accessible document design?",
+            opts: [
+              "boldface",
+              "headings and subheadings",
+              "varied font sizes",
+              "bullets",
+              "varied audiences",
+              "varied font types",
+              "italics"
+            ],
+            ans: 4,
+            dispAnswer: "e) varied audiences",
+            exp: "تنوع الجمهور ليس من الأدوات البصرية والطباعية المستخدمة لإبراز النصوص في التصميم[cite: 9]."
+          },
+          {
+            id: "ls4_19",
+            type: "single",
+            text: "19. A medical doctor writing to a staff nurse would be writing ______.",
+            opts: [
+              "Low Tech to High Tech",
+              "High Tech to High Tech",
+              "High Tech to Low Tech",
+              "Low Tech to Low Tech"
+            ],
+            ans: 2,
+            dispAnswer: "c) High Tech to Low Tech",
+            exp: "يمتلك الطبيب معرفة طبية تخصصية أعلى، بينما تمتلك الممرضة معرفة تقنية أقل تفصيلاً، فيُعد اتصالاً من مستوى تقني عالٍ إلى أدنى[cite: 9]."
+          },
+          {
+            id: "ls4_20",
+            type: "single",
+            text: "20. No matter who the reader is or why the letter has been written, a letter should have ______ essential components.",
+            opts: ["eight", "five", "seven", "six"],
+            ans: 0,
+            dispAnswer: "a) eight",
+            exp: "تتكون الرسالة المهنية من ثمانية عناصر ومكونات أساسية معتمدة[cite: 9]."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Concepts, Rules & Professional Grammar (Questions 21 – 30)",
+        context: "True or False statements covering audience analysis, flowery language, editing vs. proofreading, and memo clarity:",
+        subQuestions: [
+          {
+            id: "ls4_21",
+            type: "single",
+            text: "21. Knowing how to communicate clearly and effectively in writing can help you to perform well and advance in your study and career.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "إتقان مهارات الكتابة الفعالة يسهم بصورة مباشرة في التميز الأكاديمي والترقي الوظيفي[cite: 9]."
+          },
+          {
+            id: "ls4_22",
+            type: "single",
+            text: "22. Your audience's opinion about your subject matter, as well as their interests, age, personality, location, and education level will all have no effect on how they think and feel about what you communicate to them.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "خصائص الجمهور وخلفيتهم ومستوى تعليمهم وعمرهم تؤثر تأثيراً كبيراً في كيفية استقبالهم للرسالة وفهمها[cite: 9]."
+          },
+          {
+            id: "ls4_23",
+            type: "single",
+            text: "23. A sentence that is cluttered with too many adjectives and adverbs makes the readers focus on its main purpose.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "حشو الجملة بالصفات والظروف الزائدة يشتت انتباه القارئ عن الفكرة والهدف الأساسي[cite: 9]."
+          },
+          {
+            id: "ls4_24",
+            type: "single",
+            text: "24. One mistake that effective writers often make is trying to make their language too flowery or worrying about using bigger words when a smaller one works well.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الكتاب البارعون (Effective writers) يتجنبون هذه الأخطاء ولا يقعون فيها، بل هذه أخطاء يقع فيها الكتاب غير المتمرسين[cite: 9]."
+          },
+          {
+            id: "ls4_25",
+            type: "single",
+            text: "25. Revising is the final step before submitting your work. It is similar to editing but involves going through your work in even finer detail to ensure that it is completely ready for an audience.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الخطوة النهائية قبل تسليم العمل هي التدقيق النهائي (Proofreading) وليست المراجعة العامة (Revising)[cite: 9]."
+          },
+          {
+            id: "ls4_26",
+            type: "single",
+            text: "26. The main purpose of technical writing is to provide clear information to readers in a way that they can understand and apply, even if they don't have prior knowledge of the topic.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الهدف الأسمى للكتابة التقنية هو تبسيط وشرح المعلومات لتمكين القارئ من فهمها وتطبيقها بنجاح[cite: 9]."
+          },
+          {
+            id: "ls4_27",
+            type: "single",
+            text: "27. Professional writers and business people consider grammar as an inessential element for effective technical writing.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "تُعد القواعد النحوية السليمة عنصراً جوهرياً وحاسماً للمصداقية والاحتراف في الكتابة التقنية والمهنية[cite: 9]."
+          },
+          {
+            id: "ls4_28",
+            type: "single",
+            text: "28. Grammar is so important in technical writing. Whereas errors often can hide in longer essays, those same errors loom large and clear in one-page memos or letters.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "في المراسلات والمذكرات القصيرة تظهر الأخطاء اللغوية بوضوح شديد وتؤثر سلباً على مصداقية الكاتب[cite: 9]."
+          },
+          {
+            id: "ls4_29",
+            type: "single",
+            text: "29. Technical writing uses highlighting techniques and graphics for visual appeal to help the reader access and understand the data.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "توظيف العناوين والخط العريض والرسومات يسهل وصول القارئ للمعلومة واستيعابها بسرعة[cite: 9]."
+          },
+          {
+            id: "ls4_30",
+            type: "single",
+            text: "30. If the correspondence is not clearly understood, the reader will either call the writer for further clarification, or just ignore the information. In either case, the writer's time is wasted; the reader's time is wasted; and the message is lost.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "عدم وضوح المراسلة يؤدي إلى إهدار وقت الطرفين وفشل الرسالة في تحقيق غايتها[cite: 9]."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Technical Correspondence - Memos, E-mails, Reports, Resumés & Fliers (Questions 31 – 40)",
+        context: "Multiple-choice and True/False questions on workplace documents and visual components:",
+        subQuestions: [
+          {
+            id: "ls4_31",
+            type: "single",
+            text: "31. Which of the following is not a component of memos?",
+            opts: ["Date", "Sender", "Receiver", "Subject", "Reader's address"],
+            ans: 4,
+            dispAnswer: "e) Reader's address",
+            exp: "المذكرة الداخلية (Memo) لا تحتوي على العنوان البريدي الكامل للمستلم، بخلاف الرسالة الرسمية الخارجية (Letter)[cite: 9]."
+          },
+          {
+            id: "ls4_32",
+            type: "single",
+            text: "32. A memo is a short official note that is sent by one person to another within the same company or organization.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "هذا هو التعريف الوظيفي للمذكرة؛ رسالة رسمية موجزة للتواصل الداخلي بين أفراد المؤسسة الواحدة[cite: 9]."
+          },
+          {
+            id: "ls4_33",
+            type: "single",
+            text: "33. Which of the following doesn't show the importance of e-mails?",
+            opts: [
+              "Millions of people use e-mails all over the world.",
+              "E-mail messages outnumber first-class letters.",
+              "They allow a writer to instantly communicate with a reader.",
+              "They can be sent to a limited number of readers at the same time."
+            ],
+            ans: 3,
+            dispAnswer: "d) They can be sent to a limited number of readers at the same time.",
+            exp: "ميزة البريد الإلكتروني الكبرى هي إمكانية الإرسال الفوري لعدد هائل وغير محدود من الأشخاص في آن واحد[cite: 9]."
+          },
+          {
+            id: "ls4_34",
+            type: "single",
+            text: "34. Which of the following is not a component of reports?",
+            opts: ["Introduction", "Body", "Conclusion", "Signature"],
+            ans: 3,
+            dispAnswer: "d) Signature",
+            exp: "يتكون التقرير الفني القياسي من المقدمة، وصلب الموضوع، والخاتمة والتوصيات، ولا يُعد التوقيع قسماً هيكلياً فيه[cite: 9]."
+          },
+          {
+            id: "ls4_35",
+            type: "single",
+            text: "35. The body of the report explains what exactly you accomplished and what ______.",
+            opts: [
+              "problems you encountered",
+              "what procedure you followed and",
+              "what you learned from the task",
+              "what options exist as feasible solutions to a problem",
+              "All of the above"
+            ],
+            ans: 4,
+            dispAnswer: "e) All of the above",
+            exp: "يفصل صلب التقرير الإنجازات، والإجراءات المتبعة، والتحديات، والحلول والدروس المستفادة[cite: 9]."
+          },
+          {
+            id: "ls4_36",
+            type: "single",
+            text: "36. A resumé must be ______.",
+            opts: ["unclear", "concise", "inaccessible", "incorrect"],
+            ans: 1,
+            dispAnswer: "b) concise",
+            exp: "يجب أن تكون السيرة الذاتية موجزة ومختصرة (Concise) ومركزة على أبرز المهارات والخبرات[cite: 9]."
+          },
+          {
+            id: "ls4_37",
+            type: "single",
+            text: "37. Which of the following is not of the components of a resume?",
+            opts: ["Identification", "Objectives", "Education", "Work experience", "Conclusion", "References"],
+            ans: 4,
+            dispAnswer: "e) Conclusion",
+            exp: "لا تحتوي السيرة الذاتية على فقرة خاتمة (Conclusion)، بل تنتهي بقسم المعرفين أو المهارات[cite: 9]."
+          },
+          {
+            id: "ls4_38",
+            type: "single",
+            text: "38. Applicants will use different resumés according to the job they are applying for. The same cover letter, in contrast, should be written for all job opportunities.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "يجب تخصيص وكتابة رسالة تغطية (Cover letter) فريدة وموجهة خصيصاً لكل فرصة عمل على حدة[cite: 9]."
+          },
+          {
+            id: "ls4_39",
+            type: "single",
+            text: "39. A ______ is a piece of paper containing an advertisement or information, usually given out to people walking by.",
+            opts: ["flier", "brochure", "newsletter", "PowerPoint presentation"],
+            ans: 0,
+            dispAnswer: "a) flier",
+            exp: "المنشور الدعائي الورقي (Flier) هو ورقة إعلانية موجزة تُوزع على المارة لتوصيل معلومة سريعة[cite: 9]."
+          },
+          {
+            id: "ls4_40",
+            type: "single",
+            text: "40. Normally, instructions and fliers include line art, a memo includes a table, and a PowerPoint slide includes a bar chart.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "هذا هو التوزيع القياسي الشائع للعناصر البصرية المناسبة لكل نوع من أنواع المراسلات والعروض[cite: 9]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

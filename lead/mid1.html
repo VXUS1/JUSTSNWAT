@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | التربية الوطنية والمسؤولية المجتمعية - مكمل الوحدة الثانية</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      direction: rtl;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/lead">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">التربية الوطنية والمسؤولية المجتمعية</div>
+    <div class="subject-subtitle" id="quiz-subtitle">الوحدة الثانية: الهوية الوطنية الأردنية (أسئلة مقترحة شاملة لمكمل الوحدة)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/mil">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+
+    const examSections = [
+      {
+        title: "الجزء الأول: الجذور التاريخية والتطور الحضاري للهوية الأردنية (الأسئلة 1 – 10)",
+        context: "أسئلة مكمل الوحدة حول دوائر الهوية، حضارة الأنباط، حلف الديكابوليس، والعهود الإسلامية والعثمانية:",
+        subQuestions: [
+          {
+            id: "nat2_1",
+            type: "single",
+            text: "1) كم دائرة أساسية تتكون منها الهوية الوطنية الأردنية؟",
+            opts: ["2", "3", "4", "5"],
+            ans: 1,
+            dispAnswer: "ب) 3",
+            exp: "تتشكل الهوية الوطنية الأردنية من ثلاث دوائر رئيسية: الدائرة التاريخية، الدائرة العربية الإسلامية، ودائرة الدولة الوطنية الأردنية الحديثة."
+          },
+          {
+            id: "nat2_2",
+            type: "single",
+            text: "2) تشكل الدائرة التاريخية المصدر المعرفي الأول للشخصية والهوية الأردنية:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "الدائرة التاريخية تمثل العمق الزمني والتراكم الحضاري الذي صقل الشخصية الوطنية عبر العصور القديمة والإسلامية والحديثة."
+          },
+          {
+            id: "nat2_3",
+            type: "single",
+            text: "3) متى بلغ الأردن القديم أوج ازدهاره؟",
+            opts: ["العصر الروماني", "عصر الأنباط", "العصر العثماني", "العصر الأموي"],
+            ans: 1,
+            dispAnswer: "ب) عصر الأنباط",
+            exp: "بلغ الأردن القديم ذروة ازدهاره الاقتصادي والمعماري والتجاري في عهد مملكة الأنباط العربية."
+          },
+          {
+            id: "nat2_4",
+            type: "single",
+            text: "4) عاصمة مملكة العرب الأنباط والمركز الرئيس لتفاعلاتهم الثقافية والتجارية هي:",
+            opts: ["عمان", "جرش", "البترا", "مادبا"],
+            ans: 2,
+            dispAnswer: "ج) البترا",
+            exp: "البترا الوردية المنحوتة في الصخر كانت عاصمة الأنباط ومحطة القوافل التجارية بين الشرق والغرب."
+          },
+          {
+            id: "nat2_5",
+            type: "single",
+            text: "5) أي من هذه المدن ليست من مدن حلف الديكابوليس الروماني (حلف المدن العشر)؟",
+            opts: ["جرش", "عمان", "البتراء", "أم قيس"],
+            ans: 2,
+            dispAnswer: "ج) البتراء",
+            exp: "البتراء كانت عاصمة مملكة الأنباط المستقلة ولم تكن ضمن حلف المدن العشر الرومانية (الديكابوليس) التي يقع ست منها شمال الأردن."
+          },
+          {
+            id: "nat2_6",
+            type: "single",
+            text: "6) معركة تُعد محطة أساسية في حسم الصراع مع الوجود البيزنطي في الشرق العربي ومن أهم المعارك الفاصلة:",
+            opts: ["معركة مؤتة", "معركة اليرموك", "معركة حطين", "معركة عين جالوت"],
+            ans: 1,
+            dispAnswer: "ب) معركة اليرموك",
+            exp: "معركة اليرموك (15 هـ / 636 م) بقيادة خالد بن الوليد حسمت الوجود البيزنطي وفتحت بلاد الشام للحضارة العربية الإسلامية."
+          },
+          {
+            id: "nat2_7",
+            type: "single",
+            text: "7) ارتبطت سيطرة الدولة المملوكية على الأردن بتأمين طريق الحج الشامي:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ لأن تأمين طريق الحج الشامي وقلاع الحج ارتبط أساساً بالدولة العثمانية وإدارتها."
+          },
+          {
+            id: "nat2_8",
+            type: "single",
+            text: "8) في عهد الإصلاحات العثمانية أصبح الأردن ضمن ولاية سوريا التي ضمت ألوية منها:",
+            opts: ["لواء حوران", "لواء البلقاء", "لواء الكرك", "جميع ما ذكر"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "قُسّمت الأراضي الأردنية إدارياً في أواخر العهد العثماني بين ألوية حوران والبلقاء والكرك التابعة لولاية دمشق (سوريا)."
+          },
+          {
+            id: "nat2_9",
+            type: "single",
+            text: "9) تعامل الأردن مع جائحة كورونا من خلال:",
+            opts: ["تجاهل التعليم", "إيجاد حلول وبدائل مناسبة", "الانسحاب من المجتمع الدولي", "أ + ج"],
+            ans: 1,
+            dispAnswer: "ب) إيجاد حلول وبدائل مناسبة",
+            exp: "أظهرت الدولة الأردنية مرونة مؤسسية عبر منصات التعلم الإلكتروني وإجراءات الحماية الصحية والاجتماعية."
+          },
+          {
+            id: "nat2_10",
+            type: "single",
+            text: "10) من العوامل الأساسية في مسيرة تطور وترسيخ الهوية الوطنية الأردنية:",
+            opts: ["الدور الكبير الذي اضطلع به الجيش العربي", "موجات اللجوء التي شهدها الأردن واستيعابها", "نشأة المؤسسات والبيروقراطية الحكومية", "جميع ما ذكر"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "تكاملت المؤسسة العسكرية (الجيش العربي) مع البناء المؤسسي الحكومي والقدرة على صهر واستيعاب موجات الهجرة لصياغة الهوية."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثاني: الدستور، الجيش العربي، والعروبة والإسلام (الأسئلة 11 – 22)",
+        context: "أسئلة مكمل الوحدة حول دستور 1952، مسميات الدولة والجيش، الرعاية الهاشمية للمقدسات، والمواطنة:",
+        subQuestions: [
+          {
+            id: "nat2_11",
+            type: "single",
+            text: "11) ينص الدستور الأردني 1952 على كل مما يأتي ما عدا:",
+            opts: [
+              "الشعب الأردني جزء من الأمة العربية",
+              "نظام الحكم نيابي وراثي",
+              "المملكة الأردنية الهاشمية دولة عربية مستقلة",
+              "المملكة الأردنية الهاشمية ذات سيادة وملكها لا يتجزأ ولا يُنزل عن شيء منه"
+            ],
+            ans: 1,
+            dispAnswer: "ب) نظام الحكم نيابي وراثي",
+            exp: "النص الدستوري الصريح في المادة الأولى ينص على أن: 'نظام الحكم نيابي ملكي وراثي'؛ فاستثناء كلمة 'ملكي' يجعل العبارة ناقصة وغير مطابقة."
+          },
+          {
+            id: "nat2_12",
+            type: "single",
+            text: "12) أطلق المؤسسون على الدولة الأردنية الناشئة في بدايتها ( ) وأطلق على الجيش الأردني منذ نشأته ( ) على الترتيب:",
+            opts: [
+              "شرق الأردن ، الجيش الأردني",
+              "إمارة الحجاز ، الجيش الهاشمي",
+              "حكومة الشرق العربي ، الجيش العربي",
+              "المملكة الأردنية الهاشمية ، الجيش العربي"
+            ],
+            ans: 2,
+            dispAnswer: "ج) حكومة الشرق العربي ، الجيش العربي",
+            exp: "تأسست الإمارة رسمياً باسم 'حكومة الشرق العربي'، وحمل الجيش منذ تأسيسه اسم 'الجيش العربي' تأكيداً لرسالته القومية التحررية."
+          },
+          {
+            id: "nat2_13",
+            type: "single",
+            text: "13) ما هي المادة الدستورية التي تنص على أن 'الإسلام دين الدولة واللغة العربية لغتها الرسمية'؟",
+            opts: ["المادة 1", "المادة 2", "المادة 6", "المادة 9"],
+            ans: 1,
+            dispAnswer: "ب) المادة 2",
+            exp: "المادة الثانية من الدستور الأردني تؤكد الهوية الحضارية والدينية للدولة بنصها على إسلامية الدولة وعروبة لغتها."
+          },
+          {
+            id: "nat2_14",
+            type: "single",
+            text: "14) من الأمثلة على عناية الدولة الأردنية بالقرآن الكريم نسخ وطباعة العديد من المصاحف الشريفة منها:",
+            opts: [
+              "المصحف الهاشمي ومصحف الملكة علياء",
+              "مصحف الملك حسين بن طلال",
+              "مصحف آل البيت ومصحف المملكة الأردنية الهاشمية",
+              "جميع ما ذكر"
+            ],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "حرصت القيادة الهاشمية على طباعة ونشر المصاحف الشريفة بخطوط متقنة ورعاية توثيقها وتوزيعها."
+          },
+          {
+            id: "nat2_15",
+            type: "single",
+            text: "15) بدأ الإعمار الهاشمي المنظم لمقامات الأنبياء والصحابة والشهداء على الأرض الأردنية في عهد:",
+            opts: ["الملك الحسين بن طلال", "الملك عبدالله الأول", "الملك عبدالله الثاني", "لا شيء مما ذكر"],
+            ans: 0,
+            dispAnswer: "أ) الملك الحسين بن طلال",
+            exp: "شهد عهد المغفور له الملك الحسين بن طلال تشكيل اللجنة الملكية لإعمار مساجد ومقامات الأنبياء والصحابة وتطويرها سياحياً ودينياً."
+          },
+          {
+            id: "nat2_16",
+            type: "single",
+            text: "16) قامت الدولة الأردنية الحديثة على تنمية المواطنة بوصفها رابطة قانونية بين الفرد والدولة:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "المواطنة الدستورية تقوم على مبدأ سيادة القانون وتساوي المواطنين في الحقوق والواجبات دون تمييز."
+          },
+          {
+            id: "nat2_17",
+            type: "single",
+            text: "17) الهوية القادرة على استيعاب الجميع وإدماجهم في النسيج الوطني على أساس المواطنة هي:",
+            opts: ["الهوية الأردنية النامية", "الهوية الأردنية الجامعة", "الهوية الأردنية الناجزة", "الهوية الأردنية الإنسانية"],
+            ans: 1,
+            dispAnswer: "ب) الهوية الأردنية الجامعة",
+            exp: "الهوية الجامعة تصهر الهويات الفرعية ضمن إطار جامع موحد يعزز اللحمة الوطنية ويحمي النسيج الاجتماعي."
+          },
+          {
+            id: "nat2_18",
+            type: "single",
+            text: "18) الوسطية الإسلامية في الفهم الأردني تعني:",
+            opts: ["الاعتدال في فهم الإسلام", "التطرف والتشدد", "الاعتدال في منهج الحياة وسلوكياتها", "أ + ج"],
+            ans: 3,
+            dispAnswer: "د) أ + ج",
+            exp: "الوسطية نهج شامل يجمع بين الفهم المستنير لتعاليم الإسلام وتطبيقه العملي سلوكاً واعتدالاً في مناحي الحياة."
+          },
+          {
+            id: "nat2_19",
+            type: "single",
+            text: "19) مرت الدولة الأردنية بـ 4 لحظات وصل تاريخية بارزة في مسيرتها الوطنية:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "تتابعت المحطات التأسيسية والدستورية الكبرى كفترات وصل وانتقال عززت استقرار الدولة وتطورها."
+          },
+          {
+            id: "nat2_20",
+            type: "single",
+            text: "20) ما هو الاسم الرسمي والمستقر للجيش الأردني منذ تأسيسه حتى اليوم؟",
+            opts: ["الجيش العربي", "الجيش الهاشمي", "القوات المسلحة الأردنية", "جيش الثورة العربية"],
+            ans: 0,
+            dispAnswer: "أ) الجيش العربي",
+            exp: "حمل الجيش الأردني اسم 'الجيش العربي' منذ عهد التأسيس تعبيراً عن امتداده لجيش الثورة العربية الكبرى ورسالته القومية."
+          },
+          {
+            id: "nat2_21",
+            type: "single",
+            text: "21) ما هو اسم أول معركة إسلامية خاضها المسلمون على ثرى الأردن ضد الروم؟",
+            opts: ["اليرموك", "مؤتة", "حطين", "عين جالوت"],
+            ans: 1,
+            dispAnswer: "ب) مؤتة",
+            exp: "معركة مؤتة (8 هـ / 629 م) في الكرك هي أول لقاء عسكري مباشر بين المسلمين والروم البيزنطيين على الأرض الأردنية."
+          },
+          {
+            id: "nat2_22",
+            type: "single",
+            text: "22) اتصلت مسيرة بناء وتطوير الدولة الأردنية اتصالاً وثيقاً بمسيرة الملوك الهاشميين:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "القيادة الهاشمية مثلت ركيزة الشرعية الدينية والتاريخية والسياسية وضمانة استقرار الوطن وازدهاره."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثالث: المبادرات الملكية، الأوراق النقاشية، والملكية الهاشمية (الأسئلة 23 – 32)",
+        context: "أسئلة مكمل الوحدة حول مبادرات 'الأردن أولاً' و'كلنا الأردن'، الأوراق النقاشية، ودور المؤسسة الملكية:",
+        subQuestions: [
+          {
+            id: "nat2_23",
+            type: "single",
+            text: "23) ما هو الهدف الجوهري من إطلاق مبادرة 'الأردن أولاً'؟",
+            opts: ["تعزيز أسس الدولة الديمقراطية العصرية", "دعم الأحزاب السياسية", "تغيير النظام الملكي", "فصل الدين عن الدولة"],
+            ans: 0,
+            dispAnswer: "أ) تعزيز أسس الدولة الديمقراطية العصرية",
+            exp: "أُطلقت لترسيخ مفهوم الدولة الديمقراطية البرلمانية وسيادة القانون وتغليب مصلحة الوطن العليا في كافة المجالات."
+          },
+          {
+            id: "nat2_24",
+            type: "single",
+            text: "24) في أي عام أطلق جلالة الملك عبد الله الثاني مبادرة 'كلنا الأردن'؟",
+            opts: ["2002", "2006", "2011", "2015"],
+            ans: 1,
+            dispAnswer: "ب) 2006",
+            exp: "أُطلقت مبادرة كلنا الأردن عام 2006م كمنبر حواري وطني جامع يشرك الشباب ومختلف أطياف المجتمع في صنع القرار."
+          },
+          {
+            id: "nat2_25",
+            type: "single",
+            text: "25) طُلب من الجامعات الأردنية في الكلمة الملكية لجلالة الملك عبد الله الثاني كل مما يأتي ما عدا:",
+            opts: [
+              "أن تركز على نوعية ومستوى التعليم العالي",
+              "أن يقتصر عملها على الجانب الأكاديمي والتدريس فقط",
+              "مسؤولية تشكيل الوعي الديمقراطي والمشاركة",
+              "تعزيز الهوية الوطنية الجامعة على مبدأ المواطنة"
+            ],
+            ans: 1,
+            dispAnswer: "ب) أن يقتصر عملها على الجانب الأكاديمي والتدريس فقط",
+            exp: "أكد الملك على الدور المجتمعي والوطني والتنويري للجامعات في بناء الشخصية الوطنية وليس اقتصارها على التلقين الأكاديمي."
+          },
+          {
+            id: "nat2_26",
+            type: "single",
+            text: "26) ما هو اسم سلسلة الوثائق الفكرية التي أطلقها الملك عبد الله الثاني بهدف توسيع النقاش حول الإصلاح الشامل والتحول الديمقراطي؟",
+            opts: ["الأوراق النقاشية", "وثيقة المئوية", "اتفاقية السلام", "الدستور المعدل"],
+            ans: 0,
+            dispAnswer: "أ) الأوراق النقاشية",
+            exp: "الأوراق النقاشية الملكية السبع رسمت خارطة طريق التحول الديمقراطي والحكومات البرلمانية وسيادة القانون وتطوير التعليم."
+          },
+          {
+            id: "nat2_27",
+            type: "single",
+            text: "27) تمتد دائرة التاريخ الأردني وتجذره الحضاري إلى العصر الحديدي فقط:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ فتاريخ الاستيطان الحضاري في الأردن يمتد إلى أقدم العصور الحجرية (مثل موقع عين غزال والبادية)."
+          },
+          {
+            id: "nat2_28",
+            type: "single",
+            text: "28) يقوم هذا المفهوم على خطة عمل تهدف إلى ترسيخ روح الانتماء بين المواطنين، حيث يعمل الجميع شركاء في بناء الأردن وتطويره:",
+            opts: ["الأردن أولاً", "الأوراق النقاشية", "كلنا الأردن", "وثيقة الاستقلال"],
+            ans: 0,
+            dispAnswer: "أ) الأردن أولاً",
+            exp: "مبادرة 'الأردن أولاً' انطلقت كمشروع ورؤية عمل وطنية لتعميق الانتماء والشراكة المسؤولة بين المواطن ومؤسسات الدولة."
+          },
+          {
+            id: "nat2_29",
+            type: "single",
+            text: "29) كانت عاصمة مملكة العرب الأنباط التاريخية هي مدينة:",
+            opts: ["معان", "البترا", "إربد", "عمان"],
+            ans: 1,
+            dispAnswer: "ب) البترا",
+            exp: "مدينة البترا عاصمة دولة الأنباط المشهورة بنظامها المائي الفريد ونحتها في الصخور الوردية."
+          },
+          {
+            id: "nat2_30",
+            type: "single",
+            text: "30) ما هو اسم الملك الهاشمي الذي كان عهده الأقصر مدة زمنية في تاريخ الأردن المعاصر؟",
+            opts: ["الملك عبد الله الأول", "الملك طلال بن عبدالله", "الملك الحسين بن طلال", "الملك عبد الله الثاني"],
+            ans: 1,
+            dispAnswer: "ب) الملك طلال بن عبدالله",
+            exp: "حكم الملك طلال طيب الله ثراه من عام 1951 حتى 1952م، وتميز عهده بإنجاز دستور 1952 الديمقراطي المتقدم وإلزامية التعليم."
+          },
+          {
+            id: "nat2_31",
+            type: "single",
+            text: "31) الملكية والعرش الهاشمي ليس جزءاً من مكونات الهوية الوطنية الأردنية:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العرش والملكية الهاشمية ركن أساسي ومظلة جامعة توحد مكونات الهوية الوطنية الأردنية."
+          },
+          {
+            id: "nat2_32",
+            type: "single",
+            text: "32) الملكية الهاشمية هي حامية الدستور وضمانة وحدة واستقرار البلاد:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "يمثل الملك رأس الدولة وحامي دستورها وصمام الأمان لوحدة النسيج الوطني الأردني."
+          }
+        ]
+      },
+      {
+        title: "الجزء الرابع: قيم الدولة الأردنية، التنوع الثقافي، والوسطية والاعتدال (الأسئلة 33 – 40)",
+        context: "أسئلة مكمل الوحدة حول منظومة القيم الوطنية، تقاليد التسامح والصفح، رسالة عمان، وروافد التنوع الثقافي:",
+        subQuestions: [
+          {
+            id: "nat2_33",
+            type: "single",
+            text: "33) أي من هذه القيم ليست من قيم وثوابت الدولة الأردنية؟",
+            opts: ["الاعتدال السياسي", "التسامح ومنهج الإصلاح", "التطرف الديني", "المشاركة والتعددية"],
+            ans: 2,
+            dispAnswer: "ج) التطرف الديني",
+            exp: "التطرف والغلو يتعارضان كلياً مع فلسفة الدولة الأردنية القائمة على الوسطية والتسامح والاعتدال."
+          },
+          {
+            id: "nat2_34",
+            type: "single",
+            text: "34) تقاليد وأعراف المجتمع الأردني الأصيلة مؤسسة على مبادئ إنسانية وقيم راسخة منها:",
+            opts: ["الصفح والتسامح ونبذ الفرقة", "إراقة دماء المعارضين", "حقن دماء الناس وصون الكرامة", "أ + ج"],
+            ans: 3,
+            dispAnswer: "د) أ + ج",
+            exp: "القيم الأردنية والشهامة العشائرية والإسلامية ترتكز على إغاثة الملهوف وحقن الدماء وإعلاء التسامح والعفو."
+          },
+          {
+            id: "nat2_35",
+            type: "single",
+            text: "35) ما هي السمة الاستراتيجية والقيمة البارزة التي ميزت الأردن في سياسته الخارجية وعلاقاته الدولية؟",
+            opts: ["التطرف", "الاعتدال", "الانعزال", "العدوانية"],
+            ans: 1,
+            dispAnswer: "ب) الاعتدال",
+            exp: "عُرف الأردن دولياً بنهج الاعتدال والحكمة والدعوة لحل النزاعات بالحوار والسلام وبناء الجسور."
+          },
+          {
+            id: "nat2_36",
+            type: "single",
+            text: "36) يستند الفهم الأردني للوسطية إلى أنها مطلب شرعي أصيل ومظهر حضاري ومنهج فكري وموقف أخلاقي:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "تتبنى رسالة عمان وثوابت الدولة الوسطية كمنهج حياة متكامل يعكس جوهر الإسلام الحنيف."
+          },
+          {
+            id: "nat2_37",
+            type: "single",
+            text: "37) إن قيمة الحداثة بما تمثله من التمسك والانغلاق وعدم قبول التعددية جعلت الأردن في حالة من عدم الاستقرار:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة تماماً؛ فالحداثة الأردنية قائمة على الانفتاح الواعي وقبول التعددية وسيادة القانون مما عزز استقرار المملكة."
+          },
+          {
+            id: "nat2_38",
+            type: "single",
+            text: "38) ترجع مصادر وغنى التنوع الثقافي الخلّاق في المجتمع الأردني إلى:",
+            opts: [
+              "طبيعة التكوين الجغرافي للبيئة الأردنية وتنوعها",
+              "موجات الهجرة التاريخية والانتقال السكاني",
+              "موجات اللجوء الإنساني واستيعاب الوافدين نتيجة الصراعات الإقليمية",
+              "جميع ما ذكر"
+            ],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "تنوع التضاريس والموقع الجغرافي التاريخي مع الهجرات الشركسية والشيشانية وموجات اللجوء العربي شكّل فسيفساء ثقافية متناغمة."
+          },
+          {
+            id: "nat2_39",
+            type: "single",
+            text: "39) ما هي السمة الأساسية للهوية الوطنية الأردنية حسب الرؤية والتعريف الملكي لجلالة الملك عبد الله الثاني؟",
+            opts: [
+              "أنها هوية جامدة وثابتة غير قابلة للتطور",
+              "أنها هوية ناجزة ونامية",
+              "أنها هوية فرعية متنافرة",
+              "أنها هوية منفصلة عن العروبة والإسلام"
+            ],
+            ans: 1,
+            dispAnswer: "ب) أنها هوية ناجزة ونامية",
+            exp: "أكد جلالة الملك أن الهوية الأردنية هوية ناجزة في ثوابتها وأصالتها، ونامية ومتجددة في مواكبتها للعصر واستيعابها للنهضة."
+          },
+          {
+            id: "nat2_40",
+            type: "single",
+            text: "40) ما هو اسم الوثيقة الأساسية والمرجعية العليا التي حددت الهوية الأردنية بنصها القاطع على أنها 'عربية إسلامية'؟",
+            opts: ["الدستور الأردني", "وثيقة الاستقلال", "الأوراق النقاشية الملكية", "معاهدة السلام"],
+            ans: 0,
+            dispAnswer: "أ) الدستور الأردني",
+            exp: "حددت المادتان الأولى والثانية من الدستور الأردني هوية الدولة بأنها عربية مستقلة والإسلام دينها واللغة العربية لغتها الرسمية."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

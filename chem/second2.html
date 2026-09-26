@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | General Chemistry 103 - Second Exam 2010</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    /* تنسيق الجدول الدوري وأزرار التكبير والتصغير */
+    .ptable-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .ptable-title {
+      font-weight: 800;
+      color: var(--apple-blue);
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ptable-title-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--apple-border);
+      border-radius: 99px;
+      padding: 2px 6px;
+    }
+    .btn-zoom {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 99px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-zoom:hover {
+      background: var(--apple-blue);
+      color: #fff;
+    }
+    .btn-zoom:active {
+      transform: scale(0.92);
+    }
+    .zoom-level-text {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5ac8fa;
+      min-width: 38px;
+      text-align: center;
+    }
+    .ptable-key {
+      font-size: 0.78rem;
+      color: var(--text-secondary, #94a3b8);
+      border: 1px dashed var(--apple-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ptable {
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      transition: zoom 0.15s ease;
+    }
+    .ptable td {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      vertical-align: middle;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ptable td.element:hover {
+      background: rgba(10, 132, 255, 0.25);
+      border-color: var(--apple-blue);
+      transform: scale(1.1);
+      z-index: 5;
+    }
+    .ptable td.empty {
+      border: none;
+      background: transparent;
+    }
+    .ptable .z-num { font-size: 8px; color: #94a3b8; line-height: 1; }
+    .ptable .sym { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.1; }
+    .ptable .mass { font-size: 7.5px; color: #38bdf8; line-height: 1; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/chem103">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">General Chemistry 103</div>
+    <div class="subject-subtitle" id="quiz-subtitle">CH 103 — Second Exam (26/04/2010) — Dr. Khalil Al-Hajli</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <!-- الجدول الدوري للعناصر المرفق في ترويسة الامتحان مع أزرار التكبير والتصغير -->
+    <div class="ptable-container">
+      <div class="ptable-title">
+        <div class="ptable-title-right">
+          <span>الجدول الدوري للعناصر (Periodic Table of the Elements)</span>
+          <div class="zoom-controls">
+            <button type="button" class="btn-zoom" onclick="zoomTable(0.1)" title="تكبير">+</button>
+            <button type="button" class="btn-zoom" onclick="zoomTable(-0.1)" title="تصغير">−</button>
+            <button type="button" class="btn-zoom" onclick="resetTableZoom()" title="إعادة ضبط الحجم">
+              <span class="zoom-level-text" id="zoom-val">100%</span> ↻
+            </button>
+          </div>
+        </div>
+        <span class="ptable-key"><bdi>R = 0.082 L·atm/mol·K</bdi></span>
+      </div>
+      <div class="table-container ltr-content">
+        <table class="ptable" id="periodic-table-el">
+          <tr>
+            <td class="element"><div class="z-num">1</div><div class="sym">H</div><div class="mass">1.008</div></td>
+            <td class="empty" colspan="16"></td>
+            <td class="element"><div class="z-num">2</div><div class="sym">He</div><div class="mass">4.003</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">3</div><div class="sym">Li</div><div class="mass">6.941</div></td>
+            <td class="element"><div class="z-num">4</div><div class="sym">Be</div><div class="mass">9.012</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">5</div><div class="sym">B</div><div class="mass">10.81</div></td>
+            <td class="element"><div class="z-num">6</div><div class="sym">C</div><div class="mass">12.01</div></td>
+            <td class="element"><div class="z-num">7</div><div class="sym">N</div><div class="mass">14.01</div></td>
+            <td class="element"><div class="z-num">8</div><div class="sym">O</div><div class="mass">16.00</div></td>
+            <td class="element"><div class="z-num">9</div><div class="sym">F</div><div class="mass">19.00</div></td>
+            <td class="element"><div class="z-num">10</div><div class="sym">Ne</div><div class="mass">20.18</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">11</div><div class="sym">Na</div><div class="mass">22.99</div></td>
+            <td class="element"><div class="z-num">12</div><div class="sym">Mg</div><div class="mass">24.31</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">13</div><div class="sym">Al</div><div class="mass">26.98</div></td>
+            <td class="element"><div class="z-num">14</div><div class="sym">Si</div><div class="mass">28.09</div></td>
+            <td class="element"><div class="z-num">15</div><div class="sym">P</div><div class="mass">30.97</div></td>
+            <td class="element"><div class="z-num">16</div><div class="sym">S</div><div class="mass">32.07</div></td>
+            <td class="element"><div class="z-num">17</div><div class="sym">Cl</div><div class="mass">35.45</div></td>
+            <td class="element"><div class="z-num">18</div><div class="sym">Ar</div><div class="mass">39.95</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">19</div><div class="sym">K</div><div class="mass">39.10</div></td>
+            <td class="element"><div class="z-num">20</div><div class="sym">Ca</div><div class="mass">40.08</div></td>
+            <td class="element"><div class="z-num">21</div><div class="sym">Sc</div><div class="mass">44.96</div></td>
+            <td class="element"><div class="z-num">22</div><div class="sym">Ti</div><div class="mass">47.87</div></td>
+            <td class="element"><div class="z-num">23</div><div class="sym">V</div><div class="mass">50.94</div></td>
+            <td class="element"><div class="z-num">24</div><div class="sym">Cr</div><div class="mass">52.00</div></td>
+            <td class="element"><div class="z-num">25</div><div class="sym">Mn</div><div class="mass">54.94</div></td>
+            <td class="element"><div class="z-num">26</div><div class="sym">Fe</div><div class="mass">55.85</div></td>
+            <td class="element"><div class="z-num">27</div><div class="sym">Co</div><div class="mass">58.93</div></td>
+            <td class="element"><div class="z-num">28</div><div class="sym">Ni</div><div class="mass">58.69</div></td>
+            <td class="element"><div class="z-num">29</div><div class="sym">Cu</div><div class="mass">63.55</div></td>
+            <td class="element"><div class="z-num">30</div><div class="sym">Zn</div><div class="mass">65.38</div></td>
+            <td class="element"><div class="z-num">31</div><div class="sym">Ga</div><div class="mass">69.72</div></td>
+            <td class="element"><div class="z-num">32</div><div class="sym">Ge</div><div class="mass">72.61</div></td>
+            <td class="element"><div class="z-num">33</div><div class="sym">As</div><div class="mass">74.92</div></td>
+            <td class="element"><div class="z-num">34</div><div class="sym">Se</div><div class="mass">78.96</div></td>
+            <td class="element"><div class="z-num">35</div><div class="sym">Br</div><div class="mass">79.90</div></td>
+            <td class="element"><div class="z-num">36</div><div class="sym">Kr</div><div class="mass">83.80</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">37</div><div class="sym">Rb</div><div class="mass">85.47</div></td>
+            <td class="element"><div class="z-num">38</div><div class="sym">Sr</div><div class="mass">87.62</div></td>
+            <td class="element"><div class="z-num">39</div><div class="sym">Y</div><div class="mass">88.91</div></td>
+            <td class="element"><div class="z-num">40</div><div class="sym">Zr</div><div class="mass">91.22</div></td>
+            <td class="element"><div class="z-num">41</div><div class="sym">Nb</div><div class="mass">92.91</div></td>
+            <td class="element"><div class="z-num">42</div><div class="sym">Mo</div><div class="mass">95.94</div></td>
+            <td class="element"><div class="z-num">43</div><div class="sym">Tc</div><div class="mass">(98)</div></td>
+            <td class="element"><div class="z-num">44</div><div class="sym">Ru</div><div class="mass">101.07</div></td>
+            <td class="element"><div class="z-num">45</div><div class="sym">Rh</div><div class="mass">102.91</div></td>
+            <td class="element"><div class="z-num">46</div><div class="sym">Pd</div><div class="mass">106.42</div></td>
+            <td class="element"><div class="z-num">47</div><div class="sym">Ag</div><div class="mass">107.87</div></td>
+            <td class="element"><div class="z-num">48</div><div class="sym">Cd</div><div class="mass">112.41</div></td>
+            <td class="element"><div class="z-num">49</div><div class="sym">In</div><div class="mass">114.82</div></td>
+            <td class="element"><div class="z-num">50</div><div class="sym">Sn</div><div class="mass">118.71</div></td>
+            <td class="element"><div class="z-num">51</div><div class="sym">Sb</div><div class="mass">121.76</div></td>
+            <td class="element"><div class="z-num">52</div><div class="sym">Te</div><div class="mass">127.60</div></td>
+            <td class="element"><div class="z-num">53</div><div class="sym">I</div><div class="mass">126.90</div></td>
+            <td class="element"><div class="z-num">54</div><div class="sym">Xe</div><div class="mass">131.29</div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1ogE8RsI4EUh4WxVt0Kknx9s9wsqBwQji/view?usp=drive_link";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: Electronegativity, Gas Laws & Stoichiometry (Q1 - Q10)",
+        context: "Choose the correct answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "chem2_1",
+            type: "single",
+            text: "1) Given the elements H, N, O and C with electronegativities of 2.1, 3.0, 3.5, and 2.5 respectively. Which bond is the most polar one.",
+            img: "",
+            opts: ["H-C", "C-O", "H-N", "H-O"],
+            ans: 3,
+            dispAnswer: "D) H-O",
+            exp: "تعتمد قطبية الرابطة على فرق السالبية الكهربائية (&Delta;EN) بين الذرتين:<br>• <bdi>H-C: 2.5 - 2.1 = 0.4</bdi>[cite: 7]<br>• <bdi>C-O: 3.5 - 2.5 = 1.0</bdi>[cite: 7]<br>• <bdi>H-N: 3.0 - 2.1 = 0.9</bdi>[cite: 7]<br>• <bdi>H-O: 3.5 - 2.1 = 1.4</bdi>[cite: 7].<br>الرابطة <bdi>H-O</bdi> تمتلك أعلى فرق في الكهروسالبية، وبالتالي هي الأكثر قطبية[cite: 7]."
+          },
+          {
+            id: "chem2_2",
+            type: "single",
+            text: "2) Electronegativity ... from left to right within a period and ... from top to bottom within a group.",
+            img: "",
+            opts: [
+              "increases, decreases",
+              "increases, increases",
+              "decreases, increases",
+              "decreases, decrease"
+            ],
+            ans: 0,
+            dispAnswer: "A) increases, decreases",
+            exp: "تزداد السالبية الكهربائية عبر الدورة الواحدة من اليسار إلى اليمين بسبب زيادة الشحنة النووية الفعالة، وتقل بالانتقال من الأعلى إلى الأسفل داخل المجموعة الواحدة بسبب زيادة عدد الأغلفة الرئيسية وحجم الذرة[cite: 7]."
+          },
+          {
+            id: "chem2_3",
+            type: "single",
+            text: "3) A sample of gas (24.2 g) initially at 4.00 atm was compressed from 8.00 L to 5.00 L, at constant temperature. After the compression, the gas pressure is .... atm.",
+            img: "",
+            opts: ["10.7", "5.33", "6.40", "16.0"],
+            ans: 2,
+            dispAnswer: "C) 6.40",
+            exp: "قانون بويل: <bdi>P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub></bdi> عند ثبوت درجة الحرارة[cite: 7].<br><bdi>4.00 atm &times; 8.00 L = P<sub>2</sub> &times; 5.00 L</bdi>[cite: 7]<br><bdi>P<sub>2</sub> = 32.0 / 5.00 = 6.40 atm</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_4",
+            type: "single",
+            text: "4) A balloon originally has a volume of 4.39 L at 65 &deg;C and a pressure of 729 torr. The balloon must be cooled to ... &deg;C to reduce its volume to 3.78 L (at constant pressure).",
+            img: "",
+            opts: ["30", "18", "0", "11"],
+            ans: 1,
+            dispAnswer: "B) 18",
+            exp: "قانون شارل: <bdi>V<sub>1</sub> / T<sub>1</sub> = V<sub>2</sub> / T<sub>2</sub></bdi>[cite: 7].<br>تحويل درجة الحرارة إلى كلفن: <bdi>T<sub>1</sub> = 65 + 273.15 = 338.15 K</bdi>[cite: 7].<br><bdi>T<sub>2</sub> = V<sub>2</sub> &times; T<sub>1</sub> / V<sub>1</sub> = 3.78 &times; 338.15 / 4.39 = 291.16 K</bdi>[cite: 7].<br>التحويل إلى مئوي: <bdi>T<sub>2</sub>(&deg;C) = 291.16 - 273.15 = 18.01 &deg;C &approx; 18 &deg;C</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_5",
+            type: "single",
+            text: "5) A sample of a gas (1.50 mol) in a 15.0 L cylinder. The temperature is increased from 100 &deg;C to 125 &deg;C. The ratio of the final pressure to the initial pressure [P<sub>2</sub>/P<sub>1</sub>] is",
+            img: "",
+            opts: ["1.27", "1.20", "1.13", "1.07"],
+            ans: 3,
+            dispAnswer: "D) 1.07",
+            exp: "بما أن الحجم وعدد المولات ثابتان، فإن الضغط يتناسب طردياً مع درجة الحرارة المطلقة (قانون غاي-لوساك):<br><bdi>T<sub>1</sub> = 100 + 273.15 = 373.15 K</bdi>، <bdi>T<sub>2</sub> = 125 + 273.15 = 398.15 K</bdi>[cite: 7].<br><bdi>P<sub>2</sub> / P<sub>1</sub> = T<sub>2</sub> / T<sub>1</sub> = 398.15 / 373.15 = 1.067 &approx; 1.07</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_6",
+            type: "single",
+            text: "6) The reaction of 30 mL of N<sub>2</sub> gas with 90 mL of H<sub>2</sub> gas to form ammonia according to: <bdi>N<sub>2</sub>(g) + 3 H<sub>2</sub>(g) &rarr; 2 NH<sub>3</sub>(g)</bdi> produces ... mL of ammonia if pressure and temperature are kept constant.",
+            img: "",
+            opts: ["80", "100", "60", "40"],
+            ans: 2,
+            dispAnswer: "C) 60",
+            exp: "حسب قانون أفوجادرو، تتناسب الحجوم طردياً مع عدد المولات عند ثبوت الضغط والحرارة[cite: 7]. النسبة التكافئية: <bdi>1 N<sub>2</sub> : 3 H<sub>2</sub> &rarr; 2 NH<sub>3</sub></bdi>[cite: 7]. يتفاعل 30 mL من النيتروجين تماماً مع 90 mL من الهيدروجين لإنتاج: <bdi>30 &times; 2 = 60 mL NH<sub>3</sub></bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_7",
+            type: "single",
+            text: "7) What is the total pressure (atm) in a 17.5 L container that contains 6.0 g of H<sub>2</sub>(g) [MM = 2 g/mole] and 16.0 g of O<sub>2</sub>(g) [MM = 32 g/mole] at 0 &deg;C? (R = 0.082 L·atm/mol·K)",
+            img: "",
+            opts: ["4.48", "3.92", "3.48", "5.22"],
+            ans: 0,
+            dispAnswer: "A) 4.48",
+            exp: "مولات الهيدروجين: <bdi>6.0 / 2.0 = 3.0 mol</bdi>[cite: 7]. مولات الأكسجين: <bdi>16.0 / 32.0 = 0.50 mol</bdi>[cite: 7]. مجموع المولات: <bdi>n = 3.0 + 0.50 = 3.5 mol</bdi>. درجة الحرارة بالكلفن: <bdi>T = 0 + 273.15 = 273.15 K</bdi>[cite: 7].<br>الضغط الكلي: <bdi>P = nRT / V = (3.5 &times; 0.082 &times; 273.15) / 17.5 = 4.479 atm &approx; 4.48 atm</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_8",
+            type: "single",
+            text: "8) A container contains N<sub>2</sub>, Ar, He, and Ne. The total pressure in the container was 789 torr. The partial pressures of nitrogen, argon, and helium were 144, 286, and 118 torr, respectively. The mole fraction of N<sub>2</sub> in the container is:",
+            img: "",
+            opts: ["0.305", "0.362", "0.183", "0.150"],
+            ans: 2,
+            dispAnswer: "C) 0.183",
+            exp: "قانون دالتون للضغوط الجزئية: الكسر المولي لأي غاز يساوي ضغطه الجزئي مقسوماً على الضغط الكلي للمزيج:<br><bdi>X(N<sub>2</sub>) = P(N<sub>2</sub>) / P<sub>total</sub> = 144 torr / 789 torr = 0.1825 &approx; 0.183</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_9",
+            type: "single",
+            text: "9) If a gas effuses by a factor of 0.638 times slower than CO<sub>2</sub> gas (MM = 44 g/mol) then the molar mass of this gas is:",
+            img: "",
+            opts: ["223", "108", "207", "146"],
+            ans: 1,
+            dispAnswer: "B) 108",
+            exp: "وفقاً لقانون غراهام للتدفق: <bdi>Rate<sub>gas</sub> / Rate<sub>CO<sub>2</sub></sub> = &radic;(MM<sub>CO<sub>2</sub></sub> / MM<sub>gas</sub>)</bdi>.<br><bdi>0.638 = &radic;(44 / MM<sub>gas</sub>)</bdi>[cite: 7]<br>بتربيع الطرفين: <bdi>(0.638)<sup>2</sup> = 0.407 = 44 / MM<sub>gas</sub> &rArr; MM<sub>gas</sub> = 44 / 0.407 = 108.1 g/mol &approx; 108 g/mol</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_10",
+            type: "single",
+            text: "10) The concentration (M) of nitrate ion (NO<sub>3</sub><sup>-</sup>) in a 1.0 L solution that contains 6.6 g of aluminum nitrate Al(NO<sub>3</sub>)<sub>3</sub> [MM = 213 g/mol] is:",
+            img: "",
+            opts: ["0.093", "0.080", "0.135", "0.106"],
+            ans: 0,
+            dispAnswer: "A) 0.093",
+            exp: "مولات الملح: <bdi>6.6 g / 213 g/mol = 0.03099 mol</bdi>[cite: 7]. كل مول من <bdi>Al(NO<sub>3</sub>)<sub>3</sub></bdi> ينتج 3 مول من أيونات النترات عند التفكك[cite: 7]. مولات النترات: <bdi>0.03099 &times; 3 = 0.09296 mol</bdi>. في حجم 1.0 L يكون التركيز: <bdi>0.093 M</bdi>[cite: 7]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Solutions, Colligative Properties & Gas Behavior (Q11 - Q20)",
+        context: "Choose the correct answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "chem2_11",
+            type: "single",
+            text: "11) The concentration of a benzene solution prepared by dissolving 18.0 g C<sub>6</sub>H<sub>6</sub> [MM = 78 g/mol] in 38.0 g CCl<sub>4</sub> is .... molal.",
+            img: "",
+            opts: ["4.05", "6.75", "5.40", "6.07"],
+            ans: 3,
+            dispAnswer: "D) 6.07",
+            exp: "مولات البنزين (المذاب): <bdi>18.0 g / 78 g/mol = 0.23077 mol</bdi>[cite: 7]. كتلة المذيب بالكيلوغرام: <bdi>38.0 g / 1000 = 0.0380 kg</bdi>[cite: 7].<br>المولالية: <bdi>m = 0.23077 mol / 0.0380 kg = 6.073 mol/kg &approx; 6.07 molal</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_12",
+            type: "single",
+            text: "12) A solution is prepared by dissolving 13.0 g of NH<sub>3</sub> [MM = 17 g/mol] in 250.0 g of water [MM = 18 g/mol]. The mole fraction of NH<sub>3</sub> in the solution is:",
+            img: "",
+            opts: ["0.0745", "0.0522", "0.0817", "0.0597"],
+            ans: 1,
+            dispAnswer: "B) 0.0522",
+            exp: "مولات الأمونيا: <bdi>13.0 / 17 = 0.7647 mol</bdi>[cite: 7]. مولات الماء: <bdi>250.0 / 18 = 13.889 mol</bdi>[cite: 7]. المجموع الكلي للمولات: <bdi>0.7647 + 13.889 = 14.6537 mol</bdi>. الكسر المولي للأمونيا: <bdi>X(NH<sub>3</sub>) = 0.7647 / 14.6537 = 0.05218 &approx; 0.0522</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_13",
+            type: "single",
+            text: "13) Which of the following would have the lowest freezing point?",
+            img: "",
+            opts: [
+              "0.5m CH3OH",
+              "0.6m CH3CH2OH",
+              "0.2m NaCl",
+              "0.25m K2SO4"
+            ],
+            ans: 3,
+            dispAnswer: "D) 0.25m K2SO4",
+            exp: "مقدار الانخفاض في درجة التجمد يتناسب طردياً مع التركيز الكلي للجسيمات (<bdi>i &times; m</bdi>):<br>• <bdi>0.5 m CH<sub>3</sub>OH: i = 1 &rArr; 0.50</bdi>[cite: 7]<br>• <bdi>0.6 m CH<sub>3</sub>CH<sub>2</sub>OH: i = 1 &rArr; 0.60</bdi>[cite: 7]<br>• <bdi>0.2 m NaCl: i = 2 &rArr; 0.40</bdi>[cite: 7]<br>• <bdi>0.25 m K<sub>2</sub>SO<sub>4</sub>: i = 3 &rArr; 0.75</bdi>[cite: 7].<br>أعلى انخفاض في التجمد يحصل مع <bdi>0.25 m K<sub>2</sub>SO<sub>4</sub></bdi>، وبالتالي يمتلك أدنى درجة تجمد[cite: 7]."
+          },
+          {
+            id: "chem2_14",
+            type: "single",
+            text: "14) The vapor pressure of pure water at 55 &deg;C is 118 torr. What is the vapor pressure (torr) of water above a solution prepared by dissolving 85 g of ethyleneglycol (a nonelectrolyte, MW = 62 g/mol) in 200 g of water? [MM of water = 18 g/mol]",
+            img: "",
+            opts: ["105", "100", "110", "115"],
+            ans: 0,
+            dispAnswer: "A) 105",
+            exp: "قانون راؤول: <bdi>P = X<sub>water</sub> &times; P&deg;<sub>water</sub></bdi>.<br>مولات الإيثيلين غليكول: <bdi>85 / 62 = 1.371 mol</bdi>[cite: 7]. مولات الماء: <bdi>200 / 18 = 11.111 mol</bdi>[cite: 7].<br>الكسر المولي للماء: <bdi>X = 11.111 / (11.111 + 1.371) = 0.8902</bdi>.<br>الضغط البخاري للمحلول: <bdi>P = 0.8902 &times; 118 torr = 105.04 torr &approx; 105 torr</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_15",
+            type: "single",
+            text: "15) The freezing point of ethanol (C<sub>2</sub>H<sub>5</sub>OH) is -114.6 &deg;C. The molal freezing point depression constant (K<sub>f</sub>) for ethanol is 2.00 &deg;C/m. What is the freezing point (&deg;C) of a solution prepared by dissolving 45.0 g of glycerin (C<sub>3</sub>H<sub>8</sub>O<sub>3</sub>, a nonelectrolyte) [MM = 92 g/mol] in 200.0 g of ethanol?",
+            img: "",
+            opts: ["-118.4", "-119.5", "-117.3", "-120.5"],
+            ans: 1,
+            dispAnswer: "B) -119.5",
+            exp: "مولات الغليسيرين: <bdi>45.0 / 92 = 0.4891 mol</bdi>[cite: 7]. كتلة الإيثانول: <bdi>0.200 kg</bdi>[cite: 7]. المولالية: <bdi>m = 0.4891 / 0.200 = 2.4457 m</bdi>.<br>الانخفاض في درجة التجمد: <bdi>&Delta;T<sub>f</sub> = K<sub>f</sub> &times; m = 2.00 &times; 2.4457 = 4.89 &deg;C</bdi>[cite: 7].<br>درجة التجمد الجديدة: <bdi>T<sub>f</sub> = -114.6 - 4.89 = -119.49 &deg;C &approx; -119.5 &deg;C</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_16",
+            type: "single",
+            text: "16) Choose the most correct statement of the followings:",
+            img: "",
+            opts: [
+              "The molal freezing point depression constant (Kf) depends on the type of solute.",
+              "Vapor pressure decreases as the amount of solute decreases.",
+              "Boiling point elevation (ΔTb) increases by decreasing the amount of solute.",
+              "Boiling point (Tb) increase by increasing the amount of solute in solution."
+            ],
+            ans: 3,
+            dispAnswer: "D) Boiling point (Tb) increase by increasing the amount of solute in solution.",
+            exp: "الخاصية الجمعية للارتفاع في درجة الغليان تقتضي أنه كلما زادت كمية المذاب (المولالية)، ازداد الارتفاع في درجة الغليان (&Delta;T<sub>b</sub>) وبالتالي ترتفع درجة غليان المحلول (T<sub>b</sub>)[cite: 7]."
+          },
+          {
+            id: "chem2_17",
+            type: "single",
+            text: "17) What is the osmotic pressure of a nonelectrolyte solution having a concentration of 0.014 M at 25 &deg;C? (R = 0.082 L·atm/mol·K)",
+            img: "",
+            opts: ["520 torr", "186 torr", "260 torr", "390 torr"],
+            ans: 2,
+            dispAnswer: "C) 260 torr",
+            exp: "قانون الضغط الإسموزي: <bdi>&Pi; = MRT</bdi>[cite: 7]. درجة الحرارة بالكلفن: <bdi>25 + 273.15 = 298.15 K</bdi>[cite: 7].<br><bdi>&Pi; = 0.014 M &times; 0.082 L·atm/mol·K &times; 298.15 K = 0.3423 atm</bdi>[cite: 7].<br>التحويل إلى torr: <bdi>0.3423 atm &times; 760 torr/atm = 260.1 torr &approx; 260 torr</bdi>.[cite: 7]"
+          },
+          {
+            id: "chem2_18",
+            type: "single",
+            text: "18) Consider a solution of 0.567 M NaCl solution with a density of 1.084 g/mL. What is the molality of this solution is: (Molar mass of NaCl is 58.5 g/mol)",
+            img: "",
+            opts: ["0.540", "0.500", "0.559", "0.520"],
+            ans: 3,
+            dispAnswer: "D) 0.520",
+            exp: "الإجابة النموذجية المعتمدة رسمياً في مفتاح الامتحان هي الخيار (D)[cite: 7]. (بالتقريب المباشر للقسمة على الكثافة دون طرح كتلة المذاب: <bdi>0.567 / 1.084 &approx; 0.523 m &approx; 0.520</bdi>، بينما الحساب الدقيق مع طرح المذاب يعطي 0.540)[cite: 7]."
+          },
+          {
+            id: "chem2_19",
+            type: "single",
+            text: "19) The number of moles of a gas that occupies 57.8 L at 27 &deg;C and 1.25 atm is (R = 0.082)",
+            img: "",
+            opts: ["3.41", "2.94", "3.18", "2.67"],
+            ans: 1,
+            dispAnswer: "B) 2.94",
+            exp: "قانون الغاز المثالي: <bdi>PV = nRT &rArr; n = PV / RT</bdi>[cite: 7]. درجة الحرارة: <bdi>27 + 273.15 = 300.15 K</bdi>[cite: 7].<br><bdi>n = (1.25 atm &times; 57.8 L) / (0.082 &times; 300.15 K) = 72.25 / 24.612 = 2.9355 mol &approx; 2.94 mol</bdi>[cite: 7]."
+          },
+          {
+            id: "chem2_20",
+            type: "single",
+            text: "20) Choose the most correct statement:",
+            img: "",
+            opts: [
+              "Ideal gas equation can be applied to determine the number of moles of solvent.",
+              "STP conditions for all gases are 1atm and 30°C.",
+              "O2 gas can be collected over water.",
+              "Molar volume of any ideal gas at STP equals 12.4 L."
+            ],
+            ans: 2,
+            dispAnswer: "C) O2 gas can be collected over water.",
+            exp: "غاز الأكسجين (<bdi>O<sub>2</sub></bdi>) غاز قليل الذوبان في الماء جداً، ولذلك يمكن جمعه مخبرياً بإزاحة الماء إلى الأسفل (<bdi>collected over water</bdi>)[cite: 7]. باقي العبارات خاطئة لأن ظروف STP هي 0 &deg;C وليس 30 &deg;C، والحجم المولي عند STP يساوي 22.4 L وليس 12.4 L[cite: 7]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let ptableZoom = 1.0;
+
+    function zoomTable(delta) {
+      ptableZoom = Math.round((ptableZoom + delta) * 10) / 10;
+      if (ptableZoom < 0.6) ptableZoom = 0.6;
+      if (ptableZoom > 2.0) ptableZoom = 2.0;
+      applyTableZoom();
+    }
+
+    function resetTableZoom() {
+      ptableZoom = 1.0;
+      applyTableZoom();
+    }
+
+    function applyTableZoom() {
+      const table = document.getElementById('periodic-table-el');
+      const zoomLabel = document.getElementById('zoom-val');
+      if (table) {
+        table.style.zoom = ptableZoom;
+      }
+      if (zoomLabel) {
+        zoomLabel.innerText = Math.round(ptableZoom * 100) + '%';
+      }
+    }
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

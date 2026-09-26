@@ -607,7 +607,7 @@
 
     if (oldFooter) {
       var footer = document.createElement("footer");
-      footer.innerHTML = "<p>Designed By Abdallah Al-serhan</p>";
+      footer.innerHTML = "<p>Designed By Abdallah</p>";
       oldFooter.replaceWith(footer);
     }
 

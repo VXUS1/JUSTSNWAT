@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | التربية الوطنية والمسؤولية المجتمعية - مكمل الوحدة الرابعة</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      direction: rtl;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/lead">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">التربية الوطنية والمسؤولية المجتمعية</div>
+    <div class="subject-subtitle" id="quiz-subtitle">مكمل الوحدة الرابعة: الاستقلال، القضية الفلسطينية، والمحطات السياسية (أسئلة ميد شاملة)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/lead">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+
+    const examSections = [
+      {
+        title: "الجزء الأول: مسيرة الاستقلال الوطني ومعاهدة 1946 وحرب 1948 (الأسئلة 1 – 12)",
+        context: "أسئلة مكمل الوحدة حول إعلان الاستقلال الإداري والتشريعي، معاهدة الاستقلال، قرار 181، ودور الجيش العربي في حرب 1948:",
+        subQuestions: [
+          {
+            id: "nat4_1",
+            type: "single",
+            text: "1) متى تم إعلان الاستقلال الإداري والتشريعي لإمارة شرق الأردن (إلغاء معاهدة 1928 وإصدار المعاهدة الجديدة)؟",
+            opts: ["1921م", "1928م", "1946م", "1950م"],
+            ans: 1,
+            dispAnswer: "ب) 1928م",
+            exp: "تم إقرار الاستقلال الإداري وتوقيع المعاهدة الأردنية البريطانية عام 1928م تمهيداً للاستقلال التام لاحقاً."
+          },
+          {
+            id: "nat4_2",
+            type: "single",
+            text: "2) تمكن الأردن من التوصل إلى تفاهم مع بريطانيا بإلغاء الاتفاقية الموقعة عام 1928 وتوقيع معاهدة الاستقلال عن بريطانيا عام 1946م:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "تكللت الجهود الوطنية والدبلوماسية للملك عبد الله الأول بإلغاء معاهدة الانتداب وإعلان استقلال المملكة عام 1946م."
+          },
+          {
+            id: "nat4_3",
+            type: "single",
+            text: "3) ما اسم المعاهدة التاريخية التي أنهت الانتداب البريطاني على الأردن؟",
+            opts: ["معاهدة لندن", "معاهدة وادي عربة", "معاهدة الاستقلال 1946م", "معاهدة سايكس بيكو"],
+            ans: 2,
+            dispAnswer: "ج) معاهدة الاستقلال 1946م",
+            exp: "معاهدة الاستقلال توجت نضال الدولة وأنهت رسمياً قيود معاهدة الانتداب البريطاني."
+          },
+          {
+            id: "nat4_4",
+            type: "single",
+            text: "4) المجلس الوطني الذي أصدر قراراً تاريخياً بإعلان البلاد الأردنية دولة مستقلة استقلالاً تاماً ذات حكومة ملكية وراثية نيابية هو:",
+            opts: ["المجلس القضائي", "المجلس التشريعي", "المجلس التنفيذي", "مجلس الأعيان"],
+            ans: 1,
+            dispAnswer: "ب) المجلس التشريعي",
+            exp: "أصدر المجلس التشريعي الأردني قراره التاريخي بالإجماع في 25 أيار 1946م بإعلان استقلال المملكة."
+          },
+          {
+            id: "nat4_5",
+            type: "single",
+            text: "5) كم كانت المدة الزمنية المقررة للمعاهدة الأردنية البريطانية (1946)؟",
+            opts: ["15 عاماً", "5 أعوام", "25 عاماً", "20 عاماً"],
+            ans: 2,
+            dispAnswer: "ج) 25 عاماً",
+            exp: "نصت معاهدة 1946 على ارتباط الصداقة لمدة 25 عاماً، قبل أن يتم تعديلها وإلغاؤها لاحقاً."
+          },
+          {
+            id: "nat4_6",
+            type: "single",
+            text: "6) صدر قرار تقسيم فلسطين إلى دولة عربية ويهودية عن الجمعية العامة للأمم المتحدة عام 1947م تحت رقم:",
+            opts: ["181", "242", "194", "338"],
+            ans: 0,
+            dispAnswer: "أ) 181",
+            exp: "قرار الجمعية العامة للأمم المتحدة رقم 181 نص على تقسيم فلسطين إلى دولتين عربية ويهودية."
+          },
+          {
+            id: "nat4_7",
+            type: "single",
+            text: "7) جوبهت الجيوش العربية بقوة النيران الإسرائيلية فتوقفت على بعض الجبهات بينما بقي القتال مستمراً على الجبهة الشرقية حيث كان يخوض المعارك:",
+            opts: ["الجีشان الأردني والمصري", "الجيشان الأردني واللبناني", "الجيشان الأردني والعراقي", "الجيشان الأردني والسوري"],
+            ans: 2,
+            dispAnswer: "ج) الجيشان الأردني والعراقي",
+            exp: "خاض الجيش العربي الأردني بمساندة الجيش العراقي أشرس المعارك على الجبهة الشرقية للدفاع عن القدس وفلسطين."
+          },
+          {
+            id: "nat4_8",
+            type: "single",
+            text: "8) أعاد الجيش العربي الأردني سيطرته على طريق (القدس - بيت لحم) الاستراتيجي بعد أن أغلقه الصهاينة:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "سجل الجيش العربي بطولات خالدة في تأمين خطوط الإمداد وطريق القدس الشريف ومواقع باب الواد وصرعة."
+          },
+          {
+            id: "nat4_9",
+            type: "single",
+            text: "9) الجيش العربي الوحيد الذي حافظ في حرب 1948 على الأرض التي دافع عنها ألا وهي الضفة الغربية والقدس الشرقية هو:",
+            opts: ["الجيش العراقي", "الجيش اللبناني", "الجيشان الأردني والعراقي", "الجيش الأردني"],
+            ans: 3,
+            dispAnswer: "د) الجيش الأردني",
+            exp: "استطاع الجيش العربي الأردني بفضل بسالة ضباطه وجنوده حماية البوابات الشرقية للقدس وما تبقى من الضفة الغربية."
+          },
+          {
+            id: "nat4_10",
+            type: "single",
+            text: "10) الهدنة الأولى والثانية التي حصلت تحت ضغط هيئة الأمم المتحدة في حرب 1948 كانت لصالح:",
+            opts: ["العرب", "اليهود (العصابات الصهيونية)", "لصالح الطرفين بالتساوي", "لا شيء مما ذكر"],
+            ans: 1,
+            dispAnswer: "ب) اليهود",
+            exp: "استغلت العصابات الصهيونية فترات الهدنة الدولية لتنظيم صفوفهم وتهريب الأسلحة الثقيلة بدعم غربي."
+          },
+          {
+            id: "nat4_11",
+            type: "single",
+            text: "11) من أهم النتائج الكارثية لحرب عام 1948م:",
+            opts: [
+              "عدم تأييد الدول الكبرى للصهيونية",
+              "اتضحت قوة الوضع العربي العسكري",
+              "أصبح العراق يقف على أطول خط مواجهة",
+              "قيام الكيان الإسرائيلي بالقوة على (78%) من إجمالي مساحة فلسطين التاريخية"
+            ],
+            ans: 3,
+            dispAnswer: "د) قيام الكيان الإسرائيلي بالقوة على (78%) من إجمالي مساحة فلسطين التاريخية",
+            exp: "نُكبة فلسطين أسفرت عن طرد وتشريد مئات الآلاف من الفلسطينيين واحتلال 78% من مساحة فلسطين."
+          },
+          {
+            id: "nat4_12",
+            type: "single",
+            text: "12) أين عُقد المؤتمر العربي الفلسطيني الأول عام 1948م ومن كان يرأسه؟",
+            opts: [
+              "عمان ، برئاسة الشيخ سليمان الفاروقي ونائبه سعد الدين العلمي",
+              "القدس ، برئاسة الشيخ سليمان الفاروقي ونائبه سعد الدين العلمي",
+              "عمان ، برئاسة حسين الطراونة",
+              "القدس ، برئاسة حسين الطراونة"
+            ],
+            ans: 0,
+            dispAnswer: "أ) عمان ، الشيخ سليمان الفاروقي ونائبه سعد الدين العلمي",
+            exp: "عُقد المؤتمر في عمان برئاسة الشيخ سليمان الفاروقي ونفي طابع التجزئة وتأييد الوحدة."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثاني: وحدة الضفتين، اغتيال الملك المؤسس، ومعركة الكرامة (الأسئلة 13 – 26)",
+        context: "أسئلة مكمل الوحدة حول وحدة الضفتين 1950، استشهاد الملك المؤسس، ومجد معركة الكرامة المجيدة:",
+        subQuestions: [
+          {
+            id: "nat4_13",
+            type: "single",
+            text: "13) كل مما يأتي من قرارات المؤتمر العربي الفلسطيني الأول 1948م ما عدا:",
+            opts: [
+              "الدعوة إلى تزويد الفلسطينيين بالسلاح والدعم",
+              "معارضة حكومة عموم فلسطين في غزة معارضة تامة",
+              "تفويض الملك عبد الله الأول لمعالجة القضية الفلسطينية",
+              "الدعوة إلى عقد مؤتمر فلسطيني موسع لمبايعة الملك حسين ملكاً على فلسطين"
+            ],
+            ans: 3,
+            dispAnswer: "د) الدعوة إلى عقد مؤتمر فلسطيني موسع لمبايعة الملك حسين ملكاً على فلسطين",
+            exp: "هذا القرار غير صحيح؛ فالمبايعة والوحدة تمت في عهد الملك المؤسس عبد الله الأول عام 1950م."
+          },
+          {
+            id: "nat4_14",
+            type: "single",
+            text: "14) متى تم الإعلان الرسمي عن وحدة الضفتين (الشرقية والغربية) في دولة واحدة؟",
+            opts: ["1948م", "1950م", "1967م", "1988م"],
+            ans: 1,
+            dispAnswer: "ب) 1950م",
+            exp: "عُقد البرلمان الأردني الموحد (الضفتين) في نيسان 1950م وأعلن الوحدة الدستورية الكاملة."
+          },
+          {
+            id: "nat4_15",
+            type: "single",
+            text: "15) رئيس المؤتمر العربي الفلسطيني الثاني (مؤتمر أريحا) ونائبه على الترتيب هما:",
+            opts: [
+              "فؤاد عطا الله ، ونائبه الشيخ محمد علي الجعبري",
+              "الشيخ سليمان الفاروقي ونائبه سعد الدين العلمي",
+              "الشيخ محمد علي الجعبري ونائبه فؤاد عطا الله",
+              "سعد الدين العلمي ونائبه الشيخ سليمان الفاروقي"
+            ],
+            ans: 2,
+            dispAnswer: "ج) الشيخ محمد علي الجعبري ونائبه فؤاد عطا الله",
+            exp: "ترأس مؤتمر أريحا التاريخي الشيخ محمد علي الجعبري (رئيس بلدية الخليل) ونائبه فؤاد عطا الله."
+          },
+          {
+            id: "nat4_16",
+            type: "single",
+            text: "16) اغتيال الملك المؤسس عبد الله الأول على بوابة المسجد الأقصى المبارك تُعد جريمة إرهابية خيوطها التآمرية كانت تستهدف الأردن فقط:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ لأن المؤامرة لم تكن تستهدف الأردن وحده بل استهدفت ضرب المشروع القومي العربي وفلسطين وقيادتها التاريخية."
+          },
+          {
+            id: "nat4_17",
+            type: "single",
+            text: "17) الملك الهاشمي الذي كان يتلقى العلاج في أوروبا وتمتع بشعبية وعانى من المرض وناضل في سبيل وطنه هو:",
+            opts: ["الملك عبد الله الأول", "الملك عبد الله الثاني", "الملك طلال بن عبدالله", "الملك الحسين بن طلال"],
+            ans: 2,
+            dispAnswer: "ج) الملك طلال بن عبدالله",
+            exp: "الملك طلال بن عبدالله (رحمه الله) أصدر دستور 1952 ولُقّب بالملك الإصلاحي والدستوري."
+          },
+          {
+            id: "nat4_18",
+            type: "single",
+            text: "18) من هو الملك الذي نُودي به ملكاً وكان عمده سبعة عشر عاماً فتشكل مجلس وصاية على العرش إلى حين بلوغه السن الدستورية؟",
+            opts: ["الملك عبد الله الأول", "الملك عبد الله الثاني", "الملك طلال بن عبدالله", "الملك الحسين بن طلال"],
+            ans: 3,
+            dispAnswer: "د) الملك الحسين بن طلال",
+            exp: "تولى الباني الملك الحسين بن طلال سلطاته الدستورية عام 1953م بعد بلوغه سن الرشد."
+          },
+          {
+            id: "nat4_19",
+            type: "single",
+            text: "19) انضمت كل الدول الآتية إلى معاهدة حلف بغداد المشؤوم للوقوف في وجه الزحف الشيوعي ما عدا:",
+            opts: ["الأردن", "العراق", "تركيا", "باكستان"],
+            ans: 0,
+            dispAnswer: "أ) الأردن",
+            exp: "رفض الأردن الانضمام لحلف بغداد بضغط شعبي ووطني عارم برفض سياسة الأحلاف العسكرية."
+          },
+          {
+            id: "nat4_20",
+            type: "single",
+            text: "20) تعهدت العديد من الدول العربية بدفع المعونة العربية البديلة للمعونة المالية البريطانية للأردن لمدة عشر سنوات، ولم يلتزم بتنفيذها إلا دولة واحدة هي:",
+            opts: ["سوريا", "مصر", "المملكة العربية السعودية", "لبنان"],
+            ans: 2,
+            dispAnswer: "ج) السعودية",
+            exp: "قرارات قمة الخرطوم نصت على الدعم، والتزمت السعودية وحدها بدفع الحصة المتفق عليها في تلك المرحلة."
+          },
+          {
+            id: "nat4_21",
+            type: "single",
+            text: "21) ما اسم رئيس الوزراء الأردني الذي شكّل أول حكومة حزبية برلمانية في تاريخ الأردن عام 1956م؟",
+            opts: ["سليمان النابلسي", "إبراهيم هاشم", "وصفي التل", "زيد الرفاعي"],
+            ans: 0,
+            dispAnswer: "أ) سليمان النابلسي",
+            exp: "شكّل سليمان النابلسي (زعيم الحزب الوطني الاشتراكي) أول حكومة حزبية أغلبية برلمانية."
+          },
+          {
+            id: "nat4_22",
+            type: "single",
+            text: "22) الرئيس المصري الذي أعلن إغلاق مضايق تيران بوجه الملاحة الإسرائيلية عشية حرب 1967م هو:",
+            opts: ["فؤاد محيي الدين", "جمال عبد الناصر", "عاطف صدقي", "محمد مرسي"],
+            ans: 1,
+            dispAnswer: "ب) جمال عبد الناصر",
+            exp: "أعلن الزعيم المصري جمال عبد الناصر إغلاق خليج العقبة ومضايق تيران في وجه الملاحة الإسرائيلية."
+          },
+          {
+            id: "nat4_23",
+            type: "single",
+            text: "23) ما اسم القرار الدولي الصادر عن مجلس الأمن الدولي الذي دعا لانسحاب إسرائيل من الأراضي المحتلة عام 1967م؟",
+            opts: ["القرار 181", "القرار 242", "القرار 338", "القرار 425"],
+            ans: 1,
+            dispAnswer: "ب) القرار 242",
+            exp: "قرار مجلس الأمن 242 نص على انسحاب إسرائيل من الأراضي التي احتلتها في حرب 1967م وحرية الملاحة."
+          },
+          {
+            id: "nat4_24",
+            type: "single",
+            text: "24) متى وقعت معركة الكرامة الخالدة التي حطمت أسطورة الجيش الإسرائيلي الذي لا يُقهر؟",
+            opts: ["1967م", "1968م", "1973م", "1982م"],
+            ans: 1,
+            dispAnswer: "ب) 1968م",
+            exp: "وقعت معركة الكرامة في 21 آذار عام 1968م وسطر فيها الجيش العربي أروع ملاحم البطولة."
+          },
+          {
+            id: "nat4_25",
+            type: "single",
+            text: "25) في معركة السموع رفض الملك حسين وقف إطلاق النار قبل انسحاب جيش العدو من الأراضي الأردنية شرق النهر:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ فالموقف الشجاع ورفض وقف إطلاق النار كان في (معركة الكرامة) المجيدة وليس معركة السموع."
+          },
+          {
+            id: "nat4_26",
+            type: "single",
+            text: "26) ما اسم المشروع الوحدوي الاتحادي الذي أعلنه الملك الحسين لتسوية القضية الفلسطينية عام 1972م ورفضته منظمة التحرير في حينه؟",
+            opts: ["مشروع المملكة المتحدة", "مشروع المملكة العربية المتحدة", "مشروع السلام العادل", "مشروع فك الارتباط"],
+            ans: 1,
+            dispAnswer: "ب) مشروع المملكة العربية المتحدة",
+            exp: "طرح الملك الحسين عام 1972م مشروع إقامة مملكة عربية متحدة مكونة من قطرين (الأردن وفلسطين)."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثالث: حرب تشرين، مؤتمر الرباط، فك الارتباط، والحياة النيابية (الأسئلة 27 – 36)",
+        context: "أسئلة مكمل الوحدة حول اللواء المدرع 40، مؤتمر الرباط 1974، فك الارتباط 1988، وتطور المجالس التشريعية:",
+        subQuestions: [
+          {
+            id: "nat4_27",
+            type: "single",
+            text: "27) ما اسم المعركة القومية التي خاضها الجيش الأردني على الجبهة السورية في تشرين الأول 1973م وأرسل فيها اللواء المدرع 40 الباسل؟",
+            opts: ["معركة الجولان", "معركة رمضان", "معركة تشرين", "معركة السادس من أكتوبر"],
+            ans: 2,
+            dispAnswer: "ج) معركة تشرين",
+            exp: "أرسل الأردن اللواء المدرع 40 إلى جبهة الجولان السوري عام 1973م وسطر جنودنا أروع البطولات."
+          },
+          {
+            id: "nat4_28",
+            type: "single",
+            text: "28) ما اسم المؤتمر القمة العربي الذي اعتمد منظمة التحرير الفلسطينية ممثلاً شرعياً ووحيداً للشعب الفلسطيني عام 1974م؟",
+            opts: ["مؤتمر القمة العربي السابع (الرباط)", "مؤتمر الجزائر", "مؤتمر فاس", "مؤتمر عمان"],
+            ans: 3,
+            dispAnswer: "د) مؤتمر الرباط 1974 م",
+            exp: "قمة الرباط بالمغرب عام 1974م أقرت الاعتراف بمنظمة التحرير ممثلاً شرعياً ووحيداً للشعب الفلسطيني."
+          },
+          {
+            id: "nat4_29",
+            type: "single",
+            text: "29) متى تم الإعلان الرسمي عن قرار فك الارتباط الإداري والقانوني مع الضفة الغربية بناءً على طلب القيادة الفلسطينية؟",
+            opts: ["1967م", "1974م", "1988م", "1994م"],
+            ans: 2,
+            dispAnswer: "ج) 1988م",
+            exp: "أعلن الملك الحسين قرار فك الارتباط عام 1988م استجابة لقرارات قمة الرباط ورغبة منظمة التحرير."
+          },
+          {
+            id: "nat4_30",
+            type: "single",
+            text: "30) في أي عام شارك الأردن بفعالية في مؤتمر مدريد للسلام في الشرق الأوسط؟",
+            opts: ["1988م", "1991م", "1993م", "1994م"],
+            ans: 1,
+            dispAnswer: "ب) 1991م",
+            exp: "شارك الأردن في مؤتمر مدريد للسلام عام 1991م ضمن وفد أردني فلسطيني مشترك للمطالبة بالحقوق العادلة."
+          },
+          {
+            id: "nat4_31",
+            type: "single",
+            text: "31) الهدف من إنشاء المجلس الوطني الاستشاري في أواخر السبعينات كان لسد الفراغ الدستوري الذي أحدثه تجميد الحياة النيابية، وقد تشكل هذا المجلس عدة مرات:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "تأسس المجلس الوطني الاستشاري ليكون معاضداً للسلطة التنفيذية في الرقابة والتشريع أثناء تعطل البرلمان بسبب ظروف حرب 1967 والضفة."
+          },
+          {
+            id: "nat4_32",
+            type: "single",
+            text: "32) من أبرز القوانين الإصلاحية الديمقراطية التي صدرت في عهد المجلس النيابي الحادي عشر (1989م):",
+            opts: [
+              "قانون الأحزاب السياسية",
+              "قانون إلغاء الأحكام العرفية",
+              "قانون حديث للمطبوعات والنشر",
+              "جميع ما ذكر"
+            ],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "شهد البرلمان الحادي عشر عودة الحياة الديمقراطية وإقرار قوانين ناظمة للحريات كالأحزاب والمطبوعات."
+          },
+          {
+            id: "nat4_33",
+            type: "single",
+            text: "33) المجلس النيابي الذي جرت انتخاباته وفقاً لقانون الصوت الواحد المؤقت عام 1993م، وفي عهده وقعت معاهدة السلام وأُصدر قانون المطبوعات هو:",
+            opts: ["المجلس النيابي الحادي عشر", "مجلس النواب الثاني عشر", "المجلس النيابي العاشر", "لا شيء مما ذكر"],
+            ans: 1,
+            dispAnswer: "ب) مجلس النواب الثاني عشر",
+            exp: "انتُخب مجلس النواب الثاني عشر عام 1993م وفق نظام الصوت الواحد، وشهد توقيع معاهدة وادي عربة."
+          },
+          {
+            id: "nat4_34",
+            type: "single",
+            text: "34) متى توقل إلى رحمة الله تعالى الباني العظيم المغفور له الملك الحسين بن طلال؟",
+            opts: ["1997م", "1999م", "2001م", "2003م"],
+            ans: 1,
+            dispAnswer: "ب) 1999م",
+            exp: "انتقل إلى جوار ربه الملك الحسين بن طلال في 7 شباط 1999م، وتولى سلطاته الدستورية جلالة الملك عبد الله الثاني ابن الحسين."
+          },
+          {
+            id: "nat4_35",
+            type: "single",
+            text: "35) جاء قرار حل وتعطيل الأحزاب السياسية في الأردن عام 1957م باستثناء جماعة الإخوان المسلمين نظراً لكونها مسجلة كجمعية خيرية وليست حزباً سياسياً، ومع ذلك بقيت العمل الحزبي يعاني من الغياب العلني:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "صدر قرار حل الأحزاب عام 1957م في ظل الأحكام العرفية وظلت جماعة الإخوان تعمل بصفة جمعية خيرية حتى عودة التعددية 1989."
+          },
+          {
+            id: "nat4_36",
+            type: "single",
+            text: "36) توزعت الأحزاب الأردنية التي ظهرت بعد عودة الحياة الديمقراطية 1992م بحسب توجهاتها الفكرية إلى:",
+            opts: ["أحزاب إسلامية", "أحزاب قومية ويسارية", "الأحزاب الوطنية أو الوسطية", "جميع ما ذكر"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "شهدت الساحة الحزبية تنوعاً واسعاً ضم التيارات الإسلامية، والقومية، واليسارية، والوسطية الديمقراطية."
+          }
+        ]
+      },
+      {
+        title: "الجزء الرابع: معاهدة وادي عربة، الإعمار الهاشمي، النهضة التعليمية والخدمية (الأسئلة 37 – 47)",
+        context: "أسئلة مكمل الوحدة حول معاهدة وادي عربة 1994، لجان الإعمار الهاشمي، مجالس التعاون، الجامعات، والخدمات الشبابية:",
+        subQuestions: [
+          {
+            id: "nat4_37",
+            type: "single",
+            text: "37) ما اسم معاهدة السلام الثنائية التي وقعها الأردن مع إسرائيل عام 1994م؟",
+            opts: ["معاهدة كامب ديفيد", "معاهدة وادي عربة", "معاهدة السلام الشامل", "معاهدة أوسلو"],
+            ans: 1,
+            dispAnswer: "ب) معاهدة وادي عربة",
+            exp: "وُقعت معاهدة وادي عربة في تشرين الأول 1994م لاستعادة الأراضي الأردنية المحتلة (البقورة والغمر) ومياه الحدود."
+          },
+          {
+            id: "nat4_38",
+            type: "single",
+            text: "38) ما اسم المؤسسة والمرجعية الرسمية التي تعنى بإعمار وصيانة المسجد الأقصى المبارك ومقامات القدس؟",
+            opts: ["لجنة إعمار المسجد الأقصى المبارك", "مؤسسة القدس الدولية", "صندوق الأقصى", "هيئة إعمار القدس"],
+            ans: 0,
+            dispAnswer: "أ) لجنة إعمار المسجد الأقصى المبارك",
+            exp: "لجنة إعمار المسجد الأقصى وقبة الصخرة المشرفة تتبع للرعاية الهاشمية المباشرة وتقوم بصيانتها التاريخية."
+          },
+          {
+            id: "nat4_39",
+            type: "single",
+            text: "39) من الأمور الإدارية الهامة التي حدثت فور حريق المسجد الأقصى المتعمد عام 1969م:",
+            opts: [
+              "انطلاق الإعمار الهاشمي الثاني",
+              "توقيع معاهدة وادي عربة",
+              "انطلاق الإعمار الهاشمي الطارئ لإصلاح الأضرار الجسيمة",
+              "تأسيس صندوق الأقصى فقط"
+            ],
+            ans: 2,
+            dispAnswer: "ج) انطلق الإعمار الهاشمي الطارئ",
+            exp: "عقب الحريق الإجرامي عام 1969م بادر الملك الحسين فوراً بإطلاق مشروع الإعمار الهاشمي الطارئ لإصلاح الحرق وترميم المنبر."
+          },
+          {
+            id: "nat4_40",
+            type: "single",
+            text: "40) أسهم الأردن عام 1989م في تأسيس (مجلس التعاون العربي) ليضمه إلى جانب دول عربية أخرى هي:",
+            opts: ["اليمن ، الكويت ، العراق", "مصر ، فلسطين ، لبنان", "اليمن ، العراق ، مصر", "لبنان ، العراق ، اليمن"],
+            ans: 2,
+            dispAnswer: "ج) اليمن ، العراق ، مصر",
+            exp: "تأسيس مجلس التعاون العربي عام 1989م ضم الأردن، مصر، العراق، واليمن، واتخذ من عمان مقراً له."
+          },
+          {
+            id: "nat4_41",
+            type: "single",
+            text: "41) ما اسم المؤسسة المصرفية التنموية التي أُسست لتعني بالتنمية الصناعية وتمويل القطاع الإنتاجي في الأردن؟",
+            opts: ["بنك التنمية الصناعية", "مؤسسة التنمية الصناعية", "صندوق التنمية الصناعية", "بنك الإنماء الصناعي"],
+            ans: 0,
+            dispAnswer: "أ) بنك التنمية الصناعية",
+            exp: "تأسيس بنك التنمية الصناعية لدعم وتسهيل إقامة المشاريع الاستثمارية والصناعية في المملكة."
+          },
+          {
+            id: "nat4_42",
+            type: "single",
+            text: "42) ما هو اسم أول جامعة أردنية حكومية أُسست في عهد الإمارة والدولة الحديثة (عام 1962م)؟",
+            opts: ["جامعة اليرموك", "الجامعة الأردنية", "جامعة مؤتة", "جامعة العلوم والتكنولوجيا"],
+            ans: 1,
+            dispAnswer: "ب) الجامعة الأردنية",
+            exp: "تأسست الجامعة الأردنية عام 1962م في عمان كأول صرح جامعي أكاديمي عالي في المملكة."
+          },
+          {
+            id: "nat4_43",
+            type: "single",
+            text: "43) الملك الهاشمي الذي افتتح إذاعة عمان وافتتح دار الإذاعة الجديدة والتلفزيون الأردني رسمياً هو:",
+            opts: ["الملك الحسين بن طلال", "الملك طلال بن عبدالله", "الملك عبدالله الثاني", "الملك عبدالله الأول"],
+            ans: 0,
+            dispAnswer: "أ) الملك الحسين",
+            exp: "شهد عهد الباني الملك الحسين بن طلال انطلاقة الإذاعة والتلفزيون الأردني كوسائل إعلامية وطنية كبرى."
+          },
+          {
+            id: "nat4_44",
+            type: "single",
+            text: "44) من أبرز مظاهر تطور مجال الخدمات الاجتماعية في الدولة الأردنية الحديثة:",
+            opts: [
+              "إنشاء صندوق المعونة الوطنية لدعم الأسر الفقيرة",
+              "إنشاء وزارة الأشغال العامة والإسكان",
+              "ظهور معسكرات الحسين للعمل والبناء للشباب",
+              "أ + ج"
+            ],
+            ans: 3,
+            dispAnswer: "د) أ + ج",
+            exp: "صندوق المعونة الوطنية ومعسكرات الحسين للعمل والبناء مكنت الدولة من تقديم الرعاية الاجتماعية وتمكين الشباب."
+          },
+          {
+            id: "nat4_45",
+            type: "single",
+            text: "45) من مظاهر توسع اهتمام الحكومات الأردنية بقطاع الشباب ورعايتهم:",
+            opts: [
+              "إنشاء مدينة الحسين الشبابية في عمان",
+              "تأسيس مؤسسة رعاية الشباب",
+              "إطلاق معسكرات الحسين للعمل والبناء",
+              "جميع ما ذكر"
+            ],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "تعددت المؤسسات والمرافق الشبابية (مدن رياضية، معسكرات، ومؤسسات رعاية) لتهيئة جيل واعد."
+          },
+          {
+            id: "nat4_46",
+            type: "single",
+            text: "46) ما اسم العملية العسكرية الناجحة التي تم فيها تدمير وإعطاب عدد كبير من الآليات والمعدات العسكرية الثقيلة التي تركها العدو على أرض معركة الكرامة الخالدة؟",
+            opts: ["عملية النسر", "عملية الكرامة (معارضات وبقايا الغنيمة)", "عملية الفتح", "عملية النصر"],
+            ans: 1,
+            dispAnswer: "ب) عملية الكرامة",
+            exp: "سُميت عملية الكرامة الميدانية التي غنم ودمر فيها الجيش العربي آليات العدو."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

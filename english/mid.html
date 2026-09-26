@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | English 101 - Mid Exam Bank</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/en">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">English 101</div>
+    <div class="subject-subtitle" id="quiz-subtitle">ENGL 101 — بنك أسئلة امتحان منتصف الفصل (Midterm Exam Question Bank)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/en">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const examSections = [
+      {
+        title: "Part 1: Past Years Midterm Exam Questions",
+        context: "The official 40 multiple-choice questions from past midterm exams with explanations from the official answer key:",
+        subQuestions: [
+          {
+            id: "eng_m1",
+            type: "single",
+            text: "1) He was ______ a sad face to impress the audience during the play.",
+            opts: ["Holding on", "Putting on", "Struck by", "Met with"],
+            ans: 1,
+            dispAnswer: "B. Putting on",
+            exp: "Putting on تعني التظاهر أو اصطناع ملامح معينة (pretending) للتأثير على الجمهور[cite: 4]."
+          },
+          {
+            id: "eng_m2",
+            type: "single",
+            text: "2) Larry ______ a lot of money last year but he ______ it.",
+            opts: ["Won / already spent", "Has won / already spent", "Won / has already spent", "Has won / has already spent"],
+            ans: 2,
+            dispAnswer: "C. Won / has already spent",
+            exp: "الحدث الأول ماضٍ محدد بـ last year (ماضي بسيط Won)، والحدث الثاني أثره ممتد للحاضر بوجود already (مضارع تام has already spent)[cite: 4]."
+          },
+          {
+            id: "eng_m3",
+            type: "single",
+            text: "3) They ______ in Paris for the last two years and are still adjusting to the lifestyle there.",
+            opts: ["Lived", "Are living", "Live", "Have been living"],
+            ans: 3,
+            dispAnswer: "D. Have been living",
+            exp: "الحدث بدأ قبل عامين ومستمر حتى الآن بدلالة are still adjusting (مضارع تام مستمر Have been living)[cite: 4]."
+          },
+          {
+            id: "eng_m4",
+            type: "single",
+            text: "4) By the time the teacher ______, the students ______ for more than an hour.",
+            opts: ["Had come, were waiting", "Came, had been waiting", "Came, were waiting", "Comes, have been waiting"],
+            ans: 1,
+            dispAnswer: "B. Came, had been waiting",
+            exp: "حدث الانتظار استمر لفترة قبل حدث آخر في الماضي مسبوق بـ By the time (ماضي تام مستمر had been waiting وماضي بسيط came)[cite: 4]."
+          },
+          {
+            id: "eng_m5",
+            type: "single",
+            text: "5) She ______ more confident in her presentations as she gains more experience.",
+            opts: ["Becomes", "Has become", "Became", "Is becoming"],
+            ans: 3,
+            dispAnswer: "D. Is becoming",
+            exp: "تغير تدريجي مستمر في الحاضر (gradual change)[cite: 4]."
+          },
+          {
+            id: "eng_m6",
+            type: "single",
+            text: "6) My mother ______ Asian cuisines very much. I am surprised that she ______ this western dish.",
+            opts: ["Is enjoying, enjoys", "Enjoyed, enjoys", "Enjoys, enjoys", "Enjoys, is enjoying"],
+            ans: 3,
+            dispAnswer: "D. Enjoys, is enjoying",
+            exp: "الجملة الأولى عادة وحقيقة ثابتة (Enjoys)، والثانية تعبير عن نشاط مؤقت يحدث الآن ومفاجئ (is enjoying)[cite: 4]."
+          },
+          {
+            id: "eng_m7",
+            type: "single",
+            text: "7) Gerard won't come with us to the party. He ______ to Paris for the weekend.",
+            opts: ["Had been", "Has been", "Goes", "Has gone"],
+            ans: 3,
+            dispAnswer: "D. Has gone",
+            exp: "ذهب إلى باريس ولم يعد بعد (gone and not back) ولذلك لن يتمكن من حضور الحفل[cite: 4]."
+          },
+          {
+            id: "eng_m8",
+            type: "single",
+            text: "8) They ______ the museum before they went to the park.",
+            opts: ["Had been visiting", "Had visited", "Have visited", "Visit"],
+            ans: 1,
+            dispAnswer: "B. Had visited",
+            exp: "حدث اكتمل في الماضي قبل حدث ماضٍ آخر مسبوق بـ before (ماضي تام Had visited)[cite: 4]."
+          },
+          {
+            id: "eng_m9",
+            type: "single",
+            text: "9) The refugees had to ______ their homeland due to the ongoing war.",
+            opts: ["Migrate", "Flee", "Share", "Rear"],
+            ans: 1,
+            dispAnswer: "B. Flee",
+            exp: "Flee تعني الهروب والفرار من الخطر والحرب (escape danger)[cite: 4]."
+          },
+          {
+            id: "eng_m10",
+            type: "single",
+            text: "10) The ______ guided their cattle through the valley, ensuring they had enough grazing land.",
+            opts: ["Stilt huts", "Livestock herders", "Monsoon seasons", "Dairy products"],
+            ans: 1,
+            dispAnswer: "B. Livestock herders",
+            exp: "Livestock herders هم رعاة الماشية الذين يقودون الأبقار والماشية للمرعى[cite: 4]."
+          },
+          {
+            id: "eng_m11",
+            type: "single",
+            text: "11) The farmer used a sharp tool to ______ the sheep's wool before the summer heat.",
+            opts: ["Share", "Move", "Flee", "Shear"],
+            ans: 3,
+            dispAnswer: "D. Shear",
+            exp: "Shear تعني جزّ وقص صوف الأغنام (cut wool)[cite: 4]."
+          },
+          {
+            id: "eng_m12",
+            type: "single",
+            text: "12) I prefer to sit in a(an) ______ so I can easily get up and move around during the flight.",
+            opts: ["Aisle window", "Conveyor belt", "Conveyor seat", "Aisle seat"],
+            ans: 3,
+            dispAnswer: "D. Aisle seat",
+            exp: "Aisle seat هو المقعد المحاذي للممر في الطائرة ليسهل الخروج والحركة[cite: 4]."
+          },
+          {
+            id: "eng_m13",
+            type: "single",
+            text: "13) They ______ new ways to improve efficiency in their manufacturing process when they stumbled upon a more sustainable method.",
+            opts: ["Had explored", "Had been exploring", "Explored", "Were exploring"],
+            ans: 3,
+            dispAnswer: "D. Were exploring",
+            exp: "حدث كان مستمراً في الماضي وقاطعه حدث مفاجئ stumbled upon (ماضي مستمر Were exploring)[cite: 4]."
+          },
+          {
+            id: "eng_m14",
+            type: "single",
+            text: "14) Mr. Jonson ______ this luxurious hotel for more than 20 years. It is one of the country's best places.",
+            opts: ["Has", "Had", "Has been having", "Has had"],
+            ans: 3,
+            dispAnswer: "D. Has had",
+            exp: "الفعل have بمعنى الملكية فعل حالة لا يقبل الاستمرار، ومع for more than 20 years نستخدم المضارع التام (Has had)[cite: 4]."
+          },
+          {
+            id: "eng_m15",
+            type: "single",
+            text: "15) Hey, you look different. ______ you ______ your hairstyle?",
+            opts: ["Did / change", "Have / changed", "Do / change", "Are / changing"],
+            ans: 1,
+            dispAnswer: "B. Have / changed",
+            exp: "سؤال عن حدث تم مؤخراً وأثره ظاهر على الشخص الآن (recent action with present result)[cite: 4]."
+          },
+          {
+            id: "eng_m16",
+            type: "single",
+            text: "16) The teacher ______ to the students for more than two hours, so she ______ a break.",
+            opts: ["Had been talking / was wanting", "Has talked / was wanting", "Had been talking / wanted", "Was talking / wanted"],
+            ans: 2,
+            dispAnswer: "C. Had been talking / wanted",
+            exp: "الفعل want من أفعال الحالة ولا يُصاغ بالمستمر (wanted)، والحدث المستمر قبله ماضي تام مستمر (Had been talking)[cite: 4]."
+          },
+          {
+            id: "eng_m17",
+            type: "single",
+            text: "17) The baby ______ pale; do you think she is sick?",
+            opts: ["Looked", "Has been looking", "Looks", "Was looking"],
+            ans: 2,
+            dispAnswer: "C. Looks",
+            exp: "فعل حالة يصف المظهر والشكل الحالي للطفلة (current state)[cite: 4]."
+          },
+          {
+            id: "eng_m18",
+            type: "single",
+            text: "18) I ______ John at the airport tomorrow.",
+            opts: ["Have met", "Have been meeting", "Am meeting", "Used to meeting"],
+            ans: 2,
+            dispAnswer: "C. Am meeting",
+            exp: "المضارع المستمر يُستخدم للتعبير عن خطة وموعد مستقبلي مؤكد ومحدد مسبقاً (fixed future arrangement)[cite: 4]."
+          },
+          {
+            id: "eng_m19",
+            type: "single",
+            text: "19) Sally ______ school three years ago.",
+            opts: ["Had left", "Was leaving", "Left", "Has left"],
+            ans: 2,
+            dispAnswer: "C. Left",
+            exp: "حقيقة وحدث وقع وانتهى في الماضي لوجود ago (ماضي بسيط Left)[cite: 4]."
+          },
+          {
+            id: "eng_m20",
+            type: "single",
+            text: "20) As she saw the cat, she jumped to the next room without a second ______.",
+            opts: ["Scene", "Chase", "Thought", "Suspicion"],
+            ans: 2,
+            dispAnswer: "C. Thought",
+            exp: "تعبير واصطلاح لغوي شائع: without a second thought (دون أي تردد أو تفكير ثانٍ)[cite: 4]."
+          },
+          {
+            id: "eng_m21",
+            type: "single",
+            text: "21) Online trading has been slow to ______ (become popular) in this part of the country.",
+            opts: ["Hold on", "Count on", "Catch on", "Look on"],
+            ans: 2,
+            dispAnswer: "C. Catch on",
+            exp: "الفعل المركب catch on يعني يصبح رائجاً وشائعاً ومقبولاً (become popular)[cite: 4]."
+          },
+          {
+            id: "eng_m22",
+            type: "single",
+            text: "22) I often ______ my mother to her work when I was sixteen.",
+            opts: ["Have been joining", "Join", "Was joining", "Joined"],
+            ans: 3,
+            dispAnswer: "D. Joined",
+            exp: "عادة وتكرار في فترة زمنية ماضية منتهية (past habit)[cite: 4]."
+          },
+          {
+            id: "eng_m23",
+            type: "single",
+            text: "23) Where ______ all that time? You've missed most of the film.",
+            opts: ["Have you gone", "Have you been", "Did you go", "Were you"],
+            ans: 1,
+            dispAnswer: "B. Have you been",
+            exp: "السؤال عن مكان تواجده مؤخراً وقد عاد الآن للشخص (recent presence)[cite: 4]."
+          },
+          {
+            id: "eng_m24",
+            type: "single",
+            text: "24) My grandfather ______ in an airplane before, so this is his first time.",
+            opts: ["Never flew", "Had never flown", "Has never flown", "Never flies"],
+            ans: 2,
+            dispAnswer: "C. Has never flown",
+            exp: "تجارب وخبرات الحياة حتى اللحظة الحالية مع before و first time تأخذ المضارع التام (Has never flown)[cite: 4]."
+          },
+          {
+            id: "eng_m25",
+            type: "single",
+            text: "25) I am sorry, I ______ what you say. Can you repeat it?",
+            opts: ["Haven't been understanding", "Am not understand", "Am not understanding", "Don't understand"],
+            ans: 3,
+            dispAnswer: "D. Don't understand",
+            exp: "الفعل understand فعل إدراك وحالة لا يقبل صيغ الاستمرار (current state)[cite: 4]."
+          },
+          {
+            id: "eng_m26",
+            type: "single",
+            text: "26) When Sara opened her eyes, she ______ her reflection in the mirror.",
+            opts: ["Had seen", "Saw", "Was seeing", "Has seen"],
+            ans: 1,
+            dispAnswer: "B. Saw",
+            exp: "حدث فوري ولحظي متتابع في الماضي بعد فتح عينيها مباشرة (sudden action)[cite: 4]."
+          },
+          {
+            id: "eng_m27",
+            type: "single",
+            text: "27) One of the following sentences does not indicate a repeated action in the past:",
+            opts: [
+              "She always watched new movies",
+              "She would have two new CDs",
+              "She used to start studying after 4 p.m.",
+              "She wouldn't wake up before noon"
+            ],
+            ans: 1,
+            dispAnswer: "B. She would have two new CDs",
+            exp: "لا يجوز استخدام would مع أفعال الحالة والملكية مثل have للتعبير عن عادات الماضي (not repeated habit)[cite: 4]."
+          },
+          {
+            id: "eng_m28",
+            type: "single",
+            text: "28) I ______ three programs on my computer; two of them are working well now.",
+            opts: ["Am fixing", "Fixed", "Have fixed", "Have been fixing"],
+            ans: 2,
+            dispAnswer: "C. Have fixed",
+            exp: "اكتمال عدد محدد من الأعمال (three programs) مع أثر قائم الآن (مضارع تام Have fixed)[cite: 4]."
+          },
+          {
+            id: "eng_m29",
+            type: "single",
+            text: "29) The world is becoming different and we will have to be prepared to ______ to the change.",
+            opts: ["Accept", "Adopt", "Adapt", "Used"],
+            ans: 2,
+            dispAnswer: "C. Adapt",
+            exp: "Adapt to تعني يتكيف ويتأقلم مع التغيير (adjust)[cite: 4]."
+          },
+          {
+            id: "eng_m30",
+            type: "single",
+            text: "30) He is always on the ______; he never stays more than a year in one country.",
+            opts: ["Leave", "Show", "Move", "Run"],
+            ans: 2,
+            dispAnswer: "C. Move",
+            exp: "On the move تعبير اصطلاحي يعني في حالة تنقل وترحال دائم (always changing)[cite: 4]."
+          },
+          {
+            id: "eng_m31",
+            type: "single",
+            text: "31) The children were wet because they ______ in the rain for more than a day.",
+            opts: ["have been playing", "played", "were playing", "had been playing"],
+            ans: 3,
+            dispAnswer: "D. had been playing",
+            exp: "سبب النتيجة الماضية (were wet) هو نشاط مستمر استغرق وقتاً في الماضي السابق (had been playing)[cite: 4]."
+          },
+          {
+            id: "eng_m32",
+            type: "single",
+            text: "32) She is getting mad; she ______ for her turn for three hours now.",
+            opts: ["was waiting", "waits", "is waiting", "has been waiting"],
+            ans: 3,
+            dispAnswer: "D. has been waiting",
+            exp: "حدث بدأ في الماضي ومستمر حتى الآن مع for three hours now (مضارع تام مستمر has been waiting)[cite: 4]."
+          },
+          {
+            id: "eng_m33",
+            type: "single",
+            text: "33) In the ______ season, people in Tropical countries are used to having heavy rains.",
+            opts: ["sparsely", "drought", "stilt", "monsoon"],
+            ans: 3,
+            dispAnswer: "D. monsoon",
+            exp: "Monsoon season هو موسم الرياح والأمطار الموسمية الغزيرة في المناطق الاستوائية[cite: 4]."
+          },
+          {
+            id: "eng_m34",
+            type: "single",
+            text: "34) Be careful; the first impression should be ______.",
+            opts: ["temporary", "blend", "provisional", "presentable"],
+            ans: 3,
+            dispAnswer: "D. presentable",
+            exp: "Presentable تعني لائق ومرتب وحسن المظهر (good appearance)[cite: 4]."
+          },
+          {
+            id: "eng_m35",
+            type: "single",
+            text: "35) Do not challenge a charging bull; just ______ away from it.",
+            opts: ["leave", "settle", "immigrate", "flee"],
+            ans: 3,
+            dispAnswer: "D. flee",
+            exp: "Flee تعني الهروب والفرار السريع لتفادي الخطر المباشر (escape quickly)[cite: 4]."
+          },
+          {
+            id: "eng_m36",
+            type: "single",
+            text: "36) Please be quiet, your colleagues ______ an important exam.",
+            opts: ["took", "have been taking", "take", "are taking"],
+            ans: 3,
+            dispAnswer: "D. are taking",
+            exp: "حدث يقع ومستمر الآن في لحظة التحدث بدلالة الأمر بالهدوء (مضارع مستمر are taking)[cite: 4]."
+          },
+          {
+            id: "eng_m37",
+            type: "single",
+            text: "37) The sentence in which the adverb of frequency is put in its usual position is:",
+            opts: [
+              "My friend always doesn't stay at home in the afternoon always.",
+              "My friend doesn't stay at home in the afternoon always.",
+              "My friend doesn't stay always at home in the afternoon.",
+              "My friend doesn't always stay at home in the afternoon."
+            ],
+            ans: 3,
+            dispAnswer: "D. My friend doesn't always stay at home in the afternoon.",
+            exp: "الموقع القياسي الصحيح لظرف التكرار في النفي هو بين أداة النفي doesn't والفعل الأساسي stay[cite: 4]."
+          },
+          {
+            id: "eng_m38",
+            type: "single",
+            text: "38) By 2020, Sandy ______ three world records.",
+            opts: ["broke", "was breaking", "had broken", "had been breaking"],
+            ans: 2,
+            dispAnswer: "C. had broken",
+            exp: "مع By + وقت ماضٍ (By 2020) نستخدم الماضي التام للدلالة على إنجاز واكتمال الحدث قبل ذلك الوقت (had broken)[cite: 4]."
+          },
+          {
+            id: "eng_m39",
+            type: "single",
+            text: "39) Many residents were forced to ______ the city after hearing about the disastrous state.",
+            opts: ["settle", "pass", "migrate", "flee"],
+            ans: 3,
+            dispAnswer: "D. flee",
+            exp: "Flee تعني الهروب والفرار من الخطر والكارثة (leave in danger)[cite: 4]."
+          },
+          {
+            id: "eng_m40",
+            type: "single",
+            text: "40) The course ______ on 30 July.",
+            opts: ["has begun", "begins", "begin", "is beginning"],
+            ans: 1,
+            dispAnswer: "B. begins",
+            exp: "المضارع البسيط (begins) يُستخدم للتعبير عن المواعيد والجداول الزمنية الرسمية والمستقبلية الثابتة (scheduled event)[cite: 4]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Stative vs. Action Verbs",
+        context: "Questions focusing on distinguishing between stative verbs (state/perception) and dynamic action verbs:",
+        subQuestions: [
+          {
+            id: "eng_st1",
+            type: "single",
+            text: "41) I don't know her but she ______ like such a nice girl.",
+            opts: ["seems", "is seeming"],
+            ans: 0,
+            dispAnswer: "A. seems",
+            exp: "الفعل seem فعل حالة يعبر عن الرأي والانطباع ولا يُستخدم في صيغ الاستمرار[cite: 4]."
+          },
+          {
+            id: "eng_st2",
+            type: "single",
+            text: "42) My coffee ______ bitter. Pass me the sugar, please.",
+            opts: ["tastes", "is tasting"],
+            ans: 0,
+            dispAnswer: "A. tastes",
+            exp: "Taste هنا يصف نكهة ومذاق الشيء (فعل حالة) فيأتي في المضارع البسيط[cite: 4]."
+          },
+          {
+            id: "eng_st3",
+            type: "single",
+            text: "43) I ______ dinner with my friends now. Can you call me later?",
+            opts: ["have", "am having"],
+            ans: 1,
+            dispAnswer: "B. am having",
+            exp: "Have هنا بمعنى يتناول (eat) وهو فعل حركة ونشاط مستمر الآن (am having)[cite: 4]."
+          },
+          {
+            id: "eng_st4",
+            type: "single",
+            text: "44) I ______ anything, I can't work the telescope.",
+            opts: ["don't see", "am not seeing"],
+            ans: 0,
+            dispAnswer: "A. don't see",
+            exp: "See كحاسة بصرية فعل حالة لا يقبل صيغ الاستمرار (don't see)[cite: 4]."
+          },
+          {
+            id: "eng_st5",
+            type: "single",
+            text: "45) Daniel is doing some of the work. He ______ very helpful at the moment.",
+            opts: ["is", "is being"],
+            ans: 1,
+            dispAnswer: "B. is being",
+            exp: "Is being تعبر عن تصرف وسلوك مؤقت يمارسه حالياً (temporary behavior)[cite: 4]."
+          },
+          {
+            id: "eng_st6",
+            type: "single",
+            text: "46) The children ______ very polite today. They don't usually behave so well.",
+            opts: ["are", "are being"],
+            ans: 1,
+            dispAnswer: "B. are being",
+            exp: "Are being تعبر عن تصرف مؤقت واستثنائي منهم اليوم على غير عادتهم[cite: 4]."
+          },
+          {
+            id: "eng_st7",
+            type: "single",
+            text: "47) Some kinds of fish ______ high levels of dangerous metals.",
+            opts: ["contain", "are containing"],
+            ans: 0,
+            dispAnswer: "A. contain",
+            exp: "Contain فعل حالة دائم يعبر عن الاحتواء ومكونات الشيء[cite: 4]."
+          },
+          {
+            id: "eng_st8",
+            type: "single",
+            text: "48) In career terms, having a good degree ______ to make little difference.",
+            opts: ["appears", "is appearing"],
+            ans: 0,
+            dispAnswer: "A. appears",
+            exp: "Appear هنا بمعنى يبدو (seems) وهو فعل حالة[cite: 4]."
+          },
+          {
+            id: "eng_st9",
+            type: "single",
+            text: "49) Technicians report that they ______ difficulty installing the new computer system.",
+            opts: ["have", "are having"],
+            ans: 1,
+            dispAnswer: "B. are having",
+            exp: "Are having difficulty تعبير عن مواجهة وتجربة صعوبة حالية ومؤقتة (experiencing)[cite: 4]."
+          },
+          {
+            id: "eng_st10",
+            type: "single",
+            text: "50) I ______ the cheese. It ______ off to me.",
+            opts: ["am smelling / smells", "smell / is smelling", "smell / smells"],
+            ans: 0,
+            dispAnswer: "A. am smelling / smells",
+            exp: "الشق الأول نشاط وحركة بالشم (am smelling)، والشق الثاني صفة وحالة الرائحة ذاتها (smells)[cite: 4]."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Extra Doctor's Midterm Questions & Tenses Practice",
+        context: "Selected grammar questions provided by the course professor with exact target answers:",
+        subQuestions: [
+          {
+            id: "eng_ex1",
+            type: "single",
+            text: "51) Thomas usually ______ (speak) much in class.",
+            opts: ["speaks", "is speaking", "spoke", "has spoken"],
+            ans: 0,
+            dispAnswer: "A. speaks",
+            exp: "عادة وتكرار في الحاضر بوجود usually (مضارع بسيط speaks)[cite: 4]."
+          },
+          {
+            id: "eng_ex2",
+            type: "single",
+            text: "52) Paula says she'll call you back. She ______ (make) a cake right now.",
+            opts: ["makes", "is making", "made", "has made"],
+            ans: 1,
+            dispAnswer: "B. is making",
+            exp: "فعل يقع ومستمر في لحظة التحدث (مضارع مستمر is making)[cite: 4]."
+          },
+          {
+            id: "eng_ex3",
+            type: "single",
+            text: "53) Shh! The children ______ (have) a little rest.",
+            opts: ["have", "are having", "had", "have had"],
+            ans: 1,
+            dispAnswer: "B. are having",
+            exp: "حدث مستمر الآن بدلالة التنبيه Shh! (are having)[cite: 4]."
+          },
+          {
+            id: "eng_ex4",
+            type: "single",
+            text: "54) Look! It ______ (get) dark already!",
+            opts: ["gets", "is getting", "got", "has got"],
+            ans: 1,
+            dispAnswer: "B. is getting",
+            exp: "تغير تدريجي يحدث في لحظة الرؤية Look! (is getting)[cite: 4]."
+          },
+          {
+            id: "eng_ex5",
+            type: "single",
+            text: "55) I ______ (not/know) your brother.",
+            opts: ["don't know", "am not knowing", "haven't known", "didn't know"],
+            ans: 0,
+            dispAnswer: "A. don't know",
+            exp: "Know فعل حالة ومعرفة لا يقبل صيغ الاستمرار[cite: 4]."
+          },
+          {
+            id: "eng_ex6",
+            type: "single",
+            text: "56) Harry ______ (have) six older sisters.",
+            opts: ["has", "is having", "have", "had"],
+            ans: 0,
+            dispAnswer: "A. has",
+            exp: "حقيقة ثابتة وفعل ملكية (has)[cite: 4]."
+          },
+          {
+            id: "eng_ex7",
+            type: "single",
+            text: "57) This city ______ (become) very expensive.",
+            opts: ["becomes", "is becoming", "became", "has become"],
+            ans: 1,
+            dispAnswer: "B. is becoming",
+            exp: "تغير تدريجي متسارع في الحاضر (is becoming)[cite: 4]."
+          },
+          {
+            id: "eng_ex8",
+            type: "single",
+            text: "58) I ______ (understand) the Past tense perfectly.",
+            opts: ["understand", "am understanding", "have understood", "understood"],
+            ans: 0,
+            dispAnswer: "A. understand",
+            exp: "Understand فعل إدراك وحالة[cite: 4]."
+          },
+          {
+            id: "eng_ex9",
+            type: "single",
+            text: "59) It ______ (rain) hard when we ______ (arrive) at the station.",
+            opts: ["was raining / arrived", "rained / was arriving", "is raining / arrive", "had rained / arrived"],
+            ans: 0,
+            dispAnswer: "A. was raining / arrived",
+            exp: "حدث مستمر طويل في الماضي قطعه حدث الوصول القصير[cite: 4]."
+          },
+          {
+            id: "eng_ex10",
+            type: "single",
+            text: "60) At 7:30 yesterday I ______ (have) breakfast in the kitchen.",
+            opts: ["was having", "am having", "had", "have had"],
+            ans: 0,
+            dispAnswer: "A. was having",
+            exp: "تحديد وقت معين في الماضي بدقة (At 7:30 yesterday) يتطلب الماضي المستمر[cite: 4]."
+          },
+          {
+            id: "eng_ex11",
+            type: "single",
+            text: "61) I ______ (sit) at home when the phone ______ (ring).",
+            opts: ["was sitting / rang", "sat / was ringing", "am sitting / rings", "had sat / rang"],
+            ans: 0,
+            dispAnswer: "A. was sitting / rang",
+            exp: "ماضي مستمر قاطعه رنين الهاتف في الماضي البسيط[cite: 4]."
+          },
+          {
+            id: "eng_ex12",
+            type: "single",
+            text: "62) We were having such a great time we ______ (want) to go home.",
+            opts: ["didn't want", "weren't wanting", "don't want", "haven't wanted"],
+            ans: 0,
+            dispAnswer: "A. didn't want",
+            exp: "Want فعل حالة لا يقبل الاستمرار، وفي سياق الماضي نستخدم didn't want[cite: 4]."
+          },
+          {
+            id: "eng_ex13",
+            type: "single",
+            text: "63) I ______ (drive) home when I ______ (hear) the news on the radio.",
+            opts: ["was driving / heard", "drove / was hearing", "am driving / hear", "have driven / heard"],
+            ans: 0,
+            dispAnswer: "A. was driving / heard",
+            exp: "حدث القيادة المستمر قاطعه سماع الخبر[cite: 4]."
+          },
+          {
+            id: "eng_ex14",
+            type: "single",
+            text: "64) I ______ (like) all kinds of sports.",
+            opts: ["like", "am liking", "liked", "have liked"],
+            ans: 0,
+            dispAnswer: "A. like",
+            exp: "Like فعل مشاعر وتفضيل من أفعال الحالة (stative verb)[cite: 4]."
+          },
+          {
+            id: "eng_ex15",
+            type: "single",
+            text: "65) I ______ (think) of organizing an event for the orphans.",
+            opts: ["think", "am thinking", "thought", "have thought"],
+            ans: 1,
+            dispAnswer: "B. am thinking",
+            exp: "Think of هنا تعني التفكير والتخطيط الذهني المستمر (نشاط ذهني am thinking)[cite: 4]."
+          },
+          {
+            id: "eng_ex16",
+            type: "single",
+            text: "66) Careful with the wet grass; it ______ (rain).",
+            opts: ["has been raining", "rained", "rains", "had rained"],
+            ans: 0,
+            dispAnswer: "A. has been raining",
+            exp: "نتيجة حاضرة واضحة (العشب مبتل) لحدث كان مستمراً للتو (has been raining)[cite: 4]."
+          },
+          {
+            id: "eng_ex17",
+            type: "single",
+            text: "67) Don't come in here; I ______ (drop) a glass on the floor.",
+            opts: ["have dropped", "dropped", "have been dropping", "drop"],
+            ans: 0,
+            dispAnswer: "A. have dropped",
+            exp: "حدث تم للتو وله أثر مباشر على الحاضر (have dropped)[cite: 4]."
+          },
+          {
+            id: "eng_ex18",
+            type: "single",
+            text: "68) I feel exhausted; I ______ (run) up and downstairs all morning.",
+            opts: ["have been running", "ran", "am running", "had run"],
+            ans: 0,
+            dispAnswer: "A. have been running",
+            exp: "نشاط استمر طوال الصباح (all morning) ومسبب للإرهاق الحالي (have been running)[cite: 4]."
+          },
+          {
+            id: "eng_ex19",
+            type: "single",
+            text: "69) What's wrong? - I ______ (hurt) my arm.",
+            opts: ["have hurt", "hurt", "have been hurting", "am hurting"],
+            ans: 0,
+            dispAnswer: "A. have hurt",
+            exp: "إصابة حديثة أثرها وألمها موجود الآن (have hurt)[cite: 4]."
+          },
+          {
+            id: "eng_ex20",
+            type: "single",
+            text: "70) I ______ (buy) this new scooter. Do you like it?",
+            opts: ["have bought", "bought", "buy", "am buying"],
+            ans: 0,
+            dispAnswer: "A. have bought",
+            exp: "شراء حديث له أثر حاضر ويعرضه الآن (have bought)[cite: 4]."
+          },
+          {
+            id: "eng_ex21",
+            type: "single",
+            text: "71) The Australian swimmer ______ (win) the gold medal twice before.",
+            opts: ["has won", "won", "had won", "wins"],
+            ans: 0,
+            dispAnswer: "A. has won",
+            exp: "تكرار حدوث الفعل في تجارب الحياة مع before (مضارع تام has won)[cite: 4]."
+          },
+          {
+            id: "eng_ex22",
+            type: "single",
+            text: "72) You seem out of breath. ______ (run)?",
+            opts: ["Have you been running", "Did you run", "Were you running", "Do you run"],
+            ans: 0,
+            dispAnswer: "A. Have you been running",
+            exp: "سؤال عن نشاط مستمر انتهى للتو بدلالة ضيق التنفس الواضح (Have you been running)[cite: 4]."
+          },
+          {
+            id: "eng_ex23",
+            type: "single",
+            text: "73) We ______ (finish) our homework. Can we go out now?",
+            opts: ["have finished", "finished", "had finished", "finish"],
+            ans: 0,
+            dispAnswer: "A. have finished",
+            exp: "إنجاز واكتمال العمل المطلوب في الحاضر (have finished)[cite: 4]."
+          },
+          {
+            id: "eng_ex24",
+            type: "single",
+            text: "74) The frustrated passengers ______ (wait) for hours.",
+            opts: ["have been waiting", "waited", "were waiting", "wait"],
+            ans: 0,
+            dispAnswer: "A. have been waiting",
+            exp: "استمرار الانتظار لساعات طويلة حتى الآن (have been waiting)[cite: 4]."
+          },
+          {
+            id: "eng_ex25",
+            type: "single",
+            text: "75) I ______ (try) to phone you all morning.",
+            opts: ["have been trying", "tried", "was trying", "had tried"],
+            ans: 0,
+            dispAnswer: "A. have been trying",
+            exp: "محاولات مستمرة طوال الصباح (all morning)[cite: 4]."
+          },
+          {
+            id: "eng_ex26",
+            type: "single",
+            text: "76) He ______ (always/leave) his clothes on the floor. What a mess!",
+            opts: ["is always leaving", "always leaves", "has always left", "always left"],
+            ans: 0,
+            dispAnswer: "A. is always leaving",
+            exp: "استخدام always مع المضارع المستمر للتعبير عن التذمر والانزعاج من عادة متكررة[cite: 4]."
+          },
+          {
+            id: "eng_ex27",
+            type: "single",
+            text: "77) Where ______ (spend) the summer last year?",
+            opts: ["did you spend", "have you spent", "were you spending", "had you spent"],
+            ans: 0,
+            dispAnswer: "A. did you spend",
+            exp: "سؤال عن زمن ماضٍ محدد بـ last year (ماضي بسيط did you spend)[cite: 4]."
+          },
+          {
+            id: "eng_ex28",
+            type: "single",
+            text: "78) When I arrived at the cinema, the movie ______ (start).",
+            opts: ["had started", "started", "has started", "was starting"],
+            ans: 0,
+            dispAnswer: "A. had started",
+            exp: "الفيلم بدأ قبل وصولي للسينما (ماضي تام had started)[cite: 4]."
+          },
+          {
+            id: "eng_ex29",
+            type: "single",
+            text: "79) The president ______ (visit) the UK this week.",
+            opts: ["is visiting", "visits", "visited", "has visited"],
+            ans: 0,
+            dispAnswer: "A. is visiting",
+            exp: "ترتيبات وخطط مستقبلية مؤكدة خلال هذا الأسبوع (is visiting)[cite: 4]."
+          },
+          {
+            id: "eng_ex30",
+            type: "single",
+            text: "80) The doctor ______ (see) 30 patients today.",
+            opts: ["has seen", "is seeing", "saw", "had seen"],
+            ans: 0,
+            dispAnswer: "A. has seen",
+            exp: "فترة زمنية غير منتهية (today) مع إنجاز عدد معين من المرضى (has seen)[cite: 4]."
+          },
+          {
+            id: "eng_ex31",
+            type: "single",
+            text: "81) I must go to the hairdresser because my hair ______ (get) very long.",
+            opts: ["is getting", "gets", "got", "has got"],
+            ans: 0,
+            dispAnswer: "A. is getting",
+            exp: "تغير وتطور مستمر في الطول (is getting)[cite: 4]."
+          },
+          {
+            id: "eng_ex32",
+            type: "single",
+            text: "82) Mr. Smith ______ (be) in hospital for 5 days.",
+            opts: ["has been", "is", "was", "had been"],
+            ans: 0,
+            dispAnswer: "A. has been",
+            exp: "الفعل be من أفعال الحالة، ومع دلالة for 5 days نستخدم المضارع التام (has been)[cite: 4]."
+          },
+          {
+            id: "eng_ex33",
+            type: "single",
+            text: "83) We ______ (know) them for 15 years.",
+            opts: ["have known", "have been knowing", "knew", "know"],
+            ans: 0,
+            dispAnswer: "A. have known",
+            exp: "الفعل know فعل حالة لا يقبل الاستمرار، ومع for 15 years نستخدم المضارع التام (have known)[cite: 4]."
+          },
+          {
+            id: "eng_ex34",
+            type: "single",
+            text: "84) We ______ (work) for 7 hours without a break.",
+            opts: ["have been working", "worked", "are working", "work"],
+            ans: 0,
+            dispAnswer: "A. have been working",
+            exp: "فعل عمل ونشاط استمر لـ 7 ساعات متواصلة دون انقطاع (have been working)[cite: 4]."
+          },
+          {
+            id: "eng_ex35",
+            type: "single",
+            text: "85) The storm ______ (destroy) the sandcastle yesterday.",
+            opts: ["destroyed", "has destroyed", "was destroying", "destroys"],
+            ans: 0,
+            dispAnswer: "A. destroyed",
+            exp: "حدث وقع وانتهى في وقت محدد في الماضي لوجود yesterday (destroyed)[cite: 4]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

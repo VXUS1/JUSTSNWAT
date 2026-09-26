@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | الريادة والابتكار (Entrepreneurship) - أسئلة الفاينل</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ent">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">الريادة والابتكار (Entrepreneurship)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam Question Bank — أسئلة سنوات الفاينل (Chapters 3 & 4 + Creativity Review)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ent">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const examSections = [
+      {
+        title: "Part 1: Chapter 3 - Feasibility Analysis & Business Model (Questions 1 – 46)",
+        context: "Official questions on idea assessment, feasibility analysis, macro forces, Porter's Five Forces, primary/secondary research, Business Model Canvas, and pivots:",
+        subQuestions: [
+          {
+            id: "ent_f_1",
+            type: "single",
+            text: "1. The process of examining a need in the market, developing a solution for that need, and determining the entrepreneur's ability to successfully turn the idea into a business is called:",
+            opts: ["Feasibility analysis", "Business model", "Idea assessment", "Strategic plan"],
+            ans: 2,
+            dispAnswer: "C) Idea assessment",
+            exp: "تقييم الفكرة (Idea assessment) هو فحص الحاجة وتطوير الحل والتأكد من قدرة الريادي على تحويلها لمشروع[cite: 18]."
+          },
+          {
+            id: "ent_f_2",
+            type: "single",
+            text: "2. An effective tool used to help assess ideas is the:",
+            opts: ["Idea toolkit", "Idea metric", "Idea sketch pad", "Idea dashboard"],
+            ans: 2,
+            dispAnswer: "C) Idea sketch pad",
+            exp: "لوحة تخطيط الفكرة (Idea sketch pad) أداة بصرية فعالة لتقييم الأفكار وملاءمتها[cite: 18]."
+          },
+          {
+            id: "ent_f_3",
+            type: "single",
+            text: "3. If your business idea does not pass the step of idea assessment in the new business planning process, then you should:",
+            opts: ["Move to the next idea and assess it", "Keep your mind locked in the first idea", "Move to the next idea and implement it directly to launch the business", "Give up"],
+            ans: 0,
+            dispAnswer: "A) Move to the next idea and assess it",
+            exp: "إذا فشلت الفكرة في مرحلة التقييم، فالصواب الانتقال لفكرة أخرى وتقييمها دون تضييع الوقت[cite: 18]."
+          },
+          {
+            id: "ent_f_4",
+            type: "single",
+            text: "4. The process of determining whether an entrepreneur's idea is a viable foundation for creating a successful business is named:",
+            opts: ["Feasibility analysis", "Business model", "Idea assessment", "Strategic plan"],
+            ans: 0,
+            dispAnswer: "A) Feasibility analysis",
+            exp: "دراسة الجدوى (Feasibility analysis) هي تحديد ما إذا كانت الفكرة صالحة وقابلة للتطبيق كعمل ناجح[cite: 18]."
+          },
+          {
+            id: "ent_f_5",
+            type: "single",
+            text: "5. The question 'Should we proceed with this business idea?' is answered by:",
+            opts: ["The business plan", "The feasibility analysis", "The strategic plan", "Launching the business"],
+            ans: 1,
+            dispAnswer: "B) The feasibility analysis",
+            exp: "سؤال الجدوى الحاسم: 'هل نمضي قدماً في هذه الفكرة؟' تجيب عنه دراسة الجدوى[cite: 18]."
+          },
+          {
+            id: "ent_f_6",
+            type: "single",
+            text: "6. The question 'How would we proceed with this business idea?' is answered by:",
+            opts: ["Launching the business", "The business model", "The idea assessment", "The feasibility analysis"],
+            ans: 1,
+            dispAnswer: "B) The business model",
+            exp: "سؤال 'كيف نمضي في تنفيذ هذه الفكرة؟' يجيب عنه نموذج العمل التجاري (Business model)[cite: 18]."
+          },
+          {
+            id: "ent_f_7",
+            type: "single",
+            text: "7. The correct pattern (order) for the new business planning process is:",
+            opts: [
+              "Idea assessment → feasibility analysis → business model → business plan → strategic plan",
+              "Idea assessment → strategic plan → launching the business → business model → business plan",
+              "Idea assessment → strategic plan → launching the business → business plan",
+              "Idea assessment → strategic plan → business plan → business model → feasibility analysis"
+            ],
+            ans: 0,
+            dispAnswer: "A) Idea assessment → feasibility analysis → business model → business plan → strategic plan",
+            exp: "الترتيب المنهجي الصحيح: تقييم الفكرة ← دراسة الجدوى ← نموذج العمل ← خطة العمل ← الخطة الاستراتيجية[cite: 18]."
+          },
+          {
+            id: "ent_f_8",
+            type: "single",
+            text: "8. The 3rd step in the new business planning process is (counting 'business ideas' as step 1):",
+            opts: ["Studying the marketplace", "Conducting a feasibility analysis", "Appointing the management team", "Launching the business"],
+            ans: 1,
+            dispAnswer: "B) Conducting a feasibility analysis",
+            exp: "1. فكرة العمل، 2. تقييم الفكرة، 3. إجراء دراسة الجدوى (Feasibility analysis)[cite: 18]."
+          },
+          {
+            id: "ent_f_9",
+            type: "single",
+            text: "9. By following the steps of the new business planning process:",
+            opts: [
+              "The number of ideas that are not a viable foundation of a new business increases",
+              "You are wasting your time",
+              "The chances of failure of your business idea increase",
+              "The chances for success of your business idea increase"
+            ],
+            ans: 3,
+            dispAnswer: "D) The chances for success of your business idea increase",
+            exp: "اتباع خطوات التخطيط المنظم يرفع فرص نجاح المشروع ويقلل مخاطر الفشل[cite: 18]."
+          },
+          {
+            id: "ent_f_10",
+            type: "single",
+            text: "10. A feasibility analysis is the process of determining whether an entrepreneur's idea is a viable foundation for creating a successful business.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "تعريف دراسة الجدوى الدقيق[cite: 18]."
+          },
+          {
+            id: "ent_f_11",
+            type: "single",
+            text: "11. When evaluating the feasibility of a business idea, the starting point is:",
+            opts: ["Team feasibility", "Financial feasibility", "Product or service feasibility", "Analysis of the industry and targeted market segment"],
+            ans: 3,
+            dispAnswer: "D) Analysis of the industry and targeted market segment",
+            exp: "نقطة البداية الأولى في دراسة الجدوى هي تحليل الصناعة والقطاع السوقي المستهدف[cite: 18]."
+          },
+          {
+            id: "ent_f_12",
+            type: "single",
+            text: "12. The first step in assessing industry attractiveness is to paint a picture of the industry in broad strokes, assessing it from a macro level.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "تقييم جاذبية الصناعة يبدأ من المستوى الكلي الشامل (Macro level)[cite: 18]."
+          },
+          {
+            id: "ent_f_13",
+            type: "single",
+            text: "13. All of the following are macro forces that could create changes in industries/markets, except:",
+            opts: ["Entry barriers forces (a.k.a. 'supplier forces' in some versions)", "Technological forces", "Economic forces", "Sociocultural / demographic forces"],
+            ans: 0,
+            dispAnswer: "A) Entry barriers forces (a.k.a. 'supplier forces' in some versions)",
+            exp: "قوى الدخول والموردين قوى تنافسية بيئية جزئية، بينما القوى الكلية هي التكنولوجية، الاقتصادية، الديموغرافية[cite: 18]."
+          },
+          {
+            id: "ent_f_14",
+            type: "single",
+            text: "14. The socio-cultural changes that began in the 1970s and 1980s (women entering the workforce) led to:",
+            opts: ["Downsizing of the auto industry", "Decline in the restaurant industry", "Birth of the daycare industry", "Fewer women entering the workforce"],
+            ans: 2,
+            dispAnswer: "C) Birth of the daycare industry",
+            exp: "دخول المرأة سوق العمل كعامل اجتماعي ثقافي أدى إلى نشوء وازدهار قطاع حضانات الأطفال[cite: 18]."
+          },
+          {
+            id: "ent_f_15",
+            type: "single",
+            text: "15. The business in e-learning has grown due to:",
+            opts: ["Legal factors", "Demographic factors", "Political factors", "Economic factors"],
+            ans: 3,
+            dispAnswer: "D) Economic factors",
+            exp: "العوامل الاقتصادية وخفض تكاليف التعليم وتوفير النفقات ساهمت بقوة في نمو التعليم الإلكتروني[cite: 18]."
+          },
+          {
+            id: "ent_f_16",
+            type: "single",
+            text: "16. The attractiveness of a specific industry within a competitive environment can be assessed using:",
+            opts: ["Cotler model", "The really big idea critique pad", "The really big idea sketch pad", "Porter's five forces model"],
+            ans: 3,
+            dispAnswer: "D) Porter's five forces model",
+            exp: "نموذج بورتر للقوى الخمس (Porter's Five Forces) هو الأداة المعتمدة لتقييم جاذبية الصناعة[cite: 18]."
+          },
+          {
+            id: "ent_f_17",
+            type: "single",
+            text: "17. The Porter's five forces model, used to assess the attractiveness of an industry, covers the following elements:",
+            opts: [
+              "Potential entrants, suppliers, raw materials, substitutes, and rivalry among existing firms",
+              "Potential entrants, suppliers, buyers, similar products, and rivalry among existing firms",
+              "Potential entrants, suppliers, buyers, substitutes, and rivalry among existing firms",
+              "Potential entrants, competitors, buyers, substitutes, and rivalry among existing firms"
+            ],
+            ans: 2,
+            dispAnswer: "C) Potential entrants, suppliers, buyers, substitutes, and rivalry among existing firms",
+            exp: "القوى الخمس: الداخلون الجدد، الموردون، المشترون، البدائل، وشدة المنافسة بين الشركات القائمة[cite: 18]."
+          },
+          {
+            id: "ent_f_18",
+            type: "single",
+            text: "18. In 'rivalry among companies,' the industry is more attractive when:",
+            opts: ["There is an opportunity to sell the same (undifferentiated) product", "Competitors are similar in size or capacity", "The industry is growing fast", "Number of competitors is moderate and evenly matched"],
+            ans: 2,
+            dispAnswer: "C) The industry is growing fast",
+            exp: "الصناعة تكون أكثر جاذبية عندما يكون السوق سريع النمو؛ حيث تتسع الكعكة للجميع دون صراع سعري مدمر[cite: 18]."
+          },
+          {
+            id: "ent_f_19",
+            type: "single",
+            text: "19. The force from Porter's five forces model that considers economies of scale, initial capital requirements, cost advantages relevant to company size, and lack of brand loyalty is the:",
+            opts: ["Threat of new entrants", "Rivalry among companies competing", "Threat of substitute products or services", "Bargaining power of suppliers"],
+            ans: 0,
+            dispAnswer: "A) Threat of new entrants",
+            exp: "تهديد الداخلين الجدد (Threat of new entrants) يرتبط بمتطلبات رأس المال، واقتصادات الحجم، وحواجز الدخول[cite: 18]."
+          },
+          {
+            id: "ent_f_20",
+            type: "single",
+            text: "20. Low capital requirements, cost advantages not related to company size, and lack of brand loyalty are considerations related to the:",
+            opts: ["Rivalry among companies competing in the industry", "Threat of substitute products", "Threat of new entrants to the industry", "Bargaining power of buyers"],
+            ans: 2,
+            dispAnswer: "C) Threat of new entrants to the industry",
+            exp: "انخفاض متطلبات رأس المال وضعف ولاء العملاء يسهلان دخول منافسين جدد (Threat of new entrants)[cite: 18]."
+          },
+          {
+            id: "ent_f_21",
+            type: "single",
+            text: "21. The threat of new entrants to an existing industry is high if:",
+            opts: ["The pool of new entrants to an industry is large", "The capital requirements to enter the industry are high", "Buyers are extremely brand-loyal", "The prices of competitors are high"],
+            ans: 0,
+            dispAnswer: "A) The pool of new entrants to an industry is large",
+            exp: "يكون التهديد مرتفعاً عندما يكون عدد الشركات والأفراد المؤهلين للدخول كبيراً[cite: 18]."
+          },
+          {
+            id: "ent_f_22",
+            type: "single",
+            text: "22. Regarding the bargaining power of suppliers, an industry is less attractive if:",
+            opts: ["The switching cost from one supplier to another is high", "The cost of switching to competitors' products is high", "Substitute products are available for the items suppliers provide", "Many suppliers sell a commodity product to the companies"],
+            ans: 0,
+            dispAnswer: "A) The switching cost from one supplier to another is high",
+            exp: "ارتفاع تكلفة التبديل بين الموردين يمنحهم قوة احتكارية تجعل الصناعة أقل جاذبية[cite: 18]."
+          },
+          {
+            id: "ent_f_23",
+            type: "single",
+            text: "23. The greater the leverage of the suppliers of key raw materials or components, the less attractive is the industry.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "كلما زادت سيطرة الموردين وتحكمهم في المواد الخام الأساسية، قلت أرباح وجاذبية الصناعة[cite: 18]."
+          },
+          {
+            id: "ent_f_24",
+            type: "single",
+            text: "24. Knowing that there are many suppliers of a commodity product for a specific industry, this indicates that the industry is:",
+            opts: ["Attractive", "The prices will be high", "Unattractive", "The bargaining power of suppliers is high"],
+            ans: 0,
+            dispAnswer: "A) Attractive",
+            exp: "كثرة الموردين للسلع النمطية يضعف قوتهم التفاوضية ويجعل الصناعة جذابة للشركات[cite: 18]."
+          },
+          {
+            id: "ent_f_25",
+            type: "single",
+            text: "25. Regarding the power of buyers, the industry is more attractive if:",
+            opts: ["Customers want to purchase commodity products", "Number of buyers is small", "Customers' switching costs to competitors' products are low", "Customers find it difficult to collect information on suppliers' costs, prices, and product features"],
+            ans: 3,
+            dispAnswer: "D) Customers find it difficult to collect information on suppliers' costs, prices, and product features",
+            exp: "صعوبة حصول العملاء على معلومات التكاليف والأسعار يقلل من قدرتهم التفاوضية، فتكون الصناعة أكثر جاذبية للشركة[cite: 18]."
+          },
+          {
+            id: "ent_f_26",
+            type: "single",
+            text: "26. Switching costs, the number of buyers, and items representing a relatively small portion of the cost of finished products are key considerations regarding the:",
+            opts: ["Bargaining power of suppliers", "Threat of new entrants to the industry", "Rivalry among companies competing in the industry", "Bargaining power of buyers"],
+            ans: 3,
+            dispAnswer: "D) Bargaining power of buyers",
+            exp: "عوامل أساسية لتحديد القوة التفاوضية للمشترين (Bargaining power of buyers)[cite: 18]."
+          },
+          {
+            id: "ent_f_27",
+            type: "single",
+            text: "27. Many makers of glass bottles have closed their doors in recent years, as their customers have switched to plastic containers. This is an example of:",
+            opts: ["Rivalry among existing firms", "Bargaining power of suppliers", "Bargaining power of buyers", "Threat of substitutes"],
+            ans: 3,
+            dispAnswer: "D) Threat of substitutes",
+            exp: "العبوات البلاستيكية منتج بديل عن الزجاج؛ وهو مثال كلاسيكي على تهديد البدائل (Threat of substitutes)[cite: 18]."
+          },
+          {
+            id: "ent_f_28",
+            type: "single",
+            text: "28. Getting traffic counts at local competitor outlets is an example of:",
+            opts: ["Focus group research", "Prototype research", "In-home research", "Windshield research"],
+            ans: 3,
+            dispAnswer: "D) Windshield research",
+            exp: "عد حركة الزبائن ومراقبة منافذ المنافسين ميدانياً يُعرف ببحوث الملاحظة الميدانية (Windshield research)[cite: 18]."
+          },
+          {
+            id: "ent_f_29",
+            type: "single",
+            text: "29. Windshield research involves driving around and observing customers interacting with similar kinds of businesses and learning what customers like and do not like about those businesses.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "تعريف بحوث الزجاج الأمامي الميدانية عبر الملاحظة المباشرة للمنافسين والزبائن[cite: 18]."
+          },
+          {
+            id: "ent_f_30",
+            type: "single",
+            text: "30. Getting data from trade journals, government statistics, and competitors' web sites are examples of:",
+            opts: ["Quaternary research", "Tertiary research", "Primary research", "Secondary research"],
+            ans: 3,
+            dispAnswer: "D) Secondary research",
+            exp: "البيانات المنشورة مسبقاً في المجلات والإحصاءات الحكومية هي بيانات ثانوية (Secondary research)[cite: 18]."
+          },
+          {
+            id: "ent_f_31",
+            type: "single",
+            text: "31. Primary research means: gather data that already has been compiled and analyzed.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "B) False",
+            exp: "البحث الأولي (Primary research) يجمع بيانات جديدة لأول مرة، بينما جمع البيانات المجمعة مسبقاً هو البحث الثانوي[cite: 18]."
+          },
+          {
+            id: "ent_f_32",
+            type: "single",
+            text: "32. Which of the following is not a tool of primary research?",
+            opts: ["Demographic data", "Focus groups", "Prototypes", "Windshield research"],
+            ans: 0,
+            dispAnswer: "A) Demographic data",
+            exp: "البيانات الديموغرافية العامة إحصاءات ثانوية جاهزة، أما مجموعات التركيز والنماذج الأولية فأدوات بحث أولي[cite: 18]."
+          },
+          {
+            id: "ent_f_33",
+            type: "single",
+            text: "33. An original, functional model of a new product that entrepreneurs can put into the hands of potential customers so that they can see it, test it, and use it, is called:",
+            opts: ["In-home trial", "Focus group", "Windshield", "Prototype"],
+            ans: 3,
+            dispAnswer: "D) Prototype",
+            exp: "النموذج الأولي الوظيفي (Prototype) يُمكّن العملاء من اختبار المنتج وتجربته عملياً[cite: 18]."
+          },
+          {
+            id: "ent_f_34",
+            type: "single",
+            text: "34. All of the following are benefits of prototypes, except:",
+            opts: ["Customers can see it, test it, and use it", "Engaging (testing) the viability of a product", "Estimating the right customer", "No changes in the design of a product can occur"],
+            ans: 3,
+            dispAnswer: "D) No changes in the design of a product can occur",
+            exp: "الهدف الأهم للنموذج الأولي هو اكتشاف العيوب وإجراء التعديلات والتغييرات على التصميم[cite: 18]."
+          },
+          {
+            id: "ent_f_35",
+            type: "single",
+            text: "35. The technique which involves observing customers interacting with some kinds of products/services and learning what customers do and do not do about them:",
+            opts: ["Prototyping", "Usability research", "In-home trial", "Focus group"],
+            ans: 2,
+            dispAnswer: "C) In-home trial",
+            exp: "التجربة المنزلية (In-home trial) ترصد تفاعل العميل مع المنتج في بيئته الحقيقية لمعرفة سلوكياته[cite: 18]."
+          },
+          {
+            id: "ent_f_36",
+            type: "single",
+            text: "36. The question 'Are customers willing to buy our product or service?' can be addressed by carrying out:",
+            opts: ["Product/service feasibility analysis", "Industry/market feasibility analysis", "Entrepreneurial team feasibility analysis", "Financial feasibility analysis"],
+            ans: 0,
+            dispAnswer: "A) Product/service feasibility analysis",
+            exp: "مدى رغبة العملاء في شراء المنتج يُفحص في دراسة جدوى المنتج/الخدمة[cite: 18]."
+          },
+          {
+            id: "ent_f_37",
+            type: "single",
+            text: "37. When we ask, 'Can we provide the product or service to customers at a profit?' this is addressed:",
+            opts: ["In the process of brainstorming", "In the process of product and service feasibility analysis", "In the process of financial feasibility analysis", "In the process of conducting idea assessment"],
+            ans: 1,
+            dispAnswer: "B) In the process of product and service feasibility analysis",
+            exp: "وفق مفتاح إجابات المساق؛ تم تحديد هذا السؤال ضمن دراسة جدوى المنتج والخدمة[cite: 18]."
+          },
+          {
+            id: "ent_f_38",
+            type: "single",
+            text: "38. Many new businesses require that an entrepreneur has a certain set of knowledge, experiences, and skills to have any chance of success. This is called entrepreneurial ______.",
+            opts: ["Trait", "Ability", "Performance", "Readiness"],
+            ans: 3,
+            dispAnswer: "D) Readiness",
+            exp: "الجاهزية والاستعداد الريادي (Entrepreneurial Readiness) هي امتلاك المعرفة والمهارات والخبرة الكافية للنجاح[cite: 18]."
+          },
+          {
+            id: "ent_f_39",
+            type: "single",
+            text: "39. The business model canvas consists of:",
+            opts: ["17 elements", "7 elements", "9 elements", "11 elements"],
+            ans: 2,
+            dispAnswer: "C) 9 elements",
+            exp: "يتكون مخطط نموذج العمل التجاري (BMC) من 9 عناصر رئيسية متكاملة[cite: 18]."
+          },
+          {
+            id: "ent_f_40",
+            type: "single",
+            text: "40. Two types of channels are involved in the business model canvas. One of them is the distribution channels, which define the most effective way to get products to the customers.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "قنوات التوزيع تحدد كيفية إيصال المنتج للزبائن[cite: 18]."
+          },
+          {
+            id: "ent_f_41",
+            type: "single",
+            text: "41. Two types of channels are involved in the business model canvas. One of them is the communication channels, which define how customers seek out information about a product type.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "قنوات الاتصال تحدد كيف يصل الزبائن للمعلومات ويتواصلون مع الشركة[cite: 18]."
+          },
+          {
+            id: "ent_f_42",
+            type: "single",
+            text: "42. The element in the business model canvas which expresses all the things that will set the business apart from its competitors is called:",
+            opts: ["Revenue stream", "Value proposition", "Customer segments", "Channels"],
+            ans: 1,
+            dispAnswer: "B) Value proposition",
+            exp: "عرض القيمة (Value proposition) يحدد المزايا الفريدة التي تميز المشروع عن منافسيه[cite: 18]."
+          },
+          {
+            id: "ent_f_43",
+            type: "single",
+            text: "43. An entrepreneur can test the problem that he/she thinks is being solved by the business through its core value proposition by using:",
+            opts: ["Ternary research data", "Secondary research data", "Primary research data", "Quaternary research data"],
+            ans: 2,
+            dispAnswer: "C) Primary research data",
+            exp: "اختبار عرض القيمة يحتاج إلى بحث أولي مباشر مع الزبائن المحتملين[cite: 18]."
+          },
+          {
+            id: "ent_f_44",
+            type: "single",
+            text: "44. The process of rapidly developing simple prototypes of a product/service to test key assumptions by engaging real customers is called:",
+            opts: ["Lean start-up", "Launching the business", "Business model canvas", "Pivots"],
+            ans: 0,
+            dispAnswer: "A) Lean start-up",
+            exp: "منهجية الشركات الناشئة المرنة (Lean start-up) تعتمد على النماذج السريعة لاختبار الفرضيات مع العملاء[cite: 18]."
+          },
+          {
+            id: "ent_f_45",
+            type: "single",
+            text: "45. The process of making changes and adjustments in the business model on the basis of the feedback a company receives from customers is called:",
+            opts: ["Lean start-up", "Minimal viable product", "Prototyping", "Pivots"],
+            ans: 3,
+            dispAnswer: "D) Pivots",
+            exp: "التحول والتعديل الجوهري (Pivots) هو تصحيح مسار نموذج العمل بناءً على تغذية الزبائن الراجعة[cite: 18]."
+          },
+          {
+            id: "ent_f_46",
+            type: "single",
+            text: "46. Based on feedback from a potential target customer, a fashion factory has modified the design of a specific dress to meet the customer's need/want. This is an example of a:",
+            opts: ["Customer pivot", "Revenue model pivot", "Product pivot", "Market pivot"],
+            ans: 2,
+            dispAnswer: "C) Product pivot",
+            exp: "تعديل مواصفات وتصميم المنتج استجابة للعملاء يُمثل تحوراً في المنتج (Product pivot)[cite: 18]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Chapter 4 - Business Plan & Strategic Plan (Questions 47 – 82)",
+        context: "Official questions on the business plan functions, Reality/Competitive/Value tests, Executive Summary, 5 C's of credit, and pitching:",
+        subQuestions: [
+          {
+            id: "ent_f_47",
+            type: "single",
+            text: "47. The primary purpose of a business plan is to (guides the company by charting its future course and attracts financing from lenders and investors):",
+            opts: [
+              "To figure out the secrets of the business",
+              "To attract lenders and investors",
+              "To guide the operation of the company by charting its future course and devising its strategy for following it",
+              "To attract potential managers and employees to run the new venture"
+            ],
+            ans: 2,
+            dispAnswer: "C) To guide the operation of the company by charting its future course and devising its strategy for following it",
+            exp: "الهدف الأساسي لخطة العمل هو توجيه مسار الشركة ورسم استراتيجيتها المستقبلية[cite: 18]."
+          },
+          {
+            id: "ent_f_48",
+            type: "single",
+            text: "48. A business plan is a written summary of:",
+            opts: [
+              "The proposed business venture only",
+              "The proposed venture, and its operational, financial, and marketing details, as well as management skills and abilities",
+              "The skills and abilities of the business venture managers only",
+              "The business venture's operational and financial details only"
+            ],
+            ans: 1,
+            dispAnswer: "B) The proposed venture, and its operational, financial, and marketing details, as well as management skills and abilities",
+            exp: "خطة العمل ملخص مكتوب شامل للجوانب التشغيلية، والمالية، والتسويقية، ومهارات الإدارة[cite: 18]."
+          },
+          {
+            id: "ent_f_49",
+            type: "single",
+            text: "49. Which of the following is NOT true regarding the business plan?",
+            opts: [
+              "It is a planning tool that builds on idea assessment, feasibility analysis, and business model",
+              "It provides less detailed and comprehensive analysis than business modeling",
+              "It guides entrepreneurs as they launch their businesses",
+              "It helps entrepreneurs acquire the necessary financing"
+            ],
+            ans: 1,
+            dispAnswer: "B) It provides less detailed and comprehensive analysis than business modeling",
+            exp: "خطة العمل تقدم تحليلاً أكثر تفصيلاً وشمولاً بكثير من مجرد مخطط نموذج العمل[cite: 18]."
+          },
+          {
+            id: "ent_f_50",
+            type: "single",
+            text: "50. The business plan serves as an entrepreneur's road map on the journey toward building a successful business.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "خطة العمل بمثابة خارطة طريق (Road map) ترشد الريادي نحو بناء مشروع ناجح[cite: 18]."
+          },
+          {
+            id: "ent_f_51",
+            type: "single",
+            text: "51. The term 'road map' is used to describe:",
+            opts: ["The business model", "The business plan", "The strategic plan", "The really big idea sketch pad"],
+            ans: 1,
+            dispAnswer: "B) The business plan",
+            exp: "خارطة الطريق هو الوصف المجازي الدقيق لخطة العمل (Business plan)[cite: 18]."
+          },
+          {
+            id: "ent_f_52",
+            type: "single",
+            text: "52. A business plan serves two essential functions: guiding the company and attracting financing. Building a business without guiding tips/tools is described as an essential function of a business plan.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "B) False",
+            exp: "العبارة خاطئة؛ فالخطة تقدم أدوات التوجيه ولا تدعو للعمل دون إرشادات[cite: 18]."
+          },
+          {
+            id: "ent_f_53",
+            type: "single",
+            text: "53. The Reality Test (to attract financing) involves proving that the company's product or service actually exists, and that the company can actually build it for the cost estimates in the plan. This test is called the:",
+            opts: ["Operation test", "Reality test", "Value test", "Competitive test"],
+            ans: 1,
+            dispAnswer: "B) Reality test",
+            exp: "اختبار الواقع (Reality test) يثبت وجود المنتج وإمكانية إنتاجه بالتكاليف المقدرة[cite: 18]."
+          },
+          {
+            id: "ent_f_54",
+            type: "single",
+            text: "54. The external component of the Reality Test focuses on industry attractiveness, market niches, potential customers, market size, and degree of competition.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "B) False",
+            exp: "وفق مفتاح إجابات أسئلة السنوات المرفقة، تم تصنيف هذا السؤال كـ False[cite: 18]."
+          },
+          {
+            id: "ent_f_55",
+            type: "single",
+            text: "55. The Competitive Test involves proving that the company can gain a competitive advantage over its key competitors. This test is called the:",
+            opts: ["Value test", "Customer test", "Competitive test", "Reality test"],
+            ans: 2,
+            dispAnswer: "C) Competitive test",
+            exp: "الاختبار التنافسي (Competitive test) يثبت قدرة المنشأة على اكتساب ميزة تنافسية على خصومها[cite: 18]."
+          },
+          {
+            id: "ent_f_56",
+            type: "single",
+            text: "56. The Value Test is to convince the lenders and investors to put their money into the venture; a business plan must prove to them that it offers a high probability of repayment or an attractive rate of return.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "اختبار القيمة (Value Test) يقنع المستثمرين والمقرضين بقدرة المشروع على سداد القروض وتحقيق عائد مجزٍ[cite: 18]."
+          },
+          {
+            id: "ent_f_57",
+            type: "single",
+            text: "57. Which part of the business plan should be the last part written?",
+            opts: ["Executive summary", "Plan of operation", "Marketing strategy", "Competitor analysis"],
+            ans: 0,
+            dispAnswer: "A) Executive summary",
+            exp: "الملخص التنفيذي (Executive summary) هو آخر قسم يُكتب في الخطة لكي يلخص كافة أقسامها[cite: 18]."
+          },
+          {
+            id: "ent_f_58",
+            type: "single",
+            text: "58. It is also known as the 'elevator pitch,' is written last but is included as the first part of the business plan, captures the reader's attention, and entices them to read the rest of the plan:",
+            opts: ["Business history", "Business profile", "Executive summary", "Business proposal"],
+            ans: 2,
+            dispAnswer: "C) Executive summary",
+            exp: "الملخص التنفيذي يوضع في بداية الخطة لجذب انتباه القارئ وتشجيعه على إكمالها[cite: 18]."
+          },
+          {
+            id: "ent_f_59",
+            type: "single",
+            text: "59. The part of the business plan which helps employees, investors, or other readers quickly understand your business plan is:",
+            opts: ["Vision", "Executive summary", "Description of the product", "Mission"],
+            ans: 1,
+            dispAnswer: "B) Executive summary",
+            exp: "الملخص التنفيذي يمنح القارئ فهماً سريعاً وشاملاً لجوهر المشروع[cite: 18]."
+          },
+          {
+            id: "ent_f_60",
+            type: "single",
+            text: "60. All of the following are applicable to the executive summary of a business plan, except:",
+            opts: [
+              "It should summarize all of the relevant points of the proposed venture",
+              "It should be at least 4 pages",
+              "It should explain the problem the business will solve",
+              "It should explain the basic business model"
+            ],
+            ans: 1,
+            dispAnswer: "B) It should be at least 4 pages",
+            exp: "الملخص التنفيذي يجب أن يكون قصيراً ومركزاً (عادة صفحة إلى صفحتين) ولا يزيد عن ذلك[cite: 18]."
+          },
+          {
+            id: "ent_f_61",
+            type: "single",
+            text: "61. A good elevator pitch provides context, which explains:",
+            opts: ["Point of differentiation", "Target customers", "What your company does in easy-to-understand words", "What benefit or advantage your company offers customers"],
+            ans: 2,
+            dispAnswer: "C) What your company does in easy-to-understand words",
+            exp: "السياق في العرض الترويجي السريع يشرح نشاط وعمل الشركة بكلمات مبسطة وسهلة الفهم[cite: 18]."
+          },
+          {
+            id: "ent_f_62",
+            type: "single",
+            text: "62. A good elevator pitch consists of the following, except:",
+            opts: ["Target customer", "Point of differentiation", "Benefits", "Entrepreneurial team specialties"],
+            ans: 3,
+            dispAnswer: "D) Entrepreneurial team specialties",
+            exp: "العرض الترويجي السريع يركز على العميل المستهدف ونقاط التمايز والمنافع، ولا يخوض في تفاصيل تخصصات الفريق[cite: 18]."
+          },
+          {
+            id: "ent_f_63",
+            type: "single",
+            text: "63. The section of the business plan which should define the benefits customers get by purchasing the company's product or service is:",
+            opts: ["Competitor analysis", "Marketing strategy", "Description of the company's product or service", "Business and industry profile"],
+            ans: 2,
+            dispAnswer: "C) Description of the company's product or service",
+            exp: "قسم وصف منتجات/خدمات الشركة يحدد الفوائد المباشرة التي يجنيها الزبون[cite: 18]."
+          },
+          {
+            id: "ent_f_64",
+            type: "single",
+            text: "64. Business and Industry Profile: this section should provide readers with an overview of the industry or market segment in which the company operates.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "قسم ملف الصناعة والعمل يقدم نظرة عامة شاملة عن القطاع والسوق[cite: 18]."
+          },
+          {
+            id: "ent_f_65",
+            type: "single",
+            text: "65. The '5 C's' of credit that lenders and investors look for in a business plan include Capital, Capacity, Collateral, and Character. Which of the following is NOT one of the Five C's of credit?",
+            opts: ["Customer / Consumption", "Collateral", "Condition", "Capital"],
+            ans: 0,
+            dispAnswer: "A) Customer / Consumption",
+            exp: "عناصر الائتمان الـ 5 هي: Capital, Capacity, Collateral, Character, Conditions[cite: 18]."
+          },
+          {
+            id: "ent_f_66",
+            type: "single",
+            text: "66. All of the following are criteria used by lenders and investors to evaluate the creditworthiness of a business seeking financing, except:",
+            opts: ["Character", "Collateral", "Consumption", "Capacity"],
+            ans: 2,
+            dispAnswer: "C) Consumption",
+            exp: "الاستهلاك (Consumption) ليس من معايير الجدارة الائتمانية[cite: 18]."
+          },
+          {
+            id: "ent_f_67",
+            type: "single",
+            text: "67. The common reason lenders reject loans to small businesses is:",
+            opts: [
+              "The business owner has no money (of their own) to share the risks",
+              "The product or service is not in need of the market",
+              "Unstable management team",
+              "The idea is not considerable"
+            ],
+            ans: 0,
+            dispAnswer: "A) The business owner has no money (of their own) to share the risks",
+            exp: "السبب الشائع لرفض القروض هو عدم مساهمة صاحب المشروع بأمواله الخاصة لمشاركة المخاطر[cite: 18]."
+          },
+          {
+            id: "ent_f_68",
+            type: "single",
+            text: "68. Smart investors look for entrepreneurs to invest their money in their businesses.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "المستثمر الذكي يبحث عن ريادي يثق بمشروعه ويستثمر جزءاً من أمواله الخاصة فيه[cite: 18]."
+          },
+          {
+            id: "ent_f_69",
+            type: "single",
+            text: "69. Investors want to make sure entrepreneurs have invested enough of their money into the business to survive the start-up period.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "استثمار الريادي لأمواله الشخصية يضمن التزامه وتفانيه في تجاوز مرحلة التأسيس الحرجة[cite: 18]."
+          },
+          {
+            id: "ent_f_70",
+            type: "single",
+            text: "70. Conditions surrounding a loan request, such as competition, location, and form of ownership, have no effect on the business owner's chance of receiving loans.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "B) False",
+            exp: "الظروف المحيطة كالمنافسة والموقع تؤثر تأثيراً كبيراً في قرار منح القرض[cite: 18]."
+          },
+          {
+            id: "ent_f_71",
+            type: "single",
+            text: "71. Which one of the following is very important for entrepreneurs to avoid failure?",
+            opts: ["Developing a solid business plan", "Sleeping only a few hours every day", "Asking friends for help", "Drinking lots of coffee"],
+            ans: 0,
+            dispAnswer: "A) Developing a solid business plan",
+            exp: "إعداد خطة عمل محكمة ومتكاملة هو العامل الأهم لتفادي تعثر المشاريع وفشلها[cite: 18]."
+          },
+          {
+            id: "ent_f_72",
+            type: "single",
+            text: "72. How to avoid the pitfalls of small business failure?",
+            opts: ["Keep your business running", "Shift to a service economy", "Develop a solid business plan", "High risk, high profit"],
+            ans: 2,
+            dispAnswer: "C) Develop a solid business plan",
+            exp: "بناء خطة عمل واقعية يجنب المشروع منزلقات الفشل[cite: 18]."
+          },
+          {
+            id: "ent_f_73",
+            type: "single",
+            text: "73. Creating a new business that has no market is easy to make predictable and successful.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "B) False",
+            exp: "المشروع الذي يفتقر لسوق وطلب حقيقي محكوم عليه بالفشل المسبق[cite: 18]."
+          },
+          {
+            id: "ent_f_74",
+            type: "single",
+            text: "74. Creating a successful business depends on an entrepreneur's ability to attract real customers who are willing and able to spend real money to buy its products or services.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "النجاح يرتكز على جذب عملاء حقيقيين يمتلكون الرغبة والقدرة الشرائية لدفع المال[cite: 18]."
+          },
+          {
+            id: "ent_f_75",
+            type: "single",
+            text: "75. Estimated earnings (net income) means that entrepreneurs should forecast the earning potential of the proposed business.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "صافي الأرباح المقدر يعني توقع إمكانات وقدرة المشروع على توليد العوائد[cite: 18]."
+          },
+          {
+            id: "ent_f_76",
+            type: "single",
+            text: "76. Return on Investment = Net income / Investment, where Net income = gross profit - expenses.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "المعادلة المحاسبية الصحيحة للعائد على الاستثمار[cite: 18]."
+          },
+          {
+            id: "ent_f_77",
+            type: "single",
+            text: "77. Return on investment is estimated to determine how much investors can expect their investments to return.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "العائد على الاستثمار (ROI) يحدد النسبة المتوقعة لأرباح المستثمرين[cite: 18]."
+          },
+          {
+            id: "ent_f_78",
+            type: "single",
+            text: "78. The total cash it will take to sustain the business until the business achieves break-even cash flow is called 'return on investment.'",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "B) False",
+            exp: "هذا تعريف رأس المال التشغيلي التأسيسي (Working capital) وليس العائد على الاستثمار[cite: 18]."
+          },
+          {
+            id: "ent_f_79",
+            type: "single",
+            text: "79. Hook investors quickly with an up-front explanation of the new venture, their opportunities, and the anticipated benefits to them - this tip for a good pitch is called 'the Pitching.'",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "جذب انتباه المستثمرين منذ اللحظات الأولى من أهم مهارات العرض والإلقاء (Pitching)[cite: 18]."
+          },
+          {
+            id: "ent_f_80",
+            type: "single",
+            text: "80. One of the tips for a good business plan is to use an attractive cover to make a good first impression.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "الغلاف الأنيق والمهني يترك انطباعاً أولياً إيجابياً لدى المراجعين والمستثمرين[cite: 18]."
+          },
+          {
+            id: "ent_f_81",
+            type: "single",
+            text: "81. All of the following are tips for making the pitch, except:",
+            opts: ["Be ready to answer any question", "Use special / technical expressions in business", "Demonstrate enthusiasm", "Hook the investors and lenders by telling a good story"],
+            ans: 1,
+            dispAnswer: "B) Use special / technical expressions in business",
+            exp: "يجب تجنب المصطلحات التقنية المعقدة واستخدام لغة واضحة ومبسطة يفهمها المستثمرون[cite: 18]."
+          },
+          {
+            id: "ent_f_82",
+            type: "single",
+            text: "82. The details are very important when pitching and presenting the plan.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "A) True",
+            exp: "الدقة في التفاصيل والبيانات المالية تمنح العرض مصداقية عالية[cite: 18]."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Review of Creativity, Problem Solving & Intellectual Property (Questions 83 – 96)",
+        context: "Official review questions on lateral thinking, convergent reasoning, inspiring creativity, non-experts in brainstorming, and trademarks:",
+        subQuestions: [
+          {
+            id: "ent_f_83",
+            type: "single",
+            text: "83. What type of thinking is characteristic of the right brain?",
+            opts: ["Analytical thinking", "Linear thinking", "Lateral thinking", "Logical thinking"],
+            ans: 2,
+            dispAnswer: "C) Lateral thinking",
+            exp: "التفكير الجانبي وغير الخطي المتشعب (Lateral thinking) من سمات الدماغ الأيمن[cite: 18]."
+          },
+          {
+            id: "ent_f_84",
+            type: "single",
+            text: "84. What is the characteristic of left-brain thinking?",
+            opts: ["Unconventional and unstructured", "Relying heavily on images", "Narrowly focused and systematic", "Whirling around to form different patterns"],
+            ans: 2,
+            dispAnswer: "C) Narrowly focused and systematic",
+            exp: "التفكير الأيسر منظم ودقيق ومنطقي وتسلسلي (Systematic)[cite: 18]."
+          },
+          {
+            id: "ent_f_85",
+            type: "single",
+            text: "85. Which hemisphere of the brain handles language?",
+            opts: ["Right brain", "Left brain", "None of the above", "Both hemispheres"],
+            ans: 1,
+            dispAnswer: "B) Left brain",
+            exp: "النصف الأيسر من الدماغ هو المسؤول عن معالجة اللغة والألفاظ والرموز[cite: 18]."
+          },
+          {
+            id: "ent_f_86",
+            type: "single",
+            text: "86. The ability to see the similarities and connections among various data and events is called:",
+            opts: ["Evaluation processes", "Convergent thinking", "Divergent thinking", "Validation processes"],
+            ans: 1,
+            dispAnswer: "B) Convergent thinking",
+            exp: "التفكير التقاربي (Convergent thinking) يربط أوجه الشبه والصلات بين البيانات[cite: 18]."
+          },
+          {
+            id: "ent_f_87",
+            type: "single",
+            text: "87. Which of the following is NOT a question used to spur the imagination?",
+            opts: ["Are there other markets for it?", "Is there a substitute?", "Can you rearrange the parts?", "How much will it cost?"],
+            ans: 3,
+            dispAnswer: "D) How much will it cost?",
+            exp: "السؤال عن التكلفة المالية سؤال تقييمي تحليلي، ولا يُستخدم لإثارة وتحفيز الخيال الإبداعي[cite: 18]."
+          },
+          {
+            id: "ent_f_88",
+            type: "single",
+            text: "88. Which of the following practices enhances individual creativity?",
+            opts: ["Following strict rules and guidelines", "Avoiding collaboration with others", "Taking up a hobby", "Avoiding exposure to new experiences"],
+            ans: 2,
+            dispAnswer: "C) Taking up a hobby",
+            exp: "ممارسة هواية جديدة ينشط خلايا الدماغ ويجدد الطاقة الإبداعية الفردية[cite: 18]."
+          },
+          {
+            id: "ent_f_89",
+            type: "single",
+            text: "89. Which one of the following practices does NOT enhance individual creativity?",
+            opts: ["Focusing on 'being logical'", "Doing something ordinary in an unusual way", "Talking to a child", "Watching a movie"],
+            ans: 0,
+            dispAnswer: "A) Focusing on 'being logical'",
+            exp: "الإفراط في التقيد بالمنطق الصارم عائق ذهني يحد من التدفق الإبداعي[cite: 18]."
+          },
+          {
+            id: "ent_f_90",
+            type: "single",
+            text: "90. Which of the following is recommended to stimulate creativity?",
+            opts: ["Reading only within your field of expertise", "Avoiding joining professional or trade associations", "Eliminating all distractions", "Reading books (broadly)"],
+            ans: 3,
+            dispAnswer: "D) Reading books (broadly)",
+            exp: "القراءة الواسعة والمتنوعة خارج نطاق التخصص تثري الخيال وتغذي الإبداع[cite: 18]."
+          },
+          {
+            id: "ent_f_91",
+            type: "single",
+            text: "91. How can entrepreneurs stimulate creativity among their workers?",
+            opts: [
+              "By eliminating creativity as a core company value",
+              "By including creativity as a core company value and making it part of the company culture",
+              "By hiring employees who lack creativity",
+              "By discouraging curiosity and fun in the work environment"
+            ],
+            ans: 1,
+            dispAnswer: "B) By including creativity as a core company value and making it part of the company culture",
+            exp: "ترسيخ الإبداع كقيمة جوهرية ومكافأته يجعل منه ثقافة مؤسسية راسخة[cite: 18]."
+          },
+          {
+            id: "ent_f_92",
+            type: "single",
+            text: "92. Why do creative companies include non-experts in idea-generation sessions?",
+            opts: [
+              "Non-experts are more specialized and focused",
+              "Non-experts challenge the status quo and offer fresh perspectives",
+              "Non-experts conform to traditional solutions",
+              "Non-experts have limited knowledge of creative problem-solving"
+            ],
+            ans: 1,
+            dispAnswer: "B) Non-experts challenge the status quo and offer fresh perspectives",
+            exp: "غير المتخصصين يتحدون الافتراضات التقليدية ويطرحون زوايا ورؤى جديدة غير مقيدة بالقوالب[cite: 18]."
+          },
+          {
+            id: "ent_f_93",
+            type: "single",
+            text: "93. What is the relationship between playing and creativity?",
+            opts: [
+              "Play allows us to reinvent reality and formulate new ways of doing things",
+              "Play is frivolous and delays creative thinking",
+              "Play inhibits the development of new ideas",
+              "Play has no impact on creativity"
+            ],
+            ans: 0,
+            dispAnswer: "A) Play allows us to reinvent reality and formulate new ways of doing things",
+            exp: "اللعب والمرح يحرران التفكير ويمكنان العقل من إعادة صياغة الواقع بأساليب مبتكرة[cite: 18]."
+          },
+          {
+            id: "ent_f_94",
+            type: "single",
+            text: "94. Which of the following is a source of creative inspiration?",
+            opts: ["Sticking to familiar routines", "Avoiding travel and observation", "Ignoring the creative power of mistakes", "Observing the products and services of other companies"],
+            ans: 3,
+            dispAnswer: "D) Observing the products and services of other companies",
+            exp: "مراقبة وتحليل منتجات وخدمات الشركات الأخرى مصدر إلهام لتطوير أفكار وحلول مبتكرة[cite: 18]."
+          },
+          {
+            id: "ent_f_95",
+            type: "single",
+            text: "95. Which one of the following steps is the correct order for the Creativity process?",
+            opts: [
+              "Preparation → Investigation → Transformation → Incubation → Illumination → Verification",
+              "Preparation → Illumination → Verification → Incubation → Investigation → Transformation",
+              "Preparation → Implementation → Verification → Incubation → Investigation → Transformation",
+              "Preparation → Investigation → Transformation → Incubation → Verification → Illumination"
+            ],
+            ans: 0,
+            dispAnswer: "A) Preparation → Investigation → Transformation → Incubation → Illumination → Verification",
+            exp: "الترتيب المنهجي الصحيح لخطوات العملية الإبداعية[cite: 18]."
+          },
+          {
+            id: "ent_f_96",
+            type: "single",
+            text: "96. Any distinctive word, name, symbol, or device used to identify a company's goods and distinguish them from others' is called a:",
+            opts: ["Copyright", "Trademark", "Service mark", "Patent"],
+            ans: 1,
+            dispAnswer: "B) Trademark",
+            exp: "العلامة التجارية (Trademark) هي الاسم أو الرمز أو الشعار المستخدم لتمييز بضائع الشركة عن غيرها[cite: 18]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

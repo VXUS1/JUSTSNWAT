@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | المهارات الحياتية (Life Skills) - بنك أسئلة الميد</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ls">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">المهارات الحياتية (Life Skills)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Module 1 (Lecture 1) — أسئلة امتحان منتصف الفصل (Communication Fundamentals)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ls">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+    const examSections = [
+      {
+        title: "Part 1: Multiple Choice Questions (Principles & Components)",
+        context: "Official midterm exam questions covering communication definitions, channels, noise types, and principles (Questions 1 – 43):",
+        subQuestions: [
+          {
+            id: "ls_1",
+            type: "single",
+            text: "1. Communication is an ______ life requirement; it is like breathing.",
+            opts: ["inescapable", "indispensable", "essential", "integral", "all of the above"],
+            ans: 4,
+            dispAnswer: "e) all of the above",
+            exp: "التواصل ضروري وملازم للحياة في شتى جوانبها تماماً مثل التنفس[cite: 6]."
+          },
+          {
+            id: "ls_2",
+            type: "single",
+            text: "2. According to what you have studied, people generally spend up to ______ per cent of their waking day communicating with others.",
+            opts: ["90", "30", "25", "10", "5"],
+            ans: 0,
+            dispAnswer: "a) 90",
+            exp: "يقضي الإنسان ما يقارب 90% من ساعات يقظته اليومية في مختلف أشكال التواصل[cite: 6]."
+          },
+          {
+            id: "ls_3",
+            type: "single",
+            text: "3. Talking to a friend, listening to your teachers, shopping, talking to a partner at work, and meeting for dinner with a partner or talking to your mother are all cases of ______ communication.",
+            opts: ["interpersonal", "impersonal", "intrapersonal", "non-personal"],
+            ans: 0,
+            dispAnswer: "a) interpersonal",
+            exp: "جميع هذه المواقف تعبر عن التواصل التفاعلي المتبادل بين الأشخاص (Interpersonal communication)[cite: 6]."
+          },
+          {
+            id: "ls_4",
+            type: "single",
+            text: "4. Effective communication depends on the ______ of the communicated ideas.",
+            opts: ["rarity", "unclarity", "richness", "rigidity"],
+            ans: 2,
+            dispAnswer: "c) richness",
+            exp: "نجاح وفاعلية التواصل يرتكزان على ثراء وعمق ووضوح الأفكار المطروحة[cite: 6]."
+          },
+          {
+            id: "ls_5",
+            type: "single",
+            text: "5. Communication involves the ______ of the information as much as the ______ of that information.",
+            opts: ["deception / misinterpretation", "perception / delivery", "organization / concealing", "deploying / displacement"],
+            ans: 1,
+            dispAnswer: "b) perception / delivery",
+            exp: "التواصل يتطلب حسن إدراك وفهم المعلومات بقدر ما يتطلب مهارة إيصالها[cite: 6]."
+          },
+          {
+            id: "ls_6",
+            type: "single",
+            text: "6. Communication skills have been rated as ______ element used in choosing management staffs.",
+            opts: ["a minor", "an unimportant", "a secondary", "the major"],
+            ans: 3,
+            dispAnswer: "d) the major",
+            exp: "تُصنّف مهارات التواصل كأهم معيار أساسي ورئيسي في اختيار وتعيين الكوادر الإدارية[cite: 6]."
+          },
+          {
+            id: "ls_7",
+            type: "single",
+            text: "7. If you communicate well, you can ______ your message to others effectively and they then have clear instructions to enable them to complete their assigned tasks.",
+            opts: ["deliver", "convey", "tell", "encode", "All of the above"],
+            ans: 4,
+            dispAnswer: "e) All of the above",
+            exp: "التواصل الفعال يمكّنك من نقل وإيصال وتشفير رسالتك بوضوح لتوجيه الآخرين لإنجاز مهامهم[cite: 6]."
+          },
+          {
+            id: "ls_8",
+            type: "single",
+            text: "8. Communication breakdowns result in ______ your ability to develop both professionally and personally.",
+            opts: ["chances supporting", "obstacles against", "accesses allowing", "mechanisms boosting"],
+            ans: 1,
+            dispAnswer: "b) obstacles against",
+            exp: "فشل وانهيار التواصل يضع عقبات ومعوقات أمام التطور الشخصي والمهني للفرد[cite: 6]."
+          },
+          {
+            id: "ls_9",
+            type: "single",
+            text: "9. Those who ______ struggle to convey their thoughts and ideas in an accurate manner.",
+            opts: ["lack communication skills", "have good communication skills", "try to teach communication skills", "All of the above"],
+            ans: 0,
+            dispAnswer: "a) lack communication skills",
+            exp: "الأشخاص الذين يفتقرون لمهارات التواصل يواجهون صعوبة بالغة في صياغة ونقل أفكارهم بدقة[cite: 6]."
+          },
+          {
+            id: "ls_10",
+            type: "single",
+            text: "10. Communication skills ______.",
+            opts: ["can be only inherited", "can be mastered effortlessly", "can be practiced and learned", "should not be learnt before the age of 20"],
+            ans: 2,
+            dispAnswer: "c) can be practiced and learned",
+            exp: "مهارات التواصل مكتسبة وليست فطرية حصراً؛ إذ يمكن ممارستها وتطويرها بالتدريب والتعلم المستمر[cite: 6]."
+          },
+          {
+            id: "ls_11",
+            type: "single",
+            text: "11. Learning communication skills needs learning ______.",
+            opts: [
+              "about how communication operates",
+              "how to communicate exactly 'what it is' we want to say",
+              "the factors that influence our ability to send and receive messages with awareness",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "يشمل تعلم مهارات التواصل فهم آلية عملها، وصياغة المعنى بدقة، ومعرفة العوامل المؤثرة في الإرسال والاستقبال[cite: 6]."
+          },
+          {
+            id: "ls_12",
+            type: "single",
+            text: "12. Communication serves as a valuable mechanism in ______ connections and engagement between people.",
+            opts: ["avoiding", "preventing", "disallowing", "building"],
+            ans: 3,
+            dispAnswer: "d) building",
+            exp: "التواصل هو الأداة المحورية في بناء العلاقات والروابط الإنسانية والمشاركة الفعالة بين الأفراد[cite: 6]."
+          },
+          {
+            id: "ls_13",
+            type: "single",
+            text: "13. Getting your message across in a clear, concise way can be sometimes difficult with words alone. ______ Communication highly enhances written communication.",
+            opts: ["Verbal", "Non-verbal", "Visual", "All of the above"],
+            ans: 2,
+            dispAnswer: "c) Visual",
+            exp: "التواصل البصري يساند بقوة الكلمات المكتوبة ويجعل المعنى واضحاً ومباشراً[cite: 6]."
+          },
+          {
+            id: "ls_14",
+            type: "single",
+            text: "14. Sorts of ______ communication include animated GIFs, screenshots, videos, pie charts, etc.",
+            opts: ["written", "verbal", "non-verbal", "visual"],
+            ans: 3,
+            dispAnswer: "d) visual",
+            exp: "الصور، ومقاطع الفيديو، والمخططات البيانية تمثل أدوات الاتصال والتواصل البصري[cite: 6]."
+          },
+          {
+            id: "ls_15",
+            type: "single",
+            text: "15. Body language, gestures, eye-contacts, appearance, and tone of one's voice are used in ______ communication.",
+            opts: ["written", "verbal", "non-verbal", "visual"],
+            ans: 2,
+            dispAnswer: "c) non-verbal",
+            exp: "لغة الجسد والإيماءات ونظرات العيون ونبرة الصوت كلها تعبر عن التواصل غير اللفظي[cite: 6]."
+          },
+          {
+            id: "ls_16",
+            type: "single",
+            text: "16. ______ communication means sending wordless messages.",
+            opts: ["Written", "Verbal", "Non-verbal", "Visual"],
+            ans: 2,
+            dispAnswer: "c) Non-verbal",
+            exp: "التواصل غير اللفظي يعني إرسال واستقبال رسائل لا تعتمد على الألفاظ والكلمات المنطوقة أو المكتوبة[cite: 6]."
+          },
+          {
+            id: "ls_17",
+            type: "single",
+            text: "17. In ______ communication, the ability to listen and think carefully before speaking is critical.",
+            opts: ["written", "verbal", "non-verbal", "visual"],
+            ans: 1,
+            dispAnswer: "b) verbal",
+            exp: "في التواصل اللفظي الشفوي، يُعد حسن الاستماع والتفكير المتأني قبل النطق أمراً حاسماً لنجاح الرسالة[cite: 6]."
+          },
+          {
+            id: "ls_18",
+            type: "single",
+            text: "18. ______ communication is known to be spontaneous.",
+            opts: ["Written", "Verbal", "Non-verbal", "Visual"],
+            ans: 1,
+            dispAnswer: "b) Verbal",
+            exp: "يتميز التواصل اللفظي الشفوي غالباً بالعفوية والتفاعل اللحظي المباشر[cite: 6]."
+          },
+          {
+            id: "ls_19",
+            type: "single",
+            text: "19. ______ communication is the most common type of conversation.",
+            opts: ["Written", "Verbal", "Non-verbal", "Visual"],
+            ans: 1,
+            dispAnswer: "b) Verbal",
+            exp: "التواصل اللفظي هو النمط الأكثر شيوعاً واستخداماً في المحادثات اليومية بين البشر[cite: 6]."
+          },
+          {
+            id: "ls_20",
+            type: "single",
+            text: "20. ______ communication involves the exchange of messages or information by using words through face to face or telephone conversations.",
+            opts: ["Written", "Verbal", "Non-verbal", "Visual"],
+            ans: 1,
+            dispAnswer: "b) Verbal",
+            exp: "تبادل الكلمات الشفوية وجهاً لوجه أو عبر الهاتف يُمثّل جوهر التواصل اللفظي[cite: 6]."
+          },
+          {
+            id: "ls_21",
+            type: "single",
+            text: "21. ______ communication is used to provide well-thought and well-planned details.",
+            opts: ["Written", "Verbal", "Non-verbal", "Visual"],
+            ans: 0,
+            dispAnswer: "a) Written",
+            exp: "التواصل المكتوب يمنح الكاتب فرصة للتفكير والتنظيم وتقديم تفاصيل مدروسة وموثقة[cite: 6]."
+          },
+          {
+            id: "ls_22",
+            type: "single",
+            text: "22. ______ communication can easily be reviewed.",
+            opts: ["Written", "Verbal", "Non-verbal", "Visual"],
+            ans: 0,
+            dispAnswer: "a) Written",
+            exp: "الرسائل المكتوبة تمتاز بقابليتها للمراجعة والتدقيق والرجوع إليها في أي وقت[cite: 6]."
+          },
+          {
+            id: "ls_23",
+            type: "single",
+            text: "23. You seek to ______ your interactions with people with whom you wish to develop relationships.",
+            opts: ["decrease", "reduce", "increase", "reconsider"],
+            ans: 2,
+            dispAnswer: "c) increase",
+            exp: "لتطوير وتعميق أي علاقة، يسعى الفرد طبيعياً إلى زيادة حجم وتكرار التواصل مع الطرف الآخر[cite: 6]."
+          },
+          {
+            id: "ls_24",
+            type: "single",
+            text: "24. Interpersonal communication is also used to ______ relationships that you have decided are no longer practical or need to be changed.",
+            opts: ["end or reconsider", "initiate or develop", "maintain and improve", "sustain or keep"],
+            ans: 0,
+            dispAnswer: "a) end or reconsider",
+            exp: "يُستخدم التواصل بين الأشخاص أيضاً لوضع حد للعلاقات غير المجدية أو إعادة صياغتها[cite: 6]."
+          },
+          {
+            id: "ls_25",
+            type: "single",
+            text: "25. E-mail, texts, and other sorts of fast messages appear to be 'essentially' used to ______ relationships.",
+            opts: ["end existing", "stop", "maintain existing", "make new"],
+            ans: 2,
+            dispAnswer: "c) maintain existing",
+            exp: "تُستخدم الرسائل النصية والبريد الإلكتروني أساساً لإدامة والحفاظ على استمرارية العلاقات القائمة[cite: 6]."
+          },
+          {
+            id: "ls_26",
+            type: "single",
+            text: "26. If you learn the principles and skills of interpersonal communication, you ______ options for replying when family communication challenges come out.",
+            opts: ["can develop more", "must have", "will lose", "may forget"],
+            ans: 0,
+            dispAnswer: "a) can develop more",
+            exp: "إتقان مهارات التواصل يمنحك مرونة وخيارات أوسع للتعامل الحكيم مع الخلافات الأسرية[cite: 6]."
+          },
+          {
+            id: "ls_27",
+            type: "single",
+            text: "27. The abilities to listen to others, manage conflict, and develop quality interpersonal relationships with others are usually at the best skills list ______ ask for in today's job seekers.",
+            opts: ["employers", "employees", "employed people", "All of the above"],
+            ans: 0,
+            dispAnswer: "a) employers",
+            exp: "يضع أصحاب العمل والشركات مهارات الاستماع وإدارة النزاع وبناء العلاقات في صدارة متطلبات التوظيف[cite: 6]."
+          },
+          {
+            id: "ls_28",
+            type: "single",
+            text: "28. Developing friendships is considered one of the top-rated sources of ______ in life.",
+            opts: ["depression and anxiety", "satisfaction and happiness", "paranoia", "neurosis"],
+            ans: 1,
+            dispAnswer: "b) satisfaction and happiness",
+            exp: "بناء الصداقات الإيجابية من أهم روافد السعادة والرضا والاستقرار النفسي في حياة الفرد[cite: 6]."
+          },
+          {
+            id: "ls_29",
+            type: "single",
+            text: "29. Losing a relationship is among life's most ______ events.",
+            opts: ["stressful", "relaxing", "pleasing", "satisfying"],
+            ans: 0,
+            dispAnswer: "a) stressful",
+            exp: "انتهاء العلاقات أو فقدانها يُعد من أشد الأحداث إثارة للضغط النفسي والتوتر في حياة الإنسان[cite: 6]."
+          },
+          {
+            id: "ls_30",
+            type: "single",
+            text: "30. The ______ of a message is the creator of the ideas and feelings expressed.",
+            opts: ["source", "message", "channel", "receiver", "noise", "feedback", "context"],
+            ans: 0,
+            dispAnswer: "a) source",
+            exp: "المصدر (Source/Sender) هو منشئ الفكرة ومصدر المشاعر المراد التعبير عنها[cite: 6]."
+          },
+          {
+            id: "ls_31",
+            type: "single",
+            text: "31. The source puts a message into a code, a process called ______. The opposite of which is the process of ______, which occurs when the receiver explains the source's words or nonverbal cues.",
+            opts: ["encoding / decoding", "decoding / encoding", "recoding / coding", "coding / recoding"],
+            ans: 0,
+            dispAnswer: "a) encoding / decoding",
+            exp: "تحويل الفكرة إلى رموز يُسمى تشفيراً (Encoding)، وتفسير الرموز من قِبل المستقبل يُسمى فك التشفير (Decoding)[cite: 6]."
+          },
+          {
+            id: "ls_32",
+            type: "single",
+            text: "32. ______ are the written, spoken, and unspoken elements of communication to which people assign meaning.",
+            opts: ["Sources", "Messages", "Channels", "Receivers"],
+            ans: 1,
+            dispAnswer: "b) Messages",
+            exp: "الرسائل (Messages) هي الإشارات المنطوقة والمكتوبة وغير المنطوقة التي يمنحها الناس دلالة ومعنى[cite: 6]."
+          },
+          {
+            id: "ls_33",
+            type: "single",
+            text: "33. The ______ is the means by which the message is expressed to the receiver.",
+            opts: ["source", "channel", "noise", "feedback"],
+            ans: 1,
+            dispAnswer: "b) channel",
+            exp: "القناة (Channel) هي المسار والوسيلة المادية أو الحسية التي تنتقل بها الرسالة إلى المستقبل[cite: 6]."
+          },
+          {
+            id: "ls_34",
+            type: "single",
+            text: "34. The ______ of the message is the person (or persons) who interprets the message and ultimately determines whether it was understood and appropriate.",
+            opts: ["source", "channel", "receiver", "noise"],
+            ans: 2,
+            dispAnswer: "c) receiver",
+            exp: "المستقبل (Receiver) هو من يحلل ويفسر الرسالة ويحدد ما إذا كان معناها قد وصل بشكل ملائم[cite: 6]."
+          },
+          {
+            id: "ls_35",
+            type: "single",
+            text: "35. ______ is anything that interferes with the message being interpreted.",
+            opts: ["Source", "Channel", "Receiver", "Noise"],
+            ans: 3,
+            dispAnswer: "d) Noise",
+            exp: "التشويش (Noise) هو أي عائق مادي أو نفسي أو فسيولوجي يعترض انتقال الرسالة وفهمها[cite: 6]."
+          },
+          {
+            id: "ls_36",
+            type: "single",
+            text: "36. 'Beeps coming from a smartphone that signal incoming e-mail or text messages' are examples on ______ noise.",
+            opts: ["external", "physiological", "internal", "psychological"],
+            ans: 0,
+            dispAnswer: "a) external",
+            exp: "أصوات الرنين والتنبيهات الصادرة من الهاتف المحيط تمثل تشويشاً خارجياً ومادياً (External noise)[cite: 6]."
+          },
+          {
+            id: "ls_37",
+            type: "single",
+            text: "37. 'Hunger pains' are examples on ______ noise.",
+            opts: ["external", "physiological", "internal", "psychological"],
+            ans: 1,
+            dispAnswer: "b) physiological",
+            exp: "آلام الجوع والصداع والتعب البدني تُمثّل تشويشاً فسيولوجياً داخلياً في الجسد[cite: 6]."
+          },
+          {
+            id: "ls_38",
+            type: "single",
+            text: "38. 'Thoughts, worries, and feelings that compete for our attention' are examples on ______ noise.",
+            opts: ["external", "physiological", "terminal", "psychological"],
+            ans: 3,
+            dispAnswer: "d) psychological",
+            exp: "الأفكار المشتتة والقلق والمشاعر التي تسيطر على التفكير تُصنّف كتشويش نفسي (Psychological noise)[cite: 6]."
+          },
+          {
+            id: "ls_39",
+            type: "single",
+            text: "39. ______ is the response to the message.",
+            opts: ["Source", "Channel", "Receiver", "Noise", "Feedback"],
+            ans: 4,
+            dispAnswer: "e) Feedback",
+            exp: "التغذية الراجعة (Feedback) هي الرد والاستجابة التي يرسلها المستقبل تعقيباً على الرسالة[cite: 6]."
+          },
+          {
+            id: "ls_40",
+            type: "single",
+            text: "40. ______ is the physical and psychological environment for communication.",
+            opts: ["Source", "Channel", "Receiver", "Noise", "Feedback", "Context"],
+            ans: 5,
+            dispAnswer: "f) Context",
+            exp: "السياق (Context) هو البيئة المحيطة بالتواصل بكافة أبعادها المكانية والزمانية والنفسية[cite: 6]."
+          },
+          {
+            id: "ls_41",
+            type: "single",
+            text: "41. There are ______ communication principles.",
+            opts: ["five", "four", "six", "three"],
+            ans: 0,
+            dispAnswer: "a) five",
+            exp: "يرتكز التواصل الفعال بين الأشخاص على خمسة مبادئ أساسية معتمدة في المساق[cite: 6]."
+          },
+          {
+            id: "ls_42",
+            type: "single",
+            text: "42. One of the following is not a communication principle:",
+            opts: [
+              "Interpersonal communication connects us to others.",
+              "Interpersonal communication is reversible.",
+              "Interpersonal communication is complicated.",
+              "Interpersonal communication is governed by rules.",
+              "Interpersonal communication involves both content and relationship dimensions."
+            ],
+            ans: 1,
+            dispAnswer: "b) Interpersonal communication is reversible.",
+            exp: "التواصل غير قابل للعكس أو التراجع (Irreversible)؛ فالكلمة إذا خرجت لا يمكن محوها أو استردادها[cite: 6]."
+          },
+          {
+            id: "ls_43",
+            type: "single",
+            text: "43. Which of the following is a communication principle?",
+            opts: [
+              "Interpersonal communication connects us to others.",
+              "Interpersonal communication is reversible.",
+              "Interpersonal communication is not complicated.",
+              "Interpersonal communication is not governed by rules."
+            ],
+            ans: 0,
+            dispAnswer: "a) Interpersonal communication connects us to others.",
+            exp: "المبدأ الصحيح هو أن التواصل يربطنا بالآخرين، بينما هو معقد وغير قابل للإلغاء ويخضع لقواعد محددة[cite: 6]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: True or False Concepts & Statements",
+        context: "Official midterm True/False statements covering research findings, principles, and applications (Questions 44 – 75):",
+        subQuestions: [
+          {
+            id: "ls_44",
+            type: "single",
+            text: "44. People improve interpersonal and professional relationships that are vital to our lives through interactions.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "التفاعل الإيجابي المستمر يطور ويعزز العلاقات الشخصية والمهنية الحيوية في حياتنا[cite: 6]."
+          },
+          {
+            id: "ls_45",
+            type: "single",
+            text: "45. Communication skills and principles cannot describe and foretell how we can develop, sustain, and often end some relationships.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "بل على العكس، مبادئ التواصل تفسر وتتنبأ بكيفية نشوء العلاقات واستمرارها أو انتهائها[cite: 6]."
+          },
+          {
+            id: "ls_46",
+            type: "single",
+            text: "46. There is a basic and universal need among people to interact with others.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الحاجة للتفاعل والتواصل مع الآخرين هي حاجة إنسانية فطرية وأساسية مشتركة عالمياً[cite: 6]."
+          },
+          {
+            id: "ls_47",
+            type: "single",
+            text: "47. Communication can be defined as the art and process of creating and sharing rare ideas.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "التواصل لا يقتصر على الأفكار النادرة فقط، بل يشمل مشاركة وبناء كافة أنواع الأفكار والمعلومات[cite: 6]."
+          },
+          {
+            id: "ls_48",
+            type: "single",
+            text: "48. Oral and written communication skills are important in predicting job success, as well as the capacity to communicate well with others in the workplace.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "مهارات التواصل الشفوي والمكتوب من أبرز مؤشرات النجاح والتميز في بيئة العمل[cite: 6]."
+          },
+          {
+            id: "ls_49",
+            type: "single",
+            text: "49. If you communicate well, the messages sent will be lost.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "التواصل الجيد يضمن وصول الرسالة بدقة وتحقيق هدفها دون ضياع أو تشويش[cite: 6]."
+          },
+          {
+            id: "ls_50",
+            type: "single",
+            text: "50. Communication skills are vital to success in the workplace.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تُعد مهارات التواصل ركيزة جوهرية وحاسمة لتحقيق النجاح المهني[cite: 6]."
+          },
+          {
+            id: "ls_51",
+            type: "single",
+            text: "51. Lack of communication skills can be a block to the progress of lots of people.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "ضعف مهارات التواصل يشكل عائقاً كبيراً يمنع تقدم وتطور الكثير من الأفراد وظيفياً وشخصياً[cite: 6]."
+          },
+          {
+            id: "ls_52",
+            type: "single",
+            text: "52. There are different methods we communicate with others. No matter what form of communication we choose, it is important to have the true intention to connect with the other person.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "النية الصادقة والرغبة الحقيقية في التفاهم هي جوهر نجاح التواصل مهما اختلفت وسيلته[cite: 6]."
+          },
+          {
+            id: "ls_53",
+            type: "single",
+            text: "53. Written communication involves any type of interaction that makes use of the spoken words.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "التواصل المكتوب يعتمد على الكلمات والرموز المكتوبة وليس المنطوقة شفوياً[cite: 6]."
+          },
+          {
+            id: "ls_54",
+            type: "single",
+            text: "54. A person must be careful of the words or expressions to be said. Any word that has been spoken cannot be taken back, so it is important to formulate expressions or sentences carefully.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تطبيق مباشر لمبدأ أن التواصل غير قابل للتراجع؛ فالكلمات المنطوقة لا يمكن استردادها[cite: 6]."
+          },
+          {
+            id: "ls_55",
+            type: "single",
+            text: "55. Visual communication is the use of verbal elements to communicate information or ideas.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "التواصل البصري يعتمد على الصور والرسوم البيانية والرموز المرئية وليس العناصر اللفظية[cite: 6]."
+          },
+          {
+            id: "ls_56",
+            type: "single",
+            text: "56. People initiate and form relationships by communicating with others.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "العلاقات الإنسانية تنشأ وتتأسس وتنمو في المقام الأول من خلال قنوات التواصل[cite: 6]."
+          },
+          {
+            id: "ls_57",
+            type: "single",
+            text: "57. If you learn the principles and skills of interpersonal communication, you won't be able to develop creative, constructive solutions to family conflicts.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "تعلم مهارات ومبادئ التواصل يمكّنك من إيجاد حلول إبداعية وبناءة للتحديات الأسرية[cite: 6]."
+          },
+          {
+            id: "ls_58",
+            type: "single",
+            text: "58. You may use social media to connect with friends and manage your relationships.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "منصات التواصل الاجتماعي باتت وسيلة أساسية للبقاء على اتصال وإدارة شبكة العلاقات[cite: 6]."
+          },
+          {
+            id: "ls_59",
+            type: "single",
+            text: "59. Research has revealed that instant messages (including text messages) can have a negative impact on your relationships, although not always.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "وفق مفتاح إجابات المساق المعتمد في الملف؛ تم تصنيف هذه العبارة كـ False[cite: 6]."
+          },
+          {
+            id: "ls_60",
+            type: "single",
+            text: "60. More research has revealed that people initially recognize online messages as lower quality than face-to-face communication, but over time rate them just as positively.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تشير الدراسات إلى أن الناس يقيّمون التواصل الرقمي بإيجابية متزايدة مماثلة للمباشر مع مرور الوقت والاعتياد[cite: 6]."
+          },
+          {
+            id: "ls_61",
+            type: "single",
+            text: "61. Research has found that after someone passes away, friends or family members close his or her Facebook account to stop any messages in memory of that person.",
+            opts: ["False", "True"],
+            ans: 0,
+            dispAnswer: "a) False",
+            exp: "أثبتت الأبحاث أن الحسابات غالباً ما تُترك مفتوحة كنصب تذكاري لتلقي رسائل الوفاء والذكرى[cite: 6]."
+          },
+          {
+            id: "ls_62",
+            type: "single",
+            text: "62. Whether it happens on- or offline, interpersonal communication never helps you control your relationships.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "التواصل الواعي يساعد الأفراد دائماً على إدارة وضبط وتوجيه علاقاتهم بفاعلية[cite: 6]."
+          },
+          {
+            id: "ls_63",
+            type: "single",
+            text: "63. It is stated that you will escape all family conflicts and your family relationships will always be peaceful if you learn the principles and skills of interpersonal communication.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "تعلم مهارات التواصل لا يلغي الخلافات تماماً، بل يمنحك الأدوات السليمة لإدارتها باحتراف[cite: 6]."
+          },
+          {
+            id: "ls_64",
+            type: "single",
+            text: "64. A lot of surveys record the importance of quality interpersonal relationships in contributing to success at work.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تؤكد استطلاعات الرأي والدراسات أن جودة العلاقات بين الزملاء من ركائز النجاح في العمل[cite: 6]."
+          },
+          {
+            id: "ls_65",
+            type: "single",
+            text: "65. One's success or failure in a job often depends on how well one gets along with one's supervisors and peers.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الانسجام والتوافق مع المدراء والزملاء يحدد بشكل جوهري استقرار الموظف وتقدمه المهني[cite: 6]."
+          },
+          {
+            id: "ls_66",
+            type: "single",
+            text: "66. Studying interpersonal communication can offer awareness into our partners' and friends' behaviors.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "دراسة التواصل تمنحنا فهماً وتفسيراً أعمق لدوافع وتصرفات من حولنا[cite: 6]."
+          },
+          {
+            id: "ls_67",
+            type: "single",
+            text: "67. Negative interpersonal relationships with others have direct benefits for your general health and happiness.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العلاقات السلبية والمضطربة تستنزف الطاقة وتضر بالصحة النفسية والجسدية[cite: 6]."
+          },
+          {
+            id: "ls_68",
+            type: "single",
+            text: "68. You can send a message unintentionally (talking to a professor before class) or intentionally (falling asleep during class); nonverbally (\"Hi. How are you?\"), verbally (a smile and a handshake), or in written form (this book).",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة معكوسة؛ فالكلام شفهي لفظي والابتسامة والمصافحة تواصل غير لفظي[cite: 6]."
+          },
+          {
+            id: "ls_69",
+            type: "single",
+            text: "69. You probably receive messages through a variety of channels, including mediated channels, such as text messaging, e-mail, phone, video conference, or Facebook.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تتعدد قنوات الاستقبال لتشمل القنوات الوسيطة والتكنولوجية كالرسائل والمكالمات ومواقع التواصل[cite: 6]."
+          },
+          {
+            id: "ls_70",
+            type: "single",
+            text: "70. Effective communicators are other-oriented; they understand that the receiver ultimately makes sense of the message they express.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "المتواصل البارع يركز على المتلقي ويراعي وجهة نظره وكيفية فهمه للرسالة[cite: 6]."
+          },
+          {
+            id: "ls_71",
+            type: "single",
+            text: "71. For every action, there is a reaction. Without 'feedback', communication is rarely effective.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "غياب التغذية الراجعة يترك التواصل ناقصاً ويمنع التحقق من وصول المعنى[cite: 6]."
+          },
+          {
+            id: "ls_72",
+            type: "single",
+            text: "72. All communication takes place in some context. Context encompasses not only the physical environment, but also the people present and their relationships with the communicators, the communication goal, and the culture of which the communicators are a part.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "السياق يشمل البيئة المكانية، والعلاقات الإنسانية، والأهداف، والثقافة المجتمعية[cite: 6]."
+          },
+          {
+            id: "ls_73",
+            type: "single",
+            text: "73. We may understand what people mean and feel connected to them, but we may still disagree with them.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الفهم التام لمقصد الآخر لا يعني بالضرورة التطابق أو الموافقة على رأيه[cite: 6]."
+          },
+          {
+            id: "ls_74",
+            type: "single",
+            text: "74. Because of the complicated nature of how meaning is created, untying communication problems often takes time, skill, and patience to enhance human understanding.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "حل معضلات التواصل يتطلب صبراً ومهارة ووقتاً كافياً لبناء تفاهم إنساني سليم[cite: 6]."
+          },
+          {
+            id: "ls_75",
+            type: "single",
+            text: "75. Electronically mediated communication makes it impossible for people to develop interpersonal relationships with others.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "التواصل الإلكتروني يتيح ويسهل بناء وتوطيد علاقات قوية وفعالة عبر المسافات[cite: 6]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

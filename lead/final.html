@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | التربية الوطنية والمسؤولية المجتمعية - بنك أسئلة الفاينال</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      direction: rtl;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+    .verify-note {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(255, 159, 10, 0.1);
+      border-right: 3px solid #ff9f0a;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #ff9f0a;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/lead">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">التربية الوطنية والمسؤولية المجتمعية</div>
+    <div class="subject-subtitle" id="quiz-subtitle">بنك أسئلة الامتحان النهائي (الفاينال - سنوات سابقة)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/lead">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
+
+    const examSections = [
+      {
+        title: "الجزء الأول: أسئلة سنوات الفاينال (الأسئلة 1 – 26)",
+        context: "أسئلة سنوات الفاينال السابقة وتغطي الدستور الأردني، مفاهيم الهوية والمواطنة، المسؤولية المجتمعية، قانون الانتخاب 2022، ومسارات التحديث الملكية:",
+        subQuestions: [
+          {
+            id: "nat_fin_1",
+            type: "single",
+            text: "1) ينص الدستور الأردني على أن رئيس الوزراء ومجلس الوزراء مسؤولون مسؤولية مشتركة أمام جلالة الملك عن السياسة العامة للدولة، كما أن كل وزير مسؤول أمام مجلس النواب عن أعمال وزارته، ويتولى مجلس الوزراء جميع الشؤون الداخلية فقط.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الشطر الأول من العبارة (مسؤولية مشتركة أمام الملك، ومسؤولية كل وزير أمام مجلس النواب) صحيح دستورياً. لكن الجزء الأخير خاطئ: مجلس الوزراء يتولى إدارة جميع شؤون الدولة الداخلية والخارجية معاً وفق المادة 45 من الدستور، وليس الشؤون الداخلية فقط."
+          },
+          {
+            id: "nat_fin_2",
+            type: "single",
+            text: "2) من المبادرات العالمية التي أطلقها جلالة الملك عبدالله الثاني لإبراز الصورة الحقيقية المشرفة للإسلام:",
+            opts: ["أسبوع الوئام بين الأديان", "رسالة عمان", "كلمة سواء", "جميع ما ذكر صحيح"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر صحيح",
+            exp: "الثلاث مبادرات (أسبوع الوئام العالمي بين الأديان، رسالة عمان 2004، ومبادرة كلمة سواء 2007) هي جميعها مبادرات فكرية عالمية أطلقها أو رعاها جلالة الملك لتقديم الصورة الوسطية الصحيحة للإسلام."
+          },
+          {
+            id: "nat_fin_3",
+            type: "single",
+            text: "3) القواسم المشتركة التي توجد مجموعة من الناس وتميزهم عن غيرهم مثل اللغة والدين والتاريخ والجغرافيا والتكوين الثقافي والنفسي والاقتصادي والإدارة والدولة هذا مفهوم لـ:",
+            opts: ["الانتماء", "الجنسية", "الهوية", "الولاء"],
+            ans: 2,
+            dispAnswer: "ج) الهوية",
+            exp: "هذا هو التعريف القياسي لمفهوم 'الهوية': مجموعة القواسم المشتركة (لغة، دين، تاريخ، جغرافيا، تكوين ثقافي ونفسي...) التي تُميّز جماعة بشرية عن غيرها."
+          },
+          {
+            id: "nat_fin_4",
+            type: "single",
+            text: "4) العلاقة بين الهوية والمواطنة تلازمية، إذ لا يمكن الحديث عن المواطنة دون وجود هوية مجتمعية واضحة وكذلك نجد أن المواطنة هي الصورة العاكسة للهوية.",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "من المسلمات في أدبيات المادة أن الهوية والمواطنة علاقة تلازمية تكاملية؛ فالمواطنة تُترجم وتعكس ملامح الهوية المجتمعية الجامعة."
+          },
+          {
+            id: "nat_fin_5",
+            type: "single",
+            text: "5) التحديات التي واجهت الأردن في بدايات حكم جلالة الملك عبدالله الثاني بن الحسين حفظه الله تعالى:",
+            opts: ["تحدي مواجهة الإرهاب", "التحدي الاقتصادي", "تحدي صعود اليمين الإسرائيلي", "جميع ما ذكر صحيح"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر صحيح",
+            exp: "واجه الأردن في مطلع عهد جلالة الملك عبدالله الثاني (1999 وما بعدها) هذه التحديات الثلاثة مجتمعة: الإرهاب، الأعباء الاقتصادية، وتعقّد مسار السلام مع صعود اليمين الإسرائيلي."
+          },
+          {
+            id: "nat_fin_6",
+            type: "single",
+            text: "6) علاقة محددة بدستور وقوانين تربط ما بين الفرد والدولة وتضمن المساواة بين المواطنين والعيش المشترك هذا مفهوم المواطنة من منظور علم الاجتماع.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "هذا التعريف (علاقة قانونية دستورية بين الفرد والدولة) هو تعريف المواطنة من المنظور القانوني/السياسي، وليس من منظور علم الاجتماع الذي يركز أكثر على الروابط الاجتماعية والانتماء والتفاعل المجتمعي."
+          },
+          {
+            id: "nat_fin_7",
+            type: "single",
+            text: "7) من الخطوات التي اقترحتها الأوراق النقاشية لجلالة الملك عبدالله الثاني حفظه الله للوصول إلى ديمقراطية أردنية متجددة تطوير:",
+            opts: ["مجلس النواب", "الأداء الحكومي", "الأحزاب السياسية", "جميع ما ذكر صحيح"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر صحيح",
+            exp: "دعت الأوراق النقاشية الملكية إلى تطوير مجلس النواب، وتحسين الأداء الحكومي، وتعزيز دور الأحزاب السياسية كخطوات مترابطة نحو ديمقراطية أردنية متجددة."
+          },
+          {
+            id: "nat_fin_8",
+            type: "single",
+            text: "8) منع الرشوة والفساد وحماية حقوق المستهلك من أبعاد المسؤولية المجتمعية:",
+            opts: ["الاجتماعي", "الاقتصادي", "البيئي", "لا شيء مما ذكر", "جميع ما ذكر"],
+            ans: 1,
+            dispAnswer: "ب) الاقتصادي",
+            exp: "مكافحة الرشوة والفساد وحماية حقوق المستهلك تندرج ضمن البعد الاقتصادي للمسؤولية المجتمعية (نزاهة الممارسات التجارية والإدارية)، بخلاف البعدين الاجتماعي (رفاه الأفراد) والبيئي (حماية الموارد الطبيعية)."
+          },
+          {
+            id: "nat_fin_9",
+            type: "single",
+            text: "9) تناط السلطة التشريعية وفق الدستور الأردني بمجلس النواب وجلالة الملك.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "المادة 25 من الدستور تنص على أن السلطة التشريعية تُناط بـ'مجلس الأمة والملك'، ومجلس الأمة يتألف من مجلسي الأعيان والنواب معاً، وليس مجلس النواب فقط كما جاء بالعبارة."
+          },
+          {
+            id: "nat_fin_10",
+            type: "single",
+            text: "10) الاتفاقية التي أكدت على أنّ ملك المملكة الأردنية هو صاحب الوصاية على الأماكن المقدسة في القدس الشريف تمت بين الأردن و ___",
+            opts: ["الأمم المتحدة", "الجامعة العربية", "السلطة الفلسطينية", "لا شيء مما ذكر"],
+            ans: 2,
+            dispAnswer: "ج) السلطة الفلسطينية",
+            exp: "وقّعت هذه الاتفاقية (اتفاقية الوصاية الهاشمية على المقدسات، 2013م) بين جلالة الملك عبدالله الثاني والرئيس الفلسطيني محمود عباس، مؤكدة الوصاية الهاشمية التاريخية على المقدسات الإسلامية والمسيحية بالقدس."
+          },
+          {
+            id: "nat_fin_11",
+            type: "single",
+            text: "11) نص قانون الانتخاب الأردني الذي صدر سنة 2022م على زيادة أعداد المقاعد المخصصة للنساء لتصبح (18) بدلا من (15).",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "زاد قانون الانتخاب لسنة 2022 عدد مقاعد الكوتا النسائية من 15 إلى 18 مقعداً ضمن الإصلاحات السياسية المرافقة لمسار التحديث السياسي."
+          },
+          {
+            id: "nat_fin_12",
+            type: "single",
+            text: "12) نصّ قانون الانتخاب لسنة 2022 على التدرّج في زيادة عدد المقاعد المخصصة للأحزاب في مجلس النواب عبر ثلاث مراحل حتى تصل إلى 65% كحد أدنى من إجمالي عدد مقاعد المجلس النيابي الثاني والعشرين.",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "الفكرة العامة صحيحة: قانون 2022 نصّ على زيادة تدريجية لمقاعد القوائم الحزبية على مدى ثلاث دورات انتخابية متتالية للوصول إلى نسبة كبرى (65% كحد أدنى) من مقاعد المجلس.",
+            note: "الرقم الدقيق لترتيب 'المجلس الثاني والعشرين' تحديداً تفصيل قد يختلف قليلاً حسب المصدر/المحاضرة — يُنصح بمراجعة سلايدات المادة للتأكد من رقم الدورة بالضبط."
+          },
+          {
+            id: "nat_fin_13",
+            type: "single",
+            text: "13) من أهداف المواطنة:",
+            opts: ["سيادة القانون", "الالتزام بالديمقراطية واحترام كرامة الانسان", "الاعتزاز بالوطن والانتماء إليه", "جميع ما ذكر صحيح"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر صحيح",
+            exp: "سيادة القانون، والالتزام بالديمقراطية واحترام كرامة الإنسان، والاعتزاز بالانتماء الوطني كلها من الأهداف الجوهرية المعلنة للمواطنة الفاعلة."
+          },
+          {
+            id: "nat_fin_14",
+            type: "single",
+            text: "14) من الركائز الأساسية التي اعتمد عليها الأردن في عهد جلالة الملك عبدالله الثاني حفظه الله على المستوى السياسي الداخلي:",
+            opts: ["حماية الاستقرار الوطني ومنحه الأولوية", "إقرار أكبر حزمة من التعديلات الدستورية", "إنشاء الهيئة المستقلة للانتخاب", "إنشاء المحكمة الدستورية", "جميع ما ذكر صحيح"],
+            ans: 4,
+            dispAnswer: "هـ) جميع ما ذكر صحيح",
+            exp: "الأولوية للاستقرار الوطني، وأكبر حزمة تعديلات دستورية (2011)، وإنشاء الهيئة المستقلة للانتخاب (2012)، والمحكمة الدستورية (2012) كلها ركائز سياسية داخلية فعلية اعتمد عليها الأردن بهذا العهد."
+          },
+          {
+            id: "nat_fin_15",
+            type: "single",
+            text: "15) من المفاهيم المرتبطة بالمواطنة:",
+            opts: ["العدالة", "المساواة", "الجنسية", "المشاركة"],
+            ans: 2,
+            dispAnswer: "ج) الجنسية",
+            exp: "العدالة والمساواة والمشاركة تُعد عادةً من القيم/الأبعاد الداخلية المكوّنة لمفهوم المواطنة ذاته، بينما 'الجنسية' مفهوم قانوني شكلي مرتبط بالمواطنة لكنه مُغاير ومنفصل عنها (الجنسية = رابطة قانونية رسمية، والمواطنة = مفهوم أوسع يشمل الحقوق والواجبات والانتماء).",
+            note: "هذا السؤال بصيغته الحالية (بدون خيار 'جميع ما ذكر') فيه بعض اللبس لأن الأربعة خيارات فعلياً مرتبطة بالمواطنة. الإجابة أعلاه هي الأقرب منطقياً حسب التمييز الشائع بين 'الجنسية' و'المواطنة' بالمادة، لكن يُنصح بمراجعة المحاضرة الأصلية للتأكد 100%."
+          },
+          {
+            id: "nat_fin_16",
+            type: "single",
+            text: "16) بموجب الدستور في حال كان هنالك خلاف بين المجلسين (النواب والأعيان) على أحد مشروعات القوانين ورفض أحد المجلسين المشروع مرتين وقبله المجلس الآخر معدلًا أو غير معدل، فيجتمع المجلسين في جلسة مشتركة، ويُشترط لقبول المشروع أن يصدر قرار المجلس المشترك بـ:",
+            opts: ["أكثرية ثلثي أعضاء مجلس الأمة", "أكثرية ثلثي الأعضاء الحاضرين", "أغلبية الأعضاء الحاضرين", "ثلث الأعضاء الحاضرين", "لا شيء مما ذكر صحيح"],
+            ans: 1,
+            dispAnswer: "ب) أكثرية ثلثي الأعضاء الحاضرين",
+            exp: "طبقاً للمادة 92 من الدستور، يُشترط في الجلسة المشتركة موافقة أكثرية ثلثي أعضاء المجلس المشترك الحاضرين (وليس ثلثي كامل أعضاء مجلس الأمة)."
+          },
+          {
+            id: "nat_fin_17",
+            type: "single",
+            text: "17) الجريدة الرسمية الأردنية تختص بنشر جميع الأخبار المتعلقة بالدولة وتصدر عن رئاسة الوزراء.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "صحيح أن الجريدة الرسمية تصدر عن رئاسة الوزراء، لكنها لا تنشر 'جميع الأخبار المتعلقة بالدولة'، وإنما تختص بنشر النصوص الرسمية (القوانين والأنظمة والقرارات والتعيينات الرسمية) حصراً."
+          },
+          {
+            id: "nat_fin_18",
+            type: "single",
+            text: "18) من أهم مظاهر اعتلال المسؤولية المجتمعية وتدنيها عند الأفراد:",
+            opts: ["التهاون", "التفكك", "العزلة", "التهرب من المسؤولية", "جميع ما ذكر صحيح"],
+            ans: 4,
+            dispAnswer: "هـ) جميع ما ذكر صحيح",
+            exp: "التهاون، والتفكك الاجتماعي، والعزلة، والتهرب من المسؤولية كلها مظاهر مباشرة لضعف واعتلال المسؤولية المجتمعية لدى الأفراد."
+          },
+          {
+            id: "nat_fin_19",
+            type: "single",
+            text: "19) أهم ما يمتاز به دستور سنة 1952م عن بقية الدساتير التي صدرت في الأردن أنه:",
+            opts: ["أقر أنّ الأمة مصدر السلطات", "نظم الحقوق والحريات العامة للمواطنين", "يعد متطوراً في مجال نظام الحكم", "جميع ما ذكر صحيح"],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر صحيح",
+            exp: "دستور 1952 تميّز بإقراره مبدأ 'الأمة مصدر السلطات'، وتنظيمه الحقوق والحريات العامة، وتطوره النسبي بمجال نظام الحكم مقارنة بالقوانين الأساسية السابقة له."
+          },
+          {
+            id: "nat_fin_20",
+            type: "single",
+            text: "20) المسارات التي أطلقها جلالة الملك عبدالله الثاني خلال عامي 2021/2022 للتحديث ركزت على التحديث السياسي والاجتماعي والعلمي.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "مسارات التحديث الثلاثة التي أطلقها جلالة الملك 2021/2022 هي: التحديث السياسي، والتحديث الاقتصادي، والتحديث الإداري (تحديث القطاع العام) — وليست 'الاجتماعي والعلمي' كما جاء بالعبارة."
+          },
+          {
+            id: "nat_fin_21",
+            type: "single",
+            text: "21) واجه الأردن في الفترة ما بين 2009 - 2020 العديد من الصدمات عملت على إعاقة الجهود والخطط الوطنية منها:",
+            opts: ["جائحة كورونا", "الأزمة الاقتصادية العالمية 2008", "انقطاع الغاز المصري", "أزمة اللجوء", "اغلاق الحدود الأردنية السورية والعراقية", "جميع ما ذكر صحيح"],
+            ans: 5,
+            dispAnswer: "و) جميع ما ذكر صحيح",
+            exp: "شهدت هذه الفترة تراكماً لعدة صدمات متتالية على الأردن: تبعات الأزمة الاقتصادية العالمية 2008، انقطاع إمدادات الغاز المصري، أزمة اللجوء السوري الكبرى، إغلاق الحدود مع سوريا والعراق، ثم جائحة كورونا 2020 في نهاية الفترة."
+          },
+          {
+            id: "nat_fin_22",
+            type: "single",
+            text: "22) يمكن تطوير المسؤولية المجتمعية لدى الأفراد والمؤسسات من خلال المحاسبة والرقابة لمن يتخلى عن مسؤولياته تجاه المجتمع.",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "المحاسبة والرقابة الفعالة من الآليات المعتمدة لتعزيز وتطوير المسؤولية المجتمعية لدى الأفراد والمؤسسات على حد سواء."
+          },
+          {
+            id: "nat_fin_23",
+            type: "single",
+            text: "23) يعرف الدستور الأردني نظام الحكم بوصفه نيابياً ملكياً وراثياً، وهو من ضمن شريحة النظم الملكية الدستورية ذات الطبيعة البرلمانية التي تقوم على مبدأ 'الأمة مصدر السلطات' فقط.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "الشطر الأول صحيح (نظام نيابي ملكي وراثي). لكن كلمة 'فقط' بنهاية العبارة تجعلها خاطئة، لأن النظم الملكية الدستورية البرلمانية لا تقوم على مبدأ 'الأمة مصدر السلطات' حصرياً، بل ترتكز أيضاً على مبادئ أخرى كالفصل بين السلطات والتوازن بينها."
+          },
+          {
+            id: "nat_fin_24",
+            type: "single",
+            text: "24) تعد جائحة كورونا التي واجهها الأردن سنة 2020م من الأزمات غير التقليدية التي تركت آثاراً واضحة على الاقتصاد الأردني.",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "جائحة كورونا 2020 كانت أزمة صحية عالمية غير تقليدية بامتياز، وتركت أثاراً اقتصادية جوهرية وواضحة على الأردن (تباطؤ النمو، تعطل قطاعي السياحة والخدمات، ضغط على المالية العامة)."
+          },
+          {
+            id: "nat_fin_25",
+            type: "single",
+            text: "25) يُعد العمل على الحفاظ على الممتلكات العامة واحترام القانون وحب الوطن والتفاني في خدمته من المظاهر العامة للولاء.",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "الحفاظ على الممتلكات العامة، واحترام القانون، وحب الوطن، والتفاني بخدمته كلها من المظاهر السلوكية المباشرة للولاء الوطني الصادق كما تُعرّفه المادة."
+          },
+          {
+            id: "nat_fin_26",
+            type: "single",
+            text: "26) خفض قانون الانتخاب الأردني سن الترشيح إلى 22 سنة (30 سابقًا) لدعم الشباب.",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "صحيح أن قانون الانتخاب 2022 خفّض سن الترشح ليصبح 22 سنة دعماً لمشاركة الشباب، لكن السن السابق المذكور بالعبارة (30 سنة) غير دقيق؛ فالسن الأدنى للترشح بموجب قانون الانتخاب النافذ قبل التعديل (2016) كان 25 سنة وليس 30، ما يجعل العبارة بمجملها غير صحيحة.",
+            note: "الرقم '25' المذكور بالشرح هو الأكثر توثيقاً في قوانين الانتخاب الأردنية الحديثة قبل تعديل 2022، لكن يُفضّل التأكد من الرقم الدقيق المعتمد بمحاضرتكم إذا اختلف المصدر."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const noteHtml = sub.note ? `<div class="verify-note">📌 ${sub.note}</div>` : '';
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+                ${noteHtml}
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | العلوم العسكرية والتربية الوطنية - بنك أسئلة الفاينل الشامل</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      direction: rtl;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/mil">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">العلوم العسكرية والتربية الوطنية</div>
+    <div class="subject-subtitle" id="quiz-subtitle">أسئلة سنوات الامتحان النهائي (الفاينل) — مكمل شامل ومدقق</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/mil">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+
+    const examSections = [
+      {
+        title: "الجزء الأول: الأمن الوطني، الهوية الوطنية، والمواطنة والدستور (الأسئلة 1 – 12)",
+        context: "أسئلة سنوات حول مفاهيم الأمن الوطني وأبعاده، خصائص الهوية الوطنية، القيادة الهاشمية، والأوراق النقاشية والدستور:",
+        subQuestions: [
+          {
+            id: "fin_1",
+            type: "single",
+            text: "1) يُعبّر مفهوم 'الأمن الوطني' في جوهره عن حالة الشعور بـ:",
+            opts: ["القدرة الفكرية", "التوجه الثقافي", "عدم الشعور بالتهديد وحماية مصالح الدولة", "التفوق العسكري فقط"],
+            ans: 2,
+            dispAnswer: "ج) عدم الشعور بالتهديد",
+            exp: "الأمن الوطني هو قدرة الدولة على حماية أراضيها ومصالحها ومواطنيها وتوفير بيئة خالية من التهديدات الداخلية والخارجية."
+          },
+          {
+            id: "fin_2",
+            type: "single",
+            text: "2) من أهم مميزات النظرة الأردنية للأمن الوطني أنها تتسم بـ:",
+            opts: ["الدفاع والأمن الصرف", "الشمولية، التوازن، وتطوير منظور التعاون", "الشمولية والوضوح والتركيز على العناصر المحلية فقط", "الانعزال عن المحيط الإقليمي"],
+            ans: 1,
+            dispAnswer: "ب) الشمولية، التوازن، تطوير منظور التعاون",
+            exp: "يرتكز المفهوم الأردني للأمن الوطني على نظرة شاملة تدمج الأبعاد السياسية، الاقتصادية، الاجتماعية، وتتعاون إقليمياً ودولياً."
+          },
+          {
+            id: "fin_3",
+            type: "single",
+            text: "3) من أبعاد الأمن الوطني الأردني 'البعد السياسي' ويتمثل أساساً في:",
+            opts: ["مكافحة التجسس الإلكتروني", "توفير الأمن المعيشي والغذائي", "الحفاظ على كيان الدولة السياسي واستقلالها وحرية قرارها", "دعم المؤسسات الخيرية"],
+            ans: 2,
+            dispAnswer: "ج) الحفاظ على كيان الدولة السياسي وحرية قرارها",
+            exp: "البعد السياسي للأمن الوطني يُعنى بصون السيادة، وحماية الدستور والمؤسسات الشرعية، واستقلال القرار الوطني."
+          },
+          {
+            id: "fin_4",
+            type: "single",
+            text: "4) يتوقف إعداد وتجهيز القوات المسلحة في مجال تعبئة الموارد الوطنية على:",
+            opts: ["إعداد الزراعة الموسمية فقط", "الموقف السياسي والاقتصادي للدولة", "مشاريع قواعد الإنتاج المحلية", "الاتفاقيات التجارية البينية"],
+            ans: 1,
+            dispAnswer: "ب) الموقف السياسي والاقتصادي للدولة",
+            exp: "تعتمد خطط التعبئة العامة والتسليح والجاهزية القتالية مباشرة على الموارد الاقتصادية المتاحة والموقف السياسي للدولة."
+          },
+          {
+            id: "fin_5",
+            type: "single",
+            text: "5) تشكلت وتبلورت الهوية الوطنية الأردنية تاريخياً في ضوء تفاعل:",
+            opts: ["العوامل الخارجية فقط", "العوامل السياسية وحدها", "العوامل الداخلية والخارجية معاً", "الضغوط الدولية المعاصرة"],
+            ans: 2,
+            dispAnswer: "ج) العوامل الداخلية والخارجية",
+            exp: "تكونت الهوية الوطنية عبر تمازج البناء الداخلي المترابط مع الأحداث الإقليمية والعربية والموقع الجيوسياسي للأردن."
+          },
+          {
+            id: "fin_6",
+            type: "single",
+            text: "6) علاقة الأردن وقيادته الهاشمية التاريخية بالثورة العربية الكبرى تُعد من العوامل المؤثرة في:",
+            opts: ["تعزيز وترسيخ الهوية الوطنية", "التقدم والتطور العلمي الحصري", "تحديد أسعار السلع والخدمات", "العلاقات الاقتصادية الخارجية"],
+            ans: 0,
+            dispAnswer: "أ) تعزيز الهوية الوطنية",
+            exp: "تمثل مبادئ الثورة العربية الكبرى والشرعية الدينية والتاريخية للهاشميين الركيزة الأساسية للهوية والوجدان الوطني الأردني."
+          },
+          {
+            id: "fin_7",
+            type: "single",
+            text: "7) من العوامل الأساسية التي تساعد على ترسيخ وتماسك الهوية الوطنية ومنعتها:",
+            opts: ["تطور الجهاز الوظيفي الإداري", "طبيعة الموقع الجغرافي الصحراوي", "الحرص على الوحدة الوطنية وتعزيزها ونبذ الفرقة", "الاعتماد على المساعدات الخارجية"],
+            ans: 2,
+            dispAnswer: "ج) الحرص على الوحدة الوطنية وتعزيزها",
+            exp: "الوحدة الوطنية هي السياج المتين والدرع الحامي لتلاحم أطياف المجتمع وتماسك الهوية الجامعة."
+          },
+          {
+            id: "fin_8",
+            type: "single",
+            text: "8) من العوامل الحيوية التي تعزز الانتماء الوطني الصادق لدى المواطن:",
+            opts: [
+              "إشباع حاجات الفرد الضرورية والتنشئة الوطنية السليمة",
+              "توفير مناخ ديمقراطي وإتاحة الظروف الاقتصادية والاجتماعية الملائمة",
+              "توفير فرص العمل والعدالة الاجتماعية",
+              "جميع ما ذكر صحيح"
+            ],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر صحيح",
+            exp: "يتعزز الانتماء بتحقيق العدالة الاجتماعية، وإشباع الاحتياجات، والمشاركة السياسية في ظل التنشئة الوطنية الواعية."
+          },
+          {
+            id: "fin_9",
+            type: "single",
+            text: "9) من أبرز سمات وخصائص النهج القيادي للقيادة الهاشمية التاريخية:",
+            opts: [
+              "الالتزام الديني والانتماء للأمة العربية والإسلامية",
+              "الوسطية، والاعتدال، والواقعية، وقوة الإرادة",
+              "جميع ما ذكر صحيح",
+              "التشدد والانعزال عن القضايا القومية"
+            ],
+            ans: 2,
+            dispAnswer: "ج) جميع ما ذكر",
+            exp: "تتميز القيادة الهاشمية بالحكمة، والنهج التسامحي المعتدل، والتفاني في خدمة قضايا الأمتين العربية والإسلامية."
+          },
+          {
+            id: "fin_10",
+            type: "single",
+            text: "10) من الأهداف الدستورية والسياسية الاستراتيجية لترسيخ المواطنة الفاعلة:",
+            opts: ["بناء وتطوير نظام سياسي تعددي متنوع", "تقديم الخدمات الإدارية فقط", "وضوح الهدف الشخصي للفرد", "تقليص المشاركة الشعبية"],
+            ans: 0,
+            dispAnswer: "أ) بناء نظام سياسي تعددي متنوع",
+            exp: "تهدف المواطنة إلى تفعيل التعددية الحزبية والسياسية وسيادة القانون والمشاركة الشعبية المسؤولة في صنع القرار."
+          },
+          {
+            id: "fin_11",
+            type: "single",
+            text: "11) إن أساس ومنطلق الحياة السياسية والديمقراطية في الدولة الأردنية يشكلها:",
+            opts: ["مجلس الأعيان", "الدستور الأردني", "مجلس النواب", "النظام الإداري للوزارات"],
+            ans: 1,
+            dispAnswer: "ب) الدستور",
+            exp: "الدستور هو القانون الأسمى والمرجع الأعلى لكافة السلطات والحريات والضامن لحقوق المواطنين ومسار الديمقراطية."
+          },
+          {
+            id: "fin_12",
+            type: "single",
+            text: "12) قادت التعديلات الدستورية المتلاحقة في الأردن إلى:",
+            opts: ["الربط التام والخلط بين السلطات", "تعزيز الفصل والتوازن والرقابة المتبادلة بين السلطات الثلاث", "الدمج التام بين السلطات الثلاث", "إلغاء استقلال القضاء"],
+            ans: 1,
+            dispAnswer: "ب) تعزيز الفصل والتوازن بين السلطات الثلاث",
+            exp: "هدفت التعديلات الدستورية لترسيخ مبدأ الفصل المرن بين السلطات التشريعية والتنفيذية والقضائية واستقلال القضاء."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثاني: الأجهزة الأمنية (الأمن العام، الدرك، المخابرات العامة، والدفاع المدني) (الأسئلة 13 – 25)",
+        context: "أسئلة سنوات حول التأسيس التاريخي والواجبات، الضابطة العدلية، هيكلية الأمن العام، وتشكيل قوات الدرك:",
+        subQuestions: [
+          {
+            id: "fin_13",
+            type: "single",
+            text: "13) تعود البدايات الأولى لنشأة وتشكيل جهاز الأمن العام (قوة الدرك والشرطة) إلى عام:",
+            opts: ["1946", "1921", "1936", "1956"],
+            ans: 1,
+            dispAnswer: "ب) 1921",
+            exp: "ارتبط تشكيل قوة الشرطة والدرك الأولى بتأسيس إمارة شرق الأردن عام 1921 لحفظ الأمن والاستقرار."
+          },
+          {
+            id: "fin_14",
+            type: "single",
+            text: "14) من الواجبات الأمنية والقانونية الرئيسية لمديرية الأمن العام:",
+            opts: ["تنفيذ الأوامر غير الرسمية", "المحافظة على الأمن والنظام وحماية الأرواح والأعراض والأموال", "إدارة المستشفيات والمدارس", "المشاركة والتحريض في المسيرات"],
+            ans: 1,
+            dispAnswer: "ب) المحافظة على الأمن والنظام",
+            exp: "الواجب الأصيل للأمن العام هو منع الجرائم، واكتشافها، والقبض على مرتكبيها، وحفظ النظام والسلامة العامة."
+          },
+          {
+            id: "fin_15",
+            type: "single",
+            text: "15) يبلغ عدد مساعدي مدير الأمن العام وفق الهيكلية التنظيمية المعتمدة في المنهاج:",
+            opts: ["3 مساعدين", "5 مساعدين", "6 مساعدين", "4 مساعدين"],
+            ans: 3,
+            dispAnswer: "د) 4",
+            exp: "تتألف الهيكلية القيادية من 4 مساعدين رئيسيين لمدير الأمن العام يغطون مجالات العمليات، الإسناد، القوى البشرية، والبحث الجنائي."
+          },
+          {
+            id: "fin_16",
+            type: "single",
+            text: "16) من المناصب القيادية المعتمدة ضمن مساعدي مدير الأمن العام:",
+            opts: ["المساعد للبحث الجنائي والأمن الجنائي", "المساعد للإسناد اللوجستي والعمليات", "جميع ما ذكر صحيح", "المساعد للشؤون التجارية"],
+            ans: 2,
+            dispAnswer: "ج) جميع ما ذكر",
+            exp: "يشمل كادر المساعدين مجالات حيوية مثل البحث الجنائي والعمليات والإسناد الإداري واللوجستي."
+          },
+          {
+            id: "fin_17",
+            type: "single",
+            text: "17) وجدت قوات الدرك تاريخياً في عشرينات القرن الماضي مع بدايات:",
+            opts: ["تأسيس الجيش العربي كقوة نظامية", "تأسيس إمارة شرق الأردن", "تعريب قيادة الجيش العربي", "إلغاء المعاهدة البريطانية"],
+            ans: 1,
+            dispAnswer: "ب) تأسيس إمارة شرق الأردن",
+            exp: "تشكلت كتيبة الدرك الأولى وقوة الفرسان عام 1921 بالتزامن مع إعلان تأسيس إمارة شرق الأردن."
+          },
+          {
+            id: "fin_18",
+            type: "single",
+            text: "18) أصدر جلالة القائد الأعلى الملك عبدالله الثاني توجيهاته الملكية السامية بإعادة تشكيل 'المديرية العامة لقوات الدرك' في عام:",
+            opts: ["2009", "2008", "2010", "2000"],
+            ans: 1,
+            dispAnswer: "ب) 2008",
+            exp: "صدرت الإرادة الملكية السامية بإعادة تشكيل قوات الدرك في مطلع عام 2008 كجهاز أمني متخصص في التعامل مع الأزمات الأمنية وحفظ النظام."
+          },
+          {
+            id: "fin_19",
+            type: "single",
+            text: "19) جميع أفراد وضباط قوات الدرك يتمتعون بحكم القانون بصفة:",
+            opts: ["استخدام القوة المطلقة", "الضابطة الجزائية الإدارية", "الضابطة العدلية", "الحصانة الدبلوماسية"],
+            ans: 2,
+            dispAnswer: "ج) الضابطة العدلية",
+            exp: "يتمتع مرتبات الدرك بصفة الضابطة العدلية لتنفيذ مذكرات التوقيف القضائية وحفظ الأمن وتطبيق القانون تحت إشراف النيابة العامة."
+          },
+          {
+            id: "fin_20",
+            type: "single",
+            text: "20) تتبع قوات الدرك وتعمل في الوقت الحاضر تحت مظلة:",
+            opts: ["مديرية الأمن العام (بعد إعادة الدمج)", "وزارة الخارجية", "مجلس الأعيان", "الديوان الخاص"],
+            ans: 0,
+            dispAnswer: "أ) مديرية الأمن العام",
+            exp: "تم دمج قوات الدرك والدفاع المدني تحت مظلة مديرية الأمن العام تنفيذاً للتوجيهات الملكية لتوحيد وتنسيق الجهود الأمنية."
+          },
+          {
+            id: "fin_21",
+            type: "single",
+            text: "21) تعود البدايات الأولى لنشأة جهاز المخابرات العامة (دائرة المباحث العامة) إلى عام:",
+            opts: ["1923", "1956", "1957", "1967"],
+            ans: 2,
+            dispAnswer: "ج) 1957",
+            exp: "تأسست دائرة المباحث العامة عام 1957، ثم صدر قانون دائرة المخابرات العامة المستقل رقم (24) لسنة 1964."
+          },
+          {
+            id: "fin_22",
+            type: "single",
+            text: "22) القانون العسكري الذي يسري ويطبق على كافة موظفي وضباط وأعضاء دائرة المخابرات العامة هو:",
+            opts: ["القانون القضائي المدني", "قانون العقوبات المدني", "قانون العقوبات العسكري وقوانين القوات المسلحة", "قانون التحكيم التجاري"],
+            ans: 2,
+            dispAnswer: "ج) العقوبات العسكري",
+            exp: "يخضع منتسبو المخابرات العامة للانضباط العسكري الصارم وتسري عليهم أحكام قانون العقوبات العسكري."
+          },
+          {
+            id: "fin_23",
+            type: "single",
+            text: "23) تستند دائرة المخابرات العامة في أداء رسالتها وواجباتها الوطنية إلى:",
+            opts: ["القوانين الدولية الصرفة", "العادات والتقاليد فقط", "ثوابت الدولة الأردنية ومصالحها العليا والدستور", "التعليمات الخارجية"],
+            ans: 2,
+            dispAnswer: "ج) ثوابت الدولة الأردنية",
+            exp: "تعمل المخابرات العامة وفق الدستور الأردني وثوابت الدولة الوطنية لحماية الاستقرار السياسي والمصالح العليا للوطن."
+          },
+          {
+            id: "fin_24",
+            type: "single",
+            text: "24) كان جهاز الدفاع المدني في بداياته الأولى يتبع إدارياً وتنظيمياً إلى:",
+            opts: ["الجيش العربي", "قوات الدرك", "الأمن العام", "وزارة الأشغال العامة"],
+            ans: 2,
+            dispAnswer: "ج) الأمن العام",
+            exp: "بدأ الدفاع المدني كفرق تابعة للشرطة والبلديات ثم للأمن العام قبل أن يستقل بقانون خاص عام 1959 ثم يُعاد دمجه مؤخراً."
+          },
+          {
+            id: "fin_25",
+            type: "single",
+            text: "25) تم إطلاق وتدشين الخطة الاستراتيجية للدفاع المدني عام 2009 بالتعاون مع:",
+            opts: ["وزارة الداخلية والأمن العام", "المديرية العامة لقوات الدرك", "رئاسة الوزراء ووزارة تطوير القطاع العام", "نقابة المهندسين"],
+            ans: 2,
+            dispAnswer: "ج) رئاسة الوزراء ووزارة تطوير القطاع العام",
+            exp: "تم التعاون مع رئاسة الوزراء ووزارة تطوير القطاع العام عام 2009 لتطوير زمن الاستجابة والخدمات الإسعافية والإنقاذية."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثالث: التحديات والقضايا المجتمعية (الحرب النفسية، التطرف، العنف، والمخدرات) (الأسئلة 26 – 40)",
+        context: "أسئلة سنوات حول أساليب الحرب النفسية، الغلو، أسباب ومظاهر العنف الجامعي والمجتمعي، وسبل مكافحة المخدرات:",
+        subQuestions: [
+          {
+            id: "fin_26",
+            type: "single",
+            text: "26) السلاح الأساسي والأداة الأكثر حسماً وتأثيراً في 'الحرب النفسية' هو:",
+            opts: ["غسل الدماغ", "الكلمة", "الإشاعة فقط", "الدعاية التجارية"],
+            ans: 1,
+            dispAnswer: "ب) الكلمة",
+            exp: "تعتمد الحرب النفسية بالدرجة الأولى على 'الكلمة' سواء صيغت كإشاعة، أو دعاية، أو خطاب للتأثير في وعي ومعنويات الخصم."
+          },
+          {
+            id: "fin_27",
+            type: "single",
+            text: "27) تُعرف الحرب النفسية علمياً بأنها الاستخدام المخطط والمدروس لـ:",
+            opts: ["المناشير والبوسترات الحائطية فقط", "الإشاعة العشوائية غير الموجهة", "الدعاية وسائر الأساليب الإعلامية للتأثير في آراء وعواطف وسلوكيات العدو", "عمليات الاغتيال المادي"],
+            ans: 2,
+            dispAnswer: "ج) الدعاية وسائر الأساليب الإعلامية الأخرى",
+            exp: "الحرب النفسية نشاط مدروس يوظف الدعاية والتضليل والإعلام لشل إرادة الخصم وزعزعة ثقته بنفسه وبقيادته."
+          },
+          {
+            id: "fin_28",
+            type: "single",
+            text: "28) من الأهداف الاجتماعية للحرب النفسية التي تستهدف الجبهة الداخلية للخصم:",
+            opts: ["تحطيم إرادة جيش العدو القتالية فقط", "التشكيك في المعتقدات وبعض القيم والثوابت الاجتماعية لتمزيق النسيج الوطني", "إرغام القوات المهاجمة على التراجع الفوري", "تدمير المنشآت الحيوية بالصواريخ"],
+            ans: 1,
+            dispAnswer: "ب) التشكيك في المعتقدات وبعض القيم الاجتماعية",
+            exp: "تستهدف الحرب النفسية اجتماعياً بث الفرقة، وضرب منظومة القيم، والتشكيك في الثوابت لخلخلة تماسك المجتمع."
+          },
+          {
+            id: "fin_29",
+            type: "single",
+            text: "29) من المظاهر السلوكية والفكرية البارزة لظاهرة 'الغلو والتطرف':",
+            opts: ["التطرف والتعصب في الحكم على الأمور وتكفير الآخرين", "التطرف الشديد في المشاعر والانفعالات السلبية", "جميع ما ذكر صحيح", "تقبل الحوار والرأي الآخر"],
+            ans: 2,
+            dispAnswer: "ج) جميع ما ذكر",
+            exp: "يتسم المتطرف بالجمود الفكري، وغلظة السلوك، والاندفاع العاطفي غير المتزن، وتجاوز حدود الاعتدال والوسطية."
+          },
+          {
+            id: "fin_30",
+            type: "single",
+            text: "30) يُعتبر الاضطهاد والشعور بالظلم والقهر والتهميش بشتى صوره من:",
+            opts: ["آثار الغلو والتطرف", "دوافع ومحفزات الغلو والتطرف", "مظاهر الغلو والتطرف", "معالجات الغلو والتطرف"],
+            ans: 1,
+            dispAnswer: "ب) دوافع الغلو والتطرف",
+            exp: "يولد الشعور بالحرمان أو الظلم بيئة نفسية واجتماعية خصبة تغذي الانعزال والنقمة والاندفاع نحو التيارات المتطرفة."
+          },
+          {
+            id: "fin_31",
+            type: "single",
+            text: "31) صنفت منظمة الصحة العالمية (WHO) العنف إلى ثلاث فئات عامة رئيسية منها:",
+            opts: ["العنف السلوكي الفردي فقط", "العنف الشخصي المتبادل (الأسري والمجتمعي)", "العنف الموجه نحو الذات (كالانتحار وإيذاء النفس)", "الخياران (ب + ج) صحيحان"],
+            ans: 3,
+            dispAnswer: "د) ب+ج",
+            exp: "يقسم العنف عالمياً إلى: عنف موجه نحو الذات، عنف بين الأشخاص (شخصي/أسري ومجتمعي)، وعنف جماعي (سياسي/اقتصادي)."
+          },
+          {
+            id: "fin_32",
+            type: "single",
+            text: "32) توعية طلبة الجامعات بضرورة احترام الرأي والرأي الآخر وثقافة الحوار تُعد من الإجراءات المساعدة للحد من ظاهرة:",
+            opts: ["العنف الجامعي", "العنف الذاتي", "العنف الأسري", "التضخم الاقتصادي"],
+            ans: 0,
+            dispAnswer: "أ) العنف الجامعي",
+            exp: "نشر ثقافة التعددية، والحوار الديمقراطي، وتطبيق القوانين الصارمة من أهم الحلول لاجتثاث العنف الطلابي في الجامعات."
+          },
+          {
+            id: "fin_33",
+            type: "single",
+            text: "33) من عوامل وأسباب العنف الجامعي المرتبطة بالجانب الاجتماعي:",
+            opts: ["السلوك العدواني الغريزي الفردي", "ربط تنفيذ القانون المدني بالنظام والتعصب الاجتماعي والعشائري الضيق", "ضعف التحصيل الأكاديمي لبعض الطلاب", "صعوبة المناهج التدريسية"],
+            ans: 1,
+            dispAnswer: "ب) ربط تنفيذ القانون المدني بالنظام الاجتماعي",
+            exp: "احتماء بعض المتسببين بالعنف بالولاءات الجهوية والعشائرية الضيقة على حساب سيادة القانون يُعد من أبرز المغذيات للعنف الجامعي."
+          },
+          {
+            id: "fin_34",
+            type: "single",
+            text: "34) تُعد الانتماءات الحزبية والجهوية والفئوية السلبية الضيقة والتعصب الأعمى من عوامل ومحركات:",
+            opts: ["الأمن الوطني الشامل", "العنف المجتمعي", "التنمية السياسية المتوازنة", "الاستقرار الاقتصادي"],
+            ans: 1,
+            dispAnswer: "ب) العنف المجتمعي",
+            exp: "يؤدي التعصب الفئوي والمناطقي إلى تآكل السلم الأهلي وإشعال الخلافات والمشاجرات في النسيج المجتمعي."
+          },
+          {
+            id: "fin_35",
+            type: "single",
+            text: "35) 'تكرار تعاطي المادة المخدرة المصحوب برغبة قهرية جامحة وميل مستمر لزيادة الجرعة' هو تعريف علمي دقيق لمفهوم:",
+            opts: ["الإدمان", "الإرهاق العصبي", "السمية العابرة", "التعاطي التجريبي"],
+            ans: 0,
+            dispAnswer: "أ) الإدمان",
+            exp: "الإدمان حالة اعتماد نفسي وعضوي تسيطر على الفرد وتجبره على زيادة الجرعات للحصول على نفس التأثير متجاهلاً أضرارها."
+          },
+          {
+            id: "fin_36",
+            type: "single",
+            text: "36) من المواد المخدرة التي تصيب متعاطيها بحالة 'التعود' (الاعتماد النفسي) وفق المنهاج:",
+            opts: ["القنب (الحشيش)", "المورفين المركز", "الهيروين النقي", "الأفيون الخام"],
+            ans: 0,
+            dispAnswer: "أ) القنب",
+            exp: "يحدث القنب (الحشيش) في الغالب اعتماداً نفسياً وتعوداً سلوكياً شديداً لدى المتعاطي يدفعه للاستمرار في تناوله."
+          },
+          {
+            id: "fin_37",
+            type: "single",
+            text: "37) التفكك الأسري والخلافات العائلية وإهمال الرقابة الوالدية تُصنف من أسباب وعوامل تعاطي المخدرات:",
+            opts: ["السياسية", "الثقافية الخارجية", "الاجتماعية والأسرية", "الجغرافية"],
+            ans: 2,
+            dispAnswer: "ج) الاجتماعية",
+            exp: "غياب الاستقرار الأسري وضعف التوجيه والرقابة من أبرز الدوافع الاجتماعية التي تدفع الشباب لرفقاء السوء والإدمان."
+          },
+          {
+            id: "fin_38",
+            type: "single",
+            text: "38) يقدم جهاز الأمن العام خدمات التوعية، الإرشاد، والعلاج الطبي المجاني السري لضحايا المخدرات من خلال:",
+            opts: ["المركز الوطني للأزمات", "مركز معالجة المدمنين (التابع لإدارة مكافحة المخدرات)", "المراكز الأمنية وأقسام الشرطة فقط", "المستودعات الطبية المركزية"],
+            ans: 1,
+            dispAnswer: "ب) مركز معالجة المدمنين",
+            exp: "يوفر مركز معالجة المدمنين العلاج الطبي والنفسي والتأهيلي بسرية تامة ومجاناً ودون ملاحقة قانونية لمن يتقدم للعلاج طواعية."
+          },
+          {
+            id: "fin_39",
+            type: "single",
+            text: "39) المحور والهدف الرئيسي في 'الورقة النقاشية الخامسة' التي طرحها جلالة الملك عبدالله الثاني ابن الحسين هو:",
+            opts: [
+              "تعميق التحول الديمقراطي: الأهداف، والمنجزات، والأعراف السياسية",
+              "تعميق التحول الدستوري القضائي الحصري",
+              "ترسيخ منظومة التعدين والثروات الوطنية",
+              "إعادة هيكلة القطاع العسكري البري"
+            ],
+            ans: 0,
+            dispAnswer: "أ) تعميق التحول الديمقراطي والأهداف والمنجزات والأعراف السياسية",
+            exp: "ركزت الورقة النقاشية الخامسة لجلالة الملك على تقييم المسيرة الديمقراطية، ودور المؤسسات الدستورية والأحزاب والمواطنين."
+          },
+          {
+            id: "fin_40",
+            type: "single",
+            text: "40) من الخدمات الفنية والاستشارية الرائدة التي يقدمها جهاز الدفاع المدني لحماية الأرواح والمنشآت:",
+            opts: ["الإشراف المدني المالي", "الإشراف العسكري المشترك", "الإشراف الوقائي والسلامة العامة", "تنظيم الأسواق التجارية"],
+            ans: 2,
+            dispAnswer: "ج) الإشراف الوقائي",
+            exp: "يتولى الدفاع المدني تدقيق متطلبات الوقاية والحماية الذاتية والإشراف الوقائي على المباني والمنشآت قبل ترخيصها."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

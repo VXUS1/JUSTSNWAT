@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | المهارات الحياتية (Life Skills) - أسئلة الفاينل (Module 7)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ls">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">المهارات الحياتية (Life Skills)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Module 7 — أسئلة امتحان الفاينل (Learning to Learn, Lifelong Learning & Learning Styles)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ls">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+
+    const examSections = [
+      {
+        title: "Part 1: Effective Learning Techniques & 'Learning to Learn' (Questions 1 – 10)",
+        context: "Official questions on study techniques, distributed practice, the definition of learning to learn, and its core strategies:",
+        subQuestions: [
+          {
+            id: "ls_m7_1",
+            type: "single",
+            text: "1. Which of the following is not of the learning techniques that can help you get more out of your study time?",
+            opts: [
+              "Improve your memory",
+              "Build on previous learning",
+              "Gain practical experience",
+              "Don't be afraid to make mistakes",
+              "Take tests",
+              "Avoid utilizing distributed practice"
+            ],
+            ans: 5,
+            dispAnswer: "f) Avoid utilizing distributed practice",
+            exp: "تجنب الدراسة الموزعة أو المتقطعة ليس من التقنيات المفيدة؛ بل العكس تماماً، فالممارسة الموزعة أسلوب تعليمي فعال جداً[cite: 15]."
+          },
+          {
+            id: "ls_m7_2",
+            type: "single",
+            text: "2. Which of the following is a learning technique that can help you get more out of your study time?",
+            opts: [
+              "Keep learning old things",
+              "Learning in a limited number of ways",
+              "Don't teach what you are learning",
+              "Build on previous learning",
+              "Gain theoretical experience"
+            ],
+            ans: 3,
+            dispAnswer: "d) Build on previous learning",
+            exp: "البناء على المعرفة والخبرات السابقة يعزز من كفاءة الاستيعاب والاستفادة من الوقت[cite: 15]."
+          },
+          {
+            id: "ls_m7_3",
+            type: "single",
+            text: "3. To be considered as effective learning, it is important for learners to ______.",
+            opts: [
+              "accurately remember the information that they learn",
+              "recall the information that they learn at later time",
+              "utilize the information that they learn effectively in a wide variety of situations",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "التعلم الفعال يقتضي تذكر المعلومات بدقة، واسترجاعها لاحقاً، وتطبيقها بمرونة في مواقف متعددة[cite: 15]."
+          },
+          {
+            id: "ls_m7_4",
+            type: "single",
+            text: "4. Knowing the most effective strategies for how to learn can help the learner get ______ out of the time when trying to learn new things.",
+            opts: ["the least", "the most", "little", "less", "some"],
+            ans: 1,
+            dispAnswer: "b) the most",
+            exp: "معرفة أفضل استراتيجيات التعلم تُمكّن المتعلم من تحقيق أقصى استفادة ممكنة (the most) من وقته وجهده[cite: 15]."
+          },
+          {
+            id: "ls_m7_5",
+            type: "single",
+            text: "5. Becoming an efficient learner is ______.",
+            opts: [
+              "something that happens overnight",
+              "an inherited talent that has nothing to do with learning techniques",
+              "through putting some learning techniques into daily practice",
+              "All of the above"
+            ],
+            ans: 2,
+            dispAnswer: "c) through putting some learning techniques into daily practice",
+            exp: "التحول لمتعلم كفء يتم عبر الممارسة والتطبيق اليومي المستمر لتقنيات واستراتيجيات التعلم[cite: 15]."
+          },
+          {
+            id: "ls_m7_6",
+            type: "single",
+            text: "6. 'Learning to learn' is the ability to pursue and persist in learning through organizing one's own learning, including effective management of ______, both individually and in groups.",
+            opts: [
+              "emotions and skills",
+              "time and information",
+              "intelligence and mental abilities",
+              "knowledge and aptitudes"
+            ],
+            ans: 1,
+            dispAnswer: "b) time and information",
+            exp: "مهارة 'تعلم كيف تتعلم' تشمل إدارة وتنظيم الوقت والمعلومات بفاعلية سواء بمفردك أو ضمن مجموعة[cite: 15]."
+          },
+          {
+            id: "ls_m7_7",
+            type: "single",
+            text: "7. The competence of 'Learning to learn' includes awareness of ______.",
+            opts: [
+              "one's learning process and needs",
+              "identifying available opportunities",
+              "the ability to overcome obstacles in order to learn successfully",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "تتضمن الوعي بالعملية التعليمية والاحتياجات، واقتناص الفرص، والقدرة على تجاوز العقبات والتحديات[cite: 15]."
+          },
+          {
+            id: "ls_m7_8",
+            type: "single",
+            text: "8. The competence of 'Learning to learn' means ______ new knowledge and skills as well as seeking and making use of guidance.",
+            opts: [
+              "motivating, decreasing and applying",
+              "gaining, processing and assimilating",
+              "acquiring, retrieving and restoring",
+              "stimulating, storing and remembering"
+            ],
+            ans: 1,
+            dispAnswer: "b) gaining, processing and assimilating",
+            exp: "تعني اكتساب المعارف ومعالجتها واستيعابها، فضلاً عن طلب التوجيه والاستفادة منه[cite: 15]."
+          },
+          {
+            id: "ls_m7_9",
+            type: "single",
+            text: "9. Which of the following is not of the strategies of 'Learning to Learn'?",
+            opts: ["Embrace Struggle", "Give feedback", "Use monologues", "Break it up"],
+            ans: 2,
+            dispAnswer: "c) Use monologues",
+            exp: "استخدام الحوار الأحادي الداخلي السلبي (monologues) ليس من استراتيجيات مهارة تعلم كيف تتعلم[cite: 15]."
+          },
+          {
+            id: "ls_m7_10",
+            type: "single",
+            text: "10. 'How has my thinking changed? How does this material all come together? What did I learn, and what do I need to learn next?' Students ask themselves these questions to implement which of the strategies of 'learning to learn'?",
+            opts: ["Embrace Struggle", "Rethink understanding", "Give feedback", "Use monologues", "Break it up"],
+            ans: 1,
+            dispAnswer: "b) Rethink understanding",
+            exp: "هذه التساؤلات تجسد استراتيجية إعادة التفكير في الفهم ومراجعة الاستيعاب وتكامل المعلومات[cite: 15]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Lifelong Learning Skills & Core Dimensions (Questions 11 – 23)",
+        context: "Official questions covering lifelong learning skills (adaptability, curiosity, reflection) and dimensions of learning power:",
+        subQuestions: [
+          {
+            id: "ls_m7_11",
+            type: "single",
+            text: "11. Lifelong learning skills have to do with ______.",
+            opts: [
+              "how we connect with each other",
+              "how we connect with the world around us",
+              "building relationships",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "ترتبط مهارات التعلم مدى الحياة بصلاتنا ببعضنا، وتواصلنا مع العالم، وبناء العلاقات الإيجابية[cite: 15]."
+          },
+          {
+            id: "ls_m7_12",
+            type: "single",
+            text: "12. According to what we have studied, which of the following is not of the beneficial lifelong learning skills?",
+            opts: ["Coordination", "Creativity", "Problem Solving", "Critical Thinking", "Leadership", "Communication"],
+            ans: 0,
+            dispAnswer: "a) Coordination",
+            exp: "التنسيق (Coordination) لم يرد كمهارة أساسية ضمن قائمة مهارات التعلم مدى الحياة الرئيسة في المساق[cite: 15]."
+          },
+          {
+            id: "ls_m7_13",
+            type: "single",
+            text: "13. According to what we have studied, which of the following is of the beneficial lifelong learning skills?",
+            opts: ["Instruction Management", "Adaptability", "Courtesy", "Inflection"],
+            ans: 1,
+            dispAnswer: "b) Adaptability",
+            exp: "التكيف والمرونة (Adaptability) مهارة جوهرية ومحورية من مهارات التعلم مدى الحياة[cite: 15]."
+          },
+          {
+            id: "ls_m7_14",
+            type: "single",
+            text: "14. The ability to think critically is a must for future success in a changing world. It's about thinking ______.",
+            opts: ["dependently", "responsibly", "unproductively", "All of the above", "a & b"],
+            ans: 1,
+            dispAnswer: "b) responsibly",
+            exp: "التفكير النقدي هو تفكير مسؤول ومستقل وهادف يبحث في الأدلة ويحلل المعطيات بحكمة[cite: 15]."
+          },
+          {
+            id: "ls_m7_15",
+            type: "single",
+            text: "15. Collaborative abilities have a ______ place among the most beneficial lifelong learning skills.",
+            opts: ["periodical", "vertical", "temporary", "permanent", "horizontal"],
+            ans: 3,
+            dispAnswer: "d) permanent",
+            exp: "مهارات التعاون والعمل الجماعي تحتل مكانة دائمة ورئيسية ضمن مهارات التعلم مدى الحياة[cite: 15]."
+          },
+          {
+            id: "ls_m7_16",
+            type: "single",
+            text: "16. 'Life is fluid—sometimes it's a stream, sometimes a river, and sometimes a tidal wave. Learn to keep your head above all of it.' This statement illustrates ______ as a beneficial lifelong learning skill.",
+            opts: ["problem Solving", "critical Thinking", "coordination", "leadership", "adaptability", "communication"],
+            ans: 4,
+            dispAnswer: "e) adaptability",
+            exp: "هذه المقولة تصف مهارة التأقلم والتكيف مع تقلبات الحياة وتغيراتها المستمرة (Adaptability)[cite: 15]."
+          },
+          {
+            id: "ls_m7_17",
+            type: "single",
+            text: "17. Lifelong learning is driven by ______. Outside the rigors of school, there is no educator or peer to motivate us to learn and expand our minds.",
+            opts: [
+              "creativity",
+              "problem Solving",
+              "critical Thinking",
+              "coordination",
+              "leadership",
+              "communication",
+              "curiosity",
+              "instruction Management",
+              "adaptability"
+            ],
+            ans: 6,
+            dispAnswer: "g) curiosity",
+            exp: "الفضول والشغف المعرفي (Curiosity) هو المحرك الذاتي الوحيد للتعلم المستمر بعد مقاعد الدراسة[cite: 15]."
+          },
+          {
+            id: "ls_m7_18",
+            type: "single",
+            text: "18. 'As we learn, we acquire new skills and knowledge for various uses; however, none of that knowledge is any good if we don't consider how it has helped us or others.' This statement illustrates ______ as a beneficial lifelong learning skill.",
+            opts: ["problem Solving", "critical Thinking", "reflection", "leadership", "creativity", "communication"],
+            ans: 2,
+            dispAnswer: "c) reflection",
+            exp: "التفكير في جدوى المعرفة وكيف أثرت فينا وفيمن حولنا يُمثّل مهارة التأمل والمراجعة (Reflection)[cite: 15]."
+          },
+          {
+            id: "ls_m7_19",
+            type: "single",
+            text: "19. ______ establishes the extent to which learners regard the process of learning itself is learnable.",
+            opts: ["Critical curiosity", "Dependence and fragility", "Growth orientation", "Creativity", "Strategic awareness"],
+            ans: 2,
+            dispAnswer: "c) Growth orientation",
+            exp: "التوجه نحو النمو (Growth orientation) يحدد مدى قناعة المتعلم بأن التعلم نفسه مهارة قابلة للاكتساب والتطوير[cite: 15]."
+          },
+          {
+            id: "ls_m7_20",
+            type: "single",
+            text: "20. ______ demonstrates learner's desire to find out new things.",
+            opts: ["Growth orientation", "Creativity", "Strategic awareness", "Critical curiosity", "Dependence and fragility"],
+            ans: 3,
+            dispAnswer: "d) Critical curiosity",
+            exp: "الفضول النقدي (Critical curiosity) يعبر عن رغبة وشغف المتعلم باكتشاف ومعرفة كل جديد[cite: 15]."
+          },
+          {
+            id: "ls_m7_21",
+            type: "single",
+            text: "21. ______ finds out how easily learners are disheartened (disappointed) when they get stuck or make mistakes.",
+            opts: ["Creativity", "Strategic awareness", "Critical curiosity", "Dependence and fragility", "Growth orientation"],
+            ans: 3,
+            dispAnswer: "d) Dependence and fragility",
+            exp: "الاعتمادية والهشاشة (Dependence and fragility) تكشف سرعة استسلام المتعلم وشعوره بالإحباط عند الخطأ[cite: 15]."
+          },
+          {
+            id: "ls_m7_22",
+            type: "single",
+            text: "22. ______ establishes the learners' ability to look at things in different ways.",
+            opts: ["Dependence and fragility", "Growth orientation", "Creativity", "Strategic awareness", "Critical curiosity"],
+            ans: 2,
+            dispAnswer: "c) Creativity",
+            exp: "الإبداع (Creativity) هو قدرة المتعلم على النظر للأمور من زوايا متعددة وجديدة وغير تقليدية[cite: 15]."
+          },
+          {
+            id: "ls_m7_23",
+            type: "single",
+            text: "23. ______ finds out learners' awareness of their own learning processes.",
+            opts: ["Strategic awareness", "Critical curiosity", "Creativity", "Dependence and fragility", "Growth orientation"],
+            ans: 0,
+            dispAnswer: "a) Strategic awareness",
+            exp: "الوعي الاستراتيجي (Strategic awareness) يحدد مدى وعي وإدراك المتعلمين بآليات وطرق تعلمهم[cite: 15]."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Learning Styles & Modalities (Questions 24 – 30)",
+        context: "Official questions on the 7 learning styles: Visual, Kinesthetic, Aural, Social, Solitary, Verbal, and Logical:",
+        subQuestions: [
+          {
+            id: "ls_m7_24",
+            type: "single",
+            text: "24. ______ learners supposedly retain information best by viewing pictures or images and respond well to colors and mind maps.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal", "Logical"],
+            ans: 0,
+            dispAnswer: "a) Visual",
+            exp: "المتعلمون البصريون (Visual) يستوعبون المعلومات على النحو الأمثل بالصور والخرائط الذهنية والألوان[cite: 15]."
+          },
+          {
+            id: "ls_m7_25",
+            type: "single",
+            text: "25. ______ learners are all about doing things physically. Role playing, using things like flashcards or carrying out the action physically can help them learn things better.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal"],
+            ans: 1,
+            dispAnswer: "b) kinesthetic",
+            exp: "المتعلمون الحركيون (Kinesthetic) يتعلمون عبر الممارسة البدنية وتمثيل الأدوار والنشاط الجسدي[cite: 15]."
+          },
+          {
+            id: "ls_m7_26",
+            type: "single",
+            text: "26. ______ learners should retain the most information after hearing it.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal", "Logical"],
+            ans: 2,
+            dispAnswer: "c) Aural",
+            exp: "المتعلمون السمعيون (Aural / Auditory) يحفظون ويستوعبون المعلومات بأفضل صورة عند سماعها[cite: 15]."
+          },
+          {
+            id: "ls_m7_27",
+            type: "single",
+            text: "27. ______ learners are meant to work best when they participate in study activities with other people such as quizzing each other or having a study group. Print and use these Top Trumps style cards with a group of friends.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal", "Logical"],
+            ans: 3,
+            dispAnswer: "d) Social",
+            exp: "المتعلمون الاجتماعيون (Social) يفضلون التعلم التعاوني والدراسة في مجموعات وحلقات نقاش[cite: 15]."
+          },
+          {
+            id: "ls_m7_28",
+            type: "single",
+            text: "28. ______ learners supposedly work best alone. Making notes and reciting them back are useful activities when studying by yourself.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal", "Logical"],
+            ans: 4,
+            dispAnswer: "e) Solitary",
+            exp: "المتعلمون الفرديون/الانعزاليون (Solitary) يفضلون الاستذكار المستقل وتدوين وتسميع الملاحظات بمفردهم[cite: 15]."
+          },
+          {
+            id: "ls_m7_29",
+            type: "single",
+            text: "29. ______ learners are supposed to respond well to written or spoken words, using tools like rhymes and acronyms.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal", "Logical"],
+            ans: 5,
+            dispAnswer: "f) Verbal",
+            exp: "المتعلمون اللفظيون (Verbal) يتفاعلون بقوة مع الكلمات والقراءة والقوافي والاختصارات اللغوية[cite: 15]."
+          },
+          {
+            id: "ls_m7_30",
+            type: "single",
+            text: "30. ______ learners use logic and structures in order to learn effectively. If you're good with numbers and statistics, you might find the logical style helpful.",
+            opts: ["Visual", "kinesthetic", "Aural", "Social", "Solitary", "Verbal", "Logical"],
+            ans: 6,
+            dispAnswer: "g) Logical",
+            exp: "المتعلمون المنطقيون (Logical) يعتمدون على الربط السببي والمنطق والأرقام والأنماط المنظمة[cite: 15]."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Concepts, Principles & True/False Statements (Questions 31 – 42)",
+        context: "Official True or False statements covering active learning, chunking, teamwork, leadership, and learning relationships:",
+        subQuestions: [
+          {
+            id: "ls_m7_31",
+            type: "single",
+            text: "31. Effective Learning is the successful or effective matching between the needed or desired learning performance and the learning outcome or result of the learning performance.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "التعلم الفعال هو التوافق الناجح بين الأداء التعليمي المرجو والنتائج المتحققة فعلياً[cite: 15]."
+          },
+          {
+            id: "ls_m7_32",
+            type: "single",
+            text: "32. Learning to learn engages learners to build on prior learning and life experiences in order to use and apply knowledge and skills in a variety of contexts: at home, at work, in education and training.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "مهارة تعلم كيف تتعلم تحفز البناء على المعرفة السابقة وتطبيقها في البيت والعمل وميادين الحياة[cite: 15]."
+          },
+          {
+            id: "ls_m7_33",
+            type: "single",
+            text: "33. Students benefit when they don't rely on more active learning strategies like quizzing or explaining. These approaches aren't engaging and push students to really waste their knowledge.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فالطلاب يستفيدون أكثر باعتماد استراتيجيات التعلم النشط كالاختبارات الذاتية والشرح للغير[cite: 15]."
+          },
+          {
+            id: "ls_m7_34",
+            type: "single",
+            text: "34. People learn better when learning is delivered in bigger chunks.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فالتعلم يترسخ عندما تُقسّم المعلومات إلى أجزاء ووحدات صغيرة وموزعة (Bite-sized chunks)[cite: 15]."
+          },
+          {
+            id: "ls_m7_35",
+            type: "single",
+            text: "35. Having communication skills means more stress, less productivity, and worse relationships.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فمهارات التواصل تقلل التوتر وترفع الإنتاجية وتبني علاقات إيجابية متينة[cite: 15]."
+          },
+          {
+            id: "ls_m7_36",
+            type: "single",
+            text: "36. Anyone whose attitude moves from 'I can do it' to 'we can do it' makes everybody worse.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فالتحول إلى روح العمل الجماعي 'نحن نستطيع' يرفع أداء الجميع ويحقق نجاحات أكبر[cite: 15]."
+          },
+          {
+            id: "ls_m7_37",
+            type: "single",
+            text: "37. What a leader does is inspire, motivate, and empower. True leaders see the best in people and teach them to harness their potential in all they do.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "جوهر القيادة الحقيقية هو الإلهام والتحفيز والتمكين واستخراج أفضل ما لدى الأفراد من طاقات[cite: 15]."
+          },
+          {
+            id: "ls_m7_38",
+            type: "single",
+            text: "38. Innovative products thrive on an organization's ability to design and present them in aesthetically pleasing ways. Creative thinking and application grab consumers' attention and secures their loyalty.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "المنتجات المبتكرة تجذب المستهلكين بالتفكير الإبداعي وجمالية العرض مما يضمن ولائهم[cite: 15]."
+          },
+          {
+            id: "ls_m7_39",
+            type: "single",
+            text: "39. Dealing with information means we can determine what is valuable and discard what is spurious or questionable. This is important for producing solutions and products that are genuine and useful.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "التعامل الواعي مع المعلومات يتطلب تمييز الحقائق المفيدة ونبذ المعلومات الزائفة والمشكوك بصحتها[cite: 15]."
+          },
+          {
+            id: "ls_m7_40",
+            type: "single",
+            text: "40. Beneficial lifelong learning skills shouldn't include reflecting on learning because this gives learning false meaning.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "العبارة خاطئة؛ فالتأمل (Reflection) هو ركيزة التعلم مدى الحياة لأنه يمنح المعرفة عمقاً ومعنى حقيقياً[cite: 15]."
+          },
+          {
+            id: "ls_m7_41",
+            type: "single",
+            text: "41. Meaning-making affirms the extent to which learners are on the lookout for links between what they are learning and what they already know.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "'صنع المعنى' يعبر عن بحث المتعلم المستمر عن روابط بين ما يتعلمه حديثاً وما يمتلكه من خبرات سابقة[cite: 15]."
+          },
+          {
+            id: "ls_m7_42",
+            type: "single",
+            text: "42. Relationship/interdependence (learning relationships) establishes the learners' ability to manage the balance between sociable and individual approaches to learning.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الاعتماد المتبادل والعلاقات التعليمية تحدد قدرة المتعلم على الموازنة بين التعلم الفردي والتعلم التعاوني[cite: 15]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

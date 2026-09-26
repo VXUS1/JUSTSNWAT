@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | التربية الوطنية والمسؤولية المجتمعية - مكمل الوحدة الثالثة</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      text-align: right;
+      direction: rtl;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/lead">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">التربية الوطنية والمسؤولية المجتمعية</div>
+    <div class="subject-subtitle" id="quiz-subtitle">الوحدة الثالثة: نشأة إمارة شرق الأردن والتطور السياسي والإداري (أسئلة مقترحة شاملة)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/mil">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+
+    const examSections = [
+      {
+        title: "الجزء الأول: الثورة العربية الكبرى والمملكة الفيصلية والحكومات المحلية (الأسئلة 1 – 16)",
+        context: "أسئلة مكمل الوحدة حول مسار الثورة العربية، معركة ميسلون، مؤتمر سان ريمو، والحكومات المحلية في شرقي الأردن:",
+        subQuestions: [
+          {
+            id: "nat3_1",
+            type: "single",
+            text: "1) قائد الثورة العربية الكبرى عام 1916م من مكة المكرمة هو:",
+            opts: ["الأمير فيصل بن الحسين", "الشريف الحسين بن علي", "الأمير عبد الله الأول", "الملك طلال"],
+            ans: 1,
+            dispAnswer: "ب) الشريف الحسين بن علي",
+            exp: "أطلق الشريف الحسين بن علي رصاصة الثورة العربية الكبرى في 10 حزيران 1916م لتحرير بلاد العرب."
+          },
+          {
+            id: "nat3_2",
+            type: "single",
+            text: "2) جاء تأسيس إمارة شرقي الأردن عام 1921م على يد:",
+            opts: ["الأمير فيصل بن الحسين", "الشريف الحسين بن علي", "الأمير عبدالله الأول بن الحسين", "الملك طلال"],
+            ans: 2,
+            dispAnswer: "ج) الأمير عبدالله الأول بن الحسين",
+            exp: "وصل الأمير عبد الله الأول إلى معان ثم عمان وأسس إمارة الشرق العربي ووضع لبنات الدولة الأردنية الحديثة."
+          },
+          {
+            id: "nat3_3",
+            type: "single",
+            text: "3) نجحت قوات الثورة العربية الكبرى في إخراج القوات التركية العثمانية من بلاد الحجاز:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "تمكنت قوات الثورة من تحرير مدن الحجاز وطرد الحاميات العسكرية العثمانية منها."
+          },
+          {
+            id: "nat3_4",
+            type: "single",
+            text: "4) تم وصول قوات الثورة العربية الشمالية إلى ميناء العقبة عام 1917م بقيادة:",
+            opts: ["الأمير عبدالله الأول", "الأمير فيصل بن الحسين", "الشريف الحسين بن علي", "لا شيء مما ذكر"],
+            ans: 1,
+            dispAnswer: "ب) الأمير فيصل بن الحسين",
+            exp: "قاد الأمير فيصل الجيش الشمالي الذي حرر العقبة عام 1917م وشكل قاعدة انطلاق لتحرير بلاد الشام."
+          },
+          {
+            id: "nat3_5",
+            type: "single",
+            text: "5) أي من الخيارات التالية يوضح التقسيم الإداري للأردن بعد تأسيس المملكة العربية السورية بقيادة الملك فيصل:",
+            opts: [
+              "لواء الكرك ، لواء حوران ، لواء عجلون",
+              "لواء البلقاء ، لواء معان ، لواء الكرك",
+              "لواء الكرك ، لواء البلقاء ، لواء حوران",
+              "لواء عمان ، لواء إربد ، لواء معان"
+            ],
+            ans: 2,
+            dispAnswer: "ج) لواء الكرك ، لواء البلقاء ، لواء حوران",
+            exp: "خضعت الأراضي الأردنية للحكومة الفيصلية في دمشق وقُسّمت إدارياً إلى ألوية الكرك، والبلقاء، وحوران."
+          },
+          {
+            id: "nat3_6",
+            type: "single",
+            text: "6) شارك الأمير فيصل بن الحسين في أعمال مؤتمر الصلح المنعقد في قصر فرساي في مدينة:",
+            opts: ["باريس", "لندن", "عمان", "جنيف"],
+            ans: 0,
+            dispAnswer: "أ) باريس",
+            exp: "مثل الأمير فيصل العرب في مؤتمر الصلح بباريس عام 1919م للدفاع عن حقوق العرب واستقلالهم."
+          },
+          {
+            id: "nat3_7",
+            type: "single",
+            text: "7) من قرارات المؤتمر السوري العام في الثاني من تموز 1919م كل مما يأتي ما عدا:",
+            opts: [
+              "رفض مزاعم الصهيونية في جعل فلسطين وطناً قومياً لهم",
+              "اختيار الملك عبدالله ملكاً دستورياً على سوريا",
+              "استقلال سوريا بحدودها الطبيعية وعلى الأساس النيابي",
+              "إعلان انتهاء الحكومات الاحتلالية العسكرية في مناطق سوريا الثلاث"
+            ],
+            ans: 1,
+            dispAnswer: "ب) اختيار الملك عبدالله ملكاً دستورياً على سوريا",
+            exp: "المؤتمر السوري العام بايع الأمير فيصل بن الحسين ملكاً دستورياً على سوريا وليس الأمير عبد الله."
+          },
+          {
+            id: "nat3_8",
+            type: "single",
+            text: "8) لجنة كنج - كرين هي لجنة أمريكية صرفة تجولت في أنحاء بلاد الشام واستمعت لمطالب الأهالي وصاغت تقريراً تضمن توصيات منها رفض العرب لوعد بلفور وفكرة إنشاء وطن قومي لليهود في فلسطين:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "أكد تقرير اللجنة الأمريكية كينغ - كراين رغبة الشعب العربي في الاستقلال التام ورفض التجزئة ووعد بلفور."
+          },
+          {
+            id: "nat3_9",
+            type: "single",
+            text: "9) انعقد مؤتمر الحلفاء الاستعماري (مؤتمر سان ريمو) عام 1920م في دولة:",
+            opts: ["بريطانيا", "فرنسا", "إيطاليا", "سويسرا"],
+            ans: 2,
+            dispAnswer: "ج) إيطاليا",
+            exp: "عُقد المؤتمر في مدينة سان ريمو الإيطالية وفيه تقاسم الحلفاء الانتداب على بلاد الشام والعراق."
+          },
+          {
+            id: "nat3_10",
+            type: "single",
+            text: "10) معركة ميسلون هي معركة غير متكافئة بكل المعايير وانتهت باحتلال الفرنسيين للأردن:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ فمعركة ميسلون عام 1920م انتهت باحتلال الفرنسيين لدمشق وسوريا وإنهاء الحكم الفيصلي، بينما وقع الأردن تحت منطقة النفوذ البريطاني."
+          },
+          {
+            id: "nat3_11",
+            type: "single",
+            text: "11) من التوصيات الوطنية التي تقررت في مؤتمر واجتماع أم قيس في أيلول 1920م:",
+            opts: [
+              "تشكيل حكومة عربية في البلاد على رأسها أمير عربي",
+              "راية الدولة هي الراية السورية ذات النجمة",
+              "حماية المطلوبين واللاجئين السياسيين الذين يلجؤون إلى البلاد",
+              "جميع ما ذكر"
+            ],
+            ans: 3,
+            dispAnswer: "د) جميع ما ذكر",
+            exp: "وضع أهالي شرق الأردن في ميثاق أم قيس مطالب وطنية تمسكت بالعروبة ومنع الهجرة الصهيونية وطلب أمير هاشمي."
+          },
+          {
+            id: "nat3_12",
+            type: "single",
+            text: "12) عدد وأسماء الحكومات المحلية التي تشكلت في شرقي الأردن بمساعدة فنية بريطانية عام 1920م:",
+            opts: [
+              "3 حكومات ، [ عجلون، إربد، مؤاب ]",
+              "4 حكومات ، [ عجلون، السلط، إربد، مؤاب ]",
+              "3 حكومات ، [ عجلون، السلط، مؤاب ]",
+              "4 حكومات ، [ عجلون، عمان، إربد، مؤاب ]"
+            ],
+            ans: 2,
+            dispAnswer: "ج) 3 حكومات ، [ عجلون، السلط، مؤاب ]",
+            exp: "تشكلت ثلاث حكومات محلية رئيسية لسد الفراغ السياسي: حكومة عجلون (شمالاً)، وحكومة البلقاء في السلط، وحكومة مؤاب في الكرك."
+          },
+          {
+            id: "nat3_13",
+            type: "single",
+            text: "13) القائد العسكري الفرنسي الذي وجه الإنذار الشهير للملك فيصل بحل الجيش وتسليم دمشق قبل معركة ميسلون هو:",
+            opts: ["الجنرال غورو", "هربرت صموئيل", "ونستون تشرشل", "ثيودور هرتزل"],
+            ans: 0,
+            dispAnswer: "أ) الجنرال غورو",
+            exp: "الجنرال هنري غورو قائد القوات الفرنسية في الشرق هو من وجّه الإنذار للملك فيصل."
+          },
+          {
+            id: "nat3_14",
+            type: "single",
+            text: "14) المندوب السامي البريطاني في فلسطين الذي التقى بأعيان شرق الأردن في اجتماع السلط عام 1920م هو:",
+            opts: ["هربرت صموئيل", "ونستون تشرشل", "غلوب باشا", "فريدريك بيك"],
+            ans: 0,
+            dispAnswer: "أ) هربرت صموئيل",
+            exp: "هربرت صموئيل اجتمع بزعماء شرق الأردن في السلط ووعدهم بمساعدات فنية وإدارية لتشكيل إدارات محلية."
+          },
+          {
+            id: "nat3_15",
+            type: "single",
+            text: "15) رئيس حكومة مؤاب العربية المحلية في الكرك هو الشيخ:",
+            opts: ["علي خلقي الشرايري", "رفيفان المجالي", "كليب الشريدة", "ناجي العزام"],
+            ans: 1,
+            dispAnswer: "ب) رفيفان المجالي",
+            exp: "ترأس الشيخ رفيفان المجالي حكومة مؤاب، بينما ترأس علي خلقي الشرايري حكومة عجلون، ومظهر أرسلان حكومة السلط."
+          },
+          {
+            id: "nat3_16",
+            type: "single",
+            text: "16) اتسمت الحكومات المحلية في شرق الأردن بميزات وخصائص مشتركة منها:",
+            opts: [
+              "أنها تمتعت بصفة واعتراف دولي واسع",
+              "أنها تلقت دعماً مالياً خارجياً ضخماً",
+              "أنها كانت ضعيفة ومحدودة الموارد وذات صبغة محلية عشائرية",
+              "أ + ب"
+            ],
+            ans: 2,
+            dispAnswer: "ج) ضعيفة وذات صبغة عشائرية",
+            exp: "عانت الحكومات المحلية من العجز المالي، وغياب القوة العسكرية، وضيق النطاق الجغرافي العشائري، مما استدعى قدوم الأمير عبد الله لتوحيدها."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثاني: تأسيس الإمارة، المعاهدة الأردنية البريطانية، والقانون الأساسي (الأسئلة 17 – 28)",
+        context: "أسئلة مكمل الوحدة حول وصول الأمير عبد الله، أول صحيفة، أول حكومة، المعاهدة الأردنية البريطانية 1928، والمؤتمرات الوطنية:",
+        subQuestions: [
+          {
+            id: "nat3_17",
+            type: "single",
+            text: "17) أول جريدة أردنية وصحيفة رسمية صدرت مع وصول الأمير عبد الله الأول إلى معان هي:",
+            opts: ["الحق يعلو", "الشرق العربي", "الأردن الجديد", "النهضة"],
+            ans: 0,
+            dispAnswer: "أ) الحق يعلو",
+            exp: "أصدر الأمير عبد الله صحيفة 'الحق يعلو' في معان عام 1920م لتكون لسان حال الحركة الوطنية والتحررية."
+          },
+          {
+            id: "nat3_18",
+            type: "single",
+            text: "18) أول رئيس لمجلس المشاورين (أول رئيس حكومة في تاريخ شرق الأردن عام 1921م):",
+            opts: ["رشيد طليع", "علي خلقي الشرايري", "مظهر أرسلان", "رفيفان المجالي"],
+            ans: 0,
+            dispAnswer: "أ) رشيد طليع",
+            exp: "شكّل رشيد طليع أول حكومة أردنية في 11 نيسان 1921م وحمل لقب 'الكاتب الإداري'."
+          },
+          {
+            id: "nat3_19",
+            type: "single",
+            text: "19) المادة في صك الانتداب البريطاني التي نصت صراحة على استثناء شرقي الأردن من تطبيق نصوص وعد بلفور هي المادة:",
+            opts: ["22", "25", "30", "35"],
+            ans: 1,
+            dispAnswer: "ب) 25",
+            exp: "نجح الأمير عبد الله دبلوماسياً في انتزاع المادة 25 من صك الانتداب التي استثنت أراضي شرق الأردن كلياً من وعود الوطن القومي اليهودي."
+          },
+          {
+            id: "nat3_20",
+            type: "single",
+            text: "20) وُقّعت المعاهدة والاتفاقية الأردنية البريطانية الأولى بتاريخ 20 شباط 1928م في مدينة:",
+            opts: ["عمان", "دمشق", "لندن", "القدس"],
+            ans: 3,
+            dispAnswer: "د) القدس",
+            exp: "وُقعت الاتفاقية في القدس بين الممثل البريطاني والحكومة الأردنية."
+          },
+          {
+            id: "nat3_21",
+            type: "single",
+            text: "21) كل مما يأتي من أبرز بنود الاتفاقية الأردنية البريطانية 1928م ما عدا:",
+            opts: [
+              "وضع قانون أساسي (دستور) للبلاد",
+              "تكليف الحكومة الأردنية بدفع سدس نفقات قوة حدود شرقي الأردن",
+              "تنازل حكومة الانتداب عن السلطة القضائية والتشريعية كاملة للأمير",
+              "حق بريطانيا في الاحتفاظ بقوات مسلحة في شرق الأردن"
+            ],
+            ans: 2,
+            dispAnswer: "ج) تنازل حكومة الإنتداب عن السلطة القضائية إلى الأمير",
+            exp: "قيدت المعاهدة صلاحيات الأمير ولم تتنازل بريطانيا عن هيمنتها القضائية والمالية والعسكرية، مما أثار معارضة المؤتمر الوطني."
+          },
+          {
+            id: "nat3_22",
+            type: "single",
+            text: "22) الانتداب شكل من أشكال الاستعمار فُرض على الأردن بالقوة، وكان الأمير يسعى للتخفيف من سلبياته وانتزاع السيادة بشكل تدريجي:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "انتهج الأمير عبد الله سياسة الواقعية الدبلوماسية ('خذ وطالب') للتخلص التدريجي من قيود الانتداب وصولاً للاستقلال الكامل."
+          },
+          {
+            id: "nat3_23",
+            type: "single",
+            text: "23) العام الذي تم فيه توقيع المعاهدة الأردنية البريطانية الأولى هو:",
+            opts: ["1921م", "1928م", "1935م", "1946م"],
+            ans: 1,
+            dispAnswer: "ب) 1928م",
+            exp: "تم توقيع المعاهدة الأولى في 20 شباط 1928م ومثلت خطوة نحو تثبيت الكيان الدستوري."
+          },
+          {
+            id: "nat3_24",
+            type: "single",
+            text: "24) صدر القانون الأساسي (أول دستور لإمارة شرق الأردن) في عام:",
+            opts: ["1923م", "1925م", "1928م", "1930م"],
+            ans: 2,
+            dispAnswer: "ج) 1928م",
+            exp: "صدر القانون الأساسي عام 1928م في أعقاب توقيع المعاهدة ونظّم السلطات التنفيذية والتشريعية والقضائية."
+          },
+          {
+            id: "nat3_25",
+            type: "single",
+            text: "25) من الأحزاب السياسية الوطنية التي تشكلت في عهد الإمارة:",
+            opts: [
+              "حزب اللجنة التنفيذية للمؤتمر الوطني",
+              "حزب الشعب الأردني",
+              "لا شيء مما ذكر",
+              "أ + ب"
+            ],
+            ans: 3,
+            dispAnswer: "د) أ + ب",
+            exp: "شهدت البلاد حراكاً حزبياً مبكراً تشكلت فيه أحزاب وطنية كنقابات وأحزاب المؤتمر الوطني وحزب الشعب."
+          },
+          {
+            id: "nat3_26",
+            type: "single",
+            text: "26) عُقد المؤتمر الوطني الأردني الأول التاريخي عام 1928م برئاسة الشيخ حسين الطراونة في مدينة:",
+            opts: ["إربد", "عمان", "السلط", "الكرك"],
+            ans: 1,
+            dispAnswer: "ب) عمان",
+            exp: "عُقد المؤتمر الوطني الأول في مقهى حمدان بعمان ووضع الميثاق الوطني الرافض للانتداب ووعد بلفور."
+          },
+          {
+            id: "nat3_27",
+            type: "single",
+            text: "27) عُقد المؤتمر الوطني الأردني الثالث في مدينة:",
+            opts: ["عمان", "إربد", "السلط", "الكرك"],
+            ans: 1,
+            dispAnswer: "ب) إربد",
+            exp: "انعقد المؤتمر الوطني الثالث في مدينة إربد شمال المملكة لمتابعة المطالب الوطنية الدستورية."
+          },
+          {
+            id: "nat3_28",
+            type: "single",
+            text: "28) بلغ عدد المجالس التشريعية المنتخبة التي تعاقبت على البلاد في عهد الإمارة (1929 - 1946م):",
+            opts: ["3", "4", "5", "6"],
+            ans: 2,
+            dispAnswer: "ج) 5",
+            exp: "تعاقبت على الإمارة 5 مجالس تشريعية منتخبة جسدت الممارسة النيابية المبكرة."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثالث: التقسيمات الإدارية، القضاء، والبلديات في الإمارة (الأسئلة 29 – 32)",
+        context: "أسئلة مكمل الوحدة حول ألوية عام 1927، الشخصية الاعتبارية للبلديات، وأنواع واختصاصات المحاكم:",
+        subQuestions: [
+          {
+            id: "nat3_29",
+            type: "single",
+            text: "29) عدد الألوية التي قُسّمت إليها البلاد إدارياً عام 1927م بموجب قانون التقسيمات الإدارية:",
+            opts: ["3 ألوية", "4 ألوية", "5 ألوية", "6 ألوية"],
+            ans: 1,
+            dispAnswer: "ب) 4 ألوية",
+            exp: "قُسمت الإمارة عام 1927م إلى أربعة ألوية هي: لواء عجلون، لواء البلقاء، لواء الكرك، ولواء معان."
+          },
+          {
+            id: "nat3_30",
+            type: "single",
+            text: "30) البلدية شخص حكمي (اعتباري) له حق التصرف بالأموال المنقولة وغير المنقولة، وهي مكلفة بالأعمال التنظيمية والعمرانية والصحية:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "عرّف قانون البلديات المبكر البلدية بالشخصية الاعتبارية المستقلة لتقديم الخدمات العامة وتنظيم المدن."
+          },
+          {
+            id: "nat3_31",
+            type: "single",
+            text: "31) عدد أنواع وأصناف المحاكم التي توزعت إليها السلطة القضائية بموجب القانون الأساسي عام 1928م:",
+            opts: ["نوع واحد", "نوعان", "ثلاثة أنواع", "أربعة أنواع"],
+            ans: 2,
+            dispAnswer: "ج) ثلاثة أنواع",
+            exp: "توزعت المحاكم إلى ثلاثة أنواع: 1. المحاكم المدنية (النظامية)، 2. المحاكم الدينية (الشرعية ومجالس الطوائف)، 3. المحاكم الخاصة."
+          },
+          {
+            id: "nat3_32",
+            type: "single",
+            text: "32) المحكمة التي تختص بالنظر في أمور الوقف، والهبة، والوصايا، وإدارة أموال القاصرين والغائبين هي:",
+            opts: ["المحكمة المدنية النظامية", "المحاكم الشرعية الإسلامية", "محاكم الطوائف المسيحية", "المحاكم الخاصة"],
+            ans: 1,
+            dispAnswer: "ب) المحاكم الشرعية الإسلامية",
+            exp: "اختصت المحاكم الشرعية بالأحوال الشخصية للمسلمين وإدارة أموال الأيتام والأوقاف والهبات."
+          }
+        ]
+      },
+      {
+        title: "الجزء الرابع: نشأة الجيش العربي، تعريب القيادة، والتعليم والخدمات (الأسئلة 33 – 47)",
+        context: "أسئلة مكمل الوحدة حول تشكيلات الجيش العربي، قادته، قرار تعريب القيادة 1956، وتطور المدارس والخدمات الصحية والاجتماعية:",
+        subQuestions: [
+          {
+            id: "nat3_33",
+            type: "single",
+            text: "33) تشكلت النواة الأولى للجيش العربي الأردني من القوة العسكرية من جيش الثورة العربية الكبرى التي رافقت الشريف حسين وقدمت معه من الحجاز:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ فالقوة جاءت برفقة الأمير عبد الله الأول بن الحسين حين قدم إلى معان وعمان."
+          },
+          {
+            id: "nat3_34",
+            type: "single",
+            text: "34) كتيبة الدرك الاحتياطية هم الخيالة، بينما قوة الهجانة هم الحرس الخاص بالأمير وراكبو الجمال:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "شكلت كتائب الدرك وقوة الهجانة والقوة السيارة العمود الفقري للأمن الداخلي وحراسة الحدود في بدايات التأسيس."
+          },
+          {
+            id: "nat3_35",
+            type: "single",
+            text: "35) القوة العسكرية التأسيسية التي كانت مهمتها حماية طريق المواصلات الحيوي بين عمان والقدس هي:",
+            opts: ["قوة الهجانة", "قوة الدرك الثابت", "القوة السيارة", "كتيبة المشاة"],
+            ans: 2,
+            dispAnswer: "ج) قوة السيارة",
+            exp: "تولت القوة السيارة مهام حفظ الأمن ومراقبة وتأمين طريق عمان - القدس الشرياني."
+          },
+          {
+            id: "nat3_36",
+            type: "single",
+            text: "36) مؤلف الكتاب التوثيقي التاريخي المرجعي الشهير 'تاريخ شرقي الأردن وقبائلها' هو الضابط البريطاني:",
+            opts: ["جون كلوب", "فريدريك بيك", "هربرت صموئيل", "مظهر أرسلان"],
+            ans: 1,
+            dispAnswer: "ب) فريدريك بيك",
+            exp: "الضابط فريدريك بيك (قائد الجيش العربي الأسبق) هو مؤلف هذا السفر التوثيقي عن قبائل وتاريخ الأردن."
+          },
+          {
+            id: "nat3_37",
+            type: "single",
+            text: "37) اتخذ جلالة الملك الحسين بن طلال طيب الله ثراه القرار التاريخي الشجاع بتعريب قيادة الجيش العربي في عام:",
+            opts: ["1946م", "1956م", "1957م", "1958م"],
+            ans: 1,
+            dispAnswer: "ب) 1956م",
+            exp: "صدر القرار التاريخي المجيد بتعريب قيادة الجيش في 1 آذار 1956م بإنهاء خدمات كلوب باشا وتعيين ضباط أردنيين."
+          },
+          {
+            id: "nat3_38",
+            type: "single",
+            text: "38) الضابط الإنجليزي الذي تولى قيادة الجيش العربي الأردني من عام 1939م حتى إنهاء خدماته عام 1956م هو:",
+            opts: ["فريدريك بيك", "جون كلوب (كلوب باشا)", "تشرشل", "هربرت صموئيل"],
+            ans: 1,
+            dispAnswer: "ب) جون كلوب",
+            exp: "تولى الفريق جون باجوت كلوب (المعروف بـ كلوب باشا) قيادة أركان الجيش حتى قرار التعريب عام 1956م."
+          },
+          {
+            id: "nat3_39",
+            type: "single",
+            text: "39) عند تأسيس إمارة شرق الأردن عام 1921م لم يكن في البلاد سوى 25 مدرسة حكومية فقط:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "ورثت الإمارة واقعاً تعليمياً متواضعاً لم يتجاوز 25 مدرسة ابتدائية بدائية بعد انسحاب العثمانيين."
+          },
+          {
+            id: "nat3_40",
+            type: "single",
+            text: "40) في العامين الدراسيين 1923 - 1924م، بلغ عدد المدارس الثانوية في الأردن ثلاث مدارس فقط وهي مدرسة:",
+            opts: [
+              "مدرستان ، (عمان، السلط)",
+              "3 مدارس ، (السلط، إربد، الكرك)",
+              "4 مدارس ، (عمان، السلط، إربد، الكرك)",
+              "3 مدارس ، (عمان، السلط، إربد)"
+            ],
+            ans: 1,
+            dispAnswer: "ب) 3 مدارس، (السلط، إربد، الكرك)",
+            exp: "اقتصر التعليم الثانوي الأكاديمي في تلك المرحلة على مدارس مدن السلط، وإربد، والكرك الثانوية."
+          },
+          {
+            id: "nat3_41",
+            type: "single",
+            text: "41) عدد المدارس الصناعية والمهنية التي تأسست في الإمارة عام 1928م وكان مقرها في عمان:",
+            opts: ["مدرسة واحدة (1)", "مدرستان (2)", "3 مدارس", "4 مدارس"],
+            ans: 0,
+            dispAnswer: "أ) 1",
+            exp: "تأسست مدرسة صناعية يتيمة في عمان عام 1928م لتدريب وتخريج الكوادر الفنية والحرفية."
+          },
+          {
+            id: "nat3_42",
+            type: "single",
+            text: "42) موقع مدرستي البدو الأولى والثانية المتنقلتين اللتين تأسستا لأبناء العشائر عام 1934م على التوالي:",
+            opts: [
+              "الأزرق ، باير",
+              "رم ، باير",
+              "الجفر ، الأزرق",
+              "المفرق ، الجفر"
+            ],
+            ans: 1,
+            dispAnswer: "ب) رم ، باير",
+            exp: "أُنشئت مدرسة البدو المتنقلة الأولى في وادي رم، وتلتها المدرسة الثانية في منطقة باير لمكافحة الأمية."
+          },
+          {
+            id: "nat3_43",
+            type: "single",
+            text: "43) أصبح الاهتمام بالتعليم في تزايد مستمر وانعكس على تدريب الجنود وتعيين المعلمين لمكافحة الأمية في كثير من الوحدات العسكرية وجناح الثقافة ومركز تدريب الجيش العربي في العبدلي:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "لعبت القوات المسلحة الأردنية دوراً تعليمياً وتنويرياً بارزاً في محو الأمية وتعليم منتسبيها وأبناء المناطق النائية."
+          },
+          {
+            id: "nat3_44",
+            type: "single",
+            text: "44) توزع سكان المدن في عهد إمارة شرق الأردن إلى 3 طبقات اجتماعية واقتصادية رئيسية:",
+            opts: ["صح", "خطأ"],
+            ans: 1,
+            dispAnswer: "ب) خطأ",
+            exp: "العبارة خاطئة؛ لأن مجتمع المدن توزع إلى طبقتين رئيسيتين: 1. طبقة كبار الملاكين والتجار والموظفين، 2. طبقة الحرفيين والعمال وصغار الكسبة."
+          },
+          {
+            id: "nat3_45",
+            type: "single",
+            text: "45) عاش غالبية سكان الإمارة في القرى والأرياف وعملوا في الفلاحة والزراعة، وسكان البادية عملوا في الرعي وتربية الإبل والأغنام:",
+            opts: ["صح", "خطأ"],
+            ans: 0,
+            dispAnswer: "أ) صح",
+            exp: "شكّل الريف والبادية الغالبية الديموغرافية لسكان شرق الأردن واعتمد اقتصادهم على الزراعة البعلية والثروة الحيوانية."
+          },
+          {
+            id: "nat3_46",
+            type: "single",
+            text: "46) العهد التاريخي الذي كانت فيه الخدمات الصحية والطبية شبه منعدمة في الأردن قبل تأسيس الإمارة هو العهد:",
+            opts: ["العثماني", "العباسي", "الأموي", "لا شيء مما ذكر"],
+            ans: 0,
+            dispAnswer: "أ) العثماني",
+            exp: "عانت مناطق شرق الأردن في العهد العثماني من غياب المشافي والأطباء وانتشار الأوبئة، قبل بناء النظام الصحي في عهد الإمارة."
+          },
+          {
+            id: "nat3_47",
+            type: "single",
+            text: "47) بلغ عدد الأطباء المرخصين العاملين في عموم إمارة شرق الأردن في تلك المرحلة التأسيسية المبكرة:",
+            opts: ["أقل من 20 طبيباً", "حوالي 30 طبيباً", "حوالي 50 طبيباً", "أكثر من 100 طبيب"],
+            ans: 1,
+            dispAnswer: "ب) حوالي 30",
+            exp: "لم يتجاوز عدد الأطباء في عموم الإمارة نحو 30 طبيباً يقدمون الخدمات في العيادات والمراكز الصحية المحدودة."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة:</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary);">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

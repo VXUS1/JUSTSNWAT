@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | المهارات الحياتية (Life Skills) - أسئلة الفاينل (Module 3 Lec 1+2)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ls">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">المهارات الحياتية (Life Skills)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Module 3 (Lectures 1 & 2) — أسئلة امتحان الفاينل (Emotional Intelligence & Personal SWOT Analysis)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ls">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: Emotional Intelligence & Self-Awareness (Questions 1 – 30)",
+        context: "Official questions on EI components, internal vs. external self-awareness, empathy, motivation, and self-regulation:",
+        subQuestions: [
+          {
+            id: "ls_m3_1",
+            type: "single",
+            text: "1. The knowledge of EI is ______ because technical skills alone cannot provide professional and personal success.",
+            opts: ["essential", "unnecessary", "possibly not preferred", "a little bit important"],
+            ans: 0,
+            dispAnswer: "a) essential",
+            exp: "معرفة الذكاء العاطفي ضرورية، لأن المهارات التقنية وحدها غير كافية لتحقيق النجاح المهني والشخصي[cite: 11]."
+          },
+          {
+            id: "ls_m3_2",
+            type: "single",
+            text: "2. High Emotional Intelligence is a great predictor of ______ performance.",
+            opts: ["low", "high", "average", "little"],
+            ans: 1,
+            dispAnswer: "b) high",
+            exp: "الذكاء العاطفي المرتفع مؤشر ودليل قوي على الأداء العالي والنجاح المهني المتميز[cite: 11]."
+          },
+          {
+            id: "ls_m3_3",
+            type: "single",
+            text: "3. ______ indicates being driven to achieve, for the sake of achievement.",
+            opts: ["Empathy", "Self-Regulation", "Personal Motivation", "Self-Awareness"],
+            ans: 2,
+            dispAnswer: "c) Personal Motivation",
+            exp: "التحفيز الذاتي يعني الاندفاع الداخلي نحو الإنجاز والشغف لتحقيق الذات وليس للمكافآت الخارجية فقط[cite: 11]."
+          },
+          {
+            id: "ls_m3_4",
+            type: "single",
+            text: "4. ______ refers to being sensitive to others' feelings while making decisions.",
+            opts: ["Empathy", "Self-Regulation", "Personal Motivation", "Self-Awareness"],
+            ans: 0,
+            dispAnswer: "a) Empathy",
+            exp: "التعاطف هو مراعاة مشاعر الآخرين ومشاعرهم وإدراك وجهات نظرهم عند اتخاذ القرارات[cite: 11]."
+          },
+          {
+            id: "ls_m3_5",
+            type: "single",
+            text: "5. Managing relationships to influence people in the desired direction refers to ______.",
+            opts: ["empathy", "self-Regulation", "personal Motivation", "social Skills"],
+            ans: 3,
+            dispAnswer: "d) social Skills",
+            exp: "المهارات الاجتماعية تتيح بناء وإدارة العلاقات وتوجيه الأفراد والتأثير فيهم بالاتجاه الإيجابي المطلوب[cite: 11]."
+          },
+          {
+            id: "ls_m3_6",
+            type: "single",
+            text: "6. Honestly recognizing feelings within is ______; it is recognizing one's emotions and values as well as one's strengths and challenges.",
+            opts: ["self-Regulation", "personal Motivation", "self-Awareness", "empathy"],
+            ans: 2,
+            dispAnswer: "c) self-Awareness",
+            exp: "الوعي الذاتي هو الصدق مع النفس وإدراك المشاعر والقيم ونقاط القوة وجوانب التحدي بدقة[cite: 11]."
+          },
+          {
+            id: "ls_m3_7",
+            type: "single",
+            text: "7. Taking control of your emotions and thoughts is called ______.",
+            opts: ["empathy", "self-Regulation", "personal Motivation", "self-Awareness"],
+            ans: 1,
+            dispAnswer: "b) self-Regulation",
+            exp: "التنظيم والضبط الذاتي هو القدرة على توجيه والتحكم في المشاعر والأفكار والانفعالات[cite: 11]."
+          },
+          {
+            id: "ls_m3_8",
+            type: "single",
+            text: "8. Self-awareness is concerned with knowing about your own state of mind and ______.",
+            opts: ["capabilities", "preferences", "resources", "perceptions", "All of the above"],
+            ans: 4,
+            dispAnswer: "e) All of the above",
+            exp: "يشمل الوعي بالذات معرفة القدرات والميول والتصورات والموارد النفسية والذهنية الخاصة بالفرد[cite: 11]."
+          },
+          {
+            id: "ls_m3_9",
+            type: "single",
+            text: "9. People with a heightened self-awareness are ______.",
+            opts: [
+              "neither pessimistic nor overtly optimistic",
+              "either pessimistic or overtly optimistic",
+              "not pessimistic but overtly optimistic",
+              "pessimistic but not overtly optimistic"
+            ],
+            ans: 0,
+            dispAnswer: "a) neither pessimistic nor overtly optimistic",
+            exp: "يتميز أصحاب الوعي الذاتي المرتفع بالاتزان الواقعي؛ فهم ليسوا متشائمين ولا مفرطين في التفاؤل غير الواقعي[cite: 11]."
+          },
+          {
+            id: "ls_m3_10",
+            type: "single",
+            text: "10. Self-awareness is ______ related to self-confidence.",
+            opts: ["directly", "indirectly", "both indirectly and directly", "not at all"],
+            ans: 0,
+            dispAnswer: "a) directly",
+            exp: "يرتبط الوعي الذاتي بعلاقة طردية ومباشرة مع الثقة بالنفس؛ فكلما فهمت ذاتك زادت ثقتك بقدراتك[cite: 11]."
+          },
+          {
+            id: "ls_m3_11",
+            type: "single",
+            text: "11. ______ is ______ associated with higher job and relationship satisfaction, personal and social control, and happiness.",
+            opts: [
+              "Internal self-awareness / positively",
+              "Internal self-awareness / negatively",
+              "External self-awareness / positively",
+              "External self-awareness / negatively"
+            ],
+            ans: 0,
+            dispAnswer: "a) Internal self-awareness / positively",
+            exp: "الوعي الذاتي الداخلي يرتبط ارتباطاً إيجابياً طردياً بالرضا الوظيفي والأسري والتحكم والسعادة[cite: 11]."
+          },
+          {
+            id: "ls_m3_12",
+            type: "single",
+            text: "12. ______ is ______ related to anxiety, stress, and depression.",
+            opts: [
+              "Internal self-awareness / positively",
+              "Internal self-awareness / negatively",
+              "External self-awareness / positively",
+              "External self-awareness / negatively"
+            ],
+            ans: 1,
+            dispAnswer: "b) Internal self-awareness / negatively",
+            exp: "الوعي الذاتي الداخلي يرتبط عكسياً وسلبياً بمشاعر القلق والتوتر والاكتئاب (يقللها)[cite: 11]."
+          },
+          {
+            id: "ls_m3_13",
+            type: "single",
+            text: "13. The decisions of self-aware people ______ their values; consequently, they often find work to be energizing.",
+            opts: ["mesh with", "go against", "don't correspond with", "All of the above"],
+            ans: 0,
+            dispAnswer: "a) mesh with",
+            exp: "قرارات الواعين بذواتهم تتناغم وتتطابق مع منظومة قيمهم ومبادئهم، مما يمنحهم حافزاً وطاقة دائمة[cite: 11]."
+          },
+          {
+            id: "ls_m3_14",
+            type: "single",
+            text: "14. People with strong self-awareness ______.",
+            opts: [
+              "are unable to conduct direct, authentic and accurate self-appraisals",
+              "are self-confident as they voice their opinions even if unpopular and welcome feedback",
+              "perceive situations inaccurately and ignore changes in their environment.",
+              "are unwilling to take risks for what they believe to be right"
+            ],
+            ans: 1,
+            dispAnswer: "b) are self-confident as they voice their opinions even if unpopular and welcome feedback",
+            exp: "الوعي الذاتي يمنح الثقة للنطق بالرأي الصائب وتقبل النقد البناء والتغذية الراجعة برحابة صدر[cite: 11]."
+          },
+          {
+            id: "ls_m3_15",
+            type: "single",
+            text: "15. We can develop our Self-Awareness through ______.",
+            opts: [
+              "creating a timeline of our life history",
+              "identifying our role models",
+              "describing our strengths and weaknesses",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "يمكن تطوير الوعي الذاتي بمراجعة محطات الحياة، وتحديد القدوة، والتشخيص الصادق لجوانب القوة والضعف[cite: 11]."
+          },
+          {
+            id: "ls_m3_16",
+            type: "single",
+            text: "16. Emotional Intelligence (EI) is a type of economical intelligence and the ability of individuals to control their own money and use this to recognize and guide others' businesses.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الذكاء العاطفي لا علاقة له بإدارة الأموال أو الاقتصاد، بل يختص بإدراك وإدارة المشاعر الذاتية وعلاقات الآخرين[cite: 11]."
+          },
+          {
+            id: "ls_m3_17",
+            type: "single",
+            text: "17. Emotional Intelligence is a collection of emotions, skills and characteristics that drive performance and success, it simply means using emotions intelligently according to your advantage.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الذكاء العاطفي هو توظيف المشاعر بذكاء وحكمة لتحقيق التميز والنجاح الشخصي والمهني[cite: 11]."
+          },
+          {
+            id: "ls_m3_18",
+            type: "single",
+            text: "18. Self-awareness means having a deep understanding of one's emotions, strengths, weaknesses, needs, and drives.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "هذا هو التعريف الجوهري للوعي بالذات؛ الفهم العميق للمشاعر والقدرات والاحتياجات والدوافع[cite: 11]."
+          },
+          {
+            id: "ls_m3_19",
+            type: "single",
+            text: "19. Self-awareness is the second component of emotional intelligence. It is the inability to be honest with oneself and identify, understand and evaluate personal feelings.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الوعي الذاتي هو المكون الأساسي والأول للذكاء العاطفي، ويقوم تماماً على القدرة على الصدق مع النفس وتقييم مشاعرها[cite: 11]."
+          },
+          {
+            id: "ls_m3_20",
+            type: "single",
+            text: "20. Responsible Decision-Making refers to making ethical, constructive choices about personal and social behavior.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "اتخاذ القرار المسؤول يعني بناء خيارات وسلوكيات أخلاقية وبناءة تراعي الصالح الفردي والاجتماعي[cite: 11]."
+          },
+          {
+            id: "ls_m3_21",
+            type: "single",
+            text: "21. Relationship Skills refer to forming negative relationships, working individually, and dealing aggressively with conflicts.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "مهارات العلاقات تعني بناء صلات إيجابية، والتعاون الجماعي، وإدارة النزاعات بحكمة وهدوء[cite: 11]."
+          },
+          {
+            id: "ls_m3_22",
+            type: "single",
+            text: "22. The more self-aware you become, the worse you are able to be in touch with your own feelings.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "كلما زاد وعيك بذاتك، زادت قدرتك على التواصل مع مشاعرك وفهمها والتحكم بها بشكل أفضل[cite: 11]."
+          },
+          {
+            id: "ls_m3_23",
+            type: "single",
+            text: "23. People with a heightened self-awareness are vague with themselves and with others, at work and at home.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "أصحاب الوعي الذاتي المرتفع يتسمون بالوضوح والشفافية التامة مع أنفسهم والآخرين في المنزل والعمل[cite: 11]."
+          },
+          {
+            id: "ls_24",
+            type: "single",
+            text: "24. Internal self-awareness refers to how clearly we see our own values, passions, aspirations, fit with our environment, and reactions (including thoughts, feelings, behaviors, strengths, and weaknesses).",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الوعي الذاتي الداخلي هو رؤية الفرد الواضحة لقيمه ومبادئه وطموحاته ونقاط قوته وضعفه وانفعالاته[cite: 11]."
+          },
+          {
+            id: "ls_25",
+            type: "single",
+            text: "25. People who know how others see them are not skilled at showing empathy and taking others' perspectives.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الأشخاص الذين يمتلكون وعياً بنظرة الآخرين لهم يكونون أكثر براعة وقدرة على إظهار التعاطف وفهم وجهات النظر المختلفة[cite: 11]."
+          },
+          {
+            id: "ls_26",
+            type: "single",
+            text: "26. External self-awareness refers to understanding how other people view us.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الوعي الذاتي الخارجي هو إدراك وفهم الصورة التي يرانا بها الآخرون وكيف يقيّموننا[cite: 11]."
+          },
+          {
+            id: "ls_27",
+            type: "single",
+            text: "27. People who have self-awareness are apt to make decisions that bring on inner turmoil.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "أصحاب الوعي الذاتي يتخذون قرارات متناغمة مع مبادئهم مما يحقق لهم الطمأنينة والسلام الداخلي بعيداً عن الصراعات[cite: 11]."
+          },
+          {
+            id: "ls_28",
+            type: "single",
+            text: "28. Self-Awareness can make us more proactive, boost our acceptance, and encourage positive self-development.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الوعي بالذات يعزز المبادرة الإيجابية، ويزيد تقبل النفس، ويحفز على التطوير الذاتي المستمر[cite: 11]."
+          },
+          {
+            id: "ls_29",
+            type: "single",
+            text: "29. Self-awareness allows us to see things from the perspective of others, practice self-control, work creatively and productively, and experience pride in ourselves and our work as well as general self-esteem.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الوعي الذاتي يمنحنا ضبط النفس، والإنتاجية، والفخر بالإنجاز، وتقدير الذات العالي[cite: 11]."
+          },
+          {
+            id: "ls_30",
+            type: "single",
+            text: "30. Self-awareness can make us inactive at our jobs, passive communicators in the workplace, and lower our self-confidence and job-related wellbeing.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الوعي الذاتي يرفع الدافعية والنشاط ويعزز الثقة والتواصل الفعال في بيئة العمل[cite: 11]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Personal SWOT Analysis & Introspection (Questions 31 – 50)",
+        context: "Official questions on conducting personal SWOT analysis (strengths, weaknesses, opportunities, threats) and introspection:",
+        subQuestions: [
+          {
+            id: "ls_m3_31",
+            type: "single",
+            text: "31. A SWOT analysis on oneself ______.",
+            opts: [
+              "is an objective and a sharp look inwards",
+              "stands for Soundness, Weaknesses, Options, and Teamwork",
+              "is a subjective and a strong look outwards",
+              "can make obstacles in one's life"
+            ],
+            ans: 0,
+            dispAnswer: "a) is an objective and a sharp look inwards",
+            exp: "تحليل SWOT الشخصي هو نظرة موضوعية وثاقبة للداخل لتقييم القدرات الحقيقية للفرد[cite: 11]."
+          },
+          {
+            id: "ls_m3_32",
+            type: "single",
+            text: "32. Once you honestly prepare a list of your strengths and weaknesses and identify potential opportunities and obstacles in your life, you can make ______ decisions.",
+            opts: ["unacceptable", "informed", "weak", "unreasonable"],
+            ans: 1,
+            dispAnswer: "b) informed",
+            exp: "التشخيص الدقيق لنقاط القوة والضعف والفرص والعقبات يمكّنك من اتخاذ قرارات مستنيرة ومدروسة (Informed decisions)[cite: 11]."
+          },
+          {
+            id: "ls_m3_33",
+            type: "single",
+            text: "33. Which of the following is a way to do a personal SWOT?",
+            opts: [
+              "Take a strategic and proactive approach to your accomplishments.",
+              "Identify your inaccurate state of mind.",
+              "What are the core competencies and characteristics that you want people to associate with themselves?",
+              "What part of your personality would you like to hide and what part would you like to keep unshown?"
+            ],
+            ans: 0,
+            dispAnswer: "a) Take a strategic and proactive approach to your accomplishments.",
+            exp: "اتباع منهج استراتيجي ومبادر نحو إنجازاتك الشخصية هو الأسلوب الصحيح لإجراء التحليل[cite: 11]."
+          },
+          {
+            id: "ls_m3_34",
+            type: "single",
+            text: "34. Which of the following is not a way to do a personal SWOT?",
+            opts: [
+              "Assess your current image, social-economic background and immediate environment.",
+              "View the environment around you from a micro and macro perspective.",
+              "How equipped are you to handle those potential situations: economically, financially, educationwise and exposure-wise? How do others currently perceive you?",
+              "Do you care about your perceptions of others?"
+            ],
+            ans: 3,
+            dispAnswer: "d) Do you care about your perceptions of others?",
+            exp: "تحليل SWOT يركز على قدراتك وواقعك الحقيقي وليس على الانشغال بتصورات الناس وإرضائهم[cite: 11]."
+          },
+          {
+            id: "ls_m3_35",
+            type: "single",
+            text: "35. ______ is an example on weaknesses (SWOT analysis).",
+            opts: ["Work experience", "Education", "Technical expertise", "Lack of job knowledge"],
+            ans: 3,
+            dispAnswer: "d) Lack of job knowledge",
+            exp: "نقص المعرفة الوظيفية يُعد نقطة ضعف داخلية (Weakness) يجب العمل على معالجتها وتداركها[cite: 11]."
+          },
+          {
+            id: "ls_m3_36",
+            type: "single",
+            text: "36. ______ represent an example on strengths (SWOT analysis).",
+            opts: [
+              "Weak interpersonal skills",
+              "Negative personal characteristics",
+              "Personal characteristics",
+              "Bad networking contacts"
+            ],
+            ans: 2,
+            dispAnswer: "c) Personal characteristics",
+            exp: "السمات والخصائص الشخصية الإيجابية كالعزيمة والانضباط تُمثل نقاط قوة جوهرية للفرد[cite: 11]."
+          },
+          {
+            id: "ls_m3_37",
+            type: "single",
+            text: "37. ______ represent an example on threats (SWOT analysis).",
+            opts: [
+              "Training and Education Obstacles",
+              "Unlimited Abilities to Develop",
+              "Unlimited Positions in Your Area",
+              "Positive trends in your field"
+            ],
+            ans: 0,
+            dispAnswer: "a) Training and Education Obstacles",
+            exp: "العقبات التدريبية والتعليمية الخارجية تُصنف كتهديدات وتحديات (Threats) تعيق التقدم[cite: 11]."
+          },
+          {
+            id: "ls_m3_38",
+            type: "single",
+            text: "38. ______ is an example on opportunities (SWOT analysis).",
+            opts: [
+              "Limited personal development",
+              "A field that doesn't need your skills",
+              "Enhancing education",
+              "Competition in your field"
+            ],
+            ans: 2,
+            dispAnswer: "c) Enhancing education",
+            exp: "فرص مواصلة وتطوير التعليم تمثل فرصاً خارجية (Opportunities) تفتح آفاقاً جديدة للمستقبل[cite: 11]."
+          },
+          {
+            id: "ls_m3_39",
+            type: "single",
+            text: "39. Better self-evaluation naturally leads to improving the ______ between our actions and our standards, resulting in better performance.",
+            opts: ["alignment", "inconsistency", "disagreement", "disharmony"],
+            ans: 0,
+            dispAnswer: "a) alignment",
+            exp: "التقييم الذاتي الدقيق يؤدي إلى مواءمة وتطابق أفعالنا مع معاييرنا وقيمنا، مما يرفع من جودة الأداء[cite: 11]."
+          },
+          {
+            id: "ls_m3_40",
+            type: "single",
+            text: "40. Good managers and leaders need ______ to perform well in their roles.",
+            opts: [
+              "only internal self-awareness",
+              "only external self-awareness",
+              "both types of self-awareness internal and external",
+              "neither internal nor external self-awareness"
+            ],
+            ans: 2,
+            dispAnswer: "c) both types of self-awareness internal and external",
+            exp: "القيادة الناجحة تتطلب الموازنة بين فهم الذات الداخلي وإدراك كيفية رؤية وتقييم المرؤوسين والآخرين للقائد[cite: 11]."
+          },
+          {
+            id: "ls_m3_41",
+            type: "single",
+            text: "41. Experience can be ______ in terms of learning and improving the self.",
+            opts: ["positive", "negative", "positive or negative", "neutral"],
+            ans: 2,
+            dispAnswer: "c) positive or negative",
+            exp: "التجارب والخبرات قد تكون إيجابية أو سلبية، وكلتاهما تمنحان دروساً قيّمة تسهم في صقل الذات وتطويرها[cite: 11]."
+          },
+          {
+            id: "ls_m3_42",
+            type: "single",
+            text: "42. Asking '______' may lead to better introspection.",
+            opts: ["what", "who", "when", "where"],
+            ans: 0,
+            dispAnswer: "a) what",
+            exp: "سؤال 'ماذا' (What) يركز التفكير الاستبطاني على الحقائق والحلول بدلاً من الدخول في دوامة لوم النفس عند سؤال 'لماذا'[cite: 11]."
+          },
+          {
+            id: "ls_m3_43",
+            type: "single",
+            text: "43. Decisions based on SWOT analysis help in making the worst impression and creation of your Personal Brand.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "تحليل SWOT يساعدك في بناء أفضل انطباع وصناعة علامتك الشخصية (Personal Brand) بنجاح وقوة[cite: 11]."
+          },
+          {
+            id: "ls_m3_44",
+            type: "single",
+            text: "44. A way to do a personal SWOT is to conduct a cost-benefit analysis for your self-image change. For example, if you had to change yourself from being a very casual and free-spirited person to a very conservative and traditional person, is it worth it? Is the time, money and effort justified?",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "تحليل التكلفة والعائد لتقييم مدى جدوى التغيير في صورتك وسلوكك يُعدّ جانباً مهماً في التحليل الشخصي[cite: 11]."
+          },
+          {
+            id: "ls_m3_45",
+            type: "single",
+            text: "45. Self-awareness develops all at once. The process begins in childhood, as kids start being able to recognize and name their emotions, strengths and challenges, and likes and dislikes. And it stops over time.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الوعي الذاتي لا يتطور فجأة ولا يتوقف عند عمر معين؛ بل هو رحلة تعلم واكتشاف مستمرة مدى الحياة[cite: 11]."
+          },
+          {
+            id: "ls_m3_46",
+            type: "single",
+            text: "46. Self-awareness spoils our communication, confidence, and thus our job performance.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "الوعي الذاتي هو حجر الزاوية في تقوية التواصل ورفع الثقة بالنفس والارتقاء بالأداء المهني[cite: 11]."
+          },
+          {
+            id: "ls_m3_47",
+            type: "single",
+            text: "47. Even positive experiences can lead one to attribute success to oneself when it may have had more to do with the circumstances, leading to false confidence.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "التجارب الإيجابية أحياناً تدفع الفرد لنسب النجاح لكفاءته بينما كان للظروف والحظ دور فيه، مما يولد ثقة زائفة إن لم يكن واعياً[cite: 11]."
+          },
+          {
+            id: "ls_m3_48",
+            type: "single",
+            text: "48. Introspection is recommended to improve self-awareness, but with a focus on asking oneself the right questions. It has been noted that asking 'why' might not always be effective, as many of our internal processes remain shrouded in our subconscious or unconscious minds.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "a) True",
+            exp: "الاستبطان والتأمل الذاتي يتطلب طرح الأسئلة الصحيحة؛ وسؤال 'لماذا' قد لا يسعفنا لغموض الدوافع في اللاوعي[cite: 11]."
+          },
+          {
+            id: "ls_m3_49",
+            type: "single",
+            text: "49. To improve your self-awareness, asking 'Why do I fail at this task so often?' can be better than asking 'What are the circumstances in which I fail at this task, and what can I do to change them?'",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "السؤال الذكي الذي يبدأ بـ 'ماذا' (What) أفضل بكثير لأنه يركز على تحليل الظروف والبحث عن حلول واقعية[cite: 11]."
+          },
+          {
+            id: "ls_m3_50",
+            type: "single",
+            text: "50. Increased self-awareness leads to less self-care in medical students and an unreal understanding of one's strengths and capabilities along with a boost to emotional intelligence in law students.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "b) False",
+            exp: "زيادة الوعي الذاتي تحفز على العناية والرعاية الذاتية السليمة وتمنح فهماً واقعياً وصادقاً للقدرات لدى كافة الطلبة[cite: 11]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

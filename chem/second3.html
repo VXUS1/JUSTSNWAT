@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | General Chemistry 103 - Second Exam 2011</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    .ptable-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .ptable-title {
+      font-weight: 800;
+      color: var(--apple-blue);
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ptable-title-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--apple-border);
+      border-radius: 99px;
+      padding: 2px 6px;
+    }
+    .btn-zoom {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 99px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-zoom:hover {
+      background: var(--apple-blue);
+      color: #fff;
+    }
+    .btn-zoom:active {
+      transform: scale(0.92);
+    }
+    .zoom-level-text {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5ac8fa;
+      min-width: 38px;
+      text-align: center;
+    }
+    .ptable-key {
+      font-size: 0.78rem;
+      color: var(--text-secondary, #94a3b8);
+      border: 1px dashed var(--apple-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.6;
+    }
+    .ptable {
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      transition: zoom 0.15s ease;
+    }
+    .ptable td {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      vertical-align: middle;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ptable td.element:hover {
+      background: rgba(10, 132, 255, 0.25);
+      border-color: var(--apple-blue);
+      transform: scale(1.1);
+      z-index: 5;
+    }
+    .ptable td.empty {
+      border: none;
+      background: transparent;
+    }
+    .ptable .z-num { font-size: 8px; color: #94a3b8; line-height: 1; }
+    .ptable .sym { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.1; }
+    .ptable .mass { font-size: 7.5px; color: #38bdf8; line-height: 1; }
+
+    .fig-box {
+      margin: 10px 0 14px;
+      text-align: center;
+    }
+    .fig-box img {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
+      background: #fff;
+      padding: 6px;
+    }
+    .verify-note {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(255, 159, 10, 0.1);
+      border-right: 3px solid #ff9f0a;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #ff9f0a;
+      line-height: 1.6;
+      direction: rtl;
+      text-align: right;
+    }
+    .lewis-opt svg { color: var(--text-primary); }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/chem103">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">General Chemistry 103</div>
+    <div class="subject-subtitle" id="quiz-subtitle">CH 103 — Second Exam (19/4/2011) — Jordan University of Science and Technology</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <!-- الجدول الدوري للعناصر المرفق في بداية ورقة الامتحان مع أزرار التكبير والتصغير -->
+    <div class="ptable-container">
+      <div class="ptable-title">
+        <div class="ptable-title-right">
+          <span>الجدول الدوري للعناصر (Periodic Table of the Elements)</span>
+          <div class="zoom-controls">
+            <button type="button" class="btn-zoom" onclick="zoomTable(0.1)" title="تكبير">+</button>
+            <button type="button" class="btn-zoom" onclick="zoomTable(-0.1)" title="تصغير">−</button>
+            <button type="button" class="btn-zoom" onclick="resetTableZoom()" title="إعادة ضبط الحجم">
+              <span class="zoom-level-text" id="zoom-val">100%</span> ↻
+            </button>
+          </div>
+        </div>
+        <span class="ptable-key">
+          <bdi>R = 0.082 atm·L/mol·K = 8.314 J/mol·K</bdi><br>
+          <bdi>1 atm = 760 torr = 101325 Pa = 760 mmHg</bdi><br>
+          <bdi>Avogadro's Number = 6.022 × 10<sup>23</sup></bdi>
+        </span>
+      </div>
+      <div class="table-container ltr-content">
+        <table class="ptable" id="periodic-table-el">
+          <tr>
+            <td class="element"><div class="z-num">1</div><div class="sym">H</div><div class="mass">1.01</div></td>
+            <td class="empty" colspan="16"></td>
+            <td class="element"><div class="z-num">2</div><div class="sym">He</div><div class="mass">4.00</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">3</div><div class="sym">Li</div><div class="mass">6.94</div></td>
+            <td class="element"><div class="z-num">4</div><div class="sym">Be</div><div class="mass">9.01</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">5</div><div class="sym">B</div><div class="mass">10.81</div></td>
+            <td class="element"><div class="z-num">6</div><div class="sym">C</div><div class="mass">12.01</div></td>
+            <td class="element"><div class="z-num">7</div><div class="sym">N</div><div class="mass">14.01</div></td>
+            <td class="element"><div class="z-num">8</div><div class="sym">O</div><div class="mass">15.99</div></td>
+            <td class="element"><div class="z-num">9</div><div class="sym">F</div><div class="mass">18.99</div></td>
+            <td class="element"><div class="z-num">10</div><div class="sym">Ne</div><div class="mass">20.18</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">11</div><div class="sym">Na</div><div class="mass">22.98</div></td>
+            <td class="element"><div class="z-num">12</div><div class="sym">Mg</div><div class="mass">24.30</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">13</div><div class="sym">Al</div><div class="mass">26.98</div></td>
+            <td class="element"><div class="z-num">14</div><div class="sym">Si</div><div class="mass">28.09</div></td>
+            <td class="element"><div class="z-num">15</div><div class="sym">P</div><div class="mass">30.97</div></td>
+            <td class="element"><div class="z-num">16</div><div class="sym">S</div><div class="mass">32.07</div></td>
+            <td class="element"><div class="z-num">17</div><div class="sym">Cl</div><div class="mass">35.45</div></td>
+            <td class="element"><div class="z-num">18</div><div class="sym">Ar</div><div class="mass">39.95</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">19</div><div class="sym">K</div><div class="mass">39.09</div></td>
+            <td class="element"><div class="z-num">20</div><div class="sym">Ca</div><div class="mass">40.08</div></td>
+            <td class="element"><div class="z-num">21</div><div class="sym">Sc</div><div class="mass">44.96</div></td>
+            <td class="element"><div class="z-num">22</div><div class="sym">Ti</div><div class="mass">47.88</div></td>
+            <td class="element"><div class="z-num">23</div><div class="sym">V</div><div class="mass">50.94</div></td>
+            <td class="element"><div class="z-num">24</div><div class="sym">Cr</div><div class="mass">51.99</div></td>
+            <td class="element"><div class="z-num">25</div><div class="sym">Mn</div><div class="mass">54.94</div></td>
+            <td class="element"><div class="z-num">26</div><div class="sym">Fe</div><div class="mass">55.85</div></td>
+            <td class="element"><div class="z-num">27</div><div class="sym">Co</div><div class="mass">58.93</div></td>
+            <td class="element"><div class="z-num">28</div><div class="sym">Ni</div><div class="mass">58.69</div></td>
+            <td class="element"><div class="z-num">29</div><div class="sym">Cu</div><div class="mass">63.55</div></td>
+            <td class="element"><div class="z-num">30</div><div class="sym">Zn</div><div class="mass">65.39</div></td>
+            <td class="element"><div class="z-num">31</div><div class="sym">Ga</div><div class="mass">69.72</div></td>
+            <td class="element"><div class="z-num">32</div><div class="sym">Ge</div><div class="mass">72.61</div></td>
+            <td class="element"><div class="z-num">33</div><div class="sym">As</div><div class="mass">74.92</div></td>
+            <td class="element"><div class="z-num">34</div><div class="sym">Se</div><div class="mass">78.96</div></td>
+            <td class="element"><div class="z-num">35</div><div class="sym">Br</div><div class="mass">79.90</div></td>
+            <td class="element"><div class="z-num">36</div><div class="sym">Kr</div><div class="mass">83.80</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">37</div><div class="sym">Rb</div><div class="mass">85.47</div></td>
+            <td class="element"><div class="z-num">38</div><div class="sym">Sr</div><div class="mass">87.62</div></td>
+            <td class="element"><div class="z-num">39</div><div class="sym">Y</div><div class="mass">88.91</div></td>
+            <td class="element"><div class="z-num">40</div><div class="sym">Zr</div><div class="mass">91.22</div></td>
+            <td class="element"><div class="z-num">41</div><div class="sym">Nb</div><div class="mass">92.91</div></td>
+            <td class="element"><div class="z-num">42</div><div class="sym">Mo</div><div class="mass">95.94</div></td>
+            <td class="element"><div class="z-num">43</div><div class="sym">Tc</div><div class="mass">98</div></td>
+            <td class="element"><div class="z-num">44</div><div class="sym">Ru</div><div class="mass">101.1</div></td>
+            <td class="element"><div class="z-num">45</div><div class="sym">Rh</div><div class="mass">102.9</div></td>
+            <td class="element"><div class="z-num">46</div><div class="sym">Pd</div><div class="mass">106.4</div></td>
+            <td class="element"><div class="z-num">47</div><div class="sym">Ag</div><div class="mass">107.9</div></td>
+            <td class="element"><div class="z-num">48</div><div class="sym">Cd</div><div class="mass">112.4</div></td>
+            <td class="element"><div class="z-num">49</div><div class="sym">In</div><div class="mass">114.8</div></td>
+            <td class="element"><div class="z-num">50</div><div class="sym">Sn</div><div class="mass">118.7</div></td>
+            <td class="element"><div class="z-num">51</div><div class="sym">Sb</div><div class="mass">121.8</div></td>
+            <td class="element"><div class="z-num">52</div><div class="sym">Te</div><div class="mass">127.6</div></td>
+            <td class="element"><div class="z-num">53</div><div class="sym">I</div><div class="mass">126.9</div></td>
+            <td class="element"><div class="z-num">54</div><div class="sym">Xe</div><div class="mass">131.3</div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/195F8Kn7QpblX82wO7C9-eqil5Nqu1cpk/view?usp=drive_link";
+
+    // صورة المانومتر (السؤال 6) مستخرجة مباشرة من ملف الامتحان الأصلي.
+    const MANOMETER_FIG = "data:image/png;base64,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";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    // رموز لويس (Lewis dot) لأربعة خيارات السؤال 10 — تم استخراج عدد ونمط النقاط
+    // بدقة من صورة ورقة الامتحان (A=7 نقاط، B=6، C=5 الصحيحة لـP، D=4).
+    const lewisA = '<svg viewBox="0 0 100 108" width="46" height="50" style="vertical-align:middle"><text x="50" y="63" font-size="34" text-anchor="middle" fill="currentColor" font-family="JetBrains Mono, monospace">X</text><circle cx="42" cy="16" r="3.2" fill="currentColor"/><circle cx="58" cy="16" r="3.2" fill="currentColor"/><circle cx="16" cy="46" r="3.2" fill="currentColor"/><circle cx="16" cy="62" r="3.2" fill="currentColor"/><circle cx="84" cy="54" r="3.2" fill="currentColor"/><circle cx="42" cy="92" r="3.2" fill="currentColor"/><circle cx="58" cy="92" r="3.2" fill="currentColor"/></svg>';
+    const lewisB = '<svg viewBox="0 0 100 108" width="46" height="50" style="vertical-align:middle"><text x="50" y="63" font-size="34" text-anchor="middle" fill="currentColor" font-family="JetBrains Mono, monospace">X</text><circle cx="42" cy="16" r="3.2" fill="currentColor"/><circle cx="58" cy="16" r="3.2" fill="currentColor"/><circle cx="16" cy="54" r="3.2" fill="currentColor"/><circle cx="84" cy="54" r="3.2" fill="currentColor"/><circle cx="42" cy="92" r="3.2" fill="currentColor"/><circle cx="58" cy="92" r="3.2" fill="currentColor"/></svg>';
+    const lewisC = '<svg viewBox="0 0 100 108" width="46" height="50" style="vertical-align:middle"><text x="50" y="63" font-size="34" text-anchor="middle" fill="currentColor" font-family="JetBrains Mono, monospace">X</text><circle cx="50" cy="16" r="3.2" fill="currentColor"/><circle cx="16" cy="54" r="3.2" fill="currentColor"/><circle cx="84" cy="54" r="3.2" fill="currentColor"/><circle cx="42" cy="92" r="3.2" fill="currentColor"/><circle cx="58" cy="92" r="3.2" fill="currentColor"/></svg>';
+    const lewisD = '<svg viewBox="0 0 100 108" width="46" height="50" style="vertical-align:middle"><text x="50" y="63" font-size="34" text-anchor="middle" fill="currentColor" font-family="JetBrains Mono, monospace">X</text><circle cx="50" cy="16" r="3.2" fill="currentColor"/><circle cx="16" cy="54" r="3.2" fill="currentColor"/><circle cx="84" cy="54" r="3.2" fill="currentColor"/><circle cx="50" cy="92" r="3.2" fill="currentColor"/></svg>';
+
+    const examSections = [
+      {
+        title: "Second Exam — 19/4/2011 (Q1 - Q16)",
+        context: "Choose the most correct answer in the followings:",
+        subQuestions: [
+          {
+            id: "chem_s11_1",
+            type: "single",
+            text: "1. Which of the following has the lowest melting point?",
+            opts: ["NaCl", "CaO", "Al2O3", "C3H8"],
+            ans: 3,
+            dispAnswer: "D) C3H8",
+            exp: "<bdi>NaCl, CaO, Al2O3</bdi> مركبات أيونية/شبكية بروابط قوية جداً ودرجات انصهار عالية. أما <bdi>C3H8</bdi> (بروبان) فهو مركب تساهمي جزيئي تربطه قوى تشتت لندن الضعيفة فقط، فيكون غازاً بدرجة حرارة الغرفة وله أدنى درجة انصهار بفارق كبير."
+          },
+          {
+            id: "chem_s11_2",
+            type: "single",
+            text: "2. Which of the following bonds is the most polar?",
+            opts: ["C-H", "C-N", "C-O", "C-F"],
+            ans: 3,
+            dispAnswer: "D) C-F",
+            exp: "قطبية الرابطة تتناسب مع فرق السالبية الكهربائية بين الذرتين. الفرق: C-H ≈ 0.35، C-N ≈ 0.49، C-O ≈ 0.89، C-F ≈ 1.43 (الأكبر). إذاً C-F هي الأكثر قطبية."
+          },
+          {
+            id: "chem_s11_3",
+            type: "single",
+            text: "3. The electron configuration of the sulfide ion (S²⁻) is:",
+            opts: ["[Ne]", "[Ne] 3s² 3p⁶", "[Ar]", "[Ne] 2s² 3p⁶"],
+            ans: 2,
+            dispAnswer: "C) [Ar]",
+            exp: "الكبريت S عدده الذري 16. أيون الكبريتيد S²⁻ اكتسب إلكترونين فأصبح عدد إلكتروناته 18، وهذا يطابق التوزيع الإلكتروني للغاز النبيل الأرجون [Ar] (علماً أن الخيار B هو نفسه [Ar] لكن مكتوب بصيغة موسّعة صحيحة أيضاً؛ الصيغة المختصرة القياسية هي [Ar])."
+          },
+          {
+            id: "chem_s11_4",
+            type: "single",
+            text: "4. List the salts CaO, CsCl, LiCl, and MgO in order of increasing lattice energy:",
+            opts: [
+              "KCl < LiCl < CaO < MgO",
+              "LiCl < KCl < CaO < MgO",
+              "KCl < LiCl < MgO < CaO",
+              "MgO < LiCl < CaO < KCl"
+            ],
+            ans: 0,
+            dispAnswer: "A) KCl < LiCl < CaO < MgO",
+            exp: "طاقة الشبكة البلورية تزيد مع زيادة حاصل ضرب الشحنات وتقل مع زيادة نصف القطر. الأملاح أحادية الشحنة (Cs/K مع Cl) أضعف بكثير من ثنائية الشحنة (Ca/Mg مع O). ضمن نفس نوع الشحنة: Li⁺ أصغر من Cs⁺/K⁺ فطاقة LiCl أكبر، وMg²⁺ أصغر من Ca²⁺ فطاقة MgO أكبر من CaO.",
+            note: "الخيارات مكتوبة بالأصل بـ KCl رغم أن نص السؤال يذكر CsCl — على الأغلب خطأ مطبعي بالنسخة الأصلية للامتحان. الترتيب صحيح نفسياً سواء K⁺ أو Cs⁺ لأنهما متقاربان جداً بالحجم."
+          },
+          {
+            id: "chem_s11_5",
+            type: "single",
+            text: "5. How many moles are in 10 liters of oxygen at STP?",
+            opts: ["0.7", "1.0", "0.45 mol", "1.7 mol"],
+            ans: 2,
+            dispAnswer: "C) 0.45 mol",
+            exp: "عند STP: <bdi>n = V / 22.4 L/mol = 10 / 22.4 = 0.446 ≈ 0.45 mol</bdi>."
+          },
+          {
+            id: "chem_s11_6",
+            type: "single",
+            text: "6. What is the pressure of the gas trapped as shown in the figure below when the atmospheric pressure is 720 mmHg?",
+            figure: "manometer",
+            opts: ["12 mmHg", "708 mmHg", "720 mmHg", "738 mmHg"],
+            ans: 1,
+            dispAnswer: "B) 708 mmHg",
+            exp: "من الرسمة: مستوى الزئبق بالطرف المغلق (Gas) أعلى من الطرف المفتوح (Air) بمقدار 12 mm. ارتفاع الزئبق الأعلى بجهة الغاز يعني أن ضغط الغاز أقل من الضغط الجوي بمقدار فرق الارتفاع: <bdi>P_gas = P_atm − 12 = 720 − 12 = 708 mmHg</bdi>."
+          },
+          {
+            id: "chem_s11_7",
+            type: "single",
+            text: "7. Consider the reaction: 2NO(g) + O2(g) → 2NO2(g). If 15 L of O2 is reacted with 15 L of NO at STP, how many liters of NO2 will form?",
+            opts: ["10", "5", "30", "15"],
+            ans: 3,
+            dispAnswer: "D) 15",
+            exp: "النسبة المولية (وبالتالي الحجمية عند نفس T,P) هي NO : O2 = 2 : 1. لتفاعل 15 L من NO نحتاج 7.5 L فقط من O2، فيكون NO هو الكاشف المحدد (يوجد فائض من O2). وبما أن النسبة NO : NO2 = 1 : 1، فإن حجم NO2 الناتج = 15 L."
+          },
+          {
+            id: "chem_s11_8",
+            type: "single",
+            text: "8. Determine the molar mass of an unknown gas if a sample weighing 0.389 g is collected in a flask with a volume of 102 cm³ at 97°C and a pressure of 728 mmHg.",
+            opts: ["187 g/mol", "121 g/mol", "112 g/mol", "60.6 g/mol"],
+            ans: 1,
+            dispAnswer: "B) 121 g/mol",
+            exp: "<bdi>P = 728/760 = 0.958 atm</bdi>، <bdi>V = 0.102 L</bdi>، <bdi>T = 97 + 273 = 370 K</bdi>.<br><bdi>n = PV/RT = (0.958 × 0.102)/(0.082 × 370) = 0.00322 mol</bdi>.<br><bdi>MM = mass/n = 0.389/0.00322 ≈ 121 g/mol</bdi>."
+          },
+          {
+            id: "chem_s11_9",
+            type: "single",
+            text: "9. A sample of nitrogen gas has a volume of 32.4 L at 20°C. The gas is heated to 220°C at constant pressure. What is the final volume of nitrogen?",
+            opts: ["194.4 L", "43.5 L", "356 L", "54.5 L"],
+            ans: 3,
+            dispAnswer: "D) 54.5 L",
+            exp: "بقانون شارل (ضغط ثابت): <bdi>V1/T1 = V2/T2</bdi>.<br><bdi>T1 = 293 K، T2 = 493 K</bdi>.<br><bdi>V2 = 32.4 × (493/293) ≈ 54.5 L</bdi>."
+          },
+          {
+            id: "chem_s11_10",
+            type: "single",
+            text: "10. The electron-dot (Lewis) structure of the atom that has the atomic number of 15 is:",
+            opts: [lewisA, lewisB, lewisC, lewisD],
+            ans: 2,
+            dispAnswer: "C — الشكل بنقطة مفردة أعلى، يسار، يمين، وزوج نقاط بالأسفل (5 نقاط)",
+            exp: "العدد الذري 15 هو الفوسفور P، بالمجموعة 5A، وله 5 إلكترونات تكافؤ. رمز لويس الصحيح يحتوي زوجاً واحداً (إلكترونين مزدوجين) وثلاث نقاط مفردة حول الرمز، أي 5 نقاط بالمجموع — وهذا يطابق الخيار C بالضبط (A=7 نقاط، B=6 نقاط، D=4 نقاط)."
+          },
+          {
+            id: "chem_s11_11",
+            type: "single",
+            text: "11. Which choice below correctly lists the elements in order of increasing atomic radii?",
+            opts: [
+              "Na < Mg < K < Rb",
+              "Mg < Na < K < Rb",
+              "Rb < K < Na < Mg",
+              "Rb < K < Mg < Na"
+            ],
+            ans: 1,
+            dispAnswer: "B) Mg < Na < K < Rb",
+            exp: "ضمن نفس الدورة يقل نصف القطر من اليسار لليمين، فـMg (مجموعة 2A) أصغر من Na (مجموعة 1A) بنفس الدورة الثالثة. وضمن نفس المجموعة (1A) يزيد نصف القطر بالنزول: Na < K < Rb. إذاً الترتيب التصاعدي: Mg < Na < K < Rb."
+          },
+          {
+            id: "chem_s11_12",
+            type: "single",
+            text: "12. Which of the following statements give the correct order of radii of the two ions or atoms?",
+            opts: ["A+ > A-", "A- < A", "A2+ > A+", "A2+ < A+"],
+            ans: 3,
+            dispAnswer: "D) A2+ < A+",
+            exp: "كلما فقدت الذرة إلكترونات أكثر (شحنة موجبة أعلى)، يصغر حجم الأيون أكثر بسبب زيادة الشحنة النووية الفعالة لكل إلكترون متبقٍ. لذلك A2+ أصغر من A+. (بالمقابل: A- أكبر من A، وA أكبر من A+، فكل الخيارات الأخرى غلط)."
+          },
+          {
+            id: "chem_s11_13",
+            type: "single",
+            text: "13. If an equal mass of each gas is put into a separate balloon at the equal temperature and pressure, which will have the greatest volume?",
+            opts: ["He", "Ne", "N2", "all have equal volumes"],
+            ans: 0,
+            dispAnswer: "A) He",
+            exp: "عند نفس T وP: <bdi>V ∝ n = mass / molar mass</bdi>. لنفس الكتلة، أصغر كتلة مولية تعطي أكبر عدد مولات وبالتالي أكبر حجم. الهيليوم He (4 g/mol) له أصغر كتلة مولية بين الخيارات، فيعطي أكبر حجم."
+          },
+          {
+            id: "chem_s11_14",
+            type: "single",
+            text: "14. Under conditions of fixed temperature and amount of gas, Which of the following is not a statement of Boyle's law?\nI. P1V1 = P2V2   II. PV = constant   III. P1/P2 = V1/V2   IV. V ∝ 1/P",
+            opts: ["I only", "II only", "III only", "I, II, and IV"],
+            ans: 2,
+            dispAnswer: "C) III only",
+            exp: "قانون بويل ينص على <bdi>P1V1 = P2V2</bdi>، وهذا يعني <bdi>P1/P2 = V2/V1</bdi> (مقلوبة)، وليس <bdi>P1/P2 = V1/V2</bdi> كما بالعبارة III. إذاً العبارة الوحيدة الخاطئة (ليست صيغة لقانون بويل) هي III، بينما I وII وIV كلها صيغ صحيحة له."
+          },
+          {
+            id: "chem_s11_15",
+            type: "single",
+            text: "15. Which of the following pairs of atoms will form covalent compound when they react?",
+            opts: ["Na and Cl", "H and O", "Ca and O", "Na and N"],
+            ans: 1,
+            dispAnswer: "B) H and O",
+            exp: "الرابطة الأيونية تتكون بين فلز ولافلز (Na-Cl، Ca-O، Na-N كلها فلز مع لافلز → أيونية). أما H وO فكلاهما لافلز، فيكوّنان رابطة تساهمية (جزيء H2O)."
+          },
+          {
+            id: "chem_s11_16",
+            type: "single",
+            text: "16. Which of the following has 3 valence electrons?",
+            opts: ["Se", "K", "Ga", "Be"],
+            ans: 2,
+            dispAnswer: "C) Ga",
+            exp: "الغاليوم Ga بالمجموعة 3A وله 3 إلكترونات تكافؤ ([Ar] 3d¹⁰ 4s² 4p¹). أما Se بالمجموعة 6A (6 إلكترونات)، K بالمجموعة 1A (إلكترون واحد)، وBe بالمجموعة 2A (إلكترونان)."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let ptableZoom = 1.0;
+
+    function zoomTable(delta) {
+      ptableZoom = Math.round((ptableZoom + delta) * 10) / 10;
+      if (ptableZoom < 0.6) ptableZoom = 0.6;
+      if (ptableZoom > 2.0) ptableZoom = 2.0;
+      applyTableZoom();
+    }
+
+    function resetTableZoom() {
+      ptableZoom = 1.0;
+      applyTableZoom();
+    }
+
+    function applyTableZoom() {
+      const table = document.getElementById('periodic-table-el');
+      const zoomLabel = document.getElementById('zoom-val');
+      if (table) {
+        table.style.zoom = ptableZoom;
+      }
+      if (zoomLabel) {
+        zoomLabel.innerText = Math.round(ptableZoom * 100) + '%';
+      }
+    }
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          const figureHtml = sub.figure === 'manometer'
+            ? `<div class="fig-box"><img src="${MANOMETER_FIG}" alt="Manometer figure Q6" /></div>`
+            : '';
+
+          const noteHtml = sub.note ? `<div class="verify-note">📌 ${sub.note}</div>` : '';
+
+          if (sub.type === "single") {
+            const isLewis = sub.id === "chem_s11_10";
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item${isLewis ? ' lewis-opt' : ''}" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space:pre-line;">${sub.text}</div>
+              ${figureHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+                ${noteHtml}
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item' + (subId === 'chem_s11_10' ? ' lewis-opt' : '');
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | الريادة والابتكار (Entrepreneurship) - أسئلة الميد (Ch. 1)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ent">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">الريادة والابتكار (Entrepreneurship)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Chapter 1 — أسئلة سنوات امتحان الميد (The Foundations of Entrepreneurship)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ent">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const examSections = [
+      {
+        title: "Part 1: The Entrepreneurial Profile, Characteristics & Types (Questions 1 – 25)",
+        context: "Official past exam questions covering definitions of entrepreneurship, characteristics, motivations, serial and social entrepreneurs:",
+        subQuestions: [
+          {
+            id: "ent_1",
+            type: "single",
+            text: "1) One of the most significant economic developments in recent business history relates to the ______.",
+            opts: ["growth of blue-chip corporations", "development of Pacific Rim countries", "entrepreneurial spirit", "additional employment opportunities offered by government institutions"],
+            ans: 2,
+            dispAnswer: "c) entrepreneurial spirit",
+            exp: "روح المبادرة وريادة الأعمال تمثل التطور الاقتصادي الأبرز في العصر الحديث."
+          },
+          {
+            id: "ent_2",
+            type: "single",
+            text: "2) The recent number of job losses in large corporations compared to the jobs created by small business has changed the perception of ______ for launching a new business.",
+            opts: ["prestige", "risk", "financing opportunities", "short-term potential"],
+            ans: 1,
+            dispAnswer: "b) risk",
+            exp: "تغير النظرة العامة للمخاطرة المرتبطة ببدء مشروع جديد بعد موجات تسريح الشركات الكبرى للموظفين."
+          },
+          {
+            id: "ent_3",
+            type: "single",
+            text: "3) Globally, one in eight adults is actively engaged in launching a business.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "إحصائية عالمية تؤكد أن واحداً من كل ثمانية بالغين يشارك بفاعلية في إطلاق مشروع ريادي."
+          },
+          {
+            id: "ent_4",
+            type: "single",
+            text: "4) Current competitive conditions favor large companies over smaller ones because of their flexibility combined with their ability to use their size to achieve efficiency and economies of scale.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الشركات الصغيرة هي الأكثر مرونة وسرعة في التكيف مع متطلبات السوق الحديث مقارنة بالشركات الضخمة."
+          },
+          {
+            id: "ent_5",
+            type: "single",
+            text: "5) Increased entrepreneurial activity is a phenomenon unique to the U.S.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "النشاط الريادي ظاهرة عالمية تشهدها مختلف قارات ودول العالم وليست مقصورة على الولايات المتحدة."
+          },
+          {
+            id: "ent_6",
+            type: "single",
+            text: "6) One study conducted by the Global Entrepreneurship Monitor (GEM) reports that nearly one in eight people in the United States is working to start a business.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تقرير مرصد ريادة الأعمال العالمي (GEM) يؤكد هذه النسبة داخل الولايات المتحدة."
+          },
+          {
+            id: "ent_7",
+            type: "single",
+            text: "7) The profile of an entrepreneur includes ______.",
+            opts: [
+              "a desire for responsibility and moderate risk",
+              "confidence in the ability to succeed and determination",
+              "a high level of energy, a desire for immediate feedback and a future orientation",
+              "All the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All the above",
+            exp: "ملف ريادي الأعمال يجمع تحمل المسؤولية، الثقة بالنجاح، الطاقة العالية، والتوجه المستقبلي."
+          },
+          {
+            id: "ent_8",
+            type: "single",
+            text: "8) An entrepreneur is one who ______.",
+            opts: [
+              "is willing to attempt to implement a business concept and then give up if it does not meet immediate expectations",
+              "understands the process of developing an idea and does not need to understand what it means to bring that idea to a viable business concept",
+              "knows that the concept they are about to develop will result in a profitable business",
+              "creates a new business concept for the purpose of achieving profit and growth by assembling the necessary resources to capitalize on identified opportunities"
+            ],
+            ans: 3,
+            dispAnswer: "d) creates a new business concept for the purpose of achieving profit and growth by assembling the necessary resources to capitalize on identified opportunities",
+            exp: "التعريف العلمي الشامل للريادي: يبتكر مفهوماً جديداً ويحشد الموارد لتحقيق الربح والنمو واقتناص الفرص."
+          },
+          {
+            id: "ent_9",
+            type: "single",
+            text: "9) All of the following are characteristics of the typical entrepreneur except ______.",
+            opts: ["confidence in his/her ability to succeed", "value of money over achievement", "desire for immediate feedback", "a future orientation"],
+            ans: 1,
+            dispAnswer: "b) value of money over achievement",
+            exp: "الريادي النموذجي يفضل قيمة الإنجاز وتحقيق الأثر على مجرد جمع المال."
+          },
+          {
+            id: "ent_10",
+            type: "single",
+            text: "10) Entrepreneurs are characterized by ______.",
+            opts: ["skill at organizing", "desire for immediate feedback", "high energy levels", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "مهارات التنظيم، الرغبة في التغذية الراجعة السريعة، ومستويات الطاقة المرتفعة من أهم سمات الرياديين."
+          },
+          {
+            id: "ent_11",
+            type: "single",
+            text: "11) Entrepreneurs who repeatedly start businesses and grow to a sustainable size before striking out again are known as ______ entrepreneurs.",
+            opts: ["opportunistic", "persistent", "serial", "classic"],
+            ans: 2,
+            dispAnswer: "c) serial",
+            exp: "الريادي المتسلسل (Serial entrepreneur) هو من يؤسس شركة وينميها ثم يبدأ مشروعاً جديداً مراراً."
+          },
+          {
+            id: "ent_12",
+            type: "single",
+            text: "12) Entrepreneurs typically possess ______.",
+            opts: [
+              "the ability to easily access capital",
+              "a set of unique skills that is usually accompanied by advanced degrees in several areas",
+              "a high level of commitment, have a tolerance for ambiguity, are flexible and tenacious",
+              "specialized technical abilities"
+            ],
+            ans: 2,
+            dispAnswer: "c) a high level of commitment, have a tolerance for ambiguity, are flexible and tenacious",
+            exp: "الالتزام العالي، وتقبل الغموض، والمرونة، والمثابرة هي السمات السلوكية الجوهرية للريادي."
+          },
+          {
+            id: "ent_13",
+            type: "single",
+            text: "13) Entrepreneurs who start businesses because they cannot find work any other way are ______.",
+            opts: ["necessity entrepreneurs", "serial entrepreneurs", "opportunity entrepreneurs", "corporate cast-offs"],
+            ans: 0,
+            dispAnswer: "a) necessity entrepreneurs",
+            exp: "رياديّو الحاجة والضرورة (Necessity entrepreneurs) يؤسسون أعمالهم لغياب أي فرص عمل بديلة."
+          },
+          {
+            id: "ent_14",
+            type: "single",
+            text: "14) Research has isolated a set of characteristics that can predict who will succeed as an entrepreneur.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "لم تتمكن الأبحاث من عزل سمات محددة تتنبأ يقيناً بمن سينجح كرائد أعمال؛ فالخلفيات والقدرات شديدة التنوع."
+          },
+          {
+            id: "ent_15",
+            type: "single",
+            text: "15) Serial entrepreneurs repeatedly start businesses and grow them to a sustainable size before striking out again.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تعريف دقيق ومؤكد للريادي المتسلسل."
+          },
+          {
+            id: "ent_16",
+            type: "single",
+            text: "16) Surveys show that small business owners believe that, as entrepreneurs, they work harder, earn more money, and are happier than if they worked for a large company.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تؤكد الدراسات رضا أصحاب الأعمال الصغيرة وسعادتهم بالاستقلالية رغم ساعات العمل الطويلة."
+          },
+          {
+            id: "ent_17",
+            type: "single",
+            text: "17) The opportunity to reap impressive profits is the primary motivation for most entrepreneurs.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الاستقلالية وتحقيق الذات وتحديد المصير الشخصي هما الدافع الأكبر لمعظم الرياديين قبل الربح المالي."
+          },
+          {
+            id: "ent_18",
+            type: "single",
+            text: "18) In addition to the opportunity to create their own destiny and enjoy what they do, entrepreneurs also benefit from the ability to ______.",
+            opts: [
+              "earn tremendous wealth without risk and uncertainty",
+              "make a difference in an area important to them and be recognized for those efforts",
+              "create wealth without providing true value",
+              "exploit the opportunities that the free enterprise system offers"
+            ],
+            ans: 1,
+            dispAnswer: "b) make a difference in an area important to them and be recognized for those efforts",
+            exp: "إحداث فارق مجتمعي ونيل التقدير المعنوي من أبرز مزايا العمل الريادي."
+          },
+          {
+            id: "ent_19",
+            type: "single",
+            text: "19) ______ entrepreneurs are business builders who seek innovative solutions to some of society's most vexing problems.",
+            opts: ["Social", "Opportunistic", "Serial", "Necessity"],
+            ans: 0,
+            dispAnswer: "a) Social",
+            exp: "الرياديون الاجتماعيون (Social entrepreneurs) يبتكرون حلولاً مستدامة لأعقد المعضلات الاجتماعية والبيئية."
+          },
+          {
+            id: "ent_20",
+            type: "single",
+            text: "20) Which of the following is a benefit of entrepreneurship?",
+            opts: [
+              "The opportunity to gain control over your own destiny.",
+              "The opportunity to reach your full potential.",
+              "The opportunity to do what you enjoy.",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "التحكم في المصير، الوصول للطاقة القصوى، وممارسة ما يحبه الإنسان كلها من فوائد الريادة."
+          },
+          {
+            id: "ent_21",
+            type: "single",
+            text: "21) Social entrepreneurs use their skills to create profitable businesses and also achieve economic, social and environmental goals for the common good.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "المشاريع الريادية الاجتماعية تدمج الجدوى الاقتصادية بتحقيق المنفعة العامة والأهداف البيئية."
+          },
+          {
+            id: "ent_22",
+            type: "single",
+            text: "22) Technology offers a significant advantage for entrepreneurs.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تتيح التكنولوجيا للشركات الصغيرة منافسة الكيانات الكبرى بكفاءة وتكلفة منخفضة."
+          },
+          {
+            id: "ent_23",
+            type: "single",
+            text: "23) Entrepreneurs choose to enter their particular business fields because they have an interest in them and enjoy those lines of work. They have often made their hobbies their business.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "غالباً ما يُحوّل الرياديون هواياتهم وشغفهم الشخصي إلى مشاريع تجارية ناجحة."
+          },
+          {
+            id: "ent_24",
+            type: "single",
+            text: "24) Entrepreneurs are not willing to give up a steady paycheck.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الريادي مستعد تماماً للتضحية بالراتب الثابت والآمن مقابل تأسيس مشروعه الخاص."
+          },
+          {
+            id: "ent_25",
+            type: "single",
+            text: "25) There is concern over the future of entrepreneurship because so few high school and college students want to start their own companies.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الرغبة في تأسيس المشاريع بين طلاب المدارس والجامعات في أعلى مستوياتها تاريخياً."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Drawbacks, Economic Drivers, Technology & Diversity (Questions 26 – 52)",
+        context: "Official past exam questions covering potential drawbacks, mortality rates, driving forces, cloud computing, and diversity in entrepreneurship:",
+        subQuestions: [
+          {
+            id: "ent_26",
+            type: "single",
+            text: "26) Potential drawbacks of entrepreneurship may include ______.",
+            opts: [
+              "uncertainty of income, risk, long hours, and high stress",
+              "uncertainty of income, risk, easy hours, and frequent vacations",
+              "uncertainty of income, risk, long hours, and the immediate accumulation of wealth",
+              "certainty of income, risk, long hours, and high stress"
+            ],
+            ans: 0,
+            dispAnswer: "a) uncertainty of income, risk, long hours, and high stress",
+            exp: "عدم استقرار الدخل، المخاطرة، ساعات العمل الطويلة، والضغط العصبي هي أبرز سلبيات الريادة."
+          },
+          {
+            id: "ent_27",
+            type: "single",
+            text: "27) It is estimated that ______ percent of new businesses fail within two years, while ______ percent fail within five years.",
+            opts: ["21; 51", "51; 64", "35; 41", "51; 31"],
+            ans: 0,
+            dispAnswer: "a) 21; 51",
+            exp: "تشير الإحصاءات إلى تعثر 21% من المشاريع خلال عامين، و 51% خلال خمس سنوات."
+          },
+          {
+            id: "ent_28",
+            type: "single",
+            text: "28) Within five years, ______ percent of new businesses will fail.",
+            opts: ["21", "45", "51", "65"],
+            ans: 2,
+            dispAnswer: "c) 51",
+            exp: "يفشل ما نسبته 51% من المشاريع الجديدة بحلول العام الخامس من انطلاقها."
+          },
+          {
+            id: "ent_29",
+            type: "single",
+            text: "29) The majority of new business owners work ______.",
+            opts: ["fewer than 40 hours per week", "more than 40 hours per week", "more than 70 hours per week", "more than 80 hours per week"],
+            ans: 1,
+            dispAnswer: "b) more than 40 hours per week",
+            exp: "يقضي معظم أصحاب المشاريع الجدد أكثر من 40 ساعة عمل أسبوعياً في إدارة شركاتهم."
+          },
+          {
+            id: "ent_30",
+            type: "single",
+            text: "30) The majority of new business owners work fewer than 40 hours per week.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "العبارة خاطئة؛ فالأغلبية الساحقة تعمل ساعات طويلة تفوق الـ 40 ساعة أسبوعياً."
+          },
+          {
+            id: "ent_31",
+            type: "single",
+            text: "31) The majority of new business owners devote more than 40 hours per week to their companies.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "عبارة صحيحة ومؤكدة لإحصاءات ساعات عمل أصحاب المشاريع الصغيرة."
+          },
+          {
+            id: "ent_32",
+            type: "single",
+            text: "32) One advantage of being your own boss and owning a small business is that work hours are very flexible and leisure time is abundant.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "أوقات الفراغ نادرة جداً في بداية المشروع، وساعات العمل تتطلب تفرغاً وجهداً شاقاً."
+          },
+          {
+            id: "ent_33",
+            type: "single",
+            text: "33) Nearly ______ of entrepreneurs start their businesses between the ages of 20 and 44 and the number of Americans in that age range currently is ______.",
+            opts: ["one-half; 8.5 million", "two-thirds; 85,000", "three-fourths; 103 million", "one-fourth; 85 million"],
+            ans: 2,
+            dispAnswer: "c) three-fourths; 103 million",
+            exp: "يقارب ثلاثة أرباع الرياديين تأسيس أعمالهم بين عمر 20 و 44 عاماً."
+          },
+          {
+            id: "ent_34",
+            type: "single",
+            text: "34) Factors that feed the economic boom behind entrepreneurship include ______.",
+            opts: [
+              "demographic and economic factors",
+              "technology and cloud computing",
+              "the shift to a service-based economy and international opportunities",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "تتكامل العوامل الديموغرافية، الثورة التكنولوجية، والتحول لاقتصاد الخدمات لتعزيز الطفرة الريادية."
+          },
+          {
+            id: "ent_35",
+            type: "single",
+            text: "35) Which of the following is NOT one of the forces driving the entrepreneurial trend in our country?",
+            opts: [
+              "Shift away from a service economy.",
+              "Independent lifestyle.",
+              "International opportunities.",
+              "E-commerce and the World Wide Web."
+            ],
+            ans: 0,
+            dispAnswer: "a) Shift away from a service economy.",
+            exp: "الاتجاه الفعلي هو التحول نحو اقتصاد الخدمات (Shift to) وليس الابتعاد عنه."
+          },
+          {
+            id: "ent_36",
+            type: "single",
+            text: "36) Which of the following technological forces is driving the entrepreneurial trend in our nation?",
+            opts: ["Cloud computing.", "Mobile marketing.", "The Internet.", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "الحوسبة السحابية، التسويق عبر الهاتف، والإنترنت كلها محركات تكنولوجية كبرى."
+          },
+          {
+            id: "ent_37",
+            type: "single",
+            text: "37) Entrepreneurs may find benefit from the Internet due to its potential ______.",
+            opts: [
+              "if the organization is willing to invest millions of dollars in this effort",
+              "only if the entrepreneur has a high level of technical abilities",
+              "as a relatively low-cost solution to expand its revenue-generating abilities",
+              "to take all pressure off other attributes of the business venture"
+            ],
+            ans: 2,
+            dispAnswer: "c) as a relatively low-cost solution to expand its revenue-generating abilities",
+            exp: "يوفر الإنترنت وسيلة منخفضة التكلفة للوصول للأسواق وتوليد الإيرادات."
+          },
+          {
+            id: "ent_38",
+            type: "single",
+            text: "38) International opportunities are ______.",
+            opts: [
+              "clearly out of reach for entrepreneurial businesses",
+              "now within the reach of entrepreneurial businesses and may present significant opportunities",
+              "highly limited for entrepreneurs",
+              "risky and do not merit serious consideration by the entrepreneur"
+            ],
+            ans: 1,
+            dispAnswer: "b) now within the reach of entrepreneurial businesses and may present significant opportunities",
+            exp: "الأسواق الدولية أصبحت متاحة ومجدية للشركات الصغيرة بفضل التجارة الإلكترونية والتصدير."
+          },
+          {
+            id: "ent_39",
+            type: "single",
+            text: "39) Which of the following statements concerning small businesses and international markets is false?",
+            opts: [
+              "Although terrorism and global recession have slowed the growth of international trade somewhat, global opportunities for small businesses have a long-term positive outlook.",
+              "Although the U.S. is an attractive market, approximately 95 percent of the world's population lives outside its borders.",
+              "Because exporting is so complex and requires a company to have so many international experts on staff, exporting is not feasible for small businesses.",
+              "Small companies comprise 97 percent of all businesses engaged in exporting, yet they account for only 30 percent of the nation's export sales."
+            ],
+            ans: 2,
+            dispAnswer: "c) Because exporting is so complex and requires a company to have so many international experts on staff, exporting is not feasible for small businesses.",
+            exp: "التصدير متاح وممكن جداً للشركات الصغيرة ولا يشترط توظيف خبراء دوليين معقدين."
+          },
+          {
+            id: "ent_40",
+            type: "single",
+            text: "40) Small companies that operate globally from their inception are referred to as ______.",
+            opts: ["micromultinationals", "intrapreneurial ventures", "global companies", "international companies"],
+            ans: 0,
+            dispAnswer: "a) micromultinationals",
+            exp: "الشركات متعددة الجنسيات الصغيرة (Micromultinationals) هي التي تنشط عالمياً منذ يوم تأسيسها الأول."
+          },
+          {
+            id: "ent_41",
+            type: "single",
+            text: "41) Small companies that have expanded successfully into foreign markets tend to rely on all but which of the following strategies?",
+            opts: [
+              "Research foreign markets thoroughly.",
+              "Focus on many countries initially.",
+              "Utilize government resources designed to help small companies establish an international presence.",
+              "Forge alliances with local partners."
+            ],
+            ans: 1,
+            dispAnswer: "b) Focus on many countries initially.",
+            exp: "التركيز على دول متعددة في البداية خطأ يشتت الموارد؛ فالاستراتيجية الصحيحة هي التركيز على سوق أو سوقين أولاً."
+          },
+          {
+            id: "ent_42",
+            type: "single",
+            text: "42) The shift to a service economy has not had a significant impact on entrepreneurial opportunities.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التحول نحو قطاع الخدمات فتح الباب لأكبر موجة من الفرص والمشاريع الريادية."
+          },
+          {
+            id: "ent_43",
+            type: "single",
+            text: "43) Cloud computing allows businesses to use a variety of applications and has reduced costs and added flexibility.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الحوسبة السحابية خفضت تكاليف البنية التحتية ومنحت مرونة تشغيلية عالية للمشاريع الناشئة."
+          },
+          {
+            id: "ent_44",
+            type: "single",
+            text: "44) Entrepreneurial couples who work together as co-owners of their business are referred to as ______.",
+            opts: ["dual entrepreneurs", "corporate dropouts", "corporate cast-offs", "copreneurs"],
+            ans: 3,
+            dispAnswer: "d) copreneurs",
+            exp: "الأزواج الرياديون الذين يديرون ويملكون مشروعاً تجارياً مشتركاً يُطلق عليهم مصطلح (Copreneurs)."
+          },
+          {
+            id: "ent_45",
+            type: "single",
+            text: "45) Women in business still experience ______ as they attempt to break the 'glass ceiling.'",
+            opts: ["success", "opportunities", "discrimination", "ease of navigation"],
+            ans: 2,
+            dispAnswer: "c) discrimination",
+            exp: "لا تزال سيدات الأعمال يواجهن بعض أشكال التمييز أثناء محاولة كسر 'السقف الزجاجي'."
+          },
+          {
+            id: "ent_46",
+            type: "single",
+            text: "46) The demographic attributes of successful entrepreneurs are ______.",
+            opts: [
+              "limited to specific ages, genders, and ethnic backgrounds",
+              "uncertain and have not been fully studied or analyzed",
+              "are key predictors that determine how long the business will survive",
+              "highly diverse relating to age, gender, and ethnicity"
+            ],
+            ans: 3,
+            dispAnswer: "d) highly diverse relating to age, gender, and ethnicity",
+            exp: "الصفات الديموغرافية للرياديين متنوعة للغاية وتشمل كافة الأعمار والأجناس والأعراق."
+          },
+          {
+            id: "ent_47",
+            type: "single",
+            text: "47) Which of the following statements is not true regarding the diversity of entrepreneurs?",
+            opts: [
+              "Minority-owned businesses have come a long way in the past decade, and their success rate is climbing.",
+              "Minority-owned businesses now account for approximately 22 percent of all businesses in the U.S.",
+              "Immigrants with more education and experience than those of the past are coming to the U.S. and succeeding in entrepreneurial ventures.",
+              "The numbers of part-time and home-based entrepreneurs are rising."
+            ],
+            ans: 1,
+            dispAnswer: "b) Minority-owned businesses now account for approximately 22 percent of all businesses in the U.S.",
+            exp: "الخيار غير الصحيح إحصائياً حسب سياق الكتاب هو نسبة الـ 22% المذكورة."
+          },
+          {
+            id: "ent_48",
+            type: "single",
+            text: "48) Which of the following statements about women-owned businesses is false?",
+            opts: [
+              "The businesses women start tend to be smaller than those men start.",
+              "Women own about 28 percent of all privately-held businesses in the U.S.",
+              "The number of women-owned businesses is growing slower than the national average.",
+              "Women-owned companies are far less likely to attract equity capital investments as those that men start."
+            ],
+            ans: 2,
+            dispAnswer: "c) The number of women-owned businesses is growing slower than the national average.",
+            exp: "العبارة خاطئة لأن معدل نمو الشركات المملوكة للنساء ينمو بمعدل أسرع بكثير من المتوسط الوطني."
+          },
+          {
+            id: "ent_49",
+            type: "single",
+            text: "49) ______ percent of all U.S. businesses are family-owned and managed.",
+            opts: ["Twenty-five", "Fifty", "Seventy", "Ninety"],
+            ans: 3,
+            dispAnswer: "d) Ninety",
+            exp: "تشكل الشركات العائلية 90% من إجمالي الشركات في الولايات المتحدة."
+          },
+          {
+            id: "ent_50",
+            type: "single",
+            text: "50) 'Copreneurs' are defined as ______.",
+            opts: [
+              "entrepreneurs that work part-time",
+              "highly successful entrepreneurs with prior company experience and background",
+              "those entrepreneurs that will eventually combine their business with another venture",
+              "entrepreneurial couples that work together as co-owners of their business"
+            ],
+            ans: 3,
+            dispAnswer: "d) entrepreneurial couples that work together as co-owners of their business",
+            exp: "التعريف الدقيق للأزواج الذين يشاركون في ملكية وإدارة مشروعهم معاً."
+          },
+          {
+            id: "ent_51",
+            type: "single",
+            text: "51) Which of the following is not a characteristic of a successful working relationship between copreneurs?",
+            opts: [
+              "A clear definition of one partner as 'boss' and the other as 'subordinate'.",
+              "Compatible business and life goals.",
+              "Complementary business skills.",
+              "A clear division of roles and authority based on each partner's skills and abilities."
+            ],
+            ans: 0,
+            dispAnswer: "a) A clear definition of one partner as 'boss' and the other as 'subordinate'.",
+            exp: "علاقة 'الرئيس والمرؤوس' تضر بشراكة الأزواج؛ فالنجاح يتطلب تقاسم السلطة والاحترام المتبادل."
+          },
+          {
+            id: "ent_52",
+            type: "single",
+            text: "52) Which of the following is a characteristic of copreneurs?",
+            opts: ["Mutual respect", "Complementary business skills", "A clear division of roles and authority", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "الاحترام المتبادل، تكامل المهارات، وتقسيم الأدوار بوضوح هي مقومات نجاح الأزواج الرياديين."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Corporate Castoffs, Family Businesses & Global Small Business (Questions 53 – 72)",
+        context: "Official past exam questions covering corporate downsizing, dropouts, family business statistics, and generational succession:",
+        subQuestions: [
+          {
+            id: "ent_53",
+            type: "single",
+            text: "53) Approximately ______ percent of corporate managers who are 'cast off' as companies downsize become entrepreneurs.",
+            opts: ["5", "15", "20", "45"],
+            ans: 2,
+            dispAnswer: "c) 20",
+            exp: "يتحول حوالي 20% من المدراء المسرحين من الشركات الكبرى إلى تأسيس مشاريع خاصة."
+          },
+          {
+            id: "ent_54",
+            type: "single",
+            text: "54) Melinda and John Perez, both corporate attorneys in New York City, have grown tired of their lengthy daily commute, the stress of their jobs, and the overbearing policies of their employers. They have decided to leave their six-figure jobs and together open a guide service in Wyoming. Melinda and John are examples of ______.",
+            opts: [
+              "corporate castoffs and corporate dropouts",
+              "corporate dropouts and copreneurs",
+              "corporate castoffs and copreneurs",
+              "copreneurs and serial entrepreneurs"
+            ],
+            ans: 1,
+            dispAnswer: "b) corporate dropouts and copreneurs",
+            exp: "هما تركا وظيفتهما طوعاً (Corporate dropouts) وأسسا عملاً كزوجين شريكين (Copreneurs)."
+          },
+          {
+            id: "ent_55",
+            type: "single",
+            text: "55) The average age of the first-time entrepreneurs in the United States is nearly ______.",
+            opts: ["44", "25", "19", "31"],
+            ans: 0,
+            dispAnswer: "a) 44",
+            exp: "متوسط عمر من يؤسسون مشاريعهم لأول مرة في الولايات المتحدة يقارب الـ 44 عاماً."
+          },
+          {
+            id: "ent_56",
+            type: "single",
+            text: "56) Women now own 30.4 percent of all privately-held businesses in the United States.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "إحصائية صحيحة تؤكد تنامي مساهمة المرأة في ملكية المشاريع الخاصة."
+          },
+          {
+            id: "ent_57",
+            type: "single",
+            text: "57) Women play a minor role in the entrepreneurial arena.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "تلعب المرأة دوراً محورياً ومتسارع النمو في قطاع ريادة الأعمال الحديث."
+          },
+          {
+            id: "ent_58",
+            type: "single",
+            text: "58) Starting a part-time business is a popular gateway to entrepreneurship.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يعد بدء العمل بدوام جزئي بوابة مفضلة لتجربة السوق وتقليل مخاطر الفشل."
+          },
+          {
+            id: "ent_59",
+            type: "single",
+            text: "59) Increasing numbers of women are discovering that the best way to break the 'glass ceiling' that prevents them from rising to the top of many organizations is to start their own companies.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تأسيس المشروع الخاص هو الطريق الأمثل لتجاوز معوقات الترقية في الشركات التقليدية."
+          },
+          {
+            id: "ent_60",
+            type: "single",
+            text: "60) Diversity may be considered a characteristic of entrepreneurs, as they don't fit any statistical norm.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "التنوع سمة أصيلة للرياديين؛ فهم ينحدرون من كافة الفئات والأطياف دون قالب محدد."
+          },
+          {
+            id: "ent_61",
+            type: "single",
+            text: "61) Minority-owned businesses have come a long way in the past decade, and their success rate is climbing.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تشهد مشاريع الأقليات ازدهاراً ملحوظاً ومعدلات نجاح ونمو متصاعدة."
+          },
+          {
+            id: "ent_62",
+            type: "single",
+            text: "62) A major advantage of launching a business part-time is the lower risk it offers in case the business fails.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "العمل الجزئي يحافظ على مصدر الدخل الأساسي ويقلل الخسائر إذا لم ينجح المشروع."
+          },
+          {
+            id: "ent_63",
+            type: "single",
+            text: "63) Most home-based businesses are simple cottage industries such as crafts or sewing.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "معظم الأعمال المنزلية اليوم شركات تكنولوجية واستشارية متقدمة وتتجاوز الحرف البسيطة."
+          },
+          {
+            id: "ent_64",
+            type: "single",
+            text: "64) Not all family-owned businesses are small; in fact, approximately one-third of the Fortune 500 companies are family businesses.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "ثلث شركات قائمة Fortune 500 العالمية الكبرى هي شركات عائلية في أصلها وإدارتها."
+          },
+          {
+            id: "ent_65",
+            type: "single",
+            text: "65) Of the 27 million businesses in the U.S., about 40 percent are family owned and managed.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "النسبة الفعلية تفوق ذلك بكثير وتصل إلى قرابة 90%."
+          },
+          {
+            id: "ent_66",
+            type: "single",
+            text: "66) Ninety-percent of businesses in the United States are family-owned and managed and account for 62 percent of total U.S. employment.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الشركات العائلية تمثل 90% وتوظف 62% من إجمالي القوى العاملة."
+          },
+          {
+            id: "ent_67",
+            type: "single",
+            text: "67) Family-owned and managed businesses account for 78 percent of all new jobs.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تخلق الشركات العائلية نحو 78% من فرص العمل الجديدة المضافة للاقتصاد."
+          },
+          {
+            id: "ent_68",
+            type: "single",
+            text: "68) Most family businesses survive to the fourth generation.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "نسبة ضئيلة جداً من الشركات العائلية تنجح في البقاء والاستمرار حتى الجيل الرابع."
+          },
+          {
+            id: "ent_69",
+            type: "single",
+            text: "69) Successful 'copreneurs' create a division of labor based on expertise.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "توزيع العمل بناءً على خبرة واختصاص كل شريك سر من أسرار نجاح الأزواج في العمل."
+          },
+          {
+            id: "ent_70",
+            type: "single",
+            text: "70) About 20 percent of downsized corporate managers have become entrepreneurs.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "إحصائية دقيقة تؤكد توجه نحو خُمس المدراء المسرحين لتأسيس شركاتهم."
+          },
+          {
+            id: "ent_71",
+            type: "single",
+            text: "71) Corporate downsizing has spawned a generation of entrepreneurs known as 'corporate castoffs.'",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "إعادة هيكلة وتقليص حجم الشركات الكبرى أنتج ما يسمى برياديي 'المنبوذين من الشركات'."
+          },
+          {
+            id: "ent_72",
+            type: "single",
+            text: "72) Because they have college degrees, a working knowledge of business, and years of management experience, both corporate castoffs and corporate dropouts who become entrepreneurs will most likely increase the small business survival rate.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الخبرة الإدارية السابقة والمؤهل العلمي يعززان فرص صمود ونجاح هذه المشاريع."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Economic Impact, Gazelles & Avoiding Business Failure (Questions 73 – 107)",
+        context: "Official past exam questions covering small business contributions, innovation patents, reasons for failure, and business plans:",
+        subQuestions: [
+          {
+            id: "ent_73",
+            type: "single",
+            text: "73) Of the 28 million businesses in the United States, more than ______ percent are considered small.",
+            opts: ["50", "75", "88", "99"],
+            ans: 3,
+            dispAnswer: "d) 99",
+            exp: "أكثر من 99% من منشآت الأعمال تُصنف رسمياً كمشاريع صغيرة."
+          },
+          {
+            id: "ent_74",
+            type: "single",
+            text: "74) According to the U.S. Small Business Administration, a common delineation of a small business is one that employs fewer than ______ people.",
+            opts: ["50", "100", "250", "500"],
+            ans: 1,
+            dispAnswer: "b) 100",
+            exp: "الخيار المعتمد نصياً في مفتاح إجابات أسئلة السنوات المرفقة هو (b: 100)."
+          },
+          {
+            id: "ent_75",
+            type: "single",
+            text: "75) The nation's small businesses ______.",
+            opts: [
+              "employ more than 49 percent of the nation's private sector workforce",
+              "create more jobs than do big businesses",
+              "account for 47 percent of business sales",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "توظف نصف القطاع الخاص وتولد وظائف أكثر من الشركات الكبرى وتستحوذ على مبيعات ضخمة."
+          },
+          {
+            id: "ent_76",
+            type: "single",
+            text: "76) Small companies ______.",
+            opts: [
+              "created fewer jobs than big companies in the last decade",
+              "are concentrated in the manufacturing and retail sectors",
+              "are the leaders in offering training and advancement opportunities to workers",
+              "account for approximately 10 percent of the nation's GDP and 25 percent of business sales"
+            ],
+            ans: 2,
+            dispAnswer: "c) are the leaders in offering training and advancement opportunities to workers",
+            exp: "تقود الشركات الصغيرة تدريب وتأهيل القوى العاملة وفتح آفاق الترقي الوظيفي."
+          },
+          {
+            id: "ent_77",
+            type: "single",
+            text: "77) The majority of small companies are concentrated in the ______ and ______ industries.",
+            opts: ["manufacturing; retail", "manufacturing; service", "retail; service", "wholesale; retail"],
+            ans: 2,
+            dispAnswer: "c) retail; service",
+            exp: "تتركز معظم المشاريع الصغيرة في قطاعي تجارة التجزئة والخدمات."
+          },
+          {
+            id: "ent_78",
+            type: "single",
+            text: "78) Research shows that the top-performing ______ percent of small companies create 67 percent of the net new jobs in the economy.",
+            opts: ["90", "80", "5", "10"],
+            ans: 2,
+            dispAnswer: "c) 5",
+            exp: "أعلى 5% من الشركات الصغيرة نمواً مسؤولة وحدها عن 67% من الوظائف الجديدة الصافية."
+          },
+          {
+            id: "ent_79",
+            type: "single",
+            text: "79) The young, job-creating small companies are known as ______.",
+            opts: ["'assertive'", "'antelopes'", "'aggressive'", "'gazelles'"],
+            ans: 3,
+            dispAnswer: "d) 'gazelles'",
+            exp: "تُعرف الشركات سريعة النمو وخالقة الوظائف بشركات الغزلان (Gazelles)."
+          },
+          {
+            id: "ent_80",
+            type: "single",
+            text: "80) Small companies are incubators of new sales ideas, products and services and create ______ times more patents per employee than large companies.",
+            opts: ["3", "5", "10", "16"],
+            ans: 3,
+            dispAnswer: "d) 16",
+            exp: "تنتج الشركات الصغيرة براءات اختراع لكل موظف بمعدل يفوق الشركات الكبرى بـ 16 ضعفاً."
+          },
+          {
+            id: "ent_81",
+            type: "single",
+            text: "81) 'Gazelles' are those businesses that grow at 20 percent or more per year for four years and gross at least $100,000 in annual sales.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "التعريف الرسمي لشركات الغزلان سريعة النمو ومستوفية شروط المبيعات السنوية."
+          },
+          {
+            id: "ent_82",
+            type: "single",
+            text: "82) Small companies have created at least two-thirds of the net new jobs in the U.S. economy.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تخلق المشاريع الصغيرة ما لا يقل عن ثلثي الوظائف الجديدة المضافة في الاقتصاد."
+          },
+          {
+            id: "ent_83",
+            type: "single",
+            text: "83) Small businesses actually create more jobs than the number of jobs big businesses create.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تتفوق الشركات الصغيرة على الشركات العملاقة في إجمالي خلق فرص العمل."
+          },
+          {
+            id: "ent_84",
+            type: "single",
+            text: "84) Large companies create significantly more patents and other forms of innovations per research and development dollars spent than small firms.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الشركات الصغيرة تنتج ابتكارات وبراءات اختراع أكبر بكثير لكل دولار يُنفق على البحث والتطوير."
+          },
+          {
+            id: "ent_85",
+            type: "single",
+            text: "85) Because of their size and limited resources, small businesses rarely create innovations that are important to the U.S. economy.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "معظم الابتكارات المفصلية في تاريخ الاقتصاد نشأت وتطورت داخل منشآت أعمال صغيرة."
+          },
+          {
+            id: "ent_86",
+            type: "single",
+            text: "86) About 75 percent of the businesses in the U.S. can be considered 'small' businesses.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "النسبة تتجاوز 99% وليست 75%."
+          },
+          {
+            id: "ent_87",
+            type: "single",
+            text: "87) The primary cause of small business failure is lack of capital.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "السبب الجذري الأول لفشل المشاريع هو أخطاء الإدارة وضعف الكفاءة، ونقص رأس المال هو مجرد عرض."
+          },
+          {
+            id: "ent_88",
+            type: "single",
+            text: "88) Entrepreneurs realize that failure is a possibility, but are not paralyzed by that fear.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يدرك الريادي احتمالية الفشل كجزء من التجربة دون أن يقعده الخوف عن المبادرة."
+          },
+          {
+            id: "ent_89",
+            type: "single",
+            text: "89) One hallmark of successful entrepreneurs is the ability to ______.",
+            opts: ["be willing to gamble", "fail intelligently", "overlook past successes", "repeat the same mistake"],
+            ans: 1,
+            dispAnswer: "b) fail intelligently",
+            exp: "الفشل الذكي (Fail intelligently) بالتعلم السريع من الأخطاء من أهم علامات الريادي الناجح."
+          },
+          {
+            id: "ent_90",
+            type: "single",
+            text: "90) About 51 percent of new businesses fail within five years.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "إحصائية صحيحة تؤكد تعثر 51% من المنشآت بحلول العام الخامس."
+          },
+          {
+            id: "ent_91",
+            type: "single",
+            text: "91) John has come to you for advice on starting a business venture. He wants to know the best way to gain the experience he'll need. You suggest that he ______.",
+            opts: [
+              "read a small business book",
+              "seek knowledge and experience in the field he wishes to enter",
+              "determine his weaknesses and return to school for a term or two",
+              "just jump in and learn as he goes"
+            ],
+            ans: 1,
+            dispAnswer: "b) seek knowledge and experience in the field he wishes to enter",
+            exp: "أفضل نصيحة هي اكتساب الخبرة العملية والمعرفة المباشرة داخل القطاع المراد الاستثمار فيه."
+          },
+          {
+            id: "ent_92",
+            type: "single",
+            text: "92) Most startup companies can expect to need ______ capital than they anticipate.",
+            opts: ["less", "the same", "more", "within 10% of the"],
+            ans: 2,
+            dispAnswer: "c) more",
+            exp: "الشركات الناشئة تحتاج دائماً إلى رأس مال وسيولة نقدية أكبر مما يتوقعه المؤسسون في البداية."
+          },
+          {
+            id: "ent_93",
+            type: "single",
+            text: "93) The primary cause of small business failures is ______.",
+            opts: ["the lack of capital", "management mistakes", "poor location", "improper inventory control"],
+            ans: 1,
+            dispAnswer: "b) management mistakes",
+            exp: "الأخطاء الإدارية وسوء القيادة هي السبب الأكبر والرئيسي لتعثر الشركات الصغيرة."
+          },
+          {
+            id: "ent_94",
+            type: "single",
+            text: "94) Entrepreneurs tend to be overly ______ and commonly misjudge the ______ requirements of going into business.",
+            opts: ["optimistic; personal", "optimistic; financial", "pessimistic; financial", "optimistic; professional"],
+            ans: 1,
+            dispAnswer: "b) optimistic; financial",
+            exp: "يميل الرياديون للإفراط في التفاؤل والتقليل من تقدير المتطلبات المالية الحقيقية لإطلاق المشروع."
+          },
+          {
+            id: "ent_95",
+            type: "single",
+            text: "95) The only people who ______ are those who never do anything or never attempt anything new.",
+            opts: ["succeed", "prosper", "profit", "fail"],
+            ans: 3,
+            dispAnswer: "d) fail",
+            exp: "وفق مفتاح إجابات المساق المعتمد في الملف، تم تحديد الخيار (d: fail)."
+          },
+          {
+            id: "ent_96",
+            type: "single",
+            text: "96) Which of the following was not identified as one of the suggestions for small business success?",
+            opts: [
+              "Develop a business plan as you grow your business.",
+              "Manage your financial resources and understand financial statements.",
+              "Know your business in depth.",
+              "Learn to manage people successfully."
+            ],
+            ans: 0,
+            dispAnswer: "a) Develop a business plan as you grow your business.",
+            exp: "يجب إعداد خطة العمل قبل بدء المشروع وتأسيسه وليس تأجيلها حتى مرحلة النمو."
+          },
+          {
+            id: "ent_97",
+            type: "single",
+            text: "97) Which of the following is/are true regarding business plans?",
+            opts: [
+              "Provide a pathway to success.",
+              "Allow entrepreneurs to replace faulty assumptions with facts before making the decision to go into business.",
+              "Create a benchmark against which entrepreneurs can measure actual company performance.",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "خطة العمل ترسم مسار النجاح، وتستبدل الافتراضات بالحقائق، وتضع معايير لقياس الأداء."
+          },
+          {
+            id: "ent_98",
+            type: "single",
+            text: "98) Most entrepreneurs believe that ______ is what matters most, but ______ is the most important financial resource for a small business owner.",
+            opts: ["cash; profit", "profit; cash", "profit; inventory", "inventory; cash"],
+            ans: 1,
+            dispAnswer: "b) profit; cash",
+            exp: "يظن معظم الرياديين أن الربح هو الأهم، لكن السيولة النقدية (Cash) هي شريان الحياة الأهم للبقاء."
+          },
+          {
+            id: "ent_99",
+            type: "single",
+            text: "99) Entrepreneurs can increase their chances for success if they ______.",
+            opts: [
+              "know their business in depth and develop a solid business plan",
+              "manage their financial resources and understand financial statements",
+              "learn to manage people and keep in touch with how they react to stress and balance their health needs with the needs of the business",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "معرفة السوق، إدارة الموارد والمالية، وإدارة فريق العمل والصحة ترفع فرص النجاح إلى أقصاها."
+          },
+          {
+            id: "ent_100",
+            type: "single",
+            text: "100) Most entrepreneurs have invested the time to develop a sound business plan.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "للأسف معظم الرياديين يتسرعون في بدء العمل دون استثمار وقت كافٍ لصياغة خطة عمل متكاملة."
+          },
+          {
+            id: "ent_101",
+            type: "single",
+            text: "101) Too many entrepreneurs start their business undercapitalized.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يبدأ الكثير من الرياديين أعمالهم برأس مال غير كافٍ لتغطية مراحل التأسيس الأولى."
+          },
+          {
+            id: "ent_102",
+            type: "single",
+            text: "102) The faster a small company grows, the greater its appetite for cash.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "كلما تسارع نمو المنشأة، زادت حاجتها واستهلاكها للسيولة النقدية لتمويل التوسع والمخزون."
+          },
+          {
+            id: "ent_103",
+            type: "single",
+            text: "103) To boost sales, small businesses, especially start-ups, should grant credit to anyone who wants to buy their products or services.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "منح الائتمان غير المدروس لأي عميل يقود إلى تعثر السيولة وتراكم الديون المعدومة."
+          },
+          {
+            id: "ent_104",
+            type: "single",
+            text: "104) As an entrepreneur, you are always working for someone else - your customers.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الريادي يعمل دائماً لخدمة وتلبية رغبات أهم جهة في مشروعه وهم زبائنه وعملاؤه."
+          },
+          {
+            id: "ent_105",
+            text: "105) Establishing prices that will generate the necessary profits means that business owners must understand how much it costs to make, market, and deliver their products and services.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "التسعير المربح يقتضي الفهم الدقيق لكافة تكاليف الإنتاج والتسويق والتوصيل."
+          },
+          {
+            id: "ent_106",
+            type: "single",
+            text: "106) If an entrepreneur has a good enough product or service to sell, a business plan is not really necessary since the product or service will sell itself.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "جودة المنتج وحدها لا تكفي؛ فخطة العمل ضرورية لإدارة التكاليف والتسويق واستدامة المشروع."
+          },
+          {
+            id: "ent_107",
+            type: "single",
+            text: "107) Expanding a business usually requires no significant changes in structure or business practices.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "توسع المشروع يتطلب بالضرورة تعديلات جذرية في الهيكل التنظيمي، وأنظمة الإدارة والتشغيل."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

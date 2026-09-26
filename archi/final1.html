@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Computer Architecture - Comprehensive Exam</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* تنسيق الجداول الامتحانية */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 80px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .code-block {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #79c0ff;
+      margin: 10px 0;
+      white-space: pre;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/archi">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Computer Architecture</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Comprehensive Exam — Memory Hierarchy, Pipelining, VLIW & ILP</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/1qf21eD3tcW2BtqXVB3WmJb_eAWPpYxzC";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    const examSections = [
+      {
+        title: "Part 1: Virtual Memory & Page Tables (6 Points)",
+        context: "Consider a system with a 24-bit virtual address and a 20-bit physical address. The page size is 4 KB. Each Page Table Entry (PTE) occupies 2 bytes. Answer the following:",
+        subQuestions: [
+          {
+            id: "vm_1",
+            type: "single",
+            text: "What is the maximum virtual address space (in Megabytes) for a single process?",
+            img: "",
+            opts: ["8", "16", "32", "64", "128"],
+            ans: 1,
+            dispAnswer: "16",
+            exp: "حجم فضاء العناوين الافتراضية: <bdi>2^24 Bytes = 16 × 2^20 Bytes = 16 MB</bdi>."
+          },
+          {
+            id: "vm_2",
+            type: "single",
+            text: "What is the size of the page table (in Kbyte)?",
+            img: "",
+            opts: ["4", "8", "16", "32", "64"],
+            ans: 1,
+            dispAnswer: "8",
+            exp: "إزاحة الصفحة = <bdi>log2(4 KB) = 12 bits</bdi>.<br>عدد مداخل جدول الصفحات: <bdi>2^(24 - 12) = 2^12 = 4096 entries</bdi>.<br>حجم جدول الصفحات: <bdi>4096 × 2 Bytes = 8192 Bytes = 8 KB</bdi>."
+          },
+          {
+            id: "vm_3",
+            type: "single",
+            text: "How many physical pages can reside in main memory simultaneously?",
+            img: "",
+            opts: ["64", "128", "256", "512", "1024"],
+            ans: 2,
+            dispAnswer: "256",
+            exp: "عدد خانات عنوان الإطار الفيزيائي: <bdi>PPN = 20 - 12 = 8 bits</bdi>.<br>عدد الصفحات الفيزيائية المتاحة: <bdi>2^8 = 256 physical pages</bdi>."
+          },
+          {
+            id: "vm_4",
+            type: "table_vm4",
+            text: "Assume virtual page number (VPN) 5 is mapped to physical page number (PPN) 3. The page offset is 9. Determine the corresponding virtual and physical addresses in hexadecimal format:",
+            img: "",
+            dispAnswer: "Virtual Address = 0x005009 | Physical Address = 0x03009",
+            exp: "• العنوان الافتراضي (24 بت): <bdi>VPN (12 بت = 0x005) || Offset (12 بت = 0x009) = 0x005009</bdi>.<br>• العنوان الفيزيائي (20 بت): <bdi>PPN (8 بت = 0x03) || Offset (12 بت = 0x009) = 0x03009</bdi>."
+          },
+          {
+            id: "vm_5",
+            type: "single",
+            text: "If the page table of a process is stored in physical memory starting at address 0x4000, what is the physical address (in hexadecimal) of the page table entry corresponding to VPN = 8?",
+            img: "",
+            opts: ["0x4016", "0x4010", "0x4008", "0x4032", "0x4020"],
+            ans: 1,
+            dispAnswer: "0x4010",
+            exp: "إزاحة المدخل داخل الجدول: <bdi>VPN × PTE_size = 8 × 2 Bytes = 16 Bytes = 0x10</bdi>.<br>العنوان الفيزيائي: <bdi>0x4000 + 0x10 = 0x4010</bdi>."
+          },
+          {
+            id: "vm_6",
+            type: "single",
+            text: "Assume a fully associative TLB. Each entry contains VPN, PPN, 1 valid bit, 1 dirty bit, and 1 reference (R) bit. What is the minimum number of bits required per TLB entry?",
+            img: "",
+            opts: ["21", "23", "25", "27", "31"],
+            ans: 1,
+            dispAnswer: "23",
+            exp: "حجم مدخل <bdi>TLB</bdi>: <bdi>VPN (12 bits) + PPN (8 bits) + Valid (1) + Dirty (1) + Ref (1) = 23 bits</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Instruction Mix, CPI, MIPS Offsets & Floating Point (5 Points)",
+        context: "A program comprises the following instructions along with their CPI:\n• Integer operations: 35%, CPI = 2\n• Floating operations: 30%, CPI = 6\n• Memory operations: 20%, CPI = 20\n• Branch operations: 15%, CPI = 16",
+        subQuestions: [
+          {
+            id: "cpi_1",
+            type: "single",
+            text: "What is the average CPI?",
+            img: "",
+            opts: ["11", "8.9", "9.8", "10.1", "12", "12.8"],
+            ans: 1,
+            dispAnswer: "8.9",
+            exp: "حساب المتوسط: <bdi>(0.35 × 2) + (0.30 × 6) + (0.20 × 20) + (0.15 × 16) = 0.70 + 1.80 + 4.00 + 2.40 = 8.9</bdi>."
+          },
+          {
+            id: "cpi_2",
+            type: "single",
+            text: "If the floating operations are improved by a factor 2, what is the speedup?",
+            img: "",
+            opts: ["1.33", "1.22", "1.44", "1.11", "1.09", "1.02"],
+            ans: 3,
+            dispAnswer: "1.11",
+            exp: "الـ CPI الجديد: <bdi>8.9 - (1.80 / 2) = 8.9 - 0.9 = 8.0</bdi>.<br>نسبة التسريع: <bdi>Speedup = 8.9 / 8.0 = 1.1125 ≈ 1.11</bdi>."
+          },
+          {
+            id: "cpi_3",
+            type: "single",
+            text: "What is the 16-bit immediate value (offset) for the instruction (bne $s1, $s2, offset) if the branch target is 36 bytes earlier than the branch instruction address?",
+            img: "",
+            opts: ["FFF7", "FFDC", "FFF6", "FFD8", "FFF8", "FFDD"],
+            ans: 2,
+            dispAnswer: "FFF6",
+            exp: "معادلة الهدف: <bdi>Target = PC + 4 + (offset × 4) = PC - 36</bdi>.<br><bdi>offset × 4 = -40  ==>  offset = -10</bdi>.<br>تمثيل القيمة <bdi>-10</bdi> بنظام 16 بت ست عشري بمتمم الاثنين: <bdi>0xFFF6</bdi>."
+          },
+          {
+            id: "cpi_4",
+            type: "single",
+            text: `After executing the following two instructions, what value will be written into $t0 and $t1?
+<pre class="code-block">slt  $t0, $t2, $t3    // set if less than (signed)
+sltu $t1, $t2, $t3    // set if less than (unsigned)</pre>
+Assume [$t2] = 0x70000000 and [$t3] = 0x80000000:`,
+            img: "",
+            opts: [
+              "[$t0]= 0x00000000, [$t1]= 0x00000001",
+              "[$t0]= 0x00000001, [$t1]= 0x00000000",
+              "[$t0]= 0x00000000, [$t1]= 0x00000000",
+              "[$t0]= 0x00000001, [$t1]= 0x00000001",
+              "[$t0]= 0x00000000, [$t1]= 0xFFFFFFFF",
+              "[$t0]= 0xFFFFFFFF, [$t1]= 0x00000000"
+            ],
+            ans: 0,
+            dispAnswer: "[$t0]= 0x00000000, [$t1]= 0x00000001",
+            exp: "• مقارنة موقعة (<bdi>slt</bdi>): <bdi>$t2</bdi> موجب و <bdi>$t3</bdi> سالب (-2^31)؛ لذا الشرط غير محقق و <bdi>$t0 = 0x00000000</bdi>.<br>• مقارنة غير موقعة (<bdi>sltu</bdi>): <bdi>0x70000000 < 0x80000000</bdi> صحيح؛ لذا <bdi>$t1 = 0x00000001</bdi>."
+          },
+          {
+            id: "cpi_5",
+            type: "single",
+            text: "What is the IEEE single precision for the decimal -161?",
+            img: "",
+            opts: ["0xC321 0000", "0xC351 0000", "0xC3A1 0000", "0xC3D0 1000", "0xC33F 0000", "0xC3BA 0000"],
+            ans: 0,
+            dispAnswer: "0xC321 0000",
+            exp: "• إشارة سالبة: <bdi>1</bdi>.<br>• <bdi>161 = 10100001_2 = 1.0100001 × 2^7</bdi>.<br>• الأس المنحاز: <bdi>7 + 127 = 134 = 10000110_2</bdi>.<br>• الكسر: <bdi>01000010000000000000000_2</bdi>.<br>المجموع ست عشرياً: <bdi>0xC3210000</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Pipelined Datapath, Hazards & Control Signals (4 Points)",
+        context: "Answer the following questions regarding pipeline execution, hazard detection, and control signals:",
+        subQuestions: [
+          {
+            id: "pipe_1",
+            type: "single",
+            text: "How many STALL cycles are needed for the code to execute correctly?",
+            img: "",
+            opts: ["5", "4", "2", "3", "0", "1"],
+            ans: 5,
+            dispAnswer: "1",
+            exp: "تتطلب تعليمة التحميل (<bdi>Load</bdi>) المتبوعة مباشرة بتعليمة تعتمد على نفس المسجل دورة توقف واحدة (<bdi>1 stall cycle</bdi>) عند تفعيل التمرير السريع."
+          },
+          {
+            id: "pipe_2",
+            type: "single",
+            text: "What are the values of the control signals ForwardA and ForwardB when the lw instruction is in the EX stage? (Recall: 10 -> MEM forwarding, 01 -> WB forwarding)",
+            img: "",
+            opts: ["00, 00", "10, 01", "01, 10", "10, 00", "01, 01", "00, 10"],
+            ans: 3,
+            dispAnswer: "10, 00",
+            exp: "يحدث التمرير للمعامل الأول من مرحلة MEM (<bdi>ForwardA = 10</bdi>)، بينما لا يوجد تمرير للمعامل الثاني (<bdi>ForwardB = 00</bdi>)."
+          },
+          {
+            id: "pipe_3",
+            type: "single",
+            text: "What are the values of the control signals ALUSRC, MemRead and MemtoReg when the 'or' instruction is in the EX stage?",
+            img: "",
+            opts: ["0, 0, 0", "0, 0, 1", "0, 1, 0", "0, 1, 1", "1, 0, 0", "1, 0, 1"],
+            ans: 0,
+            dispAnswer: "0, 0, 0",
+            exp: "تعليمة <bdi>or</bdi> هي تعليمة حسابية ومنطقية من النمط <bdi>R-type</bdi>؛ لذا لا تقرأ من الذاكرة (<bdi>MemRead = 0</bdi>)، ولا تختار قيمة فورية (<bdi>ALUSrc = 0</bdi>)، وتكتب ناتج الـ ALU إلى المسجل (<bdi>MemtoReg = 0</bdi>)."
+          },
+          {
+            id: "pipe_4",
+            type: "single",
+            text: "How many additional or fewer cycles are required if the branch is statically predicted as taken instead of not taken?",
+            img: "",
+            opts: ["1 cycle more", "2 cycles more", "3 cycles more", "None of the above"],
+            ans: 0,
+            dispAnswer: "1 cycle more",
+            exp: "التنبؤ بالتفرع المحقق (<bdi>Taken</bdi>) في حال عدم تحققه الفعلي يؤدي إلى هدر دورة إضافية بسبب تفريغ مرحلة الجلب والتنفيذ مقارنة بالتنبؤ الساكن بعدم التحقق (<bdi>Not Taken</bdi>)."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Instruction-Level Parallelism & Branch Prediction (4 Points)",
+        context: "Questions covering pipelined processor speedup, ILP concepts, and dynamic branch prediction:",
+        subQuestions: [
+          {
+            id: "ilp_1",
+            type: "single",
+            text: "Assume that the pipelined processor incurs an average of 1.5 additional stall cycles per instruction due to data and control hazards. What is the resulting overall speedup?",
+            img: "",
+            opts: ["1.9x", "2.3x", "2.7x", "3.0x", "3.2x", "None of the above"],
+            ans: 5,
+            dispAnswer: "None of the above",
+            exp: "الـ CPI الفعلي = <bdi>1 + 1.5 = 2.5</bdi>. نسبة التسريع تكون <bdi>5 / 2.5 = 2.0x</bdi> (أو قيمة أخرى غير متوفرة ضمن الخيارات المحددة)، فالإجابة هي: <bdi>None of the above</bdi>."
+          },
+          {
+            id: "ilp_2",
+            type: "single",
+            text: "Which statement best describes ILP and a standard way to increase it?",
+            img: "",
+            opts: [
+              "ILP is reducing instruction count by using a better compiler, increased by adding more cache",
+              "ILP is executing multiple instructions in parallel, increased by deeper pipelining or multiple issue",
+              "ILP is making each instruction faster by increasing ALU frequency, increased by larger registers",
+              "ILP is removing control hazards only, increased by using bigger branch offsets",
+              "ILP is executing only memory instructions in parallel, increased by adding more data memory ports",
+              "ILP is increasing latency per instruction, increased by adding more pipeline stages"
+            ],
+            ans: 1,
+            dispAnswer: "ILP is executing multiple instructions in parallel, increased by deeper pipelining or multiple issue",
+            exp: "توازي مستوى التعليمات (<bdi>ILP</bdi>) هو تنفيذ عدة تعليمات متعاقبة بالتوازي، وتتم زيادته عبر تعميق خطوط المعالجة (<bdi>Deeper pipelining</bdi>) أو البث المتعدد (<bdi>Multiple issue</bdi>)."
+          },
+          {
+            id: "ilp_3",
+            type: "single",
+            text: "A conditional branch has the following actual outcomes over six executions: (T, T, N, T, N, N). A 2-bit branch predictor is implemented and initialized to the Weakly Not Taken state. What sequence of predictions will the predictor generate for these six executions?",
+            img: "",
+            opts: [
+              "N, T, T, T, T, N",
+              "N, T, T, T, N, N",
+              "N, T, T, T, T, T",
+              "N, N, T, T, N, N",
+              "N, N, T, T, T, N",
+              "N, N, T, T, T, T"
+            ],
+            ans: 2,
+            dispAnswer: "N, T, T, T, T, T",
+            exp: "تتبع الحالات من الحالة الابتدائية (<bdi>Weakly Not Taken</bdi>):<br>1. Actual T -> Predict N -> الحالة تصبح Weakly Taken.<br>2. Actual T -> Predict T -> الحالة تصبح Strongly Taken.<br>3. Actual N -> Predict T -> الحالة تصبح Weakly Taken.<br>4. Actual T -> Predict T -> الحالة تصبح Strongly Taken.<br>5. Actual N -> Predict T -> الحالة تصبح Weakly Taken.<br>6. Actual N -> Predict T -> الحالة تصبح Weakly Not Taken.<br>التنبؤات الناتجة: <bdi>N, T, T, T, T, T</bdi>."
+          },
+          {
+            id: "ilp_4",
+            type: "single",
+            text: "A single-cycle MIPS processor has a critical-path delay of 1200 ps. The slowest component is the memory, with a delay of 300 ps. If the processor is redesigned as a pipelined implementation and each pipeline register introduces 50 ps of overhead, what is the maximum ideal speedup achievable by pipelining, assuming data and control hazards are ignored?",
+            img: "",
+            opts: ["2.5x", "3x", "3.43x", "4x", "4.3x", "None of the above"],
+            ans: 2,
+            dispAnswer: "3.43x",
+            exp: "زمن الدورة في خط الأنابيب: <bdi>300 ps (أبطأ مرحلة) + 50 ps (المسجل) = 350 ps</bdi>.<br>أقصى تسريع مثالي: <bdi>Speedup = 1200 ps / 350 ps ≈ 3.42857 ≈ 3.43x</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 5: VLIW & Loop Unrolling (2.5 Points)",
+        context: `The table below shows the VLIW implementation of the following code after unrolling twice:
+<pre class="code-block">Original Code:
+Loop: lw   $t0, 0($s1)
+      lw   $t1, 4($s1)
+      add  $t8, $t0, $t1
+      sw   $t8, 8($s1)
+      addi $s1, $s1, 12
+      bne  $s1, $s2, Loop</pre>
+<div class="table-container ltr-content">
+  <table class="exam-table">
+    <thead>
+      <tr><th>#</th><th>Integer/Branch Operation</th><th>Load/Store Unit 1</th><th>Load/Store Unit 2</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>addi $s1, $s1, 24</td><td>lw $t0, 0($s1)</td><td>lw $t1, X($s1)</td></tr>
+      <tr><td>2</td><td></td><td>lw $t2, Y($s1)</td><td>lw $t3, -8($s1)</td></tr>
+      <tr><td>3</td><td>add $t8, $t0, $t1</td><td></td><td></td></tr>
+      <tr><td>4</td><td>add $t9, $t2, $t3</td><td>sw $t8, -16($s1)</td><td></td></tr>
+      <tr><td>5</td><td>bne $s1, $s2, Loop</td><td></td><td>sw $t9, Z($s1)</td></tr>
+    </tbody>
+  </table>
+</div>`,
+        subQuestions: [
+          {
+            id: "vliw_1",
+            type: "table_vliw1",
+            text: "What are the values of X, Y and Z in the VLIW code?",
+            img: "",
+            dispAnswer: "X = 4 | Y = -12 | Z = -4",
+            exp: "بما أن مسجل الأساس <bdi>$s1</bdi> قد تمت زيادته بمقدار 24 في بداية الجدولة، تُحسب الإزاحات المعدلة للحفاظ على نفس مواقع الذاكرة للأصل: <bdi>X = 4</bdi>، و <bdi>Y = -12</bdi>، و <bdi>Z = -4</bdi>."
+          },
+          {
+            id: "vliw_2",
+            type: "single",
+            text: "If the original (non-unrolled, non-VLIW) loop requires 7 cycles to complete one iteration, what is the achieved speedup when using the VLIW-scheduled unrolled version, assuming each VLIW instruction completes in 1 cycle?",
+            img: "",
+            opts: ["1.4", "1.8", "2.8", "3.2", "2.45", "4.2"],
+            ans: 2,
+            dispAnswer: "2.8",
+            exp: "تكراران في الكود الأصلي يستغرقان: <bdi>2 × 7 = 14 دورة</bdi>.<br>في كود VLIW بعد الفرد يستغرقان: <bdi>5 دورات</bdi>.<br>نسبة التسريع المحققة: <bdi>Speedup = 14 / 5 = 2.8x</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 6: Cache Memory Organization & Architecture (5.5 Points)",
+        context: "Questions covering cache memory dimensions, addressing, and static vs. dynamic multiple issue:",
+        subQuestions: [
+          {
+            id: "cache_1",
+            type: "single",
+            text: "The size of the main memory address space in kilobytes is:",
+            img: "",
+            opts: ["512", "1024", "2048", "4096", "None of the above"],
+            ans: 3,
+            dispAnswer: "4096",
+            exp: "حجم فضاء الذاكرة الرئيسية المعلم بالامتحان يساوي <bdi>4096 KB</bdi> (أو 4 MB)."
+          },
+          {
+            id: "cache_2",
+            type: "table_cache2",
+            text: "Consider a system with a 40-bit physical address, an 8-way set-associative cache, a total cache data size of 16 MB and a block size of 128 bytes. Determine the number of tag bits and the number of index bits:",
+            img: "",
+            dispAnswer: "Tag bits = 19 | Index bits = 14",
+            exp: "• إزاحة الكتلة: <bdi>log2(128 B) = 7 bits</bdi>.<br>• إجمالي عدد الكتل: <bdi>16 MB / 128 B = 2^24 / 2^7 = 2^17 blocks</bdi>.<br>• عدد المجموعات (<bdi>Sets</bdi>): <bdi>2^17 / 8 = 2^17 / 2^3 = 2^14 sets  ==>  Index = 14 bits</bdi>.<br>• بتات العلامة (<bdi>Tag</bdi>): <bdi>40 - 14 - 7 = 19 bits</bdi>."
+          },
+          {
+            id: "issue_1",
+            type: "single",
+            text: "Which choice correctly matches static multiple issue versus dynamic multiple issue?",
+            img: "",
+            opts: [
+              "Static: CPU chooses issue each cycle, Dynamic: compiler packs issue packets",
+              "Static: compiler packs issue packets, Dynamic: CPU chooses which instructions to issue each cycle",
+              "Static: requires branch prediction, Dynamic: forbids speculation",
+              "Static: out of order commit, Dynamic: in order commit",
+              "Static: only works for loads, Dynamic: only works for ALU ops",
+              "Static: removes all hazards automatically, Dynamic: cannot handle hazards"
+            ],
+            ans: 1,
+            dispAnswer: "Static: compiler packs issue packets, Dynamic: CPU chooses which instructions to issue each cycle",
+            exp: "في البث المتعدد الساكن (<bdi>Static</bdi>) يقوم المترجم (<bdi>Compiler</bdi>) بجدولة ورزم التعليمات، بينما في الديناميكي (<bdi>Dynamic / Superscalar</bdi>) يقوم المعالج عتادياً باختيار وتمرير التعليمات في كل دورة."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_vm4") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:440px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Virtual Address =</td>
+                      <td><input type="text" class="table-input" id="vm4_va" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Physical Address =</td>
+                      <td><input type="text" class="table-input" id="vm4_pa" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkVM4Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_vliw1") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:380px;">
+                <table class="exam-table">
+                  <thead><tr><th>X</th><th>Y</th><th>Z</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" class="table-input" id="vliw_x" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="vliw_y" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="vliw_z" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkVLIW1Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_cache2") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:380px;">
+                <table class="exam-table">
+                  <thead><tr><th>Tag Bits</th><th>Index Bits</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" class="table-input" id="c2_tag" placeholder=""></td>
+                      <td><input type="text" class="table-input" id="c2_index" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkCache2Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkVM4Answer() {
+      const subId = "vm_4";
+      const elVa = document.getElementById("vm4_va");
+      const elPa = document.getElementById("vm4_pa");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      elVa.disabled = elPa.disabled = true;
+
+      const cleanVa = elVa.value.trim().toLowerCase().replace(/^0x/, '');
+      const cleanPa = elPa.value.trim().toLowerCase().replace(/^0x/, '');
+
+      const okVa = cleanVa === "005009" || cleanVa === "5009";
+      const okPa = cleanPa === "03009" || cleanPa === "003009" || cleanPa === "3009";
+
+      elVa.className = okVa ? 'table-input correct' : 'table-input wrong';
+      elPa.className = okPa ? 'table-input correct' : 'table-input wrong';
+
+      if (okVa && okPa) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkVLIW1Answer() {
+      const subId = "vliw_1";
+      const elX = document.getElementById("vliw_x");
+      const elY = document.getElementById("vliw_y");
+      const elZ = document.getElementById("vliw_z");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      elX.disabled = elY.disabled = elZ.disabled = true;
+
+      const okX = elX.value.trim() === "4";
+      const okY = elY.value.trim() === "-12";
+      const okZ = elZ.value.trim() === "-4";
+
+      elX.className = okX ? 'table-input correct' : 'table-input wrong';
+      elY.className = okY ? 'table-input correct' : 'table-input wrong';
+      elZ.className = okZ ? 'table-input correct' : 'table-input wrong';
+
+      if (okX && okY && okZ) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkCache2Answer() {
+      const subId = "cache_2";
+      const elT = document.getElementById("c2_tag");
+      const elI = document.getElementById("c2_index");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      elT.disabled = elI.disabled = true;
+
+      const okT = elT.value.trim() === "19";
+      const okI = elI.value.trim() === "14";
+
+      elT.className = okT ? 'table-input correct' : 'table-input wrong';
+      elI.className = okI ? 'table-input correct' : 'table-input wrong';
+
+      if (okT && okI) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetFields = ids => {
+        ids.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.disabled = false; el.value = ''; el.className = 'table-input'; }
+        });
+      };
+
+      if (subId === "vm_4") resetFields(["vm4_va", "vm4_pa"]);
+      if (subId === "vliw_1") resetFields(["vliw_x", "vliw_y", "vliw_z"]);
+      if (subId === "cache_2") resetFields(["c2_tag", "c2_index"]);
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

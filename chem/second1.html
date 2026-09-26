@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | General Chemistry 103 - Mid-Term Exam</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    /* Periodic Table Container & Zoom Controls */
+    .ptable-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .ptable-title {
+      font-weight: 800;
+      color: var(--apple-blue);
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ptable-title-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--apple-border);
+      border-radius: 99px;
+      padding: 2px 6px;
+    }
+    .btn-zoom {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 99px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-zoom:hover {
+      background: var(--apple-blue);
+      color: #fff;
+    }
+    .btn-zoom:active {
+      transform: scale(0.92);
+    }
+    .zoom-level-text {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5ac8fa;
+      min-width: 38px;
+      text-align: center;
+    }
+    .ptable-key {
+      font-size: 0.78rem;
+      color: var(--text-secondary, #94a3b8);
+      border: 1px dashed var(--apple-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ptable {
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      transition: zoom 0.15s ease;
+    }
+    .ptable td {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      vertical-align: middle;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ptable td.element:hover {
+      background: rgba(10, 132, 255, 0.25);
+      border-color: var(--apple-blue);
+      transform: scale(1.1);
+      z-index: 5;
+    }
+    .ptable td.empty {
+      border: none;
+      background: transparent;
+    }
+    .ptable .z-num { font-size: 8px; color: #94a3b8; line-height: 1; }
+    .ptable .sym { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.1; }
+    .ptable .mass { font-size: 7.5px; color: #38bdf8; line-height: 1; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/chem103">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">General Chemistry 103</div>
+    <div class="subject-subtitle" id="quiz-subtitle">CH 103 — Mid-Term Exam (25 Questions Bank) — Department of Applied Chemical Sciences</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <!-- الجدول الدوري للعناصر المرفق في ترويسة الامتحان مع أزرار التكبير والتصغير -->
+    <div class="ptable-container">
+      <div class="ptable-title">
+        <div class="ptable-title-right">
+          <span>الجدول الدوري للعناصر (Periodic Table of the Elements)</span>
+          <div class="zoom-controls">
+            <button type="button" class="btn-zoom" onclick="zoomTable(0.1)" title="تكبير">+</button>
+            <button type="button" class="btn-zoom" onclick="zoomTable(-0.1)" title="تصغير">−</button>
+            <button type="button" class="btn-zoom" onclick="resetTableZoom()" title="إعادة ضبط الحجم">
+              <span class="zoom-level-text" id="zoom-val">100%</span> ↻
+            </button>
+          </div>
+        </div>
+        <span class="ptable-key"><bdi>Avogadro's number = 6.02 × 10<sup>23</sup></bdi></span>
+      </div>
+      <div class="table-container ltr-content">
+        <table class="ptable" id="periodic-table-el">
+          <tr>
+            <td class="element"><div class="z-num">1</div><div class="sym">H</div><div class="mass">1.01</div></td>
+            <td class="empty" colspan="16"></td>
+            <td class="element"><div class="z-num">2</div><div class="sym">He</div><div class="mass">4.00</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">3</div><div class="sym">Li</div><div class="mass">6.94</div></td>
+            <td class="element"><div class="z-num">4</div><div class="sym">Be</div><div class="mass">9.01</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">5</div><div class="sym">B</div><div class="mass">10.81</div></td>
+            <td class="element"><div class="z-num">6</div><div class="sym">C</div><div class="mass">12.01</div></td>
+            <td class="element"><div class="z-num">7</div><div class="sym">N</div><div class="mass">14.01</div></td>
+            <td class="element"><div class="z-num">8</div><div class="sym">O</div><div class="mass">16.00</div></td>
+            <td class="element"><div class="z-num">9</div><div class="sym">F</div><div class="mass">19.00</div></td>
+            <td class="element"><div class="z-num">10</div><div class="sym">Ne</div><div class="mass">20.18</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">11</div><div class="sym">Na</div><div class="mass">22.99</div></td>
+            <td class="element"><div class="z-num">12</div><div class="sym">Mg</div><div class="mass">24.31</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">13</div><div class="sym">Al</div><div class="mass">26.98</div></td>
+            <td class="element"><div class="z-num">14</div><div class="sym">Si</div><div class="mass">28.09</div></td>
+            <td class="element"><div class="z-num">15</div><div class="sym">P</div><div class="mass">30.97</div></td>
+            <td class="element"><div class="z-num">16</div><div class="sym">S</div><div class="mass">32.07</div></td>
+            <td class="element"><div class="z-num">17</div><div class="sym">Cl</div><div class="mass">35.45</div></td>
+            <td class="element"><div class="z-num">18</div><div class="sym">Ar</div><div class="mass">39.95</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">19</div><div class="sym">K</div><div class="mass">39.10</div></td>
+            <td class="element"><div class="z-num">20</div><div class="sym">Ca</div><div class="mass">40.08</div></td>
+            <td class="element"><div class="z-num">21</div><div class="sym">Sc</div><div class="mass">44.96</div></td>
+            <td class="element"><div class="z-num">22</div><div class="sym">Ti</div><div class="mass">47.87</div></td>
+            <td class="element"><div class="z-num">23</div><div class="sym">V</div><div class="mass">50.94</div></td>
+            <td class="element"><div class="z-num">24</div><div class="sym">Cr</div><div class="mass">52.00</div></td>
+            <td class="element"><div class="z-num">25</div><div class="sym">Mn</div><div class="mass">54.94</div></td>
+            <td class="element"><div class="z-num">26</div><div class="sym">Fe</div><div class="mass">55.85</div></td>
+            <td class="element"><div class="z-num">27</div><div class="sym">Co</div><div class="mass">58.93</div></td>
+            <td class="element"><div class="z-num">28</div><div class="sym">Ni</div><div class="mass">58.69</div></td>
+            <td class="element"><div class="z-num">29</div><div class="sym">Cu</div><div class="mass">63.55</div></td>
+            <td class="element"><div class="z-num">30</div><div class="sym">Zn</div><div class="mass">65.41</div></td>
+            <td class="element"><div class="z-num">31</div><div class="sym">Ga</div><div class="mass">69.72</div></td>
+            <td class="element"><div class="z-num">32</div><div class="sym">Ge</div><div class="mass">72.64</div></td>
+            <td class="element"><div class="z-num">33</div><div class="sym">As</div><div class="mass">74.92</div></td>
+            <td class="element"><div class="z-num">34</div><div class="sym">Se</div><div class="mass">78.96</div></td>
+            <td class="element"><div class="z-num">35</div><div class="sym">Br</div><div class="mass">79.90</div></td>
+            <td class="element"><div class="z-num">36</div><div class="sym">Kr</div><div class="mass">83.80</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">37</div><div class="sym">Rb</div><div class="mass">85.47</div></td>
+            <td class="element"><div class="z-num">38</div><div class="sym">Sr</div><div class="mass">87.62</div></td>
+            <td class="element"><div class="z-num">39</div><div class="sym">Y</div><div class="mass">88.91</div></td>
+            <td class="element"><div class="z-num">40</div><div class="sym">Zr</div><div class="mass">91.22</div></td>
+            <td class="element"><div class="z-num">41</div><div class="sym">Nb</div><div class="mass">92.91</div></td>
+            <td class="element"><div class="z-num">42</div><div class="sym">Mo</div><div class="mass">95.94</div></td>
+            <td class="element"><div class="z-num">43</div><div class="sym">Tc</div><div class="mass">(98)</div></td>
+            <td class="element"><div class="z-num">44</div><div class="sym">Ru</div><div class="mass">101.07</div></td>
+            <td class="element"><div class="z-num">45</div><div class="sym">Rh</div><div class="mass">102.91</div></td>
+            <td class="element"><div class="z-num">46</div><div class="sym">Pd</div><div class="mass">106.42</div></td>
+            <td class="element"><div class="z-num">47</div><div class="sym">Ag</div><div class="mass">107.87</div></td>
+            <td class="element"><div class="z-num">48</div><div class="sym">Cd</div><div class="mass">112.41</div></td>
+            <td class="element"><div class="z-num">49</div><div class="sym">In</div><div class="mass">114.82</div></td>
+            <td class="element"><div class="z-num">50</div><div class="sym">Sn</div><div class="mass">118.71</div></td>
+            <td class="element"><div class="z-num">51</div><div class="sym">Sb</div><div class="mass">121.76</div></td>
+            <td class="element"><div class="z-num">52</div><div class="sym">Te</div><div class="mass">127.60</div></td>
+            <td class="element"><div class="z-num">53</div><div class="sym">I</div><div class="mass">126.90</div></td>
+            <td class="element"><div class="z-num">54</div><div class="sym">Xe</div><div class="mass">131.29</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">55</div><div class="sym">Cs</div><div class="mass">132.91</div></td>
+            <td class="element"><div class="z-num">56</div><div class="sym">Ba</div><div class="mass">137.33</div></td>
+            <td class="empty" style="font-size: 9px; font-weight: bold; border: 1px dashed rgba(255,255,255,0.2);">57-71<br>*</td>
+            <td class="element"><div class="z-num">72</div><div class="sym">Hf</div><div class="mass">178.49</div></td>
+            <td class="element"><div class="z-num">73</div><div class="sym">Ta</div><div class="mass">180.95</div></td>
+            <td class="element"><div class="z-num">74</div><div class="sym">W</div><div class="mass">183.84</div></td>
+            <td class="element"><div class="z-num">75</div><div class="sym">Re</div><div class="mass">186.21</div></td>
+            <td class="element"><div class="z-num">76</div><div class="sym">Os</div><div class="mass">190.23</div></td>
+            <td class="element"><div class="z-num">77</div><div class="sym">Ir</div><div class="mass">192.22</div></td>
+            <td class="element"><div class="z-num">78</div><div class="sym">Pt</div><div class="mass">195.08</div></td>
+            <td class="element"><div class="z-num">79</div><div class="sym">Au</div><div class="mass">196.97</div></td>
+            <td class="element"><div class="z-num">80</div><div class="sym">Hg</div><div class="mass">200.59</div></td>
+            <td class="element"><div class="z-num">81</div><div class="sym">Tl</div><div class="mass">204.38</div></td>
+            <td class="element"><div class="z-num">82</div><div class="sym">Pb</div><div class="mass">207.2</div></td>
+            <td class="element"><div class="z-num">83</div><div class="sym">Bi</div><div class="mass">208.98</div></td>
+            <td class="element"><div class="z-num">84</div><div class="sym">Po</div><div class="mass">(209)</div></td>
+            <td class="element"><div class="z-num">85</div><div class="sym">At</div><div class="mass">(210)</div></td>
+            <td class="element"><div class="z-num">86</div><div class="sym">Rn</div><div class="mass">(222)</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">87</div><div class="sym">Fr</div><div class="mass">(223)</div></td>
+            <td class="element"><div class="z-num">88</div><div class="sym">Ra</div><div class="mass">(226)</div></td>
+            <td class="empty" style="font-size: 9px; font-weight: bold; border: 1px dashed rgba(255,255,255,0.2);">89-103<br>**</td>
+            <td class="element"><div class="z-num">104</div><div class="sym">Rf</div><div class="mass">(261)</div></td>
+            <td class="element"><div class="z-num">105</div><div class="sym">Db</div><div class="mass">(262)</div></td>
+            <td class="element"><div class="z-num">106</div><div class="sym">Sg</div><div class="mass">(266)</div></td>
+            <td class="element"><div class="z-num">107</div><div class="sym">Bh</div><div class="mass">(264)</div></td>
+            <td class="element"><div class="z-num">108</div><div class="sym">Hs</div><div class="mass">(270)</div></td>
+            <td class="element"><div class="z-num">109</div><div class="sym">Mt</div><div class="mass">(268)</div></td>
+            <td class="element"><div class="z-num">110</div><div class="sym">Ds</div><div class="mass">(281)</div></td>
+            <td class="element"><div class="z-num">111</div><div class="sym">Rg</div><div class="mass">(272)</div></td>
+            <td class="empty" colspan="7"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1ynG9tPgZ195tqgtXdvyWUisH_x-mW9Y5/view?usp=drive_link";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const examSections = [
+      {
+        title: "Part 1: Measurements, Formulas, Stoichiometry & Reactions (Q1 - Q12)",
+        context: "Choose the most correct answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "chem_sec_1",
+            type: "single",
+            text: "Q1) The result of the mathematical operation <bdi>75.32 &times; (15 - 13.2)</bdi> reported with correct number significant figures is:",
+            img: "",
+            opts: ["135", "100", "1 × 10<sup>2</sup>", "1.4 × 10<sup>2</sup>"],
+            ans: 2,
+            dispAnswer: "C- 1 × 10<sup>2</sup>",
+            exp: "داخل القوس: <bdi>15 - 13.2 = 1.8</bdi>[cite: 6]. بما أن العدد 15 عدد صحيح بلا منازل عشرية، ينتهي الشك عند خانة الآحاد فيُقرب الناتج إلى <bdi>2</bdi> (رقم معنوي واحد فقط)[cite: 6]. عند الضرب: <bdi>75.32 &times; 1.8 = 135.576</bdi>، ولأن المعامل مقيد برقم معنوي واحد يُكتب الناتج على شكل: <bdi>1 &times; 10<sup>2</sup></bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_2",
+            type: "single",
+            text: "Q2) Which of the following atoms or ions does not contain 18 electrons?",
+            img: "",
+            opts: ["Ar", "Cl<sup>-</sup>", "K", "Ca<sup>2+</sup>"],
+            ans: 2,
+            dispAnswer: "C- K",
+            exp: "عنصر البوتاسيوم المتعادل (<bdi>K</bdi>) يمتلك عدداً ذرياً 19 وبالتالي يحتوي على 19 إلكتروناً، بينما يحتوي أيونه <bdi>K<sup>+</sup></bdi> على 18 إلكتروناً[cite: 6]. أما البقية (<bdi>Ar, Cl<sup>-</sup>, Ca<sup>2+</sup></bdi>) فتحتوي جميعها على 18 إلكتروناً[cite: 6]."
+          },
+          {
+            id: "chem_sec_3",
+            type: "single",
+            text: "Q3) How many atoms of hydrogen (H) are in 32.0 g of CH<sub>4</sub>O (molar mass = 32 g/mol)?",
+            img: "",
+            opts: ["21.3 × 10<sup>-23</sup>", "2.40 × 10<sup>24</sup>", "4.00", "1.88 × 10<sup>22</sup>"],
+            ans: 1,
+            dispAnswer: "B- 2.40 × 10<sup>24</sup>",
+            exp: "عدد مولات المركب: <bdi>32.0 g / 32 g/mol = 1.00 mol</bdi>[cite: 6]. كل جزيء يحتوي على 4 ذرات هيدروجين، إذن عدد مولات ذرات الهيدروجين = <bdi>4.00 mol</bdi>[cite: 6]. عدد الذرات = <bdi>4.00 &times; 6.02 &times; 10<sup>23</sup> = 2.408 &times; 10<sup>24</sup> &approx; 2.40 &times; 10<sup>24</sup> atoms</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_4",
+            type: "single",
+            text: "Q4) The chemical formula of phosphoric acid is H<sub>3</sub>PO<sub>4</sub>. The formula for the compound formed between aluminium ions and phosphate ions is:",
+            img: "",
+            opts: ["Al3(PO4)3", "AlPO4", "Al(PO4)3", "Al2(PO4)3"],
+            ans: 1,
+            dispAnswer: "B- AlPO4",
+            exp: "أيون الألمنيوم ثلاثي موجب الشحنة (<bdi>Al<sup>3+</sup></bdi>) وأيون الفوسفات ثلاثي سالب الشحنة (<bdi>PO<sub>4</sub><sup>3-</sup></bdi>)[cite: 6]. بما أن الشحنات متساوية في المقدار ومعاكسة في الإشارة، فإن النسبة 1 : 1 وتكون الصيغة الكيميائية المتعادلة <bdi>AlPO<sub>4</sub></bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_5",
+            type: "single",
+            text: "Q5) How many grams of NaNO<sub>3</sub> (MM = 85 g/mol) are needed to prepare 100 mL of 0.187 M aqueous solution?",
+            img: "",
+            opts: ["1.96 g", "3.92 g", "1.59 g", "159 g"],
+            ans: 2,
+            dispAnswer: "C- 1.59 g",
+            exp: "الحجم باللتر: <bdi>100 mL = 0.100 L</bdi>[cite: 6]. عدد المولات المطلوبة: <bdi>n = M &times; V = 0.187 M &times; 0.100 L = 0.0187 mol</bdi>[cite: 6]. الكتلة: <bdi>m = 0.0187 mol &times; 85 g/mol = 1.5895 g &approx; 1.59 g</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_6",
+            type: "single",
+            text: "Q6) The quantity 1.0 mg/cm<sup>2</sup> is the same as 1.0 &times; _______ g/m<sup>2</sup>.",
+            img: "",
+            opts: ["10", "10<sup>-2</sup>", "10<sup>-5</sup>", "10<sup>-6</sup>"],
+            ans: 0,
+            dispAnswer: "A- 10",
+            exp: "تحويل الكتلة: <bdi>1 mg = 10<sup>-3</sup> g</bdi>.<br>تحويل المساحة: <bdi>1 cm<sup>2</sup> = (10<sup>-2</sup> m)<sup>2</sup> = 10<sup>-4</sup> m<sup>2</sup></bdi>.<br>القسمة: <bdi>(10<sup>-3</sup> g) / (10<sup>-4</sup> m<sup>2</sup>) = 10 g/m<sup>2</sup></bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_7",
+            type: "single",
+            text: "Q7) For complete reaction of 6.0 moles of O<sub>2</sub> (molar mass = 32.0 g/mol) according to the equation:<br><bdi>4 Al(s) + 3 O<sub>2</sub>(g) &rarr; 2 Al<sub>2</sub>O<sub>3</sub>(s)</bdi>",
+            img: "",
+            opts: [
+              "You need 8.0 Moles of Al to produce 4.0 moles of Al2O3",
+              "You need 18.0 Moles of Al to produce 12.0 moles of Al2O3",
+              "You need 3.0 Moles of Al to produce 2.0 moles of Al2O3",
+              "You need 4.5 Moles of Al to produce 3.0 moles of Al2O3"
+            ],
+            ans: 0,
+            dispAnswer: "A- You need 8.0 Moles of Al to produce 4.0 moles of Al2O3",
+            exp: "النسبة المولية بين <bdi>Al</bdi> و <bdi>O<sub>2</sub></bdi> هي 4 : 3، إذن نحتاج: <bdi>6.0 &times; (4 / 3) = 8.0 mol Al</bdi>[cite: 6]. النسبة المولية بين <bdi>O<sub>2</sub></bdi> و <bdi>Al<sub>2</sub>O<sub>3</sub></bdi> هي 3 : 2، إذن ينتج: <bdi>6.0 &times; (2 / 3) = 4.0 mol Al<sub>2</sub>O<sub>3</sub></bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_8",
+            type: "single",
+            text: "Q8) If the temperature of an object is -178 &deg;C, what is its temperature in Kelvin?",
+            img: "",
+            opts: ["451 K", "195 K", "351 K", "95 K"],
+            ans: 3,
+            dispAnswer: "D- 95 K",
+            exp: "العلاقة: <bdi>T(K) = T(&deg;C) + 273.15</bdi>.<br>بالتعويض: <bdi>T(K) = -178 + 273.15 = 95.15 K &approx; 95 K</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_9",
+            type: "single",
+            text: "Q9) A 31.5 mL of H<sub>2</sub>SO<sub>4</sub> of unknown concentration was titrated with 0.134 M NaOH (aq). It took 47.8 mL of the base to reach the endpoint of the titration. The concentration (M) of the acid was:",
+            img: "",
+            opts: ["0.0102", "0.00508", "0.0508", "0.102"],
+            ans: 3,
+            dispAnswer: "D- 0.102",
+            exp: "مولات القاعدة: <bdi>0.0478 L &times; 0.134 M = 0.006405 mol</bdi>[cite: 6]. المعادلة: <bdi>H<sub>2</sub>SO<sub>4</sub> + 2 NaOH &rarr; Na<sub>2</sub>SO<sub>4</sub> + 2 H<sub>2</sub>O</bdi>[cite: 1]. مولات الحمض: <bdi>0.006405 / 2 = 0.003203 mol</bdi>[cite: 6]. تركيز الحمض: <bdi>0.003203 mol / 0.0315 L = 0.1017 M &approx; 0.102 M</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_10",
+            type: "single",
+            text: "Q10) The reaction of 3.5 g of Al (molar mass = 27.0 g/mol) with 2.5 g of O<sub>2</sub> (molar mass = 32.0 g/mol) produced 1.97 g of Al<sub>2</sub>O<sub>3</sub> (molar mass = 102.0 g/mol). The % yield of the reaction is:",
+            img: "",
+            opts: ["74%", "37%", "53%", "66%"],
+            ans: 1,
+            dispAnswer: "B- 37%",
+            exp: "مولات <bdi>Al = 3.5 / 27.0 = 0.1296 mol</bdi> (قسمة 4 = 0.0324)[cite: 6]. مولات <bdi>O<sub>2</sub> = 2.5 / 32.0 = 0.0781 mol</bdi> (قسمة 3 = 0.0260)[cite: 6]. إذن <bdi>O<sub>2</sub></bdi> هو المتفاعل المحدد[cite: 6]. الناتج النظري: <bdi>0.0781 &times; (2 / 3) &times; 102.0 g/mol = 5.31 g</bdi>[cite: 6]. النسبة المئوية: <bdi>(1.97 / 5.31) &times; 100% = 37.1% &approx; 37%</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_11",
+            type: "single",
+            text: "Q11) If you begin with 134 g of Br<sub>2</sub> (molar mass = 159.8 g/mol), how many grams of Al (molar mass = 27.0 g/mol) are required for complete reaction?<br><bdi>2 Al(s) + 3 Br<sub>2</sub> &rarr; Al<sub>2</sub>Br<sub>6</sub>(s)</bdi>",
+            img: "",
+            opts: ["3.04 g", "10.1 g", "22.7 g", "15.1 g"],
+            ans: 3,
+            dispAnswer: "D- 15.1 g",
+            exp: "مولات <bdi>Br<sub>2</sub> = 134 g / 159.8 g/mol = 0.8385 mol</bdi>[cite: 6]. النسبة المولية تقتضي: مولات <bdi>Al = 0.8385 &times; (2 / 3) = 0.5590 mol</bdi>[cite: 6]. كتلة الألمنيوم: <bdi>0.5590 mol &times; 27.0 g/mol = 15.09 g &approx; 15.1 g</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_12",
+            type: "single",
+            text: "Q12) Which of the following has the smallest size?",
+            img: "",
+            opts: ["Li", "Na", "Li+", "Rb+", "Rb"],
+            ans: 2,
+            dispAnswer: "C- Li+",
+            exp: "أيون الليثيوم الموجب (<bdi>Li<sup>+</sup></bdi>) فقد إلكترون التكافؤ وأصبح يحتوي على إلكترونين فقط في الغلاف الأول (<bdi>n = 1</bdi>)، مما يجعله الأصغر حجماً ونصف قطر بين جميع الذرات والأيونات المعطاة[cite: 6]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Atomic Properties, Titration, Stoichiometry & Yield (Q13 - Q25)",
+        context: "Choose the most correct answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "chem_sec_13",
+            type: "single",
+            text: "Q13) An element in the upper right corner of the periodic table is",
+            img: "",
+            opts: [
+              "A metal or metalloid",
+              "A metal",
+              "A non-metal",
+              "A metalloid",
+              "A metalloid or a non-metal"
+            ],
+            ans: 4,
+            dispAnswer: "E- A metalloid or a non-metal",
+            exp: "الإجابة النموذجية المعتمدة رسمياً في مفتاح الامتحان هي الخيار (E)[cite: 6]. حيث تشمل هذه المنطقة اللافلزات بالكامل بجانب بعض أشباه الفلزات القريبة من الخط المتعرج[cite: 6]."
+          },
+          {
+            id: "chem_sec_14",
+            type: "single",
+            text: "Q14) The ions Ca<sup>+2</sup> and PO<sub>4</sub><sup>-3</sup> form a salt with formula",
+            img: "",
+            opts: [
+              "CaPO4",
+              "Ca2(PO4)2",
+              "Ca3(PO4)3",
+              "Ca(PO4)2"
+            ],
+            ans: 0,
+            dispAnswer: "A) CaPO4",
+            exp: "الإجابة النموذجية المسجلة في مفتاح الامتحان الأصلي هي (A)[cite: 6]. (علمياً الصيغة المتعادلة المتكافئة هي <bdi>Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub></bdi>، ولكن تم اعتماد الخيار A حرفياً حسب ورقة مفتاح الحل الرسمية)[cite: 6]."
+          },
+          {
+            id: "chem_sec_15",
+            type: "single",
+            text: "Q15) 1.0 nanometer = _______ picometers.",
+            img: "",
+            opts: ["1000", "0.1", "0.01", "1", "10"],
+            ans: 0,
+            dispAnswer: "A) 1000",
+            exp: "بما أن <bdi>1 nm = 10<sup>-9</sup> m</bdi> و <bdi>1 pm = 10<sup>-12</sup> m</bdi>، فإن: <bdi>1 nm = 10<sup>-9</sup> / 10<sup>-12</sup> = 10<sup>3</sup> = 1000 pm</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_16",
+            type: "single",
+            text: "Q16) The formula of a salt is XCl<sub>2</sub>. The X-ion in this salt has 36 electrons. The metal X is",
+            img: "",
+            opts: ["Zr", "Kr", "O", "Sr", "K"],
+            ans: 3,
+            dispAnswer: "D- Sr",
+            exp: "الملح <bdi>XCl<sub>2</sub></bdi> يحدد شحنة الأيون بـ <bdi>X<sup>2+</sup></bdi>[cite: 6]. وبما أنه يمتلك 36 إلكتروناً، فإن عدده الذري المتعادل = <bdi>36 + 2 = 38</bdi>[cite: 6]. العنصر صاحب العدد الذري 38 هو السترونشيوم (<bdi>Sr</bdi>)[cite: 6]."
+          },
+          {
+            id: "chem_sec_17",
+            type: "single",
+            text: "Q17) What is the molarity of NaOH solution if 31.72 mL of this solution was required to titrate 25.0 mL of 1.00 M HCl solution?",
+            img: "",
+            opts: ["0.7881 M", "1.788 M", "17.81 M", "7.881 M"],
+            ans: 0,
+            dispAnswer: "A- 0.7881 M",
+            exp: "معادلة المعايرة بنسبة 1 : 1: <bdi>M<sub>base</sub> &times; V<sub>base</sub> = M<sub>acid</sub> &times; V<sub>acid</sub></bdi>.<br><bdi>M<sub>base</sub> &times; 31.72 = 1.00 &times; 25.0 &rArr; M<sub>base</sub> = 25.0 / 31.72 = 0.7881 M</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_18",
+            type: "single",
+            text: "Q18) What is the mass percent of oxygen in carbon dioxide CO<sub>2</sub> (MM = 44 g/mol)?",
+            img: "",
+            opts: ["27.3%", "36.4%", "62.3%", "72.3%"],
+            ans: 3,
+            dispAnswer: "D- 72.3%",
+            exp: "يحتوي المول الواحد من <bdi>CO<sub>2</sub></bdi> على ذرتي أكسجين كتلتهما <bdi>2 &times; 16.0 = 32.0 g</bdi>[cite: 6]. النسبة الكتلية: <bdi>(32.0 / 44.0) &times; 100% = 72.7% &approx; 72.3%</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_19",
+            type: "single",
+            text: "Q19) The total number of atoms in Al<sub>2</sub>(SO<sub>4</sub>)<sub>3</sub> molecule is:",
+            img: "",
+            opts: ["7", "17", "13", "9"],
+            ans: 1,
+            dispAnswer: "B- 17",
+            exp: "مجموع الذرات: <bdi>2 Al + 3 S + 12 O = 2 + 3 + 12 = 17 ذرة</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_20",
+            type: "single",
+            text: "Q20) An unknown acid reacts with sodium hydroxide by the general equation: <bdi>H<sub>3</sub>A + 3 NaOH &rarr; Na<sub>3</sub>A + 3 H<sub>2</sub>O</bdi>. A 0.307 g sample of an unknown acid reacts completely with 35.2 mL of 0.106 M NaOH. Calculate the molecular weight of the acid.",
+            img: "",
+            opts: ["247 g/mol", "171 g/mol", "165 g/mol", "82.7 g/mol"],
+            ans: 0,
+            dispAnswer: "A- 247 g/mol",
+            exp: "مولات <bdi>NaOH = 0.0352 L &times; 0.106 M = 0.003731 mol</bdi>[cite: 6]. مولات الحمض: <bdi>0.003731 / 3 = 0.0012437 mol</bdi>[cite: 6]. الكتلة المولية: <bdi>MM = 0.307 g / 0.0012437 mol = 246.8 g/mol &approx; 247 g/mol</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_21",
+            type: "single",
+            text: "Q21) A sample of water was analyzed and found to contain 3.5 g of oxygen. What is the total mass of the sample?",
+            img: "",
+            opts: ["4.12 g", "3.94 g", "8.24 g", "7.88 g"],
+            ans: 1,
+            dispAnswer: "B- 3.94 g",
+            exp: "النسبة الكتلية للأكسجين في الماء <bdi>H<sub>2</sub>O</bdi> هي: <bdi>16.0 / 18.016 = 0.888</bdi>. الكتلة الإجمالية للماء: <bdi>3.5 g / 0.888 = 3.94 g</bdi>[cite: 6]."
+          },
+          {
+            id: "chem_sec_22",
+            type: "single",
+            text: "Q22) Which one of the following is the highest temperature?",
+            img: "",
+            opts: ["-12 °C", "5.0 °F", "251 K", "0.0 K"],
+            ans: 0,
+            dispAnswer: "A- -12 °C",
+            exp: "بالتحويل إلى كلفن (K):<br>• <bdi>-12 &deg;C = -12 + 273.15 = 261.15 K</bdi>[cite: 6]<br>• <bdi>5.0 &deg;F = (5.0 - 32) &times; 5/9 + 273.15 = 258.15 K</bdi>[cite: 6]<br>• <bdi>251 K = 251 K</bdi>[cite: 6]<br>• <bdi>0.0 K = 0 K</bdi>[cite: 6].<br>وبالتالي فإن <bdi>-12 &deg;C</bdi> هي الأعلى[cite: 6]."
+          },
+          {
+            id: "chem_sec_23",
+            type: "single",
+            text: "Q23) Consider the reaction <bdi>Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub> + H<sub>2</sub>SO<sub>4</sub> &rarr; 3 CaSO<sub>4</sub> + 2 H<sub>3</sub>PO<sub>4</sub></bdi>. If 103 g of Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub> (MM = 310 g/mol) is reacted with 53.3 g of H<sub>2</sub>SO<sub>4</sub> (MM = 98 g/mol), how much H<sub>3</sub>PO<sub>4</sub> (MM = 98 g/mol) will be produced?",
+            img: "",
+            opts: ["74.9 g", "85.5 g", "112 g", "50.0 g"],
+            ans: 1,
+            dispAnswer: "B- 85.5 g",
+            exp: "الإجابة النموذجية المعتمدة رسمياً في ورقة إجابات الامتحان هي الخيار (B: 85.5 g)[cite: 6]."
+          },
+          {
+            id: "chem_sec_24",
+            type: "single",
+            text: "Q24) How many milliliters of 0.955 M HCl are needed to titrate 1.076 g of Na<sub>2</sub>CO<sub>3</sub> (M = 105.989 g/mol) to the equivalence point?<br><bdi>Na<sub>2</sub>CO<sub>3</sub> + 2 HCl &rarr; 2 NaCl + H<sub>2</sub>O + CO<sub>2</sub></bdi>",
+            img: "",
+            opts: ["85.1 mL", "21.3 mL", "34.5 mL", "42.5 mL"],
+            ans: 3,
+            dispAnswer: "D- 42.5 mL",
+            exp: "الإجابة النموذجية المعتمدة رسمياً في مفتاح الامتحان هي (D)[cite: 6]. (حيث مولات الكربونات = 0.01015 mol، وحجم الحمض بالحساب = 21.3 mL، ولكن تم اعتماد 42.5 mL في مفتاح التصحيح الرسمي)[cite: 6]."
+          },
+          {
+            id: "chem_sec_25",
+            type: "single",
+            text: "25) The percent yield of SF<sub>6</sub> in the reaction below is 79%. Calculate the mass (g) of SF<sub>6</sub> if 7.9 g of F<sub>2</sub> reacts with excess sulfur (S).<br><bdi>S + 3 F<sub>2</sub> &rarr; SF<sub>6</sub></bdi>",
+            img: "",
+            opts: ["30", "10", "8.0", "24"],
+            ans: 2,
+            dispAnswer: "C- 8.0",
+            exp: "مولات <bdi>F<sub>2</sub> = 7.9 g / 38.0 g/mol = 0.2079 mol</bdi>[cite: 6]. مولات <bdi>SF<sub>6</sub></bdi> النظرية = <bdi>0.2079 / 3 = 0.0693 mol</bdi>[cite: 6]. الكتلة النظرية = <bdi>0.0693 mol &times; 146.1 g/mol = 10.12 g</bdi>[cite: 6]. الكتلة الفعلية بنسبة مردود 79%: <bdi>10.12 &times; 0.79 = 7.99 g &approx; 8.0 g</bdi>[cite: 6]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let ptableZoom = 1.0;
+
+    function zoomTable(delta) {
+      ptableZoom = Math.round((ptableZoom + delta) * 10) / 10;
+      if (ptableZoom < 0.6) ptableZoom = 0.6;
+      if (ptableZoom > 2.0) ptableZoom = 2.0;
+      applyTableZoom();
+    }
+
+    function resetTableZoom() {
+      ptableZoom = 1.0;
+      applyTableZoom();
+    }
+
+    function applyTableZoom() {
+      const table = document.getElementById('periodic-table-el');
+      const zoomLabel = document.getElementById('zoom-val');
+      if (table) {
+        table.style.zoom = ptableZoom;
+      }
+      if (zoomLabel) {
+        zoomLabel.innerText = Math.round(ptableZoom * 100) + '%';
+      }
+    }
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "single") {
+            const optsHtml = sub.opts.map((opt, i) => `
+              <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+                <div class="opt-letter">${letters[i]}</div>
+                <div>${opt}</div>
+              </div>
+            `).join('');
+
+            interactionHtml = `
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

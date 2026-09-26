@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Computer Architecture - First Exam 2023 (Dr. Osama)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .unit-label {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: #8e8e93;
+      user-select: none;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* تنسيق الجداول الامتحانية */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 110px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/archi">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Computer Architecture (CPE 352)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">First Exam — Spring 2023 (Dr. Osama - Form A Key)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/14B37tp2rjNsHfVXp8I8OOKpKXXgbfy91/view";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const examSections = [
+      {
+        title: "CPE 352: First Exam (April 5th, 2023) — Form A Key",
+        context: "Jordan University of Science and Technology — Department of Computer Engineering:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "input",
+            text: "[Q1 (1pt)] If computer A runs a program in 30 seconds and computer B runs the same program in 80 seconds, how much faster is A than B?",
+            img: "",
+            unit: "times faster",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 2.67) < 0.05 || Math.abs(num - 2.6666666) < 0.05;
+            },
+            dispAnswer: "2.6666666 (or 2.67)",
+            exp: "نسبة التسريع (<bdi>Performance</bdi>): <bdi>Speedup = Execution Time_B / Execution Time_A = 80 / 30 = 2.6666666 ≈ 2.67</bdi> (بدون كتابة وحدة)."
+          },
+          {
+            id: "q2",
+            type: "table_q2",
+            text: `[Q2 (1pt)] The following table shows the number of instructions and the CPI for each instruction type when running a program on a computer:
+<div class="table-container ltr-content" style="max-width:440px;">
+  <table class="exam-table">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Arithmetic</th>
+        <th>Store</th>
+        <th>Load</th>
+        <th>Branch</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:bold; color:var(--apple-blue);">IC</td>
+        <td>10</td>
+        <td>4</td>
+        <td>8</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold; color:var(--apple-blue);">CPI</td>
+        <td>2</td>
+        <td>3</td>
+        <td>3</td>
+        <td>4</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+The average CPI for this program is:`,
+            img: "",
+            dispAnswer: "2.72",
+            exp: "حساب المتوسط: <bdi>Total Cycles = (10 × 2) + (4 × 3) + (8 × 3) + (3 × 4) = 20 + 12 + 24 + 12 = 68</bdi>.<br><bdi>Total IC = 10 + 4 + 8 + 3 = 25</bdi>.<br><bdi>Average CPI = 68 / 25 = 2.72</bdi>."
+          },
+          {
+            id: "q3",
+            type: "input",
+            text: "<strong>[Q3 (1pt)]</strong> A CPU runs a program in 7 seconds. If the program has 7 × 10^9 instructions with CPI_ave = 2 then the clock frequency of this processor is:",
+            img: "",
+            unit: "GHz",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 2) < 0.1 || Math.abs(num - 2000) < 5;
+            },
+            dispAnswer: "2 GHz (or 2)",
+            exp: "معادلة التردد: <bdi>Clock Rate = (Instruction Count × CPI) / CPU Time = (7 × 10^9 × 2) / 7 = 2 × 10^9 Hz = 2 GHz</bdi>."
+          },
+          {
+            id: "q4",
+            type: "table_q4",
+            text: "[Q4 (2pt)] A 2GHz processor executes a program in 10 seconds. If the average CPI is 2 then:",
+            img: "",
+            dispAnswer: "Number of cycles = 20 G (20 × 10^9)\nNumber of instructions = 10 G (10 × 10^9)",
+            exp: "• عدد الدورات: <bdi>Cycles = CPU Time × Clock Rate = 10 × 2 GHz = 20 G cycles</bdi>.<br>• عدد التعليمات: <bdi>IC = Cycles / CPI = 20 G / 2 = 10 G instructions</bdi>."
+          },
+          {
+            id: "q5",
+            type: "input",
+            text: "<strong>[Q5 (1pt)]</strong> Our favorite program runs in 8 seconds on computer A, which has a 2.5 GHz clock. We are trying to help a computer designer build a computer, B, which will run this program in 5 seconds. The designer has determined that a substantial increase in the clock rate is possible, but this increase will affect the rest of the CPU design, causing computer B to require 1.2 times as many clock cycles as computer A for this program. What clock rate should we tell the designer to target?",
+            img: "",
+            unit: "GHz",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 4.8) < 0.1 || Math.abs(num - 4800) < 10;
+            },
+            dispAnswer: "4.8 GHz",
+            exp: "• دورات الحاسوب A: <bdi>Cycles_A = 8 × 2.5 GHz = 20 G</bdi>.<br>• دورات الحاسوب B: <bdi>Cycles_B = 1.2 × 20 G = 24 G</bdi>.<br>• التردد المطلوب للحاسوب B: <bdi>Clock_B = Cycles_B / Time_B = 24 G / 5 = 4.8 GHz</bdi>."
+          },
+          {
+            id: "q6",
+            type: "input",
+            text: "<strong>[Q6 (1pt)]</strong> Suppose we have two implementations of the same instruction set architecture. Computer A has a clock cycle time of 10 ns and a CPI of 2.0 for some program, and computer B has a clock cycle time of 20 ns and a CPI of 1 for the same program. Which computer is faster for this program and by how much?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const v = input.toLowerCase().trim();
+              return v.includes("same") || v.includes("equal") || v.includes("both");
+            },
+            dispAnswer: "Both have the same performance",
+            exp: "• زمن التنفيذ للحاسوب A: <bdi>Time_A = IC × 2.0 × 10 ns = 20 × IC ns</bdi>.<br>• زمن التنفيذ للحاسوب B: <bdi>Time_B = IC × 1.0 × 20 ns = 20 × IC ns</bdi>.<br>كلا الحاسوبين يمتلكان نفس الأداء تماماً (<bdi>Same performance</bdi>)."
+          },
+          {
+            id: "q7",
+            type: "table_q7",
+            text: "[Q7 (5pts)] Write single MIPS instruction that is equivalent to the given statement below:",
+            img: "",
+            dispAnswer: `1. Set $t2 to 1 if $t1 is less than 0  ->  slt $t2, $t1, $zero
+2. If $t2 is 0 then go to label DONE otherwise continue  ->  beq $t2, $zero, DONE
+3. Subtract 1 from $t1  ->  addi $t1, $t1, -1
+4. Add 2 to $s2  ->  addi $s2, $s2, 2
+5. Go to label exit  ->  j exit`,
+            exp: "ترجمة العمليات إلى تعليمات MIPS أساسية مفردة."
+          },
+          {
+            id: "q8",
+            type: "table_q8",
+            text: "[Q8 (1pt)] Consider the following C code and its compiled MIPS code. What is the value of the constant X?",
+            img: "",
+            dispAnswer: "16",
+            exp: "الإزاحة المباشرة في تعليمة التحميل هي <bdi>64</bdi> بايت. وبما أن كل عنصر صحيح (<bdi>int</bdi>) حجمه 4 بايت، فإن المؤشر: <bdi>X = 64 / 4 = 16</bdi>."
+          },
+          {
+            id: "q9",
+            type: "input",
+            text: "<strong>[Q9 (1pt)]</strong> Binary code of an arithmetic MIPS instruction is: <code>XXXX XX10 0011 0010 0100 0000 0010 0000</code><br>The index or number for the rt register in decimal is:",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const v = input.trim();
+              return v === "18" || v === "10010";
+            },
+            dispAnswer: "18",
+            exp: "توزيع حقول تعليمة <bdi>R-type</bdi>:<br>• <bdi>op = 6 bits (XXXXXX)</bdi><br>• <bdi>rs = 5 bits (10001)</bdi><br>• <bdi>rt = 5 bits (10010)</bdi> = 18 بالترميز العشري.<br>• <bdi>rd = 5 bits (01000)</bdi><br>• <bdi>shamt = 5 bits (00000)</bdi><br>• <bdi>funct = 6 bits (100000)</bdi>."
+          },
+          {
+            id: "q10",
+            type: "input",
+            text: "<strong>[Q10 (1pt)]</strong> Binary code of an immediate MIPS instruction is: <code>XXXX XX10 0011 0010 1111 1111 1111 1100</code><br>The decimal value of the immediate data is:",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const v = input.trim();
+              return v === "-4";
+            },
+            dispAnswer: "-4",
+            exp: "حقل القيمة الفورية (<bdi>Immediate</bdi>) هو آخر 16 بت: <bdi>1111 1111 1111 1100</bdi>.<br>بما أن البت الأيسر 1، فالعدد سالب في نظام متمم الاثنين: <bdi>-(0000 0000 0000 0011 + 1) = -4</bdi>."
+          },
+          {
+            id: "q11",
+            type: "table_q11",
+            text: "[Q11 (2pts)] A MIPS branch instruction is fetched from location (2016)_10, the address of the instruction to be fetched next is (2076)_10.",
+            img: "",
+            dispAnswer: "State whether branch is taken or not: Taken\nThe value of the offset in the instruction is: 14",
+            exp: "• بما أن العنوان المنفذ بعد الفرع هو 2076 وليس العنوان التالي التسلسلي (2020)، فإن التفرع قد حدث: <bdi>Taken</bdi>.<br>• حساب الإزاحة: <bdi>Target = PC + 4 + (offset × 4)  ==>  2076 = 2020 + 4 × offset  ==>  4 × offset = 56  ==>  offset = 14</bdi>."
+          },
+          {
+            id: "q12",
+            type: "input",
+            text: "<strong>[Q12 (1pt)]</strong> The PC after executing the jump instruction is (D0000004)_16. Find the value of the offset (target address field) in the jump instruction:",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const v = input.trim();
+              return v === "1";
+            },
+            dispAnswer: "1",
+            exp: "في تعليمة القفز <bdi>j</bdi>: يتشكل العنوان من <bdi>PC[31:28] || Target[25:0] || 00</bdi>.<br>العنوان <bdi>0xD0000004</bdi> يمتلك أول 4 بتات (D)، والبايتات الـ 28 السفلية هي <bdi>0x0000004</bdi>.<br>حقل الهدف في التعليمة = <bdi>4 / 4 = 1</bdi>."
+          },
+          {
+            id: "q13",
+            type: "table_q13",
+            text: "[Q13 (2pts)] Use the IEEE 754 single precision floating point format (1 bit sign, 8 bit exponent, 23 bit fraction) to represent the floating number (1.0101)_2 × 2^-3:",
+            img: "",
+            dispAnswer: "Exponent (in binary) = 01111100\nFraction (in binary) = 01010000000000000000000",
+            exp: "• الأس الفعلي: <bdi>-3</bdi>.<br>• الأس المنحاز: <bdi>-3 + 127 = 124 = (01111100)_2</bdi>.<br>• الكسر (<bdi>Fraction</bdi>): الجزء بعد الفاصلة وهو <bdi>0101</bdi> متبوعاً بأصفار حتى 23 بت."
+          },
+          {
+            id: "q14",
+            type: "input",
+            text: "<strong>[Q14 (1pt)]</strong> Normalize (0.000101)_2 × 2^2 based on the IEEE 754 single precision floating point representation:",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const v = input.toLowerCase().replace(/[\s()_]/g, '');
+              return v.includes("1.01") && (v.includes("2^-2") || v.includes("2^(-2)") || v.includes("*2^-2") || v.includes("x2^-2"));
+            },
+            dispAnswer: "(1.01)_2 × 2^-2",
+            exp: "إزاحة الفاصلة 4 خانات لليمين للحصول على الصورة القياسية <bdi>1.01</bdi>:<br><bdi>0.000101_2 × 2^2 = 1.01_2 × 2^(2 - 4) = (1.01)_2 × 2^-2</bdi>."
+          },
+          {
+            id: "q15",
+            type: "input",
+            text: "<strong>[Q15 (1pt)]</strong> What decimal number does the bit pattern 0xC3B00000 represent if it is a floating point number? Use the IEEE 754 standard:",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const v = input.trim();
+              return v === "-352";
+            },
+            dispAnswer: "-352",
+            exp: "تحليل النمط <bdi>0xC3B00000</bdi> ثنائياً:<br>• بت الإشارة: <bdi>1</bdi> (سالب).<br>• الأس: <bdi>10000111_2 = 135</bdi>، والأس الحقيقي: <bdi>135 - 127 = 8</bdi>.<br>• الكسر: <bdi>0110..._2 = 0.25 + 0.125 = 0.375</bdi>، فيكون الجزء الدال: <bdi>1.375</bdi>.<br>• القيمة = <bdi>-1.375 × 2^8 = -1.375 × 256 = -352</bdi>."
+          },
+          {
+            id: "q16",
+            type: "table_q16",
+            text: "[Q16 (3pts)] Consider the hypothetical 16-bit FP format (1-bit sign S, 5-bit signed 2's complement Exponent, 10-bit Fraction). FP Number = (-1)^S × (1.Fraction) × 2^Exponent:",
+            img: "",
+            dispAnswer: `1. Representation of (-3.25)_10:
+   - Exponent (in binary) = 00001
+   - Fraction (in binary) = 1010000000 (or 0.625)
+2. Decimal equivalent of (0011101000000000)_2 = 24576`,
+            exp: "• للعدد <bdi>-3.25 = -11.01_2 = -1.101_2 × 2^1</bdi>:<br>الأس = 1 ويمثل بـ 5 بتات متمم اثنين: <bdi>00001</bdi>، والكسر = <bdi>1010000000</bdi>.<br>• للنمط <bdi>0 01110 1000000000</bdi>:<br>الأس = <bdi>01110_2 = 14</bdi>، والجزء الدال = <bdi>1.1_2 = 1.5</bdi>.<br>القيمة = <bdi>1.5 × 2^14 = 1.5 × 16384 = 24576</bdi>."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const unitHtml = sub.unit ? `<span class="unit-label">${sub.unit}</span>` : '';
+          const hasImage = sub.img && sub.img.trim() !== "";
+
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}" 
+                   data-src="${sub.img}" 
+                   alt="Original Question ${sub.id}" 
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          let interactionHtml = '';
+
+          if (sub.type === "table_q2") {
+            interactionHtml = `
+              <div class="answer-input-row ltr-content">
+                <input type="text" class="text-input-field" id="input-${sub.id}" placeholder="" onkeydown="if(event.key==='Enter') checkQ2Answer()">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ2Answer()">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q4") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:440px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Number of cycles =</td>
+                      <td><input type="text" class="table-input" id="q4_cycles" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Number of instructions =</td>
+                      <td><input type="text" class="table-input" id="q4_ic" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ4Answer()">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q7") {
+            interactionHtml = `
+              <div class="table-container ltr-content">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Statement</th><th>Equivalent MIPS Instruction</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left;">Set $t2 to 1 if $t1 is less than 0</td>
+                      <td><input type="text" class="table-input" id="q7_1" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">If $t2 is 0 then go to label DONE otherwise continue</td>
+                      <td><input type="text" class="table-input" id="q7_2" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">Subtract 1 from $t1</td>
+                      <td><input type="text" class="table-input" id="q7_3" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">Add 2 to $s2</td>
+                      <td><input type="text" class="table-input" id="q7_4" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">Go to label exit</td>
+                      <td><input type="text" class="table-input" id="q7_5" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ7Answer()">تحقق من التعليمات</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q8") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:615px;">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>C code</th><th>MIPS code</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left;">
+                        g = h + A[X];<br>
+                        <span style="color:#8e8e93;">// g in $s1, h in $s2, base address of A in $s3</span><br>
+                        <span style="color:#8e8e93;">// A is array of integers (4 bytes)</span>
+                      </td>
+                      <td style="text-align:left;">
+                        lw $t0, 64($s3)<br>
+                        add $s1, $s2, $t0
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row ltr-content" style="margin-top:10px;">
+                <span class="unit-label">The value of constant X is: </span>
+                <input type="text" class="text-input-field" style="min-width:120px;" id="input-${sub.id}" placeholder="" onkeydown="if(event.key==='Enter') checkQ8Answer()">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ8Answer()">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q11") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:440px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">State whether the branch is taken or not:</td>
+                      <td>
+                        <select class="table-input" id="q11_state">
+                          <option value="">-- Select --</option>
+                          <option value="Taken">Taken</option>
+                          <option value="Not Taken">Not Taken</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">The value of the offset in the instruction is:</td>
+                      <td><input type="text" class="table-input" id="q11_offset" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ11Answer()">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q13") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:480px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Exponent (in binary) =</td>
+                      <td><input type="text" class="table-input" id="q13_exp" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Fraction (in binary) =</td>
+                      <td><input type="text" class="table-input" id="q13_frac" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ13Answer()">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q16") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:550px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td colspan="2" style="text-align:left; font-weight:bold; color:var(--apple-blue);">1. Representation of (-3.25)10:</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">Exponent (in binary) =</td>
+                      <td><input type="text" class="table-input" id="q16_exp" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">Fraction (in binary) =</td>
+                      <td><input type="text" class="table-input" id="q16_frac" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" style="text-align:left; font-weight:bold; color:var(--apple-blue); padding-top:12px;">2. Decimal equivalent of (0011101000000000)2:</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">Decimal value =</td>
+                      <td><input type="text" class="table-input" id="q16_dec" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ16Answer()">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else {
+            interactionHtml = `
+              <div class="answer-input-row ltr-content">
+                <input type="text" class="text-input-field" id="input-${sub.id}" placeholder="" onkeydown="if(event.key==='Enter') checkInputAnswer('${sub.id}')">
+                ${unitHtml}
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkInputAnswer('${sub.id}')">تحقق</button>
+                ${imageButtonHtml}
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right; white-space: pre-wrap;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        // بطاقة مرجعية لصيغ التعليمات كما في ورقة الامتحان
+        const referenceHtml = `
+          <div class="sub-question-card ltr-content" style="background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.1);">
+            <div style="font-weight:bold; color:var(--apple-blue); margin-bottom:8px;">Reference: MIPS Instruction Formats (Exam Sheet Footer)</div>
+            <div class="table-container">
+              <div style="font-size:0.8rem; margin-bottom:4px; font-weight:bold;">R-Type Instruction Format:</div>
+              <table class="exam-table" style="margin-bottom:12px;">
+                <thead>
+                  <tr><th>op</th><th>rs</th><th>rt</th><th>rd</th><th>shamt</th><th>funct</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>6 bits</td><td>5 bits</td><td>5 bits</td><td>5 bits</td><td>5 bits</td><td>6 bits</td></tr>
+                </tbody>
+              </table>
+              <div style="font-size:0.8rem; margin-bottom:4px; font-weight:bold;">I-Type Instruction Format:</div>
+              <table class="exam-table">
+                <thead>
+                  <tr><th>op</th><th>rs</th><th>rt</th><th>constant or address</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>6 bits</td><td>5 bits</td><td>5 bits</td><td>16 bits</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}${referenceHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function toggleOriginalImage(qid) {
+      const imgBox = document.getElementById(`img-box-${qid}`);
+      const imgEl = document.getElementById(`img-${qid}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function checkInputAnswer(subId) {
+      const sub = findSubQuestion(subId);
+      const inputEl = document.getElementById(`input-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      if (!sub || !inputEl) return;
+
+      const userVal = inputEl.value.trim();
+      if (!userVal) {
+        alert("يرجى إدخال إجابة أولاً!");
+        return;
+      }
+
+      const isCorrect = sub.validate(userVal);
+      inputEl.disabled = true;
+
+      if (isCorrect) {
+        inputEl.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        inputEl.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function checkQ2Answer() {
+      const subId = "q2";
+      const el = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!el) return;
+
+      const val = parseFloat(el.value.trim());
+      el.disabled = true;
+      if (Math.abs(val - 2.72) < 0.05) {
+        el.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        el.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ4Answer() {
+      const subId = "q4";
+      const elC = document.getElementById("q4_cycles");
+      const elI = document.getElementById("q4_ic");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = v => v.toLowerCase().replace(/[\s×*x]/g, '');
+      let okC = false;
+      let okI = false;
+
+      const vC = clean(elC.value);
+      if (vC.includes("20g") || vC.includes("20e9") || vC.includes("20*10^9") || vC.includes("20billion") || vC === "20") okC = true;
+
+      const vI = clean(elI.value);
+      if (vI.includes("10g") || vI.includes("10e9") || vI.includes("10*10^9") || vI.includes("10billion") || vI === "10") okI = true;
+
+      elC.disabled = elI.disabled = true;
+      elC.className = okC ? 'table-input correct' : 'table-input wrong';
+      elI.className = okI ? 'table-input correct' : 'table-input wrong';
+
+      if (okC && okI) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ7Answer() {
+      const subId = "q7";
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = v => v.toLowerCase().replace(/[\s,]/g, '');
+      const checks = [
+        { id: "q7_1", ans: ["slt$t2$t1$zero", "slti$t2$t10"] },
+        { id: "q7_2", ans: ["beq$t2$zerodone", "beq$zero$t2done"] },
+        { id: "q7_3", ans: ["addi$t1$t1-1", "addiu$t1$t1-1", "subi$t1$t11"] },
+        { id: "q7_4", ans: ["addi$s2$s22", "addiu$s2$s22"] },
+        { id: "q7_5", ans: ["jexit"] }
+      ];
+
+      let allCorrect = true;
+      checks.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (!el) return;
+        el.disabled = true;
+        const v = clean(el.value);
+        if (item.ans.some(target => v === target)) {
+          el.className = 'table-input correct';
+        } else {
+          el.className = 'table-input wrong';
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ8Answer() {
+      const subId = "q8";
+      const el = document.getElementById(`input-${subId}`);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!el) return;
+
+      el.disabled = true;
+      if (el.value.trim() === "16") {
+        el.className = 'text-input-field correct';
+        userScores[subId] = true;
+      } else {
+        el.className = 'text-input-field wrong';
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ11Answer() {
+      const subId = "q11";
+      const elS = document.getElementById("q11_state");
+      const elO = document.getElementById("q11_offset");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      elS.disabled = elO.disabled = true;
+      const okS = elS.value.trim().toLowerCase() === "taken";
+      const okO = elO.value.trim() === "14";
+
+      elS.className = okS ? 'table-input correct' : 'table-input wrong';
+      elO.className = okO ? 'table-input correct' : 'table-input wrong';
+
+      if (okS && okO) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ13Answer() {
+      const subId = "q13";
+      const elE = document.getElementById("q13_exp");
+      const elF = document.getElementById("q13_frac");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = v => v.replace(/[\s-]/g, '').toLowerCase();
+      elE.disabled = elF.disabled = true;
+
+      const vE = clean(elE.value);
+      const okE = vE === "01111100" || vE === "124";
+
+      const vF = clean(elF.value);
+      const okF = vF.startsWith("0101") || vF === "0.3125";
+
+      elE.className = okE ? 'table-input correct' : 'table-input wrong';
+      elF.className = okF ? 'table-input correct' : 'table-input wrong';
+
+      if (okE && okF) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ16Answer() {
+      const subId = "q16";
+      const elE = document.getElementById("q16_exp");
+      const elF = document.getElementById("q16_frac");
+      const elD = document.getElementById("q16_dec");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = v => v.replace(/[\s-]/g, '').toLowerCase();
+      elE.disabled = elF.disabled = elD.disabled = true;
+
+      const vE = clean(elE.value);
+      const okE = vE === "00001" || vE === "1";
+
+      const vF = clean(elF.value);
+      const okF = vF.startsWith("101") || vF === "0.625";
+
+      const vD = elD.value.trim();
+      const okD = vD === "24576";
+
+      elE.className = okE ? 'table-input correct' : 'table-input wrong';
+      elF.className = okF ? 'table-input correct' : 'table-input wrong';
+      elD.className = okD ? 'table-input correct' : 'table-input wrong';
+
+      if (okE && okF && okD) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const inputEl = document.getElementById(`input-${subId}`);
+      if (inputEl) {
+        inputEl.disabled = false;
+        inputEl.value = '';
+        inputEl.className = 'text-input-field';
+        inputEl.focus();
+      }
+
+      if (subId === "q4") {
+        ["q4_cycles", "q4_ic"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.disabled = false; el.value = ''; el.className = 'table-input'; }
+        });
+      }
+
+      if (subId === "q7") {
+        ["q7_1", "q7_2", "q7_3", "q7_4", "q7_5"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.disabled = false; el.value = ''; el.className = 'table-input'; }
+        });
+      }
+
+      if (subId === "q11") {
+        const elS = document.getElementById("q11_state");
+        const elO = document.getElementById("q11_offset");
+        if (elS) { elS.disabled = false; elS.value = ''; elS.className = 'table-input'; }
+        if (elO) { elO.disabled = false; elO.value = ''; elO.className = 'table-input'; }
+      }
+
+      if (subId === "q13") {
+        const elE = document.getElementById("q13_exp");
+        const elF = document.getElementById("q13_frac");
+        if (elE) { elE.disabled = false; elE.value = ''; elE.className = 'table-input'; }
+        if (elF) { elF.disabled = false; elF.value = ''; elF.className = 'table-input'; }
+      }
+
+      if (subId === "q16") {
+        ["q16_exp", "q16_frac", "q16_dec"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.disabled = false; el.value = ''; el.className = 'table-input'; }
+        });
+      }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+      if (imgBox) imgBox.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

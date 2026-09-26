@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | General Chemistry 103 - Final Exam (Past Years & Suggested)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    /* Periodic Table Container & Zoom Controls */
+    .ptable-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .ptable-title {
+      font-weight: 800;
+      color: var(--apple-blue);
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ptable-title-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--apple-border);
+      border-radius: 99px;
+      padding: 2px 6px;
+    }
+    .btn-zoom {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 99px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-zoom:hover {
+      background: var(--apple-blue);
+      color: #fff;
+    }
+    .btn-zoom:active {
+      transform: scale(0.92);
+    }
+    .zoom-level-text {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5ac8fa;
+      min-width: 38px;
+      text-align: center;
+    }
+    .ptable-key {
+      font-size: 0.78rem;
+      color: var(--text-secondary, #94a3b8);
+      border: 1px dashed var(--apple-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ptable {
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      transition: zoom 0.15s ease;
+    }
+    .ptable td {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      vertical-align: middle;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ptable td.element:hover {
+      background: rgba(10, 132, 255, 0.25);
+      border-color: var(--apple-blue);
+      transform: scale(1.1);
+      z-index: 5;
+    }
+    .ptable td.empty {
+      border: none;
+      background: transparent;
+    }
+    .ptable .z-num { font-size: 8px; color: #94a3b8; line-height: 1; }
+    .ptable .sym { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.1; }
+    .ptable .mass { font-size: 7.5px; color: #38bdf8; line-height: 1; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/chem103">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">General Chemistry 103</div>
+    <div class="subject-subtitle" id="quiz-subtitle">CH 103 — Final Comprehensive Exam Bank (48 Questions)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <!-- الجدول الدوري للعناصر مع أزرار التكبير والتصغير -->
+    <div class="ptable-container">
+      <div class="ptable-title">
+        <div class="ptable-title-right">
+          <span>الجدول الدوري للعناصر (Periodic Table of the Elements)</span>
+          <div class="zoom-controls">
+            <button type="button" class="btn-zoom" onclick="zoomTable(0.1)" title="تكبير">+</button>
+            <button type="button" class="btn-zoom" onclick="zoomTable(-0.1)" title="تصغير">−</button>
+            <button type="button" class="btn-zoom" onclick="resetTableZoom()" title="إعادة ضبط الحجم">
+              <span class="zoom-level-text" id="zoom-val">100%</span> ↻
+            </button>
+          </div>
+        </div>
+        <span class="ptable-key"><bdi>Atomic Number / Symbol / Atomic Mass</bdi></span>
+      </div>
+      <div class="table-container ltr-content">
+        <table class="ptable" id="periodic-table-el">
+          <tr>
+            <td class="element"><div class="z-num">1</div><div class="sym">H</div><div class="mass">1.008</div></td>
+            <td class="empty" colspan="16"></td>
+            <td class="element"><div class="z-num">2</div><div class="sym">He</div><div class="mass">4.003</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">3</div><div class="sym">Li</div><div class="mass">6.941</div></td>
+            <td class="element"><div class="z-num">4</div><div class="sym">Be</div><div class="mass">9.012</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">5</div><div class="sym">B</div><div class="mass">10.81</div></td>
+            <td class="element"><div class="z-num">6</div><div class="sym">C</div><div class="mass">12.01</div></td>
+            <td class="element"><div class="z-num">7</div><div class="sym">N</div><div class="mass">14.01</div></td>
+            <td class="element"><div class="z-num">8</div><div class="sym">O</div><div class="mass">16.00</div></td>
+            <td class="element"><div class="z-num">9</div><div class="sym">F</div><div class="mass">19.00</div></td>
+            <td class="element"><div class="z-num">10</div><div class="sym">Ne</div><div class="mass">20.18</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">11</div><div class="sym">Na</div><div class="mass">22.99</div></td>
+            <td class="element"><div class="z-num">12</div><div class="sym">Mg</div><div class="mass">24.31</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">13</div><div class="sym">Al</div><div class="mass">26.98</div></td>
+            <td class="element"><div class="z-num">14</div><div class="sym">Si</div><div class="mass">28.09</div></td>
+            <td class="element"><div class="z-num">15</div><div class="sym">P</div><div class="mass">30.97</div></td>
+            <td class="element"><div class="z-num">16</div><div class="sym">S</div><div class="mass">32.07</div></td>
+            <td class="element"><div class="z-num">17</div><div class="sym">Cl</div><div class="mass">35.45</div></td>
+            <td class="element"><div class="z-num">18</div><div class="sym">Ar</div><div class="mass">39.95</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">19</div><div class="sym">K</div><div class="mass">39.10</div></td>
+            <td class="element"><div class="z-num">20</div><div class="sym">Ca</div><div class="mass">40.08</div></td>
+            <td class="element"><div class="z-num">21</div><div class="sym">Sc</div><div class="mass">44.96</div></td>
+            <td class="element"><div class="z-num">22</div><div class="sym">Ti</div><div class="mass">47.87</div></td>
+            <td class="element"><div class="z-num">23</div><div class="sym">V</div><div class="mass">50.94</div></td>
+            <td class="element"><div class="z-num">24</div><div class="sym">Cr</div><div class="mass">52.00</div></td>
+            <td class="element"><div class="z-num">25</div><div class="sym">Mn</div><div class="mass">54.94</div></td>
+            <td class="element"><div class="z-num">26</div><div class="sym">Fe</div><div class="mass">55.85</div></td>
+            <td class="element"><div class="z-num">27</div><div class="sym">Co</div><div class="mass">58.93</div></td>
+            <td class="element"><div class="z-num">28</div><div class="sym">Ni</div><div class="mass">58.69</div></td>
+            <td class="element"><div class="z-num">29</div><div class="sym">Cu</div><div class="mass">63.55</div></td>
+            <td class="element"><div class="z-num">30</div><div class="sym">Zn</div><div class="mass">65.38</div></td>
+            <td class="element"><div class="z-num">31</div><div class="sym">Ga</div><div class="mass">69.72</div></td>
+            <td class="element"><div class="z-num">32</div><div class="sym">Ge</div><div class="mass">72.61</div></td>
+            <td class="element"><div class="z-num">33</div><div class="sym">As</div><div class="mass">74.92</div></td>
+            <td class="element"><div class="z-num">34</div><div class="sym">Se</div><div class="mass">78.96</div></td>
+            <td class="element"><div class="z-num">35</div><div class="sym">Br</div><div class="mass">79.90</div></td>
+            <td class="element"><div class="z-num">36</div><div class="sym">Kr</div><div class="mass">83.80</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">37</div><div class="sym">Rb</div><div class="mass">85.47</div></td>
+            <td class="element"><div class="z-num">38</div><div class="sym">Sr</div><div class="mass">87.62</div></td>
+            <td class="element"><div class="z-num">39</div><div class="sym">Y</div><div class="mass">88.91</div></td>
+            <td class="element"><div class="z-num">40</div><div class="sym">Zr</div><div class="mass">91.22</div></td>
+            <td class="element"><div class="z-num">41</div><div class="sym">Nb</div><div class="mass">92.91</div></td>
+            <td class="element"><div class="z-num">42</div><div class="sym">Mo</div><div class="mass">95.94</div></td>
+            <td class="element"><div class="z-num">43</div><div class="sym">Tc</div><div class="mass">(98)</div></td>
+            <td class="element"><div class="z-num">44</div><div class="sym">Ru</div><div class="mass">101.07</div></td>
+            <td class="element"><div class="z-num">45</div><div class="sym">Rh</div><div class="mass">102.91</div></td>
+            <td class="element"><div class="z-num">46</div><div class="sym">Pd</div><div class="mass">106.42</div></td>
+            <td class="element"><div class="z-num">47</div><div class="sym">Ag</div><div class="mass">107.87</div></td>
+            <td class="element"><div class="z-num">48</div><div class="sym">Cd</div><div class="mass">112.41</div></td>
+            <td class="element"><div class="z-num">49</div><div class="sym">In</div><div class="mass">114.82</div></td>
+            <td class="element"><div class="z-num">50</div><div class="sym">Sn</div><div class="mass">118.71</div></td>
+            <td class="element"><div class="z-num">51</div><div class="sym">Sb</div><div class="mass">121.76</div></td>
+            <td class="element"><div class="z-num">52</div><div class="sym">Te</div><div class="mass">127.60</div></td>
+            <td class="element"><div class="z-num">53</div><div class="sym">I</div><div class="mass">126.90</div></td>
+            <td class="element"><div class="z-num">54</div><div class="sym">Xe</div><div class="mass">131.29</div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1CCJgHVkqz9btH-bQT7YZ7sdb5aR8Xyhc/view?usp=drive_link";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const examSections = [
+      {
+        title: "Part 1: Acids, Bases, pH Calculations & Acid-Base Equilibria (Q1 - Q24)",
+        context: "Choose the correct answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "q_1",
+            type: "single",
+            text: "1. Calculate the pH of a 0.40 M NH<sub>4</sub>Cl solution [Kb for NH<sub>3</sub> = 1.8 &times; 10<sup>-5</sup>]?",
+            img: "",
+            opts: ["1.8", "9.18", "4.83", "0.86"],
+            ans: 2,
+            dispAnswer: "C) 4.83",
+            exp: "أيون الأمونيوم حمض مرافق ضعيف: <bdi>K<sub>a</sub> = K<sub>w</sub> / K<sub>b</sub> = 1.0 &times; 10<sup>-14</sup> / 1.8 &times; 10<sup>-5</sup> = 5.56 &times; 10<sup>-10</sup></bdi>[cite: 9].<br><bdi>[H<sup>+</sup>] = &radic;(K<sub>a</sub> &times; C) = &radic;(5.56 &times; 10<sup>-10</sup> &times; 0.40) = 1.49 &times; 10<sup>-5</sup> M</bdi>.<br><bdi>pH = -log(1.49 &times; 10<sup>-5</sup>) = 4.83</bdi>[cite: 9]."
+          },
+          {
+            id: "q_2",
+            type: "single",
+            text: "2. Calculate the pH of 2.8 &times; 10<sup>-4</sup> M Ba(OH)<sub>2</sub>?",
+            img: "",
+            opts: ["9.30", "10.75", "3.26", "11.45"],
+            ans: 1,
+            dispAnswer: "B) 10.75",
+            exp: "<bdi>Ba(OH)<sub>2</sub></bdi> قاعدة قوية ثنائية الهيدروكسيد: <bdi>[OH<sup>-</sup>] = 2 &times; (2.8 &times; 10<sup>-4</sup>) = 5.6 &times; 10<sup>-4</sup> M</bdi>[cite: 9].<br><bdi>pOH = -log(5.6 &times; 10<sup>-4</sup>) = 3.25</bdi>.<br><bdi>pH = 14.00 - 3.25 = 10.75</bdi>[cite: 9]."
+          },
+          {
+            id: "q_3",
+            type: "single",
+            text: "3. Calculate the pH of 5.2 &times; 10<sup>-4</sup> M HNO<sub>3</sub>?",
+            img: "",
+            opts: ["3.28", "10.24", "10.72", "2.26"],
+            ans: 0,
+            dispAnswer: "A) 3.28",
+            exp: "<bdi>HNO<sub>3</sub></bdi> حمض قوي أحادي البروتون تام التأين: <bdi>[H<sup>+</sup>] = 5.2 &times; 10<sup>-4</sup> M</bdi>[cite: 9].<br><bdi>pH = -log(5.2 &times; 10<sup>-4</sup>) = 3.28</bdi>[cite: 9]."
+          },
+          {
+            id: "q_4",
+            type: "single",
+            text: "4. What is the percent of ionization for 0.25 M acidic solution of pH = 3.6?",
+            img: "",
+            opts: ["0.33%", "0.10%", "0.46%", "0.76%"],
+            ans: 1,
+            dispAnswer: "B) 0.10%",
+            exp: "<bdi>[H<sup>+</sup>] = 10<sup>-3.6</sup> = 2.51 &times; 10<sup>-4</sup> M</bdi>[cite: 9].<br>نسبة التأين: <bdi>% Ionization = ([H<sup>+</sup>] / C<sub>acid</sub>) &times; 100% = (2.51 &times; 10<sup>-4</sup> / 0.25) &times; 100% = 0.10%</bdi>[cite: 9]."
+          },
+          {
+            id: "q_5",
+            type: "single",
+            text: "5. Find pH for a solution prepared by dissolving 2.5 g of Ca(OH)<sub>2</sub> (M.wt = 74 g/mol) in enough water to get 200 mL of solution?",
+            img: "",
+            opts: ["7.90", "0.47", "13.53", "12.66"],
+            ans: 2,
+            dispAnswer: "C) 13.53",
+            exp: "عدد المولات: <bdi>n = 2.5 g / 74 g/mol = 0.03378 mol</bdi>[cite: 9].<br>التركيز: <bdi>M = 0.03378 mol / 0.200 L = 0.1689 M</bdi>.<br><bdi>[OH<sup>-</sup>] = 2 &times; 0.1689 M = 0.3378 M</bdi>.<br><bdi>pOH = -log(0.3378) = 0.471 &rArr; pH = 14.00 - 0.471 = 13.53</bdi>[cite: 9]."
+          },
+          {
+            id: "q_6",
+            type: "single",
+            text: "6. The conjugate base of HSO<sub>3</sub><sup>-</sup> is?",
+            img: "",
+            opts: ["SO32-", "H2SO3", "H2SO4", "SO42-"],
+            ans: 0,
+            dispAnswer: "A) SO32-",
+            exp: "القاعدة المرافقة تنتج عند فقد الحمض لبروتون (<bdi>H<sup>+</sup></bdi>): <bdi>HSO<sub>3</sub><sup>-</sup> - H<sup>+</sup> = SO<sub>3</sub><sup>2-</sup></bdi>[cite: 9]."
+          },
+          {
+            id: "q_7",
+            type: "single",
+            text: "7. The conjugate acid of CO<sub>3</sub><sup>2-</sup> is?",
+            img: "",
+            opts: ["CO32-", "H2CO3", "HCO3-", "HCO32-"],
+            ans: 2,
+            dispAnswer: "C) HCO3-",
+            exp: "الحمض المرافق ينتج عند استقبال القاعدة لبروتون (<bdi>H<sup>+</sup></bdi>): <bdi>CO<sub>3</sub><sup>2-</sup> + H<sup>+</sup> = HCO<sub>3</sub><sup>-</sup></bdi>[cite: 9]."
+          },
+          {
+            id: "q_8",
+            type: "single",
+            text: "8. Calculate the pH of 0.55 M solution of HClO. [Ka = 1.99 &times; 10<sup>-9</sup>]?",
+            img: "",
+            opts: ["9.28", "4.48", "6.62", "5.18"],
+            ans: 1,
+            dispAnswer: "B) 4.48",
+            exp: "<bdi>[H<sup>+</sup>] = &radic;(K<sub>a</sub> &times; C) = &radic;(1.99 &times; 10<sup>-9</sup> &times; 0.55) = &radic;(1.095 &times; 10<sup>-9</sup>) = 3.31 &times; 10<sup>-5</sup> M</bdi>[cite: 9].<br><bdi>pH = -log(3.31 &times; 10<sup>-5</sup>) = 4.48</bdi>[cite: 9]."
+          },
+          {
+            id: "q_9",
+            type: "single",
+            text: "9. Calculate the ionization constant (Ka) of a 0.015 M HA solution, that is 0.14% ionized?",
+            img: "",
+            opts: [
+              "2.5 × 10<sup>-9</sup>",
+              "2.9 × 10<sup>-8</sup>",
+              "3.0 × 10<sup>-10</sup>",
+              "7.1 × 10<sup>-6</sup>"
+            ],
+            ans: 1,
+            dispAnswer: "B) 2.9 × 10<sup>-8</sup>",
+            exp: "<bdi>[H<sup>+</sup>] = 0.015 &times; (0.14 / 100) = 2.1 &times; 10<sup>-5</sup> M</bdi>[cite: 9].<br><bdi>K<sub>a</sub> = [H<sup>+</sup>]<sup>2</sup> / C<sub>acid</sub> = (2.1 &times; 10<sup>-5</sup>)<sup>2</sup> / 0.015 = 2.94 &times; 10<sup>-8</sup> &approx; 2.9 &times; 10<sup>-8</sup></bdi>[cite: 9]."
+          },
+          {
+            id: "q_10",
+            type: "single",
+            text: "10. Which solution below has the lowest concentration of hydroxide ions [OH<sup>-</sup>]?",
+            img: "",
+            opts: ["pH = 3.21", "pH = 12.59", "pH = 7.93", "pH = 9.82"],
+            ans: 0,
+            dispAnswer: "A) pH = 3.21",
+            exp: "أقل تركيز لأيونات الهيدروكسيد <bdi>[OH<sup>-</sup>]</bdi> يقابله أعلى تركيز لأيونات الهيدرونيوم <bdi>[H<sup>+</sup>]</bdi>، أي أدنى قيمة للرقم الهيدروجيني (<bdi>Lowest pH = 3.21</bdi>)[cite: 9]."
+          },
+          {
+            id: "q_11",
+            type: "single",
+            text: "11. Of the following, which is a weak acid?",
+            img: "",
+            opts: ["HClO", "HClO4", "HNO3", "HBr"],
+            ans: 0,
+            dispAnswer: "A) HClO",
+            exp: "الأحماض <bdi>HClO<sub>4</sub>, HNO<sub>3</sub>, HBr</bdi> هي أحماض قوية تامة التأين، بينما <bdi>HClO</bdi> (حمض الهيبوكلوروز) هو حمض ضعيف ضعيف التأين[cite: 9]."
+          },
+          {
+            id: "q_12",
+            type: "single",
+            text: "12. Arrange the following in order of basicity (highest to lowest)?<br>I) pKa = 2.2<br>II) Ka = 4.0 &times; 10<sup>-5</sup><br>III) pKa = 4.6",
+            img: "",
+            opts: ["I > II > III", "III > II > I", "II > I > III", "II > III > I"],
+            ans: 1,
+            dispAnswer: "B) III > II > I",
+            exp: "بتحويل الكل إلى قيم pKa للأحماض: <bdi>I) pK<sub>a</sub> = 2.2</bdi>، <bdi>II) pK<sub>a</sub> = -log(4.0 &times; 10<sup>-5</sup>) = 4.4</bdi>، <bdi>III) pK<sub>a</sub> = 4.6</bdi>[cite: 9]. كلما كان الحمض أضعف (أعلى pKa)، كانت قاعدته المرافقة أقوى وأعلى قلوية، لذا الترتيب: <bdi>III > II > I</bdi>[cite: 9]."
+          },
+          {
+            id: "q_13",
+            type: "single",
+            text: "13. Which one of the following would be considered a base according to the Bronsted-Lowry definition but not by the Arrhenius definition?",
+            img: "",
+            opts: ["NH3", "HBr", "Ba(OH)2", "HF"],
+            ans: 0,
+            dispAnswer: "A) NH3",
+            exp: "تعريف أرهينيوس يشترط احتواء القاعدة على مجموعة هيدروكسيد (<bdi>OH<sup>-</sup></bdi>) وتأينها بالماء، بينما تعريف برونستد-لوري يكتفي بقدرة المادة على استقبال بروتون، وهو ما ينطبق تماماً على الأمونيا <bdi>NH<sub>3</sub></bdi>[cite: 9]."
+          },
+          {
+            id: "q_14",
+            type: "single",
+            text: "14. Which one of the following is a Bronsted-Lowry acid?",
+            img: "",
+            opts: ["(CH3)3NH+", "CH3COOH", "HF", "all of these"],
+            ans: 3,
+            dispAnswer: "D) all of these",
+            exp: "حمض برونستد-لوري هو أي مركب أو أيون قادر على منح بروتون (<bdi>H<sup>+</sup></bdi>)[cite: 9]، وجميع الخيارات المذكورة تمتلك بروتونات قابلة للمنح في التفاعلات المائية[cite: 9]."
+          },
+          {
+            id: "q_15",
+            type: "single",
+            text: "15. K<sub>2</sub>HPO<sub>4</sub> is?",
+            img: "",
+            opts: ["Acidic", "Basic", "Neutral", "No enough information"],
+            ans: 1,
+            dispAnswer: "B) Basic",
+            exp: "لأيون الفوسفات الهيدروجيني: <bdi>K<sub>b</sub> = K<sub>w</sub> / K<sub>a2</sub> = 1.0 &times; 10<sup>-14</sup> / 6.2 &times; 10<sup>-8</sup> = 1.6 &times; 10<sup>-7</sup></bdi>، بينما <bdi>K<sub>a3</sub> = 4.2 &times; 10<sup>-13</sup></bdi>. وبما أن <bdi>K<sub>b</sub> >> K<sub>a</sub></bdi>، فإن الملح ذو تأثير قاعدي (<bdi>Basic</bdi>)[cite: 9]."
+          },
+          {
+            id: "q_16",
+            type: "single",
+            text: "16. K<sub>2</sub>HPO<sub>4</sub> / KH<sub>2</sub>PO<sub>4</sub> is called?",
+            img: "",
+            opts: ["Buffer", "not buffer", "acidic", "neutral"],
+            ans: 0,
+            dispAnswer: "A) Buffer",
+            exp: "مزيج مكون من حمض ضعيف (<bdi>H<sub>2</sub>PO<sub>4</sub><sup>-</sup></bdi>) وقاعدته المرافقة (<bdi>HPO<sub>4</sub><sup>2-</sup></bdi>) بنسب متقاربة يُشكل محلولاً منظماً (<bdi>Buffer solution</bdi>)[cite: 9]."
+          },
+          {
+            id: "q_17",
+            type: "single",
+            text: "17. The effect of common ion is?",
+            img: "",
+            opts: [
+              "enhance acidity",
+              "suppress the ionization of weak acid",
+              "increase [H+]",
+              "lower basicity"
+            ],
+            ans: 1,
+            dispAnswer: "B) suppress the ionization of weak acid",
+            exp: "وفقاً لمبدأ لوشاتيليه، تؤدي إضافة أيون مشترك إلى إزاحة اتزان تأين الحمض الضعيف أو القاعدة الضعيفة نحو اليسار، مما يُثبط ويقلل من نسبة تأينه في المحلول[cite: 9]."
+          },
+          {
+            id: "q_18",
+            type: "single",
+            text: "18. One liter of an aqueous solution contains 6.022 &times; 10<sup>23</sup> H<sub>3</sub>O<sup>+</sup> ions. The pH of this solution is?",
+            img: "",
+            opts: ["0", "1", "2", "3"],
+            ans: 0,
+            dispAnswer: "A) 0",
+            exp: "عدد الأيونات يساوي عدد أفوجادرو، إذن عدد المولات = 1.0 mol في 1.0 L، فيكون <bdi>[H<sub>3</sub>O<sup>+</sup>] = 1.0 M</bdi>[cite: 9].<br><bdi>pH = -log(1.0) = 0</bdi>[cite: 9]."
+          },
+          {
+            id: "q_19",
+            type: "single",
+            text: "19. If the salt NaHCO<sub>3</sub> is dissolved in pure water, the solution will be?",
+            img: "",
+            opts: ["Acidic", "Basic", "Neutral", "Don't know"],
+            ans: 1,
+            dispAnswer: "B) Basic",
+            exp: "لأيون البيكربونات <bdi>HCO<sub>3</sub><sup>-</sup></bdi>: قيمة <bdi>K<sub>b</sub> = K<sub>w</sub> / K<sub>a1</sub> = 2.3 &times; 10<sup>-8</sup></bdi> أكبر من قيمة تأينه الحمضي <bdi>K<sub>a2</sub> = 4.8 &times; 10<sup>-11</sup></bdi>، ولذلك يتصرف المحلول كقاعدة ضعيفة (<bdi>Basic</bdi>)[cite: 9]."
+          },
+          {
+            id: "q_20",
+            type: "single",
+            text: "20. Calculate the [OH<sup>-</sup>] in a Ca(OH)<sub>2</sub> solution with a pH of 11.35?",
+            img: "",
+            opts: [
+              "1.27",
+              "1.9 × 10<sup>-13</sup>",
+              "4.48 × 10<sup>-3</sup>",
+              "2.3 × 10<sup>-12</sup>"
+            ],
+            ans: 2,
+            dispAnswer: "C) 4.48 × 10<sup>-3</sup>",
+            exp: "الإجابة النموذجية المعتمدة رسمياً في مفتاح الامتحان هي الخيار (C)[cite: 9]. (رياضياً: <bdi>pOH = 14.00 - 11.35 = 2.65 &rArr; [OH<sup>-</sup>] = 2.24 &times; 10<sup>-3</sup> M</bdi>، وفي حال كان الرقم الهيدروجيني المعطى 11.65 فإن <bdi>10<sup>-2.35</sup> = 4.47 &times; 10<sup>-3</sup> M</bdi> المعتمدة بالامتحان)[cite: 9]."
+          },
+          {
+            id: "q_21",
+            type: "single",
+            text: "21. Which one of the following is the weakest acid?",
+            img: "",
+            opts: [
+              "HF (pKa = 3.17)",
+              "HClO (Ka = 3.0 × 10<sup>-8</sup>)",
+              "HNO2 (Ka = 4.5 × 10<sup>-4</sup>)",
+              "HCN (Ka = 4.9 × 10<sup>-10</sup>)"
+            ],
+            ans: 3,
+            dispAnswer: "D) HCN",
+            exp: "الحمض الأضعف هو الذي يمتلك أقل قيمة ثابت تفكك حمضي (<bdi>Lowest Ka</bdi>) وأعلى قيمة <bdi>pKa</bdi>. حمض <bdi>HCN</bdi> لديه <bdi>K<sub>a</sub> = 4.9 &times; 10<sup>-10</sup></bdi> (أو <bdi>pK<sub>a</sub> = 9.31</bdi>)، وهو الأضعف على الإطلاق[cite: 9]."
+          },
+          {
+            id: "q_22",
+            type: "single",
+            text: "22. What is the % ionization of (HClO) acid in a 0.03 M solution? (Ka = 3.7 &times; 10<sup>-9</sup>)?",
+            img: "",
+            opts: ["0.05%", "0.14%", "0.01%", "0.035%"],
+            ans: 3,
+            dispAnswer: "D) 0.035%",
+            exp: "<bdi>[H<sup>+</sup>] = &radic;(K<sub>a</sub> &times; C) = &radic;(3.7 &times; 10<sup>-9</sup> &times; 0.03) = 1.054 &times; 10<sup>-5</sup> M</bdi>[cite: 9].<br><bdi>% Ionization = (1.054 &times; 10<sup>-5</sup> / 0.03) &times; 100% = 0.035%</bdi>[cite: 9]."
+          },
+          {
+            id: "q_23",
+            type: "single",
+            text: "23. The pH of a 0.55 M solution of HBrO is 4.48. What is the value of Ka for HBrO?",
+            img: "",
+            opts: [
+              "1.0 × 10<sup>-2</sup>",
+              "2.0 × 10<sup>-9</sup>",
+              "4.0 × 10<sup>-4</sup>",
+              "1.5 × 10<sup>-5</sup>"
+            ],
+            ans: 1,
+            dispAnswer: "B) 2.0 × 10<sup>-9</sup>",
+            exp: "<bdi>[H<sup>+</sup>] = 10<sup>-4.48</sup> = 3.31 &times; 10<sup>-5</sup> M</bdi>[cite: 9].<br><bdi>K<sub>a</sub> = [H<sup>+</sup>]<sup>2</sup> / C<sub>acid</sub> = (3.31 &times; 10<sup>-5</sup>)<sup>2</sup> / 0.55 = 1.096 &times; 10<sup>-9</sup> / 0.55 = 1.99 &times; 10<sup>-9</sup> &approx; 2.0 &times; 10<sup>-9</sup></bdi>[cite: 9]."
+          },
+          {
+            id: "q_24",
+            type: "single",
+            text: "24. For 2.5 &times; 10<sup>-7</sup> M Ca(OH)<sub>2</sub> solution. What is the [H<sup>+</sup>]?",
+            img: "",
+            opts: [
+              "1.0 × 10<sup>-6</sup>",
+              "2.0 × 10<sup>-8</sup>",
+              "3.0 × 10<sup>-15</sup>",
+              "5.2 × 10<sup>-16</sup>"
+            ],
+            ans: 1,
+            dispAnswer: "B) 2.0 × 10<sup>-8</sup>",
+            exp: "<bdi>[OH<sup>-</sup>] = 2 &times; (2.5 &times; 10<sup>-7</sup> M) = 5.0 &times; 10<sup>-7</sup> M</bdi>[cite: 9].<br><bdi>[H<sup>+</sup>] = K<sub>w</sub> / [OH<sup>-</sup>] = 1.0 &times; 10<sup>-14</sup> / 5.0 &times; 10<sup>-7</sup> = 2.0 &times; 10<sup>-8</sup> M</bdi>[cite: 9]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Salt Hydrolysis, Buffers, Titrations & Reaction Kinetics (Q25 - Q48)",
+        context: "Choose the correct answer for each of the following questions:",
+        subQuestions: [
+          {
+            id: "q_25",
+            type: "single",
+            text: "25. Calculate the pOH of 0.08 M NaCN solution, (for HCN, Ka = 4.9 &times; 10<sup>-10</sup>)?",
+            img: "",
+            opts: ["9.31", "11.10", "2.89", "1.08"],
+            ans: 2,
+            dispAnswer: "C) 2.89",
+            exp: "<bdi>K<sub>b</sub> = 1.0 &times; 10<sup>-14</sup> / 4.9 &times; 10<sup>-10</sup> = 2.04 &times; 10<sup>-5</sup></bdi>[cite: 9].<br><bdi>[OH<sup>-</sup>] = &radic;(K<sub>b</sub> &times; C) = &radic;(2.04 &times; 10<sup>-5</sup> &times; 0.08) = 1.28 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pOH = -log(1.28 &times; 10<sup>-3</sup>) = 2.89</bdi>[cite: 9]."
+          },
+          {
+            id: "q_26",
+            type: "single",
+            text: "26. Calculate the pH of a solution made by dissolving 1.87 g of NaC<sub>6</sub>H<sub>11</sub>O<sub>2</sub> (138 g/mol) (Kb = 7.6 &times; 10<sup>-10</sup>) in water and diluting to a total volume of 500 mL?",
+            img: "",
+            opts: ["5.34", "8.66", "5.49", "8.50"],
+            ans: 1,
+            dispAnswer: "B) 8.66",
+            exp: "عدد المولات: <bdi>1.87 g / 138 g/mol = 0.01355 mol</bdi>[cite: 9].<br>التركيز: <bdi>M = 0.01355 mol / 0.500 L = 0.0271 M</bdi>.<br><bdi>[OH<sup>-</sup>] = &radic;(7.6 &times; 10<sup>-10</sup> &times; 0.0271) = 4.54 &times; 10<sup>-6</sup> M</bdi>.<br><bdi>pOH = 5.34 &rArr; pH = 14.00 - 5.34 = 8.66</bdi>[cite: 9]."
+          },
+          {
+            id: "q_27",
+            type: "single",
+            text: "27. Determine the pH of a 0.35 M solution of CH<sub>3</sub>NH<sub>2</sub>. The Kb is 4.4 &times; 10<sup>-4</sup>?",
+            img: "",
+            opts: ["10.19", "3.81", "12.09", "1.91"],
+            ans: 2,
+            dispAnswer: "C) 12.09",
+            exp: "<bdi>[OH<sup>-</sup>] = &radic;(K<sub>b</sub> &times; C) = &radic;(4.4 &times; 10<sup>-4</sup> &times; 0.35) = 0.0124 M</bdi>[cite: 9].<br><bdi>pOH = -log(0.0124) = 1.91</bdi>.<br><bdi>pH = 14.00 - 1.91 = 12.09</bdi>[cite: 9]."
+          },
+          {
+            id: "q_28",
+            type: "single",
+            text: "28. Of the following four substances, which would form basic solutions? NH<sub>4</sub>Cl, Cu(NO<sub>3</sub>)<sub>2</sub>, NaCN, NaF",
+            img: "",
+            opts: [
+              "NH4Cl, Cu(NO3)2",
+              "NaCN, NH4Cl",
+              "NaF only",
+              "NaF, NaCN"
+            ],
+            ans: 3,
+            dispAnswer: "D) NaF, NaCN",
+            exp: "أملاح القواعد القوية مع الأحماض الضعيفة تتميأ لتعطي وسطاً قاعدياً (<bdi>F<sup>-</sup></bdi> من حمض HF، و <bdi>CN<sup>-</sup></bdi> من حمض HCN)، بينما أملاح <bdi>NH<sub>4</sub>Cl</bdi> و <bdi>Cu(NO<sub>3</sub>)<sub>2</sub></bdi> أملاح حمضية التأثير[cite: 9]."
+          },
+          {
+            id: "q_29",
+            type: "single",
+            text: "29. Which one of the following 0.1 M solutions would have a pH of 7.0?",
+            img: "",
+            opts: ["NaOCl", "KCl", "NH4Cl", "Ca(OAc)2"],
+            ans: 1,
+            dispAnswer: "B) KCl",
+            exp: "<bdi>KCl</bdi> ملح متعادل مشتق من قاعدة قوية (<bdi>KOH</bdi>) وحمض قوي (<bdi>HCl</bdi>)، وبالتالي لا تتميأ أيوناته في الماء ويبقى الرقم الهيدروجيني مساوياً لـ 7.0[cite: 9]."
+          },
+          {
+            id: "q_30",
+            type: "single",
+            text: "30. Which one of the following 0.1 M solutions would have the highest pH?",
+            img: "",
+            opts: [
+              "KCN (Ka HCN = 4.0 × 10-10)",
+              "NH4NO3 (Kb NH3 = 1.8 × 10-5)",
+              "NaOAc (Ka HOAc = 1.8 × 10-5)",
+              "NaClO (Ka HClO = 3.2 × 10-8)"
+            ],
+            ans: 0,
+            dispAnswer: "A) KCN",
+            exp: "أعلى pH يقابل المحلول الأكثر قاعدية (أعلى Kb للأيون السالب)[cite: 9]. بما أن <bdi>HCN</bdi> هو الحمض الأضعف على الإطلاق، فإن قاعدته المرافقة <bdi>CN<sup>-</sup></bdi> هي الأقوى (<bdi>K<sub>b</sub> = 2.5 &times; 10<sup>-5</sup></bdi>)، مما يمنحه أعلى قيمة pH[cite: 9]."
+          },
+          {
+            id: "q_31",
+            type: "single",
+            text: "31. Identify the Lewis base in the following equation: <bdi>Co<sup>2+</sup>(aq) + 4 CN<sup>-</sup>(aq) &rarr; [Co(CN)<sub>4</sub>]<sup>2-</sup></bdi>",
+            img: "",
+            opts: ["CN-", "Co2+", "[Co(CN)4]2-", "Co"],
+            ans: 0,
+            dispAnswer: "A) CN-",
+            exp: "قاعدة لويس (<bdi>Lewis base</bdi>) هي المادة التي تمنح زوجاً من الإلكترونات غير الرابطة لتكوين رابطة تناسقية، وهو الدور الذي يقوم به أيون السيانيد <bdi>CN<sup>-</sup></bdi>[cite: 9]."
+          },
+          {
+            id: "q_32",
+            type: "single",
+            text: "32. Calculate the Kb for an unknown base given that a solution of 0.10 M has a pH of 8.9?",
+            img: "",
+            opts: [
+              "7.9 × 10<sup>6</sup>",
+              "6.31 × 10<sup>-10</sup>",
+              "6.2 × 10<sup>-18</sup>",
+              "1.6 × 10<sup>-17</sup>"
+            ],
+            ans: 1,
+            dispAnswer: "B) 6.31 × 10<sup>-10</sup>",
+            exp: "<bdi>pOH = 14.00 - 8.9 = 5.1 &rArr; [OH<sup>-</sup>] = 10<sup>-5.1</sup> = 7.94 &times; 10<sup>-6</sup> M</bdi>.<br><bdi>K<sub>b</sub> = [OH<sup>-</sup>]<sup>2</sup> / C = (7.94 &times; 10<sup>-6</sup>)<sup>2</sup> / 0.10 = 6.31 &times; 10<sup>-10</sup></bdi> (المسجلة في الخيار B)[cite: 9]."
+          },
+          {
+            id: "q_33",
+            type: "single",
+            text: "33. Calculate the mass of NaOH (40 g/mol) in a 300 mL solution at pH 4.5?",
+            img: "",
+            opts: [
+              "3.8 × 10<sup>4</sup>",
+              "6.4 × 10<sup>-2</sup>",
+              "3.8 × 10<sup>-9</sup>",
+              "2.9 × 10<sup>-7</sup>"
+            ],
+            ans: 2,
+            dispAnswer: "C) 3.8 × 10<sup>-9</sup>",
+            exp: "<bdi>pOH = 14.00 - 4.5 = 9.5 &rArr; [OH<sup>-</sup>] = 10<sup>-9.5</sup> = 3.16 &times; 10<sup>-10</sup> M</bdi>.<br>عدد المولات: <bdi>3.16 &times; 10<sup>-10</sup> &times; 0.300 L = 9.48 &times; 10<sup>-11</sup> mol</bdi>.<br>الكتلة: <bdi>9.48 &times; 10<sup>-11</sup> mol &times; 40 g/mol = 3.8 &times; 10<sup>-9</sup> g</bdi>[cite: 9]."
+          },
+          {
+            id: "q_34",
+            type: "single",
+            text: "34. Which one of the following is a buffer solution?",
+            img: "",
+            opts: [
+              "0.40 M HCN and 0.10 M KCN",
+              "0.20 M CH3COOH",
+              "1.0 M HNO3 and 1.0 M NaNO3",
+              "0.10 M KCN"
+            ],
+            ans: 0,
+            dispAnswer: "A) 0.40 M HCN and 0.10 M KCN",
+            exp: "المحلول المنظم يتكون من حمض ضعيف وملحه الذي يحتوي على قاعدته المرافقة، مثل مزيج <bdi>HCN</bdi> مع <bdi>KCN</bdi>[cite: 9]."
+          },
+          {
+            id: "q_35",
+            type: "single",
+            text: "35. Calculate the pH of a buffer solution that contains 0.25 M (C<sub>6</sub>H<sub>5</sub>CO<sub>2</sub>H) and 0.15 M (C<sub>6</sub>H<sub>5</sub>COONa). [Ka = 6.5 &times; 10<sup>-5</sup> for C<sub>6</sub>H<sub>5</sub>CO<sub>2</sub>H]?",
+            img: "",
+            opts: ["3.97", "4.8", "4.19", "3.40"],
+            ans: 0,
+            dispAnswer: "A) 3.97",
+            exp: "معادلة هندرسون-هاسلبالخ: <bdi>pH = pK<sub>a</sub> + log([Base] / [Acid])</bdi>.<br><bdi>pK<sub>a</sub> = -log(6.5 &times; 10<sup>-5</sup>) = 4.187</bdi>.<br><bdi>pH = 4.187 + log(0.15 / 0.25) = 4.187 - 0.222 = 3.965 &approx; 3.97</bdi>[cite: 9]."
+          },
+          {
+            id: "q_36",
+            type: "single",
+            text: "36. A solution is prepared by mixing 500 mL of 0.10 M NaOCl and 500 mL of 0.20 M HOCl. What is the pH of this solution? [Ka(HOCl) = 3.2 &times; 10<sup>-8</sup>]?",
+            img: "",
+            opts: ["4.10", "7.0", "7.19", "7.49"],
+            ans: 2,
+            dispAnswer: "C) 7.19",
+            exp: "بما أن الحجوم متساوية، فإن النسبة بين تراكيز المكونات هي نفسها النسبة بين عدد المولات: <bdi>0.10 / 0.20 = 0.50</bdi>.<br><bdi>pH = -log(3.2 &times; 10<sup>-8</sup>) + log(0.50) = 7.495 - 0.301 = 7.194 &approx; 7.19</bdi>[cite: 9]."
+          },
+          {
+            id: "q_37",
+            type: "single",
+            text: "37. Calculate the pH of a buffer solution prepared by dissolving 0.20 mole of HCNO and 0.80 mole of NaCNO in enough water to make 1 liter of solution. Ka(HCNO) = 2.0 &times; 10<sup>-4</sup>?",
+            img: "",
+            opts: ["0.97", "3.10", "4.30", "3.70"],
+            ans: 2,
+            dispAnswer: "C) 4.30",
+            exp: "<bdi>pH = pK<sub>a</sub> + log(moles of Base / moles of Acid)</bdi>.<br><bdi>pH = -log(2.0 &times; 10<sup>-4</sup>) + log(0.80 / 0.20) = 3.699 + log(4) = 3.699 + 0.602 = 4.301 &approx; 4.30</bdi>[cite: 9]."
+          },
+          {
+            id: "q_38",
+            type: "single",
+            text: "38. 500 mL of a buffer solution containing 0.20 M (CH<sub>3</sub>COOH) and 0.30 M (CH<sub>3</sub>COONa). What will the pH of this solution be after the addition of 20 mL of 1.0 M NaOH solution? [Ka = 1.8 &times; 10<sup>-5</sup>]?",
+            img: "",
+            opts: ["4.41", "4.74", "4.56", "5.07"],
+            ans: 3,
+            dispAnswer: "D) 5.07",
+            exp: "المولات الابتدائية: الحمض = <bdi>0.500 &times; 0.20 = 0.100 mol</bdi>، الملح = <bdi>0.500 &times; 0.30 = 0.150 mol</bdi>[cite: 9].<br>مولات القاعدة المضافة = <bdi>0.020 &times; 1.0 = 0.020 mol</bdi>[cite: 9].<br>الحمض المتبقي = <bdi>0.100 - 0.020 = 0.080 mol</bdi>، الملح الناتج = <bdi>0.150 + 0.020 = 0.170 mol</bdi>.<br><bdi>pH = -log(1.8 &times; 10<sup>-5</sup>) + log(0.170 / 0.080) = 4.745 + 0.327 = 5.07</bdi>[cite: 9]."
+          },
+          {
+            id: "q_39",
+            type: "single",
+            text: "39. A solution is prepared by mixing 400 mL of 0.20 M KCN with 200 mL of 0.20 M HCl, [Ka(HCN) = 3.2 &times; 10<sup>-8</sup>]. Then:",
+            img: "",
+            opts: [
+              "pH = 1/2 pKa",
+              "pH = 1/4 pKa",
+              "pH = pKa",
+              "pH = 2 pKa"
+            ],
+            ans: 2,
+            dispAnswer: "C) pH = pKa",
+            exp: "مولات <bdi>CN<sup>-</sup> = 0.400 &times; 0.20 = 0.080 mol</bdi>[cite: 9]. مولات <bdi>H<sup>+</sup> = 0.200 &times; 0.20 = 0.040 mol</bdi>[cite: 9]. يتفاعل الحمض كاملاً لإنتاج <bdi>0.040 mol HCN</bdi> ويتبقى <bdi>0.080 - 0.040 = 0.040 mol CN<sup>-</sup></bdi>. بما أن <bdi>[Base] = [Acid]</bdi> فإن: <bdi>pH = pK<sub>a</sub> + log(1) = pK<sub>a</sub></bdi>[cite: 9]."
+          },
+          {
+            id: "q_40",
+            type: "single",
+            text: "40. Calculate the pH of a buffer solution containing 3 mmol (NH<sub>4</sub>Cl) and 3 mmol (NH<sub>3</sub>). What will the pH of this solution be after the addition of 10 mL of 0.15 M HCl solution? [Kb = 1.8 &times; 10<sup>-5</sup>]?",
+            img: "",
+            opts: ["8.78", "5.22", "3.97", "5.14"],
+            ans: 0,
+            dispAnswer: "A) 8.78",
+            exp: "مولات <bdi>H<sup>+</sup> = 10 mL &times; 0.15 M = 1.5 mmol</bdi>[cite: 9].<br>الأمونيا المتبقية = <bdi>3.0 - 1.5 = 1.5 mmol</bdi>، الأمونيوم الناتج = <bdi>3.0 + 1.5 = 4.5 mmol</bdi>.<br><bdi>pOH = pK<sub>b</sub> + log([Salt] / [Base]) = 4.745 + log(4.5 / 1.5) = 4.745 + 0.477 = 5.22</bdi>.<br><bdi>pH = 14.00 - 5.22 = 8.78</bdi>[cite: 9]."
+          },
+          {
+            id: "q_41",
+            type: "single",
+            text: "41. Ascorbic acid (H<sub>2</sub>A) is a diprotic acid with Ka1 = 8.0 &times; 10<sup>-5</sup> and Ka2 = 1.6 &times; 10<sup>-12</sup>. Calculate the pH in a 0.10 M H<sub>2</sub>A solution?",
+            img: "",
+            opts: ["0.10", "11.45", "4.0", "2.55"],
+            ans: 3,
+            dispAnswer: "D) 2.55",
+            exp: "بما أن <bdi>K<sub>a1</sub> >> K<sub>a2</sub></bdi>، فإن التأين الأول هو المحدد للرقم الهيدروجيني[cite: 9]:<br><bdi>[H<sup>+</sup>] = &radic;(K<sub>a1</sub> &times; C) = &radic;(8.0 &times; 10<sup>-5</sup> &times; 0.10) = 2.83 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pH = -log(2.83 &times; 10<sup>-3</sup>) = 2.55</bdi>[cite: 9]."
+          },
+          {
+            id: "q_42",
+            type: "single",
+            text: "42. What is the concentration of A<sup>2-</sup> ion in a 0.10 M H<sub>2</sub>A solution?",
+            img: "",
+            opts: [
+              "8.0 × 10<sup>-5</sup>",
+              "7.5 × 10<sup>-5</sup>",
+              "1.6 × 10<sup>-12</sup>",
+              "0.10"
+            ],
+            ans: 2,
+            dispAnswer: "C) 1.6 × 10<sup>-12</sup>",
+            exp: "في محاليل الأحماض ثنائية البروتون الضعيفة، يكون تركيز القاعدة الثنائية <bdi>[A<sup>2-</sup>]</bdi> مساوياً عددياً لقيمة ثابت التأين الثاني للحمض: <bdi>[A<sup>2-</sup>] = K<sub>a2</sub> = 1.6 &times; 10<sup>-12</sup> M</bdi>[cite: 9]."
+          },
+          {
+            id: "q_43",
+            type: "single",
+            text: "43. A reaction at 250 &deg;C is 1.50 &times; 10<sup>3</sup> times faster than at 150 &deg;C. The activation energy (kJ/mol) of the reaction is?",
+            img: "",
+            opts: ["135", "270", "31.0", "185"],
+            ans: 0,
+            dispAnswer: "A) 135",
+            exp: "معادلة أرهينيوس: <bdi>ln(k<sub>2</sub> / k<sub>1</sub>) = (E<sub>a</sub> / R) &times; (1/T<sub>1</sub> - 1/T<sub>2</sub>)</bdi>.<br><bdi>T<sub>1</sub> = 423.15 K</bdi>، <bdi>T<sub>2</sub> = 523.15 K</bdi>[cite: 9].<br><bdi>ln(1500) = 7.313</bdi>.<br><bdi>E<sub>a</sub> = (7.313 &times; 8.314) / (1/423.15 - 1/523.15) = 60.80 / 0.0004517 = 134600 J/mol = 135 kJ/mol</bdi>[cite: 9]."
+          },
+          {
+            id: "q_44",
+            type: "single",
+            text: "44. The rate constant for a reaction at 305.0 K is two times the rate constant at 295.0 K. The activation energy (kJ/mol) of the reaction is?",
+            img: "",
+            opts: ["36.2", "21.7", "72.9", "51.8"],
+            ans: 3,
+            dispAnswer: "D) 51.8",
+            exp: "<bdi>ln(2) = 0.6931</bdi>.<br><bdi>E<sub>a</sub> = (0.6931 &times; 8.314) / (1/295.0 - 1/305.0) = 5.763 / 0.0001111 = 51860 J/mol &approx; 51.8 kJ/mol</bdi>[cite: 9]."
+          },
+          {
+            id: "q_45",
+            type: "single",
+            text: "45. The frequency factor and energy of activation of a reaction are 8.7 &times; 10<sup>12</sup> s<sup>-1</sup> and 63 kJ/mol. The rate constant of the reaction at 75 &deg;C is?",
+            img: "",
+            opts: [
+              "7.2 × 10<sup>-2</sup>",
+              "1.8 × 10<sup>-2</sup>",
+              "5.4 × 10<sup>-3</sup>",
+              "3 × 10<sup>3</sup>"
+            ],
+            ans: 3,
+            dispAnswer: "D) 3 × 10<sup>3</sup>",
+            exp: "درجة الحرارة بالكلفن: <bdi>T = 75 + 273.15 = 348.15 K</bdi>[cite: 9].<br><bdi>k = A &times; e<sup>-E<sub>a</sub> / RT</sup> = 8.7 &times; 10<sup>12</sup> &times; e<sup>-63000 / (8.314 &times; 348.15)</sup> = 8.7 &times; 10<sup>12</sup> &times; (3.53 &times; 10<sup>-10</sup>) &approx; 3.0 &times; 10<sup>3</sup> s<sup>-1</sup></bdi>[cite: 9]."
+          },
+          {
+            id: "q_46",
+            type: "single",
+            text: "46. At 350 K, a particular second-order reaction, consisting of a single reactant A, has a rate constant equal to 4.5 &times; 10<sup>-3</sup> M<sup>-1</sup>·s<sup>-1</sup>. If the initial concentration of A is 0.8 M, how many half-lives are required for the concentration of A to become equal to 0.1 M?",
+            img: "",
+            opts: ["1", "2", "3", "4"],
+            ans: 2,
+            dispAnswer: "C) 3",
+            exp: "تتابع انخفاض التركيز بمقدار النصف مع كل فترة عمر نصف: <bdi>0.8 M &rarr; 0.4 M</bdi> (الفترة الأولى)، <bdi>&rarr; 0.2 M</bdi> (الفترة الثانية)، <bdi>&rarr; 0.1 M</bdi> (الفترة الثالثة)، مما يعني الحاجة إلى 3 فترات عمر نصف[cite: 9]."
+          },
+          {
+            id: "q_47",
+            type: "single",
+            text: "47. What is the half-life for the reaction assuming first-order kinetics if 75% of the reactant decomposes in 60 minutes?",
+            img: "",
+            opts: ["120 min", "15 min", "90 min", "30 min"],
+            ans: 3,
+            dispAnswer: "D) 30 min",
+            exp: "تحلل 75% من المادة يعني بقاء 25% من التركيز الأصلي، وهو ما يعادل تماماً فترتي عمر نصف (<bdi>2 &times; t<sub>1/2</sub> = 60 min</bdi>)، وبالتالي فإن فترة عمر النصف الواحدة = <bdi>60 / 2 = 30 min</bdi>[cite: 9]."
+          },
+          {
+            id: "q_48",
+            type: "single",
+            text: "48. Which of the following would decrease the rate of a chemical reaction?",
+            img: "",
+            opts: [
+              "increase the concentration of reactant",
+              "increasing the temperature",
+              "adding a catalyst",
+              "none of these will decrease the rate"
+            ],
+            ans: 3,
+            dispAnswer: "D) none of these will decrease the rate",
+            exp: "زيادة تراكيز المتفاعلات، ورفع درجة الحرارة، وإضافة العامل المساعد تساهم جميعها في زيادة وتسريع معدل التفاعل الكيميائي، ولذلك لا يوجد أي خيار من الخيارات المذكورة يؤدي إلى خفض سرعة التفاعل[cite: 9]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let ptableZoom = 1.0;
+
+    function zoomTable(delta) {
+      ptableZoom = Math.round((ptableZoom + delta) * 10) / 10;
+      if (ptableZoom < 0.6) ptableZoom = 0.6;
+      if (ptableZoom > 2.0) ptableZoom = 2.0;
+      applyTableZoom();
+    }
+
+    function resetTableZoom() {
+      ptableZoom = 1.0;
+      applyTableZoom();
+    }
+
+    function applyTableZoom() {
+      const table = document.getElementById('periodic-table-el');
+      const zoomLabel = document.getElementById('zoom-val');
+      if (table) {
+        table.style.zoom = ptableZoom;
+      }
+      if (zoomLabel) {
+        zoomLabel.innerText = Math.round(ptableZoom * 100) + '%';
+      }
+    }
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

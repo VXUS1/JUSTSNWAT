@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | General Chemistry 103 - Final Exam Bank</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    /* Periodic Table Container & Zoom Controls */
+    .ptable-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--apple-border-strong);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .ptable-title {
+      font-weight: 800;
+      color: var(--apple-blue);
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ptable-title-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .zoom-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--apple-border);
+      border-radius: 99px;
+      padding: 2px 6px;
+    }
+    .btn-zoom {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 99px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-zoom:hover {
+      background: var(--apple-blue);
+      color: #fff;
+    }
+    .btn-zoom:active {
+      transform: scale(0.92);
+    }
+    .zoom-level-text {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #5ac8fa;
+      min-width: 38px;
+      text-align: center;
+    }
+    .ptable-key {
+      font-size: 0.78rem;
+      color: var(--text-secondary, #94a3b8);
+      border: 1px dashed var(--apple-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ptable {
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      transition: zoom 0.15s ease;
+    }
+    .ptable td {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      vertical-align: middle;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ptable td.element:hover {
+      background: rgba(10, 132, 255, 0.25);
+      border-color: var(--apple-blue);
+      transform: scale(1.1);
+      z-index: 5;
+    }
+    .ptable td.empty {
+      border: none;
+      background: transparent;
+    }
+    .ptable .z-num { font-size: 8px; color: #94a3b8; line-height: 1; }
+    .ptable .sym { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.1; }
+    .ptable .mass { font-size: 7.5px; color: #38bdf8; line-height: 1; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/chem103">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">General Chemistry 103</div>
+    <div class="subject-subtitle" id="quiz-subtitle">CH 103 — Final Exam Question Bank (Comprehensive & Verified from Official Past Exams)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <!-- الجدول الدوري للعناصر مع أدوات التكبير والتصغير -->
+    <div class="ptable-container">
+      <div class="ptable-title">
+        <div class="ptable-title-right">
+          <span>الجدول الدوري للعناصر (Periodic Table of the Elements)</span>
+          <div class="zoom-controls">
+            <button type="button" class="btn-zoom" onclick="zoomTable(0.1)" title="تكبير">+</button>
+            <button type="button" class="btn-zoom" onclick="zoomTable(-0.1)" title="تصغير">−</button>
+            <button type="button" class="btn-zoom" onclick="resetTableZoom()" title="إعادة ضبط الحجم">
+              <span class="zoom-level-text" id="zoom-val">100%</span> ↻
+            </button>
+          </div>
+        </div>
+        <span class="ptable-key"><bdi>Atomic Number / Symbol / Atomic Mass</bdi></span>
+      </div>
+      <div class="table-container ltr-content">
+        <table class="ptable" id="periodic-table-el">
+          <tr>
+            <td class="element"><div class="z-num">1</div><div class="sym">H</div><div class="mass">1.008</div></td>
+            <td class="empty" colspan="16"></td>
+            <td class="element"><div class="z-num">2</div><div class="sym">He</div><div class="mass">4.003</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">3</div><div class="sym">Li</div><div class="mass">6.941</div></td>
+            <td class="element"><div class="z-num">4</div><div class="sym">Be</div><div class="mass">9.012</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">5</div><div class="sym">B</div><div class="mass">10.81</div></td>
+            <td class="element"><div class="z-num">6</div><div class="sym">C</div><div class="mass">12.01</div></td>
+            <td class="element"><div class="z-num">7</div><div class="sym">N</div><div class="mass">14.01</div></td>
+            <td class="element"><div class="z-num">8</div><div class="sym">O</div><div class="mass">16.00</div></td>
+            <td class="element"><div class="z-num">9</div><div class="sym">F</div><div class="mass">19.00</div></td>
+            <td class="element"><div class="z-num">10</div><div class="sym">Ne</div><div class="mass">20.18</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">11</div><div class="sym">Na</div><div class="mass">22.99</div></td>
+            <td class="element"><div class="z-num">12</div><div class="sym">Mg</div><div class="mass">24.31</div></td>
+            <td class="empty" colspan="10"></td>
+            <td class="element"><div class="z-num">13</div><div class="sym">Al</div><div class="mass">26.98</div></td>
+            <td class="element"><div class="z-num">14</div><div class="sym">Si</div><div class="mass">28.09</div></td>
+            <td class="element"><div class="z-num">15</div><div class="sym">P</div><div class="mass">30.97</div></td>
+            <td class="element"><div class="z-num">16</div><div class="sym">S</div><div class="mass">32.07</div></td>
+            <td class="element"><div class="z-num">17</div><div class="sym">Cl</div><div class="mass">35.45</div></td>
+            <td class="element"><div class="z-num">18</div><div class="sym">Ar</div><div class="mass">39.95</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">19</div><div class="sym">K</div><div class="mass">39.10</div></td>
+            <td class="element"><div class="z-num">20</div><div class="sym">Ca</div><div class="mass">40.08</div></td>
+            <td class="element"><div class="z-num">21</div><div class="sym">Sc</div><div class="mass">44.96</div></td>
+            <td class="element"><div class="z-num">22</div><div class="sym">Ti</div><div class="mass">47.87</div></td>
+            <td class="element"><div class="z-num">23</div><div class="sym">V</div><div class="mass">50.94</div></td>
+            <td class="element"><div class="z-num">24</div><div class="sym">Cr</div><div class="mass">52.00</div></td>
+            <td class="element"><div class="z-num">25</div><div class="sym">Mn</div><div class="mass">54.94</div></td>
+            <td class="element"><div class="z-num">26</div><div class="sym">Fe</div><div class="mass">55.85</div></td>
+            <td class="element"><div class="z-num">27</div><div class="sym">Co</div><div class="mass">58.93</div></td>
+            <td class="element"><div class="z-num">28</div><div class="sym">Ni</div><div class="mass">58.69</div></td>
+            <td class="element"><div class="z-num">29</div><div class="sym">Cu</div><div class="mass">63.55</div></td>
+            <td class="element"><div class="z-num">30</div><div class="sym">Zn</div><div class="mass">65.38</div></td>
+            <td class="element"><div class="z-num">31</div><div class="sym">Ga</div><div class="mass">69.72</div></td>
+            <td class="element"><div class="z-num">32</div><div class="sym">Ge</div><div class="mass">72.61</div></td>
+            <td class="element"><div class="z-num">33</div><div class="sym">As</div><div class="mass">74.92</div></td>
+            <td class="element"><div class="z-num">34</div><div class="sym">Se</div><div class="mass">78.96</div></td>
+            <td class="element"><div class="z-num">35</div><div class="sym">Br</div><div class="mass">79.90</div></td>
+            <td class="element"><div class="z-num">36</div><div class="sym">Kr</div><div class="mass">83.80</div></td>
+          </tr>
+          <tr>
+            <td class="element"><div class="z-num">37</div><div class="sym">Rb</div><div class="mass">85.47</div></td>
+            <td class="element"><div class="z-num">38</div><div class="sym">Sr</div><div class="mass">87.62</div></td>
+            <td class="element"><div class="z-num">39</div><div class="sym">Y</div><div class="mass">88.91</div></td>
+            <td class="element"><div class="z-num">40</div><div class="sym">Zr</div><div class="mass">91.22</div></td>
+            <td class="element"><div class="z-num">41</div><div class="sym">Nb</div><div class="mass">92.91</div></td>
+            <td class="element"><div class="z-num">42</div><div class="sym">Mo</div><div class="mass">95.94</div></td>
+            <td class="element"><div class="z-num">43</div><div class="sym">Tc</div><div class="mass">(98)</div></td>
+            <td class="element"><div class="z-num">44</div><div class="sym">Ru</div><div class="mass">101.07</div></td>
+            <td class="element"><div class="z-num">45</div><div class="sym">Rh</div><div class="mass">102.91</div></td>
+            <td class="element"><div class="z-num">46</div><div class="sym">Pd</div><div class="mass">106.42</div></td>
+            <td class="element"><div class="z-num">47</div><div class="sym">Ag</div><div class="mass">107.87</div></td>
+            <td class="element"><div class="z-num">48</div><div class="sym">Cd</div><div class="mass">112.41</div></td>
+            <td class="element"><div class="z-num">49</div><div class="sym">In</div><div class="mass">114.82</div></td>
+            <td class="element"><div class="z-num">50</div><div class="sym">Sn</div><div class="mass">118.71</div></td>
+            <td class="element"><div class="z-num">51</div><div class="sym">Sb</div><div class="mass">121.76</div></td>
+            <td class="element"><div class="z-num">52</div><div class="sym">Te</div><div class="mass">127.60</div></td>
+            <td class="element"><div class="z-num">53</div><div class="sym">I</div><div class="mass">126.90</div></td>
+            <td class="element"><div class="z-num">54</div><div class="sym">Xe</div><div class="mass">131.29</div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1N-FqjO3yBpMATEMOborS8RIQadqjNUBG/view?usp=drive_link";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const examSections = [
+      {
+        title: "Part 1: Measurements, Significant Figures, Moles & Stoichiometry",
+        context: "Past final questions on unit conversions, sig figs, mole calculations, and reaction stoichiometry:",
+        subQuestions: [
+          {
+            id: "pdf_q1",
+            type: "single",
+            text: "1) 2.00 &mu;g/cm<sup>3</sup> is equivalent to _______ kg/L:",
+            img: "",
+            opts: ["2.00", "2.00 × 10<sup>6</sup>", "2.00 × 10<sup>-6</sup>", "2.00 × 10<sup>9</sup>"],
+            ans: 2,
+            dispAnswer: "c. 2.00 × 10<sup>-6</sup>",
+            exp: "تحويل الكتلة: <bdi>2.00 &mu;g = 2.00 &times; 10<sup>-9</sup> kg</bdi>.<br>تحويل الحجم: <bdi>1 cm<sup>3</sup> = 1 mL = 10<sup>-3</sup> L</bdi>.<br><bdi>(2.00 &times; 10<sup>-9</sup> kg) / (10<sup>-3</sup> L) = 2.00 &times; 10<sup>-6</sup> kg/L</bdi>."
+          },
+          {
+            id: "pdf_q2",
+            type: "single",
+            text: "2) 10.5 g/cm<sup>3</sup> = _______ kg/m<sup>3</sup>:",
+            img: "",
+            opts: ["10.5 × 10<sup>-3</sup>", "10.5 × 10<sup>-6</sup>", "10.5", "10.5 × 10<sup>3</sup>"],
+            ans: 3,
+            dispAnswer: "d. 10.5 × 10<sup>3</sup>",
+            exp: "بما أن <bdi>1 g/cm<sup>3</sup> = 1000 kg/m<sup>3</sup></bdi>، فإن: <bdi>10.5 &times; 10<sup>3</sup> kg/m<sup>3</sup></bdi>."
+          },
+          {
+            id: "pdf_q3",
+            type: "single",
+            text: "3) 10.5 × 10<sup>3</sup> kg/m<sup>3</sup> = _______ g/cm<sup>3</sup>:",
+            img: "",
+            opts: ["10.5 × 10<sup>-3</sup>", "10.5 × 10<sup>6</sup>", "10.5", "10.5 × 10<sup>-6</sup>"],
+            ans: 2,
+            dispAnswer: "c. 10.5",
+            exp: "التحويل العكسي: <bdi>(10.5 &times; 10<sup>3</sup> kg/m<sup>3</sup>) / 1000 = 10.5 g/cm<sup>3</sup></bdi>."
+          },
+          {
+            id: "pdf_q4",
+            type: "single",
+            text: "4) 2.00 g/m<sup>3</sup> is equivalent to _______ mg/mL:",
+            img: "",
+            opts: ["2.00 × 10<sup>-6</sup>", "2.00", "2.00 × 10<sup>6</sup>", "2.00 × 10<sup>-3</sup>"],
+            ans: 3,
+            dispAnswer: "d. 2.00 × 10<sup>-3</sup>",
+            exp: "تحويل الكتلة: <bdi>2.00 g = 2.00 &times; 10<sup>3</sup> mg</bdi>.<br>تحويل الحجم: <bdi>1 m<sup>3</sup> = 10<sup>6</sup> mL</bdi>.<br><bdi>(2.00 &times; 10<sup>3</sup> mg) / (10<sup>6</sup> mL) = 2.00 &times; 10<sup>-3</sup> mg/mL</bdi>."
+          },
+          {
+            id: "pdf_q5",
+            type: "single",
+            text: "5) Give the answer of the following calculation to the correct number of significant figures: <bdi>(1.5 &times; 61.3) + 3.0 =</bdi>",
+            img: "",
+            opts: ["94.95", "95", "94.9", "95.0"],
+            ans: 1,
+            dispAnswer: "b. 95",
+            exp: "ناتج الضرب: <bdi>1.5 &times; 61.3 = 91.95</bdi> (يحتفظ برقمين معنويين &rArr; 92).<br>عند الجمع: <bdi>92 + 3.0 = 95</bdi> (منزلة الآحاد هي أول منزلة غير مؤكدة)."
+          },
+          {
+            id: "pdf_q6",
+            type: "single",
+            text: "6) Give the answer of the following calculation to the correct number of significant figures: <bdi>(1.5 &times; 51.3) + 2.0 =</bdi>",
+            img: "",
+            opts: ["78.9", "79", "79.0", "78.95"],
+            ans: 1,
+            dispAnswer: "b. 79",
+            exp: "ناتج الضرب: <bdi>1.5 &times; 51.3 = 76.95 &rArr; 77</bdi> (رقمين معنويين).<br>عند الجمع: <bdi>77 + 2.0 = 79</bdi> (منزلة الآحاد)."
+          },
+          {
+            id: "pdf_q7",
+            type: "single",
+            text: "7) The number of significant figures in the answer of the following operation is: <bdi>(0.002843 &times; 12.80184) &divide; 0.0003</bdi>",
+            img: "",
+            opts: ["3", "2", "4", "1"],
+            ans: 3,
+            dispAnswer: "d. 1",
+            exp: "في عمليات الضرب والقسمة، يتبع الناتج العدد ذو الأرقام المعنوية الأقل. العدد <bdi>0.0003</bdi> يحتوي على رقم معنوي واحد فقط (الرقم 3)، وبالتالي فالناتج النهائي يمتلك رقماً معنوياً واحداً."
+          },
+          {
+            id: "pdf_q8",
+            type: "single",
+            text: "8) There are _______ S atoms in 25 molecules of C<sub>4</sub>H<sub>4</sub>S<sub>2</sub>:",
+            img: "",
+            opts: ["50", "6.02 × 10<sup>23</sup>", "4.8 × 10<sup>25</sup>", "1.5 × 10<sup>25</sup>"],
+            ans: 0,
+            dispAnswer: "a. 50",
+            exp: "كل جزيء يحتوي على ذرتي كبريت (S). في 25 جزيء: <bdi>25 &times; 2 = 50 atom</bdi>."
+          },
+          {
+            id: "pdf_q9",
+            type: "single",
+            text: "9) There are _______ H atoms in 0.123 mol of CH<sub>4</sub> (16.0 g/mol):",
+            img: "",
+            opts: ["2.96 × 10<sup>23</sup>", "0.492", "4.00", "0.031"],
+            ans: 0,
+            dispAnswer: "a. 2.96 × 10<sup>23</sup>",
+            exp: "عدد ذرات الهيدروجين = <bdi>0.123 mol &times; 4 &times; (6.022 &times; 10<sup>23</sup>) = 2.96 &times; 10<sup>23</sup> atoms</bdi>."
+          },
+          {
+            id: "pdf_q10",
+            type: "single",
+            text: "10) There are _______ molecules of CH<sub>4</sub> (16.0 g/mol) in 0.123 mol of CH<sub>4</sub>:",
+            img: "",
+            opts: ["2.04 × 10<sup>-25</sup>", "5", "7.40 × 10<sup>22</sup>", "0.615"],
+            ans: 2,
+            dispAnswer: "c. 7.40 × 10<sup>22</sup>",
+            exp: "عدد الجزيئات = <bdi>0.123 mol &times; (6.022 &times; 10<sup>23</sup>) = 7.40 &times; 10<sup>22</sup> molecules</bdi>."
+          },
+          {
+            id: "pdf_q11",
+            type: "single",
+            text: "11) How many carbon atoms are in 0.20 mole glucose, C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> (180 g/mol)?",
+            img: "",
+            opts: ["6.02 × 10<sup>23</sup>", "3.612 × 10<sup>23</sup>", "6.02 × 10<sup>22</sup>", "7.224 × 10<sup>23</sup>"],
+            ans: 3,
+            dispAnswer: "d. 7.224 × 1023",
+            exp: "عدد ذرات الكربون = <bdi>0.20 mol &times; 6 &times; (6.022 &times; 10<sup>23</sup>) = 7.224 &times; 10<sup>23</sup> atoms</bdi>."
+          },
+          {
+            id: "pdf_q12",
+            type: "single",
+            text: "12) There are _______ atoms of O in 300 molecules of CH<sub>3</sub>CO<sub>2</sub>H:",
+            img: "",
+            opts: ["3.61 × 10<sup>26</sup>", "300", "600", "3.01 × 10<sup>24</sup>"],
+            ans: 2,
+            dispAnswer: "c. 600",
+            exp: "كل جزيء من حمض الأسيتيك يحتوي على ذرتي أكسجين (O<sub>2</sub>).<br>في 300 جزيء: <bdi>300 &times; 2 = 600 atoms</bdi>."
+          },
+          {
+            id: "pdf_q13",
+            type: "single",
+            text: "13) How many SO<sub>2</sub> molecules are there in 1.80 mol of SO<sub>2</sub>?",
+            img: "",
+            opts: ["1.08 × 10<sup>23</sup>", "6.02 × 10<sup>23</sup>", "1.80 × 10<sup>24</sup>", "1.08 × 10<sup>24</sup>"],
+            ans: 3,
+            dispAnswer: "d. 1.08 × 10<sup>24</sup>",
+            exp: "عدد الجزيئات = <bdi>1.80 mol &times; (6.022 &times; 10<sup>23</sup>) = 1.08 &times; 10<sup>24</sup> molecules</bdi>."
+          },
+          {
+            id: "pdf_q14",
+            type: "single",
+            text: "14) One mole of _______ contains the largest number of atoms:",
+            img: "",
+            opts: ["Al2(SO4)3", "S8", "C10H8", "Na3PO4"],
+            ans: 2,
+            dispAnswer: "c. C10H8",
+            exp: "نحسب عدد الذرات لكل صيغة:<br>• <bdi>Al<sub>2</sub>(SO<sub>4</sub>)<sub>3</sub></bdi>: 2 + 3 + 12 = 17 ذرة.<br>• <bdi>S<sub>8</sub></bdi>: 8 ذرات.<br>• <bdi>C<sub>10</sub>H<sub>8</sub></bdi>: 10 + 8 = 18 ذرة (الأكبر عدداً).<br>• <bdi>Na<sub>3</sub>PO<sub>4</sub></bdi>: 3 + 1 + 4 = 8 ذرات."
+          },
+          {
+            id: "pdf_q15",
+            type: "single",
+            text: "15) You mix 60.0 mL of 1.00 M AgNO<sub>3</sub> with 25.0 mL of 0.800 M NaCl. What mass of AgCl (143.3 g/mol) should form?<br><bdi>AgNO<sub>3</sub> + NaCl &rarr; AgCl + NaNO<sub>3</sub></bdi>",
+            img: "",
+            opts: ["6.88 g", "2.87 g", "3.58 g", "8.60 g"],
+            ans: 1,
+            dispAnswer: "b. 2.87 g",
+            exp: "مولات <bdi>AgNO<sub>3</sub> = 0.0600 L &times; 1.00 M = 0.060 mol</bdi>.<br>مولات <bdi>NaCl = 0.0250 L &times; 0.800 M = 0.020 mol</bdi> (المتفاعل المحدد Limiting).<br>كتلة الراسب = <bdi>0.020 mol &times; 143.3 g/mol = 2.87 g</bdi>."
+          },
+          {
+            id: "pdf_q16",
+            type: "single",
+            text: "16) Consider the reaction: <bdi>N<sub>2</sub>(g) + O<sub>2</sub>(g) &rarr; 2 NO(g)</bdi>. How many grams of NO (30.0 g/mol) will be produced from reaction of 4.0 g N<sub>2</sub> (28.0 g/mol) with 3.0 g O<sub>2</sub> (32.0 g/mol)?",
+            img: "",
+            opts: ["5.00 g", "5.63 g", "7.00 g", "6.42 g"],
+            ans: 1,
+            dispAnswer: "b. 5.63 g",
+            exp: "مولات <bdi>N<sub>2</sub> = 4.0 / 28.0 = 0.143 mol</bdi>.<br>مولات <bdi>O<sub>2</sub> = 3.0 / 32.0 = 0.09375 mol</bdi> (المتفاعل المحدد).<br>مولات <bdi>NO = 2 &times; 0.09375 = 0.1875 mol</bdi>.<br>كتلة <bdi>NO = 0.1875 mol &times; 30.0 g/mol = 5.625 g &approx; 5.63 g</bdi>."
+          },
+          {
+            id: "pdf_q17",
+            type: "single",
+            text: "17) The mass of Li<sub>3</sub>N (34.8 g/mol) that can be produced from the reaction of 3.50 g of Li (6.94 g/mol) and 3.50 g of N<sub>2</sub> (28.0 g/mol) according to: <bdi>6 Li(s) + N<sub>2</sub>(g) &rarr; 2 Li<sub>3</sub>N(s)</bdi> is:",
+            img: "",
+            opts: ["3.52 g", "8.70 g", "5.85 g", "17.6 g"],
+            ans: 2,
+            dispAnswer: "c. 5.85 g",
+            exp: "مولات <bdi>Li = 3.50 / 6.94 = 0.5043 mol</bdi> (نسبة التفاعل: <bdi>0.5043 / 6 = 0.0841</bdi> &rArr; المحدد).<br>مولات <bdi>N<sub>2</sub> = 3.50 / 28.0 = 0.125 mol</bdi>.<br>مولات <bdi>Li<sub>3</sub>N = 0.5043 &times; (2 / 6) = 0.1681 mol</bdi>.<br>الكتلة: <bdi>0.1681 mol &times; 34.8 g/mol = 5.85 g</bdi>."
+          },
+          {
+            id: "pdf_q18",
+            type: "single",
+            text: "18) What mass in grams of H<sub>2</sub> (2.016 g/mol) is produced by the reaction of 4.73 g of Mg (24.3 g/mol) with 1.83 g of H<sub>2</sub>O (18.02 g/mol)?<br><bdi>Mg(s) + 2 H<sub>2</sub>O(l) &rarr; Mg(OH)<sub>2</sub>(s) + H<sub>2</sub>(g)</bdi>",
+            img: "",
+            opts: ["0.102 g", "0.219 g", "0.204 g", "0.0162 g"],
+            ans: 0,
+            dispAnswer: "a. 0.102 g",
+            exp: "مولات <bdi>Mg = 4.73 / 24.3 = 0.1947 mol</bdi>.<br>مولات <bdi>H<sub>2</sub>O = 1.83 / 18.02 = 0.1016 mol</bdi> (نسبة التفاعل: <bdi>0.1016 / 2 = 0.0508</bdi> &rArr; المحدد).<br>مولات <bdi>H<sub>2</sub> = 0.0508 mol</bdi>.<br>الكتلة = <bdi>0.0508 mol &times; 2.016 g/mol = 0.1024 g &approx; 0.102 g</bdi>."
+          },
+          {
+            id: "pdf_q19",
+            type: "single",
+            text: "19) How many grams of CaF<sub>2</sub> (78.07 g/mol) are formed when 47.8 mL of 0.334 M NaF is treated with an excess of aqueous Ca(NO<sub>3</sub>)<sub>2</sub>?<br><bdi>Ca(NO<sub>3</sub>)<sub>2</sub> + 2 NaF &rarr; CaF<sub>2</sub> + 2 NaNO<sub>3</sub></bdi>",
+            img: "",
+            opts: ["0.472 g", "0.623 g", "1.25 g", "0.943 g"],
+            ans: 1,
+            dispAnswer: "b. 0.623 g",
+            exp: "مولات <bdi>NaF = 0.0478 L &times; 0.334 M = 0.015965 mol</bdi>.<br>مولات <bdi>CaF<sub>2</sub> = 0.015965 / 2 = 0.007983 mol</bdi>.<br>الكتلة = <bdi>0.007983 mol &times; 78.07 g/mol = 0.623 g</bdi>."
+          },
+          {
+            id: "pdf_q20",
+            type: "single",
+            text: "20) The mass of Al<sub>2</sub>O<sub>3</sub> (102.0 g/mol) produced from reaction of 2.5 g Al (27.0 g/mol) and 2.5 g O<sub>2</sub> (32.0 g/mol) is:<br><bdi>4 Al(s) + 3 O<sub>2</sub>(g) &rarr; 2 Al<sub>2</sub>O<sub>3</sub>(s)</bdi>",
+            img: "",
+            opts: ["9.4 g", "7.4 g", "4.7 g", "5.3 g"],
+            ans: 2,
+            dispAnswer: "c. 4.7 g",
+            exp: "مولات <bdi>Al = 2.5 / 27.0 = 0.0926 mol</bdi> (المحدد: <bdi>0.0926 / 4 = 0.02315</bdi>).<br>مولات <bdi>O<sub>2</sub> = 2.5 / 32.0 = 0.0781 mol</bdi> (<bdi>0.0781 / 3 = 0.0260</bdi>).<br>الناتج = <bdi>0.0926 &times; (2 / 4) &times; 102.0 g/mol = 4.72 g &approx; 4.7 g</bdi>."
+          },
+          {
+            id: "pdf_q21",
+            type: "single",
+            text: "21) A 250. mL sample of 0.0328 M HCl is mixed with 0.00245 mol of NaOH. The mass of produced NaCl (58.5 g/mol) is:<br><bdi>HCl + NaOH &rarr; NaCl + H<sub>2</sub>O</bdi>",
+            img: "",
+            opts: ["0.00245 g", "0.00820 g", "0.476 g", "0.143 g"],
+            ans: 3,
+            dispAnswer: "d. 0.143 g",
+            exp: "مولات <bdi>HCl = 0.250 L &times; 0.0328 M = 0.00820 mol</bdi>.<br>مولات <bdi>NaOH = 0.00245 mol</bdi> (المتفاعل المحدد لأنه الأقل).<br>كتلة <bdi>NaCl = 0.00245 mol &times; 58.5 g/mol = 0.1433 g &approx; 0.143 g</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Solutions, Concentrations, Dilutions & Colligative Properties",
+        context: "Past final questions on molarity formulas, percentage concentrations, dilutions, and colligative properties:",
+        subQuestions: [
+          {
+            id: "pdf_q22",
+            type: "single",
+            text: "22) What is the molarity of a 98% H<sub>2</sub>SO<sub>4</sub> (molar mass = 98 g/mol) by mass solution in H<sub>2</sub>O? (density = 1.83 g/mL):",
+            img: "",
+            opts: ["5.02 M", "12.6 M", "18.3 M", "36.6 M"],
+            ans: 2,
+            dispAnswer: "c. 18.3 M",
+            exp: "قانون المولارية من النسبة المئوية والكثافة:<br><bdi>M = (10 &times; % &times; d) / MM = (10 &times; 98 &times; 1.83) / 98 = 18.3 M</bdi>."
+          },
+          {
+            id: "pdf_q23",
+            type: "single",
+            text: "23) What is the molarity (mol/L) of HNO<sub>3</sub> (63 g/mol) in a solution that is 50% HNO<sub>3</sub> (by mass) and has a density of 1.35 g/mL?",
+            img: "",
+            opts: ["5.50 M", "10.71 M", "9.82 M", "13.43 M"],
+            ans: 1,
+            dispAnswer: "b. 10.71 M",
+            exp: "<bdi>M = (10 &times; 50 &times; 1.35) / 63 = 675 / 63 = 10.71 M</bdi>."
+          },
+          {
+            id: "pdf_q24",
+            type: "single",
+            text: "24) What is the molarity (mol/L) of HCl (36.5 g/mol) in a solution that is 37% HCl (by mass) and has a density of 1.19 g/mL?",
+            img: "",
+            opts: ["10.13 M", "12.06 M", "5.50 M", "14.5 M"],
+            ans: 1,
+            dispAnswer: "b. 12.06 M",
+            exp: "<bdi>M = (10 &times; 37 &times; 1.19) / 36.5 = 440.3 / 36.5 = 12.06 M</bdi>."
+          },
+          {
+            id: "pdf_q25",
+            type: "single",
+            text: "25) What is the molarity (mol/L) of HCl (36.5 g/mol) in a solution that is 32% HCl (by mass) and has a density of 1.13 g/mL?",
+            img: "",
+            opts: ["9.90 M", "12.06 M", "14.5 M", "5.50 M"],
+            ans: 0,
+            dispAnswer: "a. 9.90 M",
+            exp: "<bdi>M = (10 &times; 32 &times; 1.13) / 36.5 = 361.6 / 36.5 = 9.907 M &approx; 9.90 M</bdi>."
+          },
+          {
+            id: "pdf_q26",
+            type: "single",
+            text: "26) What is the molarity (M) of a 10% by mass CrSO<sub>4</sub> (molar mass = 208.46 g/mol) in water? The density of the solution is 1.10 g/mL:",
+            img: "",
+            opts: ["0.479 M", "0.528 M", "0.048 M", "0.486 M"],
+            ans: 1,
+            dispAnswer: "b. 0.528 M",
+            exp: "<bdi>M = (10 &times; 10 &times; 1.10) / 208.46 = 110 / 208.46 = 0.5277 M &approx; 0.528 M</bdi>."
+          },
+          {
+            id: "pdf_q27",
+            type: "single",
+            text: "27) What is the molarity (mol/L) of HCl solution if 40 mL of 0.10 M NaOH solution were required to neutralize 10 mL of the HCl solution?",
+            img: "",
+            opts: ["0.10 mol/L", "0.20 mol/L", "0.40 mol/L", "0.30 mol/L"],
+            ans: 2,
+            dispAnswer: "c. 0.40 mol/L",
+            exp: "معادلة المعايرة والتعادل: <bdi>M<sub>a</sub> &times; V<sub>a</sub> = M<sub>b</sub> &times; V<sub>b</sub></bdi>.<br><bdi>M<sub>HCl</sub> &times; 10 mL = 0.10 M &times; 40 mL &rArr; M<sub>HCl</sub> = 0.40 M</bdi>."
+          },
+          {
+            id: "pdf_q28",
+            type: "single",
+            text: "28) A 50.0 mL sample of 0.436 M NH<sub>4</sub>NO<sub>3</sub> is diluted with water to a total volume of 250.0 mL. What is the concentration in the resulting solution?",
+            img: "",
+            opts: ["8.72 × 10<sup>-2</sup> M", "0.459 M", "0.109 M", "2.18 × 10<sup>-2</sup> M"],
+            ans: 0,
+            dispAnswer: "a. 8.72 × 10<sup>-2</sup> M",
+            exp: "قانون التخفيف: <bdi>M<sub>1</sub>V<sub>1</sub> = M<sub>2</sub>V<sub>2</sub></bdi>.<br><bdi>M<sub>2</sub> = (50.0 &times; 0.436) / 250.0 = 0.0872 M = 8.72 &times; 10<sup>-2</sup> M</bdi>."
+          },
+          {
+            id: "pdf_q29",
+            type: "single",
+            text: "29) How many milliliters of 16.0 M nitric acid, HNO<sub>3</sub>, should be diluted with water in order to make 1.00 L of 1.00 M solution?",
+            img: "",
+            opts: ["62.5 mL", "32.0 mL", "250 mL", "125 mL"],
+            ans: 0,
+            dispAnswer: "a. 62.5 mL",
+            exp: "<bdi>M<sub>1</sub>V<sub>1</sub> = M<sub>2</sub>V<sub>2</sub> &rArr; 16.0 M &times; V<sub>1</sub> = 1.00 M &times; 1000 mL</bdi>.<br><bdi>V<sub>1</sub> = 1000 / 16.0 = 62.5 mL</bdi>."
+          },
+          {
+            id: "pdf_q30",
+            type: "single",
+            text: "30) The vapor pressure of pure water at 25 &deg;C is 23.8 torr. What is the vapor pressure (torr) of water above a glucose solution prepared by dissolving 0.10 mol glucose in 0.90 mol water?",
+            img: "",
+            opts: ["22.2 torr", "21.4 torr", "18.7 torr", "19.9 torr"],
+            ans: 1,
+            dispAnswer: "b. 21.4 torr",
+            exp: "وفق قانون راؤول: <bdi>P = X<sub>water</sub> &times; P&deg; = [0.90 / (0.90 + 0.10)] &times; 23.8 = 0.90 &times; 23.8 = 21.42 torr &approx; 21.4 torr</bdi>."
+          },
+          {
+            id: "pdf_q31",
+            type: "single",
+            text: "31) The vapor pressure of pure water at 25 &deg;C is 23.4 torr. What is the vapor pressure (torr) of water above a glucose solution prepared by dissolving 0.15 mol glucose in 0.85 mol water?",
+            img: "",
+            opts: ["18.7 torr", "21.4 torr", "22.2 torr", "19.9 torr"],
+            ans: 3,
+            dispAnswer: "d. 19.9 torr",
+            exp: "<bdi>P = X<sub>water</sub> &times; P&deg; = 0.85 &times; 23.4 torr = 19.89 torr &approx; 19.9 torr</bdi>."
+          },
+          {
+            id: "pdf_q32",
+            type: "single",
+            text: "32) A 0.100 m solution of which one of the following solutes will have the highest freezing point?",
+            img: "",
+            opts: ["Na2SO4", "C6H12O6", "FeCl3", "KBr"],
+            ans: 1,
+            dispAnswer: "b. C6H12O6",
+            exp: "أعلى درجة تجمد تقابل أقل انخفاض في درجة التجمد (&Delta;T<sub>f</sub>). بما أن الجلوكوز <bdi>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></bdi> مادة غير كهرلية (<bdi>i = 1</bdi>) فإن لها أقل تركيز من الجسيمات المذابة، وبالتالي أعلى درجة تجمد."
+          },
+          {
+            id: "pdf_q33",
+            type: "single",
+            text: "33) Which one of the following solutions has the lowest freezing point?",
+            img: "",
+            opts: ["0.10 M NaCl", "0.10 M glucose (non-electrolyte)", "0.07 M KCl", "0.05 M CaCl2"],
+            ans: 0,
+            dispAnswer: "a. 0.10 M NaCl",
+            exp: "أدنى درجة تجمد تقابل أكبر انخفاض في التجمد، أي أعلى قيمة للجسيمات الفعالة (<bdi>i &times; M</bdi>):<br>• <bdi>NaCl: 2 &times; 0.10 = 0.20 M</bdi> (الأعلى).<br>• <bdi>glucose: 1 &times; 0.10 = 0.10 M</bdi>.<br>• <bdi>KCl: 2 &times; 0.07 = 0.14 M</bdi>.<br>• <bdi>CaCl<sub>2</sub>: 3 &times; 0.05 = 0.15 M</bdi>."
+          },
+          {
+            id: "pdf_q34",
+            type: "single",
+            text: "34) Which one of the following solutions has the highest boiling point?",
+            img: "",
+            opts: ["0.10 M CaCl2", "0.10 M NaCl", "0.07 M KCl", "0.10 M glucose (non-electrolyte)"],
+            ans: 0,
+            dispAnswer: "a. 0.10 M CaCl2",
+            exp: "أعلى درجة غليان تتطلب أكبر ارتفاع في الغليان (&Delta;T<sub>b</sub>) &larr; أعلى قيمة لـ <bdi>i &times; M</bdi>:<br>• <bdi>CaCl<sub>2</sub>: 3 &times; 0.10 = 0.30 M</bdi> (الأعلى).<br>• <bdi>NaCl: 2 &times; 0.10 = 0.20 M</bdi>.<br>• <bdi>KCl: 2 &times; 0.07 = 0.14 M</bdi>.<br>• <bdi>glucose: 1 &times; 0.10 = 0.10 M</bdi>."
+          },
+          {
+            id: "pdf_q35",
+            type: "single",
+            text: "35) What is the boiling point of a 2.41 m naphthalene (a nonvolatile non-electrolyte) solution in benzene? (normal boiling point of pure benzene is 80.1 &deg;C and its Kb = 2.53 &deg;C/m):",
+            img: "",
+            opts: ["85.5 °C", "86.2 °C", "84.2 °C", "88.1 °C"],
+            ans: 1,
+            dispAnswer: "b. 86.2 °C",
+            exp: "مقدار الارتفاع في درجة الغليان: <bdi>&Delta;T<sub>b</sub> = K<sub>b</sub> &times; m = 2.53 &deg;C/m &times; 2.41 m = 6.097 &deg;C</bdi>.<br>درجة غليان المحلول: <bdi>T<sub>b</sub> = 80.1 &deg;C + 6.10 &deg;C = 86.2 &deg;C</bdi>."
+          },
+          {
+            id: "pdf_q36",
+            type: "single",
+            text: "36) A 0.100 m solution of which one of the following solutes will have the lowest osmotic pressure? (m is molal):",
+            img: "",
+            opts: ["C6H12O6", "Na2SO4", "FeCl3", "KBr"],
+            ans: 0,
+            dispAnswer: "a. C6H12O6",
+            exp: "الضغط الأسموزي يتناسب طردياً مع تركيز الجسيمات الكلي (<bdi>&Pi; = iMRT</bdi>). المادة غير المتأينة (الجلوكوز <bdi>i = 1</bdi>) تمتلك أقل عدد من الجسيمات، وبالتالي أقل ضغط أسموزي."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Gas Laws & Kinetic Molecular Theory",
+        context: "Past final questions on Boyle's, Charles's, Combined gas law, Dalton's law, effusion and density at STP:",
+        subQuestions: [
+          {
+            id: "pdf_q37",
+            type: "single",
+            text: "37) A piston is used to compress a gas from 1.00 atm to 3.50 atm. If the volume changes from 1.50 L to 0.750 L, what is the final temperature if it started at 300 K?",
+            img: "",
+            opts: ["525 K", "300 K", "1050 K", "700 K"],
+            ans: 0,
+            dispAnswer: "a. 525 K",
+            exp: "قانون الغاز الموحد: <bdi>(P<sub>1</sub>V<sub>1</sub>) / T<sub>1</sub> = (P<sub>2</sub>V<sub>2</sub>) / T<sub>2</sub></bdi>.<br><bdi>(1.00 &times; 1.50) / 300 = (3.50 &times; 0.750) / T<sub>2</sub> &rArr; T<sub>2</sub> = (300 &times; 2.625) / 1.50 = 525 K</bdi>."
+          },
+          {
+            id: "pdf_q38",
+            type: "single",
+            text: "38) A gas sample occupies 0.400 L at a pressure of 2.00 atm. What is the volume of the sample if the pressure is changed to 20.0 atm at constant temperature?",
+            img: "",
+            opts: ["0.040 mL", "800 mL", "40.0 mL", "4000 mL"],
+            ans: 2,
+            dispAnswer: "c. 40.0 mL",
+            exp: "قانون بويل: <bdi>P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub></bdi>.<br><bdi>V<sub>2</sub> = (2.00 atm &times; 0.400 L) / 20.0 atm = 0.040 L = 40.0 mL</bdi>."
+          },
+          {
+            id: "pdf_q39",
+            type: "single",
+            text: "39) A sample of a gas occupies 1.40 L at 25.0 &deg;C and 760 mmHg. What volume will it occupy at the same temperature and 380 mmHg?",
+            img: "",
+            opts: ["2.80 L", "1.05 L", "2.10 L", "1.40 L"],
+            ans: 0,
+            dispAnswer: "a. 2.80 L",
+            exp: "قانون بويل عند ثبوت درجة الحرارة: <bdi>P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub></bdi>.<br><bdi>V<sub>2</sub> = (760 mmHg &times; 1.40 L) / 380 mmHg = 2.80 L</bdi>."
+          },
+          {
+            id: "pdf_q40",
+            type: "single",
+            text: "40) If 30.0 L of O<sub>2</sub>(g) are cooled from 200 &deg;C to 1.00 &deg;C at constant pressure, what is the new volume of O<sub>2</sub>(g)?",
+            img: "",
+            opts: ["23.0 L", "17.4 L", "15.0 L", "51.8 L"],
+            ans: 1,
+            dispAnswer: "b. 17.4 L",
+            exp: "قانون شارل: <bdi>V<sub>1</sub> / T<sub>1</sub> = V<sub>2</sub> / T<sub>2</sub></bdi>.<br>تحويل درجات الحرارة إلى الكلفن:<br><bdi>T<sub>1</sub> = 200 + 273.15 = 473.15 K</bdi>، <bdi>T<sub>2</sub> = 1.00 + 273.15 = 274.15 K</bdi>.<br><bdi>V<sub>2</sub> = 30.0 &times; (274.15 / 473.15) = 17.38 L &approx; 17.4 L</bdi>."
+          },
+          {
+            id: "pdf_q41",
+            type: "single",
+            text: "41) A sample of N<sub>2</sub>(g) has a volume of 3.24 L at 20.0 &deg;C. The gas is heated to 220 &deg;C at constant pressure. What is the final volume?",
+            img: "",
+            opts: ["3.14 L", "5.45 L", "54.5 L", "1.93 L"],
+            ans: 1,
+            dispAnswer: "b. 5.45 L",
+            exp: "قانون شارل: <bdi>T<sub>1</sub> = 20.0 + 273.15 = 293.15 K</bdi>، <bdi>T<sub>2</sub> = 220 + 273.15 = 493.15 K</bdi>.<br><bdi>V<sub>2</sub> = 3.24 L &times; (493.15 / 293.15) = 5.45 L</bdi>."
+          },
+          {
+            id: "pdf_q42",
+            type: "single",
+            text: "42) A sample of Ne gas has a volume of 0.265 L at 27 &deg;C and 432 mmHg. What is the volume of the gas if the temperature has changed to 298 K and the pressure to 355 mmHg?",
+            img: "",
+            opts: ["238 mL", "8060 mL", "352 mL", "322 mL"],
+            ans: 3,
+            dispAnswer: "d. 322 mL",
+            exp: "قانون الغاز الموحد: <bdi>T<sub>1</sub> = 27 + 273.15 = 300.15 K</bdi>.<br><bdi>V<sub>2</sub> = V<sub>1</sub> &times; (P<sub>1</sub> / P<sub>2</sub>) &times; (T<sub>2</sub> / T<sub>1</sub>) = 0.265 L &times; (432 / 355) &times; (298 / 300.15) = 0.320 L = 320 - 322 mL</bdi>."
+          },
+          {
+            id: "pdf_q43",
+            type: "single",
+            text: "43) A mixture of gases contains 0.31 mol CH<sub>4</sub>(g), 0.25 mol C<sub>2</sub>H<sub>6</sub>(g), and 0.29 mol C<sub>3</sub>H<sub>8</sub>(g). The total pressure is 1.50 atm. Calculate the partial pressure of C<sub>3</sub>H<sub>8</sub>(g):",
+            img: "",
+            opts: ["0.44 atm", "0.23 atm", "0.51 atm", "0.19 atm"],
+            ans: 2,
+            dispAnswer: "c. 0.51 atm",
+            exp: "إجمالي المولات = <bdi>0.31 + 0.25 + 0.29 = 0.85 mol</bdi>.<br><bdi>P(C<sub>3</sub>H<sub>8</sub>) = X &times; P<sub>total</sub> = (0.29 / 0.85) &times; 1.50 atm = 0.5118 atm &approx; 0.51 atm</bdi>."
+          },
+          {
+            id: "pdf_q44",
+            type: "single",
+            text: "44) A mixture of 0.050 mol of N<sub>2</sub>(g) and 0.15 mol of O<sub>2</sub>(g) has a pressure of 27.0 atm under conditions of constant temperature and volume. The partial pressure of O<sub>2</sub>(g) in atm is:",
+            img: "",
+            opts: ["19.2 atm", "13.5 atm", "6.75 atm", "20.3 atm"],
+            ans: 3,
+            dispAnswer: "d. 20.3 atm",
+            exp: "إجمالي المولات = <bdi>0.050 + 0.15 = 0.20 mol</bdi>.<br><bdi>P(O<sub>2</sub>) = (0.15 / 0.20) &times; 27.0 atm = 0.75 &times; 27.0 = 20.25 atm &approx; 20.3 atm</bdi>."
+          },
+          {
+            id: "pdf_q45",
+            type: "single",
+            text: "45) You have a mixture of Cl<sub>2</sub>(g), CO<sub>2</sub>(g) and Ar(g) in a flask at room temperature with a total pressure of 1387 mmHg and a total moles of 1.01 mol. If the partial pressure of Cl<sub>2</sub>(g) is 275 mmHg, how many moles of Cl<sub>2</sub> are there in the mixture?",
+            img: "",
+            opts: ["0.20 mol", "1.50 mol", "0.17 mol", "0.54 mol"],
+            ans: 0,
+            dispAnswer: "a. 0.20 mol",
+            exp: "نسبة الضغط الجزئي تساوي الكسر المولي: <bdi>n(Cl<sub>2</sub>) / n<sub>total</sub> = P(Cl<sub>2</sub>) / P<sub>total</sub></bdi>.<br><bdi>n(Cl<sub>2</sub>) = (275 mmHg / 1387 mmHg) &times; 1.01 mol = 0.200 mol</bdi>."
+          },
+          {
+            id: "pdf_q46",
+            type: "single",
+            text: "46) Under conditions of standard temperature and pressure (STP), 10.0 mol of any gas occupies a volume of _______ liters:",
+            img: "",
+            opts: ["2240 L", "273 L", "2.24 L", "224 L"],
+            ans: 3,
+            dispAnswer: "d. 224 L",
+            exp: "الحجم المولي للغاز المثالي عند STP هو 22.4 L/mol.<br>الحجم لـ 10 مولات = <bdi>10.0 mol &times; 22.4 L/mol = 224 L</bdi>."
+          },
+          {
+            id: "pdf_q47",
+            type: "single",
+            text: "47) The molar volume of a gas at STP is _______ L:",
+            img: "",
+            opts: ["62.36", "0.08206", "1.00", "22.4"],
+            ans: 3,
+            dispAnswer: "d. 22.4",
+            exp: "الحجم المولي القياسي لأي غاز مثالي عند الظروف المعيارية STP (عند 0 &deg;C و 1 atm) يساوي دائماً 22.4 لتر لكل مول."
+          },
+          {
+            id: "pdf_q48",
+            type: "single",
+            text: "48) Which of the following gases has the largest density at STP?",
+            img: "",
+            opts: ["Cl2", "F2", "N2", "O2"],
+            ans: 0,
+            dispAnswer: "a. Cl2",
+            exp: "كثافة الغاز المثالي تتناسب طردياً مع الكتلة المولية (<bdi>d = PM / RT</bdi>). بما أن الكلور <bdi>Cl<sub>2</sub></bdi> يمتلك أعلى كتلة مولية (71.0 g/mol) مقارنة بـ <bdi>F<sub>2</sub></bdi> (38) و <bdi>O<sub>2</sub></bdi> (32) و <bdi>N<sub>2</sub></bdi> (28)، فإنه يمتلك الكثافة الأكبر."
+          },
+          {
+            id: "pdf_q49",
+            type: "single",
+            text: "49) Which of the following gases has the largest density at STP?",
+            img: "",
+            opts: ["N2", "F2", "Ne", "He"],
+            ans: 1,
+            dispAnswer: "b. F2",
+            exp: "الكتل المولية: <bdi>F<sub>2</sub> = 38.0 g/mol</bdi>، <bdi>N<sub>2</sub> = 28.0 g/mol</bdi>، <bdi>Ne = 20.2 g/mol</bdi>، <bdi>He = 4.0 g/mol</bdi>. الغاز ذو الكتلة المولية الأكبر (<bdi>F<sub>2</sub></bdi>) يمتلك الكثافة الأعلى."
+          },
+          {
+            id: "pdf_q50",
+            type: "single",
+            text: "50) Which one of the following gases has the lowest density at STP?",
+            img: "",
+            opts: ["O3", "SO3", "NO", "NO2"],
+            ans: 2,
+            dispAnswer: "c. NO",
+            exp: "الكتل المولية: <bdi>NO (30.0 g/mol)</bdi>، <bdi>O<sub>3</sub> (48.0 g/mol)</bdi>، <bdi>NO<sub>2</sub> (46.0 g/mol)</bdi>، <bdi>SO<sub>3</sub> (80.1 g/mol)</bdi>. الغاز ذو الكتلة المولية الأقل (<bdi>NO</bdi>) هو الأقل كثافة عند STP."
+          },
+          {
+            id: "pdf_q51",
+            type: "single",
+            text: "51) Which of the following gases has the smallest density at STP?",
+            img: "",
+            opts: ["Cl2", "N2", "Ne", "F2"],
+            ans: 2,
+            dispAnswer: "c. Ne",
+            exp: "الكتل المولية: <bdi>Ne = 20.18 g/mol</bdi>، <bdi>N<sub>2</sub> = 28.0 g/mol</bdi>، <bdi>F<sub>2</sub> = 38.0 g/mol</bdi>، <bdi>Cl<sub>2</sub> = 71.0 g/mol</bdi>. غاز النيون Ne هو الأقل كتلة مولية وبالتالي الأقل كثافة."
+          },
+          {
+            id: "pdf_q52",
+            type: "single",
+            text: "52) The correct order of increasing rate of effusion at STP is:",
+            img: "",
+            opts: [
+              "NO < SO3 < O3",
+              "SO3 < O3 < NO",
+              "O3 < NO < SO3",
+              "NO < O3 < SO3"
+            ],
+            ans: 1,
+            dispAnswer: "b. SO3 < O3 < NO",
+            exp: "وفق قانون غراهام، تتناسب سرعة التدفق عكسياً مع الجذر التربيعي للكتلة المولية. ترتيب الكتل المولية تنازلياً: <bdi>SO<sub>3</sub> (80) > O<sub>3</sub> (48) > NO (30)</bdi>، وعليه يكون ترتيب سرعة التدفق تصاعدياً: <bdi>SO<sub>3</sub> < O<sub>3</sub> < NO</bdi>."
+          },
+          {
+            id: "pdf_q53",
+            type: "single",
+            text: "53) A mixture is prepared from 15.0 L of NH<sub>3</sub> and 15.0 L of Cl<sub>2</sub> allowed to react: <bdi>2 NH<sub>3</sub>(g) + 3 Cl<sub>2</sub>(g) &rarr; N<sub>2</sub>(g) + 6 HCl(g)</bdi>. When completed, what are the volumes of Cl<sub>2</sub> and NH<sub>3</sub>, respectively, in the mixture?",
+            img: "",
+            opts: [
+              "10.0 L, 7.50 L",
+              "5.00 L, 5.00 L",
+              "10.0 L, 15.0 L",
+              "0.00 L, 5.00 L"
+            ],
+            ans: 3,
+            dispAnswer: "d. 0.00 L, 5.00 L",
+            exp: "بما أن الغازات في نفس الظروف، فإن النسب الحجمية تعامل كالمولات. غاز الكلور يتطلب نسبة أكبر (3 مقابل 2)، فيكون هو المحدد ويستهلك بالكامل (0.00 L). يتفاعل مع الكلور: <bdi>15.0 &times; (2 / 3) = 10.0 L NH<sub>3</sub></bdi>. المتبقي من الأمونيا: <bdi>15.0 - 10.0 = 5.00 L</bdi>."
+          },
+          {
+            id: "pdf_q54",
+            type: "single",
+            text: "54) In the same reaction: <bdi>2 NH<sub>3</sub>(g) + 3 Cl<sub>2</sub>(g) &rarr; N<sub>2</sub>(g) + 6 HCl(g)</bdi>, when 15.0 L of NH<sub>3</sub> and 15.0 L of Cl<sub>2</sub> react completely, what is the volume of Cl<sub>2</sub> and HCl in the mixture?",
+            img: "",
+            opts: ["5.00 L, 45.0 L", "0.00 L, 30.0 L", "0.00 L, 45.0 L", "10.0 L, 15.0 L"],
+            ans: 1,
+            dispAnswer: "b. 0.00 L, 30.0 L",
+            exp: "الكلور يستهلك بالكامل (0.00 L Cl<sub>2</sub>). حجم الناتج <bdi>HCl = 15.0 L Cl<sub>2</sub> &times; (6 / 3) = 30.0 L HCl</bdi>."
+          },
+          {
+            id: "pdf_q55",
+            type: "single",
+            text: "55) Regarding gases, which one of the following laws is not correct:",
+            img: "",
+            opts: [
+              "V2 / V1 = T1 / T2 at constant P and n (T in Kelvin)",
+              "V2 / V1 = P1 / P2 at constant T and n",
+              "V2 / V1 = n2 / n1 at constant T and P",
+              "PV = nRT"
+            ],
+            ans: 0,
+            dispAnswer: "a. V2 / V1 = T1 / T2 at constant P and n",
+            exp: "قانون شارل يربط بين الحجم ودرجة الحرارة بعلاقة طردية مباشرة (<bdi>V<sub>2</sub> / V<sub>1</sub> = T<sub>2</sub> / T<sub>1</sub></bdi>)، وبالتالي فإن العلاقة المكتوبة في الخيار الأول خاطئة (عكسية)."
+          },
+          {
+            id: "pdf_q56",
+            type: "single",
+            text: "56) The volume of an ideal gas is zero at:",
+            img: "",
+            opts: ["-273 °C", "-45 °F", "0 °C", "-273 K"],
+            ans: 0,
+            dispAnswer: "a. -273 °C",
+            exp: "يصل حجم الغاز المثالي نظرياً إلى الصفر عند درجة الصفر المطلق (0 K)، والتي تعادل <bdi>-273.15 &deg;C &approx; -273 &deg;C</bdi>."
+          },
+          {
+            id: "pdf_q57",
+            type: "single",
+            text: "57) Pressure is defined as:",
+            img: "",
+            opts: [
+              "force applied per unit area",
+              "area per unit force",
+              "force applied per unit volume",
+              "volume per unit force"
+            ],
+            ans: 0,
+            dispAnswer: "a. force applied per unit area",
+            exp: "الضغط هو مقدار القوة العمودية المؤثرة لكل وحدة مساحة (<bdi>P = F / A</bdi>)."
+          },
+          {
+            id: "pdf_q58",
+            type: "single",
+            text: "58) Avogadro's law states that equal volumes of gases under the same conditions of temperature and pressure have equal _______:",
+            img: "",
+            opts: ["molar masses", "numbers of molecules", "densities", "numbers of grams"],
+            ans: 1,
+            dispAnswer: "b. numbers of molecules",
+            exp: "ينص قانون أفوجادرو على أن الحجوم المتساوية من الغازات المختلفة عند نفس درجة الحرارة والضغط تحتوي على نفس العدد من الجزيئات (أو المولات)."
+          },
+          {
+            id: "pdf_q59",
+            type: "single",
+            text: "59) Mercury is a more suitable substance to use in a barometer than water because:",
+            img: "",
+            opts: [
+              "mercury is more dense than water",
+              "mercury sticks to the glass",
+              "mercury is less dense than water",
+              "mercury has a higher freezing point than water"
+            ],
+            ans: 0,
+            dispAnswer: "a. mercury is more dense than water",
+            exp: "كثافة الزئبق عالية جداً (13.6 g/mL) مقارنة بالماء (1.0 g/mL)، مما يجعل ارتفاع عمود السائل مناسباً عملياً (حوالي 76 cm فقط مقابل أكثر من 10 أمتار للماء)."
+          }
+        ]
+      },
+      {
+        title: "Part 4: Chemical Kinetics, Reaction Rates & Activation Energy",
+        context: "Past final questions on rates of disappearance/appearance, reaction orders, linear plots, half-life, and Arrhenius equation:",
+        subQuestions: [
+          {
+            id: "pdf_q60",
+            type: "single",
+            text: "60) Which substance in the reaction below has the largest rate of disappearance?<br><bdi>4 NH<sub>3</sub> + 7 O<sub>2</sub> &rarr; 4 NO<sub>2</sub> + 6 H<sub>2</sub>O</bdi>",
+            img: "",
+            opts: ["NH3", "NO2", "H2O", "O2"],
+            ans: 3,
+            dispAnswer: "d. O2",
+            exp: "معدل سرعة اختفاء المتفاعلات يتناسب طردياً مع معامل المادة في المعادلة الموزونة. المعامل الأكبر بين المتفاعلات هو لغاز <bdi>O<sub>2</sub></bdi> (المعامل 7)، ولذلك له أعلى وأسرع معدل اختفاء."
+          },
+          {
+            id: "pdf_q61",
+            type: "single",
+            text: "61) Which substance in the reaction below has the smallest rate of appearance?<br><bdi>4 NH<sub>3</sub> + 7 O<sub>2</sub> &rarr; 4 NO<sub>2</sub> + 6 H<sub>2</sub>O</bdi>",
+            img: "",
+            opts: ["H2O", "O2", "NO2", "NH3"],
+            ans: 2,
+            dispAnswer: "c. NO2",
+            exp: "النواتج هما <bdi>NO<sub>2</sub></bdi> (المعامل 4) و <bdi>H<sub>2</sub>O</bdi> (المعامل 6). المادة ذات المعامل الأقل بين النواتج هي <bdi>NO<sub>2</sub></bdi>، ولذلك تملك أقل معدل ظهور (Smallest rate of appearance)."
+          },
+          {
+            id: "pdf_q62",
+            type: "single",
+            text: "62) Consider: <bdi>4 NH<sub>3</sub>(g) + 5 O<sub>2</sub>(g) &rarr; 4 NO(g) + 6 H<sub>2</sub>O(g)</bdi>. If the rate of disappearance of NH<sub>3</sub> is 0.24 M&middot;min<sup>-1</sup>, then the rate of disappearance of O<sub>2</sub> is:",
+            img: "",
+            opts: ["0.30 M·min-1", "0.24 M·min-1", "0.20 M·min-1", "0.19 M·min-1"],
+            ans: 0,
+            dispAnswer: "a. 0.30 M·min-1",
+            exp: "العلاقة: <bdi>-(1/4) &Delta;[NH<sub>3</sub>]/&Delta;t = -(1/5) &Delta;[O<sub>2</sub>]/&Delta;t</bdi>.<br>معدل اختفاء <bdi>O<sub>2</sub> = (5 / 4) &times; 0.24 = 0.30 M&middot;min<sup>-1</sup></bdi>."
+          },
+          {
+            id: "pdf_q63",
+            type: "single",
+            text: "63) For the same reaction: <bdi>4 NH<sub>3</sub>(g) + 5 O<sub>2</sub>(g) &rarr; 4 NO(g) + 6 H<sub>2</sub>O(g)</bdi>, if rate of disappearance of NH<sub>3</sub> is 0.24 M&middot;min<sup>-1</sup>, then rate of appearance of H<sub>2</sub>O is:",
+            img: "",
+            opts: ["0.54 M·min-1", "0.40 M·min-1", "0.36 M·min-1", "0.20 M·min-1"],
+            ans: 2,
+            dispAnswer: "c. 0.36 M·min-1",
+            exp: "معدل تكون <bdi>H<sub>2</sub>O = (6 / 4) &times; 0.24 = 0.36 M&middot;min<sup>-1</sup></bdi>."
+          },
+          {
+            id: "pdf_q64",
+            type: "single",
+            text: "64) For a first-order reaction A &rarr; products, the plot of _______ versus _______ is linear:",
+            img: "",
+            opts: ["1/[A], time", "[A], time", "1/ln[A], time", "ln [A], time"],
+            ans: 3,
+            dispAnswer: "d. ln [A], time",
+            exp: "المعادلة الخطية المتكاملة لتفاعل الرتبة الأولى: <bdi>ln[A]<sub>t</sub> = -k&middot;t + ln[A]<sub>0</sub></bdi>، وهي علاقة خطية مستقيمة بين <bdi>ln[A]</bdi> والزمن."
+          },
+          {
+            id: "pdf_q65",
+            type: "single",
+            text: "65) For a second-order reaction 2 A &rarr; products, the plot of _______ versus _______ is linear:",
+            img: "",
+            opts: ["[A], time", "ln[A], time", "1/[A], time", "1/ln[A], time"],
+            ans: 2,
+            dispAnswer: "c. 1/[A], time",
+            exp: "المعادلة الخطية لتفاعل الرتبة الثانية: <bdi>1/[A]<sub>t</sub> = k&middot;t + 1/[A]<sub>0</sub></bdi>، وهي تمثل خطاً مستقيماً بين مقلوب التركيز <bdi>1/[A]</bdi> والزمن."
+          },
+          {
+            id: "pdf_q66",
+            type: "single",
+            text: "66) The linear plot in Arrhenius equation is between _______ and _______ (where k is the rate constant and T is the temperature in Kelvin):",
+            img: "",
+            opts: ["Ln k and 1/T", "Ln k and T", "k and 1/T", "No linear relation"],
+            ans: 0,
+            dispAnswer: "a. Ln k and 1/T",
+            exp: "الصيغة الخطية لمعادلة أرهينيوس: <bdi>ln(k) = (-E<sub>a</sub>/R) &times; (1/T) + ln(A)</bdi>، وهي تمثل علاقة خط مستقيم بين <bdi>ln(k)</bdi> ومقلوب درجة الحرارة المطلقة <bdi>1/T</bdi>، وميل الخط يساوي <bdi>-E<sub>a</sub>/R</bdi>."
+          },
+          {
+            id: "pdf_q67",
+            type: "single",
+            text: "67) The rate constant (k) at 300 K was 3.0 &times; 10<sup>-5</sup> s<sup>-1</sup>, and at 310 K it increased to 5.0 &times; 10<sup>-5</sup> s<sup>-1</sup>. Calculate the activation energy (Ea) for this reaction? (R = 8.314 J/mol·K):",
+            img: "",
+            opts: ["71 kJ/mol", "107 kJ/mol", "92 kJ/mol", "40 kJ/mol"],
+            ans: 3,
+            dispAnswer: "d. 40 kJ/mol",
+            exp: "معادلة أرهينيوس ذات النقطتين:<br><bdi>ln(k<sub>2</sub> / k<sub>1</sub>) = (E<sub>a</sub> / R) &times; [ (T<sub>2</sub> - T<sub>1</sub>) / (T<sub>1</sub> &times; T<sub>2</sub>) ]</bdi>.<br><bdi>ln(5.0 / 3.0) = 0.5108</bdi>.<br><bdi>E<sub>a</sub> = (0.5108 &times; 8.314 &times; 300 &times; 310) / 10 = 39498 J/mol &approx; 40 kJ/mol</bdi>."
+          },
+          {
+            id: "pdf_q68",
+            type: "single",
+            text: "68) The rate constant (k) for a reaction at 300 K was 1.0 &times; 10<sup>-5</sup> s<sup>-1</sup>, and at 310 K it increased to 4.0 &times; 10<sup>-5</sup> s<sup>-1</sup>. Calculate the activation energy (Ea) for this reaction? (R = 8.314 J/mol·K):",
+            img: "",
+            opts: ["107 kJ/mol", "85 kJ/mol", "71 kJ/mol", "92 kJ/mol"],
+            ans: 0,
+            dispAnswer: "a. 107 kJ/mol",
+            exp: "<bdi>ln(4.0 / 1.0) = 1.3863</bdi>.<br><bdi>E<sub>a</sub> = (1.3863 &times; 8.314 &times; 300 &times; 310) / 10 = 107192 J/mol &approx; 107 kJ/mol</bdi>."
+          },
+          {
+            id: "pdf_q69",
+            type: "single",
+            text: "69) A first-order reaction has a half-life of 13.0 minutes. It takes _______ minutes for the reactant concentration to decrease from 0.13 M to 0.088 M:",
+            img: "",
+            opts: ["9.32 min", "8.32 min", "7.32 min", "6.32 min"],
+            ans: 2,
+            dispAnswer: "c. 7.32 min",
+            exp: "ثابت السرعة: <bdi>k = ln(2) / 13.0 = 0.05332 min<sup>-1</sup></bdi>.<br><bdi>t = ln([A]<sub>0</sub> / [A]<sub>t</sub>) / k = ln(0.13 / 0.088) / 0.05332 = 0.3902 / 0.05332 = 7.32 min</bdi>."
+          },
+          {
+            id: "pdf_q70",
+            type: "single",
+            text: "70) A first-order reaction has a half-life of 11.23 minutes. It takes _______ minutes for the reactant concentration to decrease from 0.13 M to 0.088 M:",
+            img: "",
+            opts: ["7.32 min", "9.32 min", "8.32 min", "6.32 min"],
+            ans: 3,
+            dispAnswer: "d. 6.32 min",
+            exp: "ثابت السرعة: <bdi>k = ln(2) / 11.23 = 0.06172 min<sup>-1</sup></bdi>.<br><bdi>t = ln(0.13 / 0.088) / 0.06172 = 0.3902 / 0.06172 = 6.32 min</bdi>."
+          },
+          {
+            id: "pdf_q71",
+            type: "single",
+            text: "71) A second-order reaction has a rate constant of 0.050 M<sup>-1</sup>&middot;min<sup>-1</sup>. It takes _______ min for the reactant concentration to decrease from 0.13 M to 0.088 M:",
+            img: "",
+            opts: ["73.4 min", "7.80 min", "61.2 min", "6.50 min"],
+            ans: 0,
+            dispAnswer: "a. 73.4 min",
+            exp: "قانون الرتبة الثانية: <bdi>1/[A]<sub>t</sub> - 1/[A]<sub>0</sub> = k&middot;t</bdi>.<br><bdi>(1 / 0.088) - (1 / 0.13) = 11.364 - 7.692 = 3.671 M<sup>-1</sup></bdi>.<br><bdi>t = 3.671 / 0.050 = 73.4 min</bdi>."
+          }
+        ]
+      },
+      {
+        title: "Part 5: Chemical Bonding, Lewis Structures & Polarity",
+        context: "Past final questions on electron pairs in Lewis dot diagrams, bond polarity, dipole moments, and covalent character:",
+        subQuestions: [
+          {
+            id: "pdf_q72",
+            type: "single",
+            text: "72) The total number of electron pairs in the Lewis structure of F<sub>2</sub> molecule is:",
+            img: "",
+            opts: [
+              "8 pairs, 4 bonding and 4 non-bonding",
+              "7 pairs, 1 bonding and 3 non-bonding",
+              "7 pairs, 1 bonding and 6 non-bonding",
+              "4 pairs, 1 bonding and 3 non-bonding"
+            ],
+            ans: 2,
+            dispAnswer: "c. 7 pairs, 1 bonding and 6 non-bonding",
+            exp: "مجموع إلكترونات التكافؤ في <bdi>F<sub>2</sub></bdi> هو 14 إلكتروناً (أي 7 أزواج). ترتبط الذرتان بزوج رابط واحد (1 bonding pair)، ويحيط بكل ذرة 3 أزواج غير رابطة (مجموعها 6 non-bonding pairs)."
+          },
+          {
+            id: "pdf_q73",
+            type: "single",
+            text: "73) The number of bonding electron pairs in the Lewis structure of F<sub>2</sub> is:",
+            img: "",
+            opts: ["4", "2", "1", "3"],
+            ans: 2,
+            dispAnswer: "c. 1",
+            exp: "ترتبط ذرتا الفلور في جزيء <bdi>F<sub>2</sub></bdi> برابطة تساهمية أحادية فقط، أي زوج إلكترونات رابط واحد (1 bonding pair)."
+          },
+          {
+            id: "pdf_q74",
+            type: "single",
+            text: "74) Each fluorine atom (F) in the Lewis structure of F<sub>2</sub> molecule is surrounded by:",
+            img: "",
+            opts: [
+              "4 pairs, all bonding",
+              "4 pairs of electrons, 1 bonding and 3 non-bonding",
+              "4 pairs of electrons, 3 bonding and 1 non-bonding",
+              "4 pairs of electrons, 2 bonding and 2 non-bonding"
+            ],
+            ans: 1,
+            dispAnswer: "b. 4 pairs of electrons, 1 bonding and 3 non-bonding",
+            exp: "تحاط كل ذرة فلور في الجزيء بثمانية إلكترونات (4 أزواج): زوج واحد مشترك رابط (1 bonding) وثلاثة أزواج غير رابطة منفردة (3 non-bonding / lone pairs)."
+          },
+          {
+            id: "pdf_q75",
+            type: "single",
+            text: "75) The total number of electron pairs in the Lewis structure of N<sub>2</sub> molecule is:",
+            img: "",
+            opts: [
+              "5 pairs, 2 bonding and 3 non-bonding",
+              "4 pairs, 3 bonding and 1 non-bonding",
+              "5 pairs, 3 bonding and 2 non-bonding",
+              "8 pairs, 3 bonding and 5 non-bonding"
+            ],
+            ans: 2,
+            dispAnswer: "c. 5 pairs, 3 bonding and 2 non-bonding",
+            exp: "جزيء النيتروجين يحتوي على 10 إلكترونات تكافؤ (5 أزواج). ترتبط الذرتان برابطة ثلاثية (3 bonding pairs)، ويوجد زوج غير رابط واحد على كل ذرة (2 non-bonding pairs إجمالاً)."
+          },
+          {
+            id: "pdf_q76",
+            type: "single",
+            text: "76) Each oxygen atom (O) in the Lewis structure of O<sub>2</sub> molecule is surrounded by:",
+            img: "",
+            opts: [
+              "4 pairs of electrons, 3 bonding and 1 non-bonding",
+              "4 pairs of electrons, 2 bonding and 2 non-bonding",
+              "4 pairs of electrons, all bonding",
+              "4 pairs of electrons, 1 bonding and 3 non-bonding"
+            ],
+            ans: 1,
+            dispAnswer: "b. 4 pairs of electrons, 2 bonding and 2 non-bonding",
+            exp: "ترتبط ذرتا الأكسجين برابطة ثنائية (زوجان رابطان)، وتحمل كل ذرة زوجين غير رابطين، فيكون حول كل ذرة أكسجين 4 أزواج: 2 bonding و 2 non-bonding."
+          },
+          {
+            id: "pdf_q77",
+            type: "single",
+            text: "77) The total number of electron pairs in the Lewis structure of O<sub>2</sub> molecule is:",
+            img: "",
+            opts: [
+              "6 pairs, 4 bonding and 2 non-bonding",
+              "6 pairs, 1 bonding and 3 non-bonding",
+              "6 pairs, 2 bonding and 4 non-bonding",
+              "8 pairs, 4 bonding and 4 non-bonding"
+            ],
+            ans: 2,
+            dispAnswer: "c. 6 pairs, 2 bonding and 4 non-bonding",
+            exp: "إجمالي إلكترونات التكافؤ في <bdi>O<sub>2</sub></bdi> هو 12 إلكتروناً (6 أزواج): زوجان رابطان في الرابطة الثنائية (2 bonding)، و 4 أزواج غير رابطة (زوجان على كل ذرة أكسجين)."
+          },
+          {
+            id: "pdf_q78",
+            type: "single",
+            text: "78) Which of the following bonds would be expected to have the greatest bond polarity (or largest dipole moment)?",
+            img: "",
+            opts: ["C-B", "C-F", "C-N", "C-O"],
+            ans: 1,
+            dispAnswer: "b. C-F",
+            exp: "تعتمد قطبية الرابطة وعزم ثنائي القطب على فرق السالبية الكهربائية (&Delta;EN). وبما أن الفلور (F) هو الأعلى كهروسالبية في الجدول الدوري (4.0)، فإن الرابطة <bdi>C-F</bdi> تمتلك أعلى قطبية."
+          },
+          {
+            id: "pdf_q79",
+            type: "single",
+            text: "79) Which of the following bonds would be expected to have the lowest covalent character?",
+            img: "",
+            opts: ["S-Cl", "N-O", "B-N", "K-F"],
+            ans: 3,
+            dispAnswer: "d. K-F",
+            exp: "الرابطة ذات الطابع التساهمي الأقل هي الرابطة ذات الطابع الأيوني الأعلى، والتي تنشأ بين فلز قلوي نشط (البوتاسيوم K) ولا فلز ذو سالبية قصوى (الفلور F)."
+          }
+        ]
+      },
+      {
+        title: "Part 6: Acids, Bases, pH Calculations & Salt Hydrolysis Equilibria",
+        context: "Past final questions on definitions of acids/bases, Ka/Kb calculations, percentage ionization, pH of mixtures, and salt hydrolysis:",
+        subQuestions: [
+          {
+            id: "pdf_q80",
+            type: "single",
+            text: "80) A Lewis acid is defined as a substance that:",
+            img: "",
+            opts: [
+              "acts as a proton acceptor",
+              "acts as a pair of electron acceptor",
+              "acts as a proton donor",
+              "acts as a pair of electrons donor"
+            ],
+            ans: 1,
+            dispAnswer: "b. acts as a pair of electron acceptor",
+            exp: "حمض لويس (Lewis acid) هو أي مادة قادرة على استقبال زوج من الإلكترونات (Electron pair acceptor)."
+          },
+          {
+            id: "pdf_q81",
+            type: "single",
+            text: "81) A Brønsted-Lowry acid is defined as a substance that:",
+            img: "",
+            opts: [
+              "acts as a proton donor",
+              "acts as a pair of electron acceptor",
+              "acts as an electron donor",
+              "acts as a proton acceptor"
+            ],
+            ans: 0,
+            dispAnswer: "a. acts as a proton donor",
+            exp: "حمض برونستد-لوري هو المادة القادرة على منح بروتون (<bdi>Proton donor H<sup>+</sup></bdi>)."
+          },
+          {
+            id: "pdf_q82",
+            type: "single",
+            text: "82) The conjugate acid of HCO<sub>3</sub><sup>-</sup> in the reaction: <bdi>HCO<sub>3</sub><sup>-</sup> + HPO<sub>4</sub><sup>2-</sup> &rlarr; H<sub>2</sub>CO<sub>3</sub> + PO<sub>4</sub><sup>3-</sup></bdi> is:",
+            img: "",
+            opts: ["PO43-", "CO32-", "HPO42-", "H2CO3"],
+            ans: 3,
+            dispAnswer: "d. H2CO3",
+            exp: "الحمض المرافق للقاعدة ينتج عند استقبالها لبروتون (<bdi>H<sup>+</sup></bdi>). عند إضافة بروتون إلى <bdi>HCO<sub>3</sub><sup>-</sup></bdi> يتكون <bdi>H<sub>2</sub>CO<sub>3</sub></bdi>."
+          },
+          {
+            id: "pdf_q83",
+            type: "single",
+            text: "83) The conjugate acid of HPO<sub>4</sub><sup>2-</sup> in the reaction: <bdi>HPO<sub>4</sub><sup>2-</sup> + H<sub>2</sub>O &rlarr; H<sub>2</sub>PO<sub>4</sub><sup>-</sup> + OH<sup>-</sup></bdi> is:",
+            img: "",
+            opts: ["H2PO4-", "PO43-", "H3PO4", "OH-"],
+            ans: 0,
+            dispAnswer: "a. H2PO4-",
+            exp: "عندما تستقبل القاعدة <bdi>HPO<sub>4</sub><sup>2-</sup></bdi> بروتوناً تتحول إلى حمضها المرافق <bdi>H<sub>2</sub>PO<sub>4</sub><sup>-</sup></bdi>."
+          },
+          {
+            id: "pdf_q84",
+            type: "single",
+            text: "84) In which of the following aqueous solutions does the weak acid exhibit the highest percentage ionization at 0.01 M concentration?",
+            img: "",
+            opts: [
+              "CH3COOH (Ka = 1.8 × 10-5)",
+              "HNO2 (Ka = 4.5 × 10-4)",
+              "HF (Ka = 6.8 × 10-4)",
+              "HClO (Ka = 3.0 × 10-5)"
+            ],
+            ans: 2,
+            dispAnswer: "c. HF (Ka = 6.8 × 10-4)",
+            exp: "عند نفس التركيز الابتدائي، يمتلك الحمض الضعيف ذو قيمة <bdi>K<sub>a</sub></bdi> الأكبر النسبة المئوية الأعلى للتأين (% ionization). قيمة <bdi>K<sub>a</sub></bdi> لحمض <bdi>HF</bdi> هي الأعلى (<bdi>6.8 &times; 10<sup>-4</sup></bdi>)."
+          },
+          {
+            id: "pdf_q85",
+            type: "single",
+            text: "85) Which of the following bases has the lowest percent of ionization?",
+            img: "",
+            opts: ["0.10 M PH3", "0.05 M PH3", "0.10 M NaOH", "0.01 M PH3"],
+            ans: 0,
+            dispAnswer: "a. 0.10 M PH3",
+            exp: "النسبة المئوية لتأين القواعد والأحماض الضعيفة تزداد كلما قل التركيز (كلما زاد التخفيف). وبناءً عليه، فإن المحلول الأكثر تركيزاً للقاعدة الضعيفة (<bdi>0.10 M PH<sub>3</sub></bdi>) يمتلك أقل نسبة تأين."
+          },
+          {
+            id: "pdf_q86",
+            type: "single",
+            text: "86) The Ka of hypochlorous acid (HClO) is 3.0 &times; 10<sup>-5</sup>. Calculate the pH of 0.050 M hypochlorous acid:",
+            img: "",
+            opts: ["12.70", "1.30", "11.09", "2.91"],
+            ans: 3,
+            dispAnswer: "d. 2.91",
+            exp: "<bdi>[H<sup>+</sup>] = &radic;(K<sub>a</sub> &times; C) = &radic;(3.0 &times; 10<sup>-5</sup> &times; 0.050) = 1.225 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pH = -log(1.225 &times; 10<sup>-3</sup>) = 2.91</bdi>."
+          },
+          {
+            id: "pdf_q87",
+            type: "single",
+            text: "87) An aqueous solution contains 0.00010 M NaOH at 25.0 &deg;C. The pH of the solution is:",
+            img: "",
+            opts: ["12", "13", "11", "10"],
+            ans: 3,
+            dispAnswer: "d. 10",
+            exp: "<bdi>[OH<sup>-</sup>] = 1.0 &times; 10<sup>-4</sup> M &rArr; pOH = 4.00</bdi>.<br><bdi>pH = 14.00 - 4.00 = 10</bdi>."
+          },
+          {
+            id: "pdf_q88",
+            type: "single",
+            text: "88) What is the pH of 0.02 M Ca(OH)<sub>2</sub>?<br><bdi>Ca(OH)<sub>2</sub> &rarr; Ca<sup>2+</sup> + 2 OH<sup>-</sup></bdi>",
+            img: "",
+            opts: ["12.60", "2.00", "1.40", "12.00"],
+            ans: 0,
+            dispAnswer: "a. 12.60",
+            exp: "<bdi>[OH<sup>-</sup>] = 2 &times; 0.02 M = 0.040 M</bdi>.<br><bdi>pOH = -log(0.040) = 1.40</bdi>.<br><bdi>pH = 14.00 - 1.40 = 12.60</bdi>."
+          },
+          {
+            id: "pdf_q89",
+            type: "single",
+            text: "89) Calculate the pH of a solution made by mixing 50 mL of 0.10 M aqueous NaOH solution and 50 mL of 0.15 M aqueous Ca(OH)<sub>2</sub> solution at 25 &deg;C:",
+            img: "",
+            opts: ["13.05", "13.18", "13.3", "13.14"],
+            ans: 2,
+            dispAnswer: "c. 13.3",
+            exp: "إجمالي مولات الهيدروكسيد: <bdi>n(OH<sup>-</sup>) = (0.050 &times; 0.10) + (0.050 &times; 0.15 &times; 2) = 0.005 + 0.015 = 0.020 mol</bdi>.<br>الحجم الإجمالي: <bdi>50 + 50 = 100 mL = 0.100 L</bdi>.<br><bdi>[OH<sup>-</sup>] = 0.020 mol / 0.100 L = 0.20 M</bdi>.<br><bdi>pOH = -log(0.20) = 0.70 &rArr; pH = 14.00 - 0.70 = 13.30</bdi>."
+          },
+          {
+            id: "pdf_q90",
+            type: "single",
+            text: "90) Calculate the pH of a solution made by mixing 100 mL of 0.10 M aqueous NaOH solution and 100 mL of 0.15 M aqueous Ca(OH)<sub>2</sub> solution at 25 &deg;C:",
+            img: "",
+            opts: ["13.05", "13.14", "13.3", "13.18"],
+            ans: 2,
+            dispAnswer: "c. 13.3",
+            exp: "إجمالي مولات الهيدروكسيد: <bdi>n = (0.100 &times; 0.10) + (0.100 &times; 0.30) = 0.040 mol</bdi>.<br>الحجم الإجمالي: <bdi>200 mL = 0.200 L</bdi>.<br><bdi>[OH<sup>-</sup>] = 0.040 / 0.200 = 0.20 M &rArr; pH = 13.30</bdi>."
+          },
+          {
+            id: "pdf_q91",
+            type: "single",
+            text: "91) What is the pH of 0.10 M NH<sub>3</sub> solution (Kb = 1.8 &times; 10<sup>-5</sup>)?",
+            img: "",
+            opts: ["11.13", "10.98", "11.28", "11.22"],
+            ans: 0,
+            dispAnswer: "a. 11.13",
+            exp: "<bdi>[OH<sup>-</sup>] = &radic;(K<sub>b</sub> &times; C) = &radic;(1.8 &times; 10<sup>-5</sup> &times; 0.10) = 1.34 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pOH = -log(1.34 &times; 10<sup>-3</sup>) = 2.87</bdi>.<br><bdi>pH = 14.00 - 2.87 = 11.13</bdi>."
+          },
+          {
+            id: "pdf_q92",
+            type: "single",
+            text: "92) What is the pOH of a 0.10 M aqueous NH<sub>3</sub> solution (Kb = 1.8 &times; 10<sup>-5</sup>) at 25 &deg;C?",
+            img: "",
+            opts: ["11.13", "2.87", "3.89", "10.11"],
+            ans: 1,
+            dispAnswer: "b. 2.87",
+            exp: "المطلوب هنا هو قيمة <bdi>pOH</bdi> وليس <bdi>pH</bdi>:<br><bdi>[OH<sup>-</sup>] = &radic;(1.8 &times; 10<sup>-6</sup>) = 1.34 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pOH = -log(1.34 &times; 10<sup>-3</sup>) = 2.87</bdi>."
+          },
+          {
+            id: "pdf_q93",
+            type: "single",
+            text: "93) What is the pH of 0.20 M NH<sub>3</sub> solution (Kb = 1.8 &times; 10<sup>-5</sup>)?",
+            img: "",
+            opts: ["11.13", "11.22", "10.98", "11.28"],
+            ans: 3,
+            dispAnswer: "d. 11.28",
+            exp: "<bdi>[OH<sup>-</sup>] = &radic;(1.8 &times; 10<sup>-5</sup> &times; 0.20) = 1.897 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pOH = -log(1.897 &times; 10<sup>-3</sup>) = 2.72</bdi>.<br><bdi>pH = 14.00 - 2.72 = 11.28</bdi>."
+          },
+          {
+            id: "pdf_q94",
+            type: "single",
+            text: "94) Calculate the pH of a 0.075 M aqueous solution of the basic salt KF. For hydrofluoric acid (HF), Ka is 7.0 &times; 10<sup>-4</sup> (Kw = 1.0 &times; 10<sup>-14</sup>):",
+            img: "",
+            opts: ["1.12", "8.01", "5.98", "12.88"],
+            ans: 1,
+            dispAnswer: "b. 8.01",
+            exp: "ثابت تميؤ أيون الفلوريد: <bdi>K<sub>b</sub> = K<sub>w</sub> / K<sub>a</sub> = 1.0 &times; 10<sup>-14</sup> / 7.0 &times; 10<sup>-4</sup> = 1.43 &times; 10<sup>-11</sup></bdi>.<br><bdi>[OH<sup>-</sup>] = &radic;(1.43 &times; 10<sup>-11</sup> &times; 0.075) = 1.035 &times; 10<sup>-6</sup> M</bdi>.<br><bdi>pOH = 5.98 &rArr; pH = 14.00 - 5.98 = 8.02 &approx; 8.01</bdi>."
+          },
+          {
+            id: "pdf_q95",
+            type: "single",
+            text: "95) Calculate the pH of a 0.10 M aqueous solution of the basic salt KF. For hydrofluoric acid (HF), Ka is 7.0 &times; 10<sup>-4</sup> (Kw = 1.0 &times; 10<sup>-14</sup>):",
+            img: "",
+            opts: ["8.08", "1.00", "5.92", "13.00"],
+            ans: 0,
+            dispAnswer: "a. 8.08",
+            exp: "<bdi>[OH<sup>-</sup>] = &radic;(1.43 &times; 10<sup>-11</sup> &times; 0.10) = 1.195 &times; 10<sup>-6</sup> M</bdi>.<br><bdi>pOH = -log(1.195 &times; 10<sup>-6</sup>) = 5.92 &rArr; pH = 14.00 - 5.92 = 8.08</bdi>."
+          },
+          {
+            id: "pdf_q96",
+            type: "single",
+            text: "96) Calculate the pH of a 0.15 M aqueous solution of the basic salt KF. For hydrofluoric acid (HF), Ka is 7.0 &times; 10<sup>-4</sup> (Kw is 1.0 &times; 10<sup>-14</sup>):",
+            img: "",
+            opts: ["0.82", "13.18", "8.17", "5.83"],
+            ans: 2,
+            dispAnswer: "c. 8.17",
+            exp: "<bdi>[OH<sup>-</sup>] = &radic;(1.43 &times; 10<sup>-11</sup> &times; 0.15) = 1.464 &times; 10<sup>-6</sup> M</bdi>.<br><bdi>pOH = 5.83 &rArr; pH = 14.00 - 5.83 = 8.17</bdi>."
+          },
+          {
+            id: "pdf_q97",
+            type: "single",
+            text: "97) Which one of the following compounds is neutral at 0.10 M concentration?",
+            img: "",
+            opts: [
+              "NaCl",
+              "NH4Cl (Kb = 1.8 × 10-5)",
+              "NaF (Ka = 6.8 × 10-4)",
+              "NaNO2 (Ka = 3.0 × 10-4)"
+            ],
+            ans: 0,
+            dispAnswer: "a. NaCl",
+            exp: "<bdi>NaCl</bdi> ملح متعادل تماماً مشتق من حمض قوي (<bdi>HCl</bdi>) وقاعدة قوية (<bdi>NaOH</bdi>)، وبالتالي لا يحدث تميؤ لأي من أيوناته ويبقى المحلول متعادلاً (<bdi>pH = 7</bdi>)."
+          },
+          {
+            id: "pdf_q98",
+            type: "single",
+            text: "98) Which one of the following compounds is more acidic at 0.10 M concentration?",
+            img: "",
+            opts: [
+              "NaCl",
+              "NaNO2 (Ka = 3.0 × 10-4)",
+              "NaF (Ka = 6.8 × 10-4)",
+              "NH4Cl (Kb = 1.8 × 10-5)"
+            ],
+            ans: 3,
+            dispAnswer: "d. NH4Cl",
+            exp: "<bdi>NH<sub>4</sub>Cl</bdi> ملح حمضي ناتج من قاعدة ضعيفة (<bdi>NH<sub>3</sub></bdi>) وحمض قوي (<bdi>HCl</bdi>)؛ حيث يتميأ أيون الأمونيوم <bdi>NH<sub>4</sub><sup>+</sup></bdi> مانحاً أيونات الهيدرونيوم ليعطي وسطاً حمضياً (<bdi>pH &lt; 7</bdi>)."
+          },
+          {
+            id: "pdf_q99",
+            type: "single",
+            text: "99) Which one of the following compounds is more basic at 0.10 M concentration?",
+            img: "",
+            opts: [
+              "NaNO2 (Ka(HNO2) = 3.0 × 10-4)",
+              "NH4Cl (Kb(NH3) = 1.8 × 10-5)",
+              "NaF (Ka(HF) = 6.8 × 10-4)",
+              "NaCl"
+            ],
+            ans: 0,
+            dispAnswer: "a. NaNO2",
+            exp: "كلا الملحين <bdi>NaNO<sub>2</sub></bdi> و <bdi>NaF</bdi> قاعديان. ولكن حمض النيتروز <bdi>HNO<sub>2</sub></bdi> أضعف من حمض الهيدروفلوريك <bdi>HF</bdi> (قيمة <bdi>K<sub>a</sub></bdi> له أقل)، والقاعدة المرافقة للحمض الأضعف تكون أقوى (<bdi>K<sub>b</sub></bdi> لأيون النيتريت أكبر من <bdi>K<sub>b</sub></bdi> لأيون الفلوريد)، لذا يكون <bdi>NaNO<sub>2</sub></bdi> أكثر قاعدية."
+          },
+          {
+            id: "pdf_q100",
+            type: "single",
+            text: "100) The pOH of a 0.1 M benzoic acid C<sub>6</sub>H<sub>5</sub>COOH (Ka = 6.3 &times; 10<sup>-5</sup>) at 25 &deg;C is:",
+            img: "",
+            opts: ["11.4", "2.6", "1.0", "13.0"],
+            ans: 0,
+            dispAnswer: "a. 11.4",
+            exp: "<bdi>[H<sup>+</sup>] = &radic;(K<sub>a</sub> &times; C) = &radic;(6.3 &times; 10<sup>-5</sup> &times; 0.1) = 2.51 &times; 10<sup>-3</sup> M</bdi>.<br><bdi>pH = -log(2.51 &times; 10<sup>-3</sup>) = 2.60</bdi>.<br><bdi>pOH = 14.00 - 2.60 = 11.40</bdi>."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+    let ptableZoom = 1.0;
+
+    function zoomTable(delta) {
+      ptableZoom = Math.round((ptableZoom + delta) * 10) / 10;
+      if (ptableZoom < 0.6) ptableZoom = 0.6;
+      if (ptableZoom > 2.0) ptableZoom = 2.0;
+      applyTableZoom();
+    }
+
+    function resetTableZoom() {
+      ptableZoom = 1.0;
+      applyTableZoom();
+    }
+
+    function applyTableZoom() {
+      const table = document.getElementById('periodic-table-el');
+      const zoomLabel = document.getElementById('zoom-val');
+      if (table) {
+        table.style.zoom = ptableZoom;
+      }
+      if (zoomLabel) {
+        zoomLabel.innerText = Math.round(ptableZoom * 100) + '%';
+      }
+    }
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

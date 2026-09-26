@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Computer Architecture - Second Exam</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .text-input-field {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid var(--apple-border-strong);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      outline: none;
+      min-width: 220px;
+      transition: all 0.2s;
+    }
+    .text-input-field:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 10px rgba(10, 132, 255, 0.25);
+    }
+    .text-input-field.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.12) !important;
+    }
+    .text-input-field.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.12) !important;
+    }
+
+    .unit-label {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: #8e8e93;
+      user-select: none;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border-strong);
+    }
+    .exam-table th, .exam-table td {
+      border: 1px solid var(--apple-border);
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .exam-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--apple-blue);
+      font-weight: 700;
+    }
+    .table-input {
+      width: 100%;
+      min-width: 80px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--apple-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.84rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .table-input:focus {
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+    }
+    .table-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .table-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+
+    .code-block {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #79c0ff;
+      margin: 10px 0;
+      white-space: pre;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/archi">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">Computer Architecture</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Second Exam — Pipelining, Hazards, Branch Prediction & Caches</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة (Modal) -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="رابط لا يعمل أو ملف تالف">رابط لا يعمل / ملف تالف</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة التي واجهتك بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-file">لقطة شاشة (اختياري)</label>
+          <input type="file" id="issue-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة معك إن لزم">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1-sM40KBQXHKD7tISqfACETLBy1gC3BPe/view";
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const examSections = [
+      {
+        title: "Second Exam — Comprehensive Problem Solving (Q1 – Q5)",
+        context: "Official solved exam sheet with complete verified answers and explanations:",
+        subQuestions: [
+          {
+            id: "q1",
+            type: "table_q1",
+            text: `Q1. (8 points) For the instruction sequence below and the pipelined datapath, assume that the first instruction takes five cycles:
+<pre class="code-block">lw  $1, 40($6)
+lw  $2, 44($6)
+add $3, $1, $2
+sw  $3, 12($6)
+lw  $4, 8($6)
+add $5, $1, $4
+sw  $5, 16($6)</pre>
+Answer the following questions:`,
+            img: "",
+            dispAnswer: `a. Without forwarding or hazard detection:
+   - NOPs inserted = 8 NOPs
+   - Total clock cycles required = 19 cycles
+b. With forwarding and hazard detection:
+   - Stalls / NOPs = 2 stalls (Load-use hazards)
+   - Total clock cycles required = 11 cycles (or 13 cycles without NOPs)
+c. Reordered code with minimal change to avoid stalls:
+   lw $1, 40($6)
+   lw $2, 44($6)
+   lw $4, 8($6)      <-- moved up!
+   add $3, $1, $2
+   sw $3, 12($6)
+   add $5, $1, $4
+   sw $5, 16($6)`,
+            exp: "• في الجزء (a): بدون تمرير سريع، تتطلب كل تبعية إدراج تعليمتي <bdi>NOP</bdi>، مما يستلزم 8 تعليمات <bdi>NOP</bdi> وزمن كلي قدره <bdi>5 + (15 - 1) = 19</bdi> دورة[cite: 15].<br>• في الجزء (b): مع وجود التمرير السريع، تحدث الإعاقة فقط بين <bdi>lw</bdi> والتعليمة المعتمدة التالية مباشرة، مما يسبب توقفين (<bdi>2 stalls</bdi>)[cite: 15].<br>• في الجزء (c): بتقديم تعليمة <bdi>lw $4, 8($6)</bdi> للأعلى، تصبح البيانات جاهزة في الوقت المناسب ويتم التخلص من جميع دورات التوقف تماماً (0 stalls)[cite: 15]."
+          },
+          {
+            id: "q2",
+            type: "table_q2",
+            text: `Q2. (8 points) The pipelined datapath is operating with the following control inputs (no values are don't-care, and the value is taken from the correct stage when needed):
+<div class="table-container ltr-content" style="max-width:320px;">
+  <table class="exam-table">
+    <thead>
+      <tr><th>Control Input</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td style="text-align:left;">RegWrite</td><td>1</td></tr>
+      <tr><td style="text-align:left;">ALUSrc</td><td>0</td></tr>
+      <tr><td style="text-align:left;">MemWrite</td><td>0</td></tr>
+      <tr><td style="text-align:left;">RegDst</td><td>1</td></tr>
+      <tr><td style="text-align:left;">PCSrc</td><td>1</td></tr>
+      <tr><td style="text-align:left;">MemtoReg</td><td>0</td></tr>
+    </tbody>
+  </table>
+</div>
+Which possible instruction type (or instruction if possible to know) is in each stage? If you cannot determine then insert U:`,
+            img: "",
+            dispAnswer: `ID  : U (or Anything)
+EXE : R-type (add, sub, ...)
+MEM : Branch (beq)
+WB  : R-type`,
+            exp: "• مرحلة <strong>EXE</strong>: الإشارتان <bdi>RegDst = 1</bdi> (تحديد مسجل rd) و <bdi>ALUSrc = 0</bdi> (اختيار المسجل الثاني) تؤكدان وجود تعليمة <bdi>R-type</bdi>[cite: 15].<br>• مرحلة <strong>MEM</strong>: الإشارة <bdi>PCSrc = 1</bdi> تنتج من شرط تفرع محقق (<bdi>Branch AND Zero</bdi>)، مما يثبت وجود تعليمة تفرع (<bdi>Branch / beq</bdi>)[cite: 15].<br>• مرحلة <strong>WB</strong>: الإشارتان <bdi>RegWrite = 1</bdi> و <bdi>MemtoReg = 0</bdi> تحددان كتابة ناتج الحساب من الـ ALU في المسجل، وهي لتعليمة <bdi>R-type</bdi>[cite: 15].<br>• مرحلة <strong>ID</strong>: لا توجد إشارات حاسمة خاصة بها في هذه اللحظة، فتكون الإجابة <bdi>U</bdi> (أو <bdi>Anything</bdi>)[cite: 15]."
+          },
+          {
+            id: "q3",
+            type: "table_q3",
+            text: `Q3. (7 points) Instructions executed by the pipelined processor are broken down as follows:
+<div class="table-container ltr-content" style="max-width:380px;">
+  <table class="exam-table">
+    <thead><tr><th>add</th><th>beq</th><th>lw</th><th>sw</th></tr></thead>
+    <tbody><tr><td>45%</td><td>15%</td><td>25%</td><td>15%</td></tr></tbody>
+  </table>
+</div>
+Assume the pipelined datapath has the following stage latencies and added pipeline register delays:
+<div class="table-container ltr-content" style="max-width:540px;">
+  <table class="exam-table">
+    <thead>
+      <tr><th>IF</th><th>ID</th><th>EX</th><th>MEM</th><th>WB</th><th>Each pipeline register</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>180 ps</td><td>100 ps</td><td>150 ps</td><td>190 ps</td><td>60 ps</td><td>10 ps</td></tr>
+    </tbody>
+  </table>
+</div>
+Answer the following questions:`,
+            img: "",
+            dispAnswer: `1. Time for 1,000,000 instructions:
+   - Single cycle = 0.00068 s (or 0.68 ms / 680 ps per inst)
+   - Pipelined    = 0.0002 s (or 0.2 ms / 200 ps per inst)
+2. Clock cycle time if EX and MEM are in parallel = 200 ps
+3. Does converting lw/sw into two instructions for 50% of them improve performance?
+   - Answer: No.
+   - Explanation: Because clock cycle time remains 200 ps (no decrease), while the instruction count increases by 20%, resulting in longer execution time.`,
+            exp: "1. في المعالج أحادي الدورة: <bdi>Cycle Time = 180 + 100 + 150 + 190 + 60 = 680 ps</bdi>، وزمن مليون تعليمة: <bdi>10^6 × 680 ps = 0.00068 s = 0.68 ms</bdi>[cite: 15]. في خط الأنابيب: زمن الدورة = <bdi>max(Stages) + 10 ps = 190 + 10 = 200 ps</bdi>، والزمن الكلي: <bdi>10^6 × 200 ps = 0.0002 s = 0.2 ms</bdi>[cite: 15].<br>2. عند تنفيذ EX و MEM بالتوازي: تكون المرحلة المدمجة = <bdi>max(150, 190) = 190 ps</bdi>، وزمن الدورة = <bdi>190 + 10 = 200 ps</bdi>[cite: 15].<br>3. الإجابة <strong>لا (No)</strong>؛ لأن زمن دورة الساعة لم ينخفض وبقي 200 ps، بينما زاد عدد التعليمات الإجمالي بنسبة 20%، مما يزيد زمن التنفيذ الكلي ويبطئ المعالج[cite: 15]."
+          },
+          {
+            id: "q4",
+            type: "table_q4",
+            text: "Q4. (6 points) For the branch behavior sequence given in the exam, what is the number of miss predictions for each type of the predictors below?",
+            img: "",
+            dispAnswer: `1. 1-bit static predictor (initially, predict NT)       = 6
+2. 1-bit dynamic predictor (initially, predict NT)      = 6
+3. 2-bit dynamic predictor (initially, predict weak NT) = 6`,
+            exp: "تتبع حالات المتنبئات الثلاثة يعطي عدداً متطابقاً من التنبؤات الخاطئة ويساوي 6 تنبؤات خاطئة لكل نوع[cite: 15]."
+          },
+          {
+            id: "q5",
+            type: "table_q5",
+            text: "Q5. (6 points) Directly-mapped caches (Cache size = 64 Bytes, block size = 4 words; 32-bit byte address):",
+            img: "",
+            dispAnswer: `1. Number of misses for sequence (0, 1, 2, 3, 4, 7) = 2 misses
+2. For 16-row cache (4 words per block):
+   - Maximum number of words stored from main memory = 64 words (256 Bytes)
+   - Number of bits in the tag field = 24 bits`,
+            exp: "• متتالية الوصول: الكلمات (0, 1, 2, 3) تقع جميعها في الكتلة 0، فتحدث إعاقة واحدة عند الوصول إلى 0 وتكون البقية إصابات (<bdi>Hits</bdi>) بفضل المجاورة المكانية (<bdi>Spatial locality</bdi>)[cite: 15]. الكلمات (4, 7) تقع في الكتلة 1، فتحدث إعاقة عند 4 وإصابة عند 7[cite: 15]. إجمالي الإعاقات = 2[cite: 15].<br>• سعة الذاكرة المخبأة بالكلمات: <bdi>16 blocks × 4 words/block = 64 words</bdi>[cite: 15].<br>• حقل العلامة (<bdi>Tag</bdi>): حجم العنوان 32 بت، إزاحة البايت والكلمة = 4 بتات (<bdi>16 Bytes/block</bdi>)، والفهرس = 4 بتات (<bdi>16 blocks</bdi>). إذن: <bdi>Tag = 32 - 4 - 4 = 24 bits</bdi>[cite: 15]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          let interactionHtml = '';
+
+          if (sub.type === "table_q1") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:560px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">a. No forwarding: Number of NOPs inserted =</td>
+                      <td><input type="text" class="table-input" id="q1_nops_a" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">a. No forwarding: Total clock cycles =</td>
+                      <td><input type="text" class="table-input" id="q1_cycles_a" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">b. With forwarding: Number of stalls =</td>
+                      <td><input type="text" class="table-input" id="q1_stalls_b" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">c. Reordered code (instruction moved up):</td>
+                      <td><input type="text" class="table-input" id="q1_reorder" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ1Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q2") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:440px;">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Stage</th><th>Possible instruction or instruction type</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:bold;">ID</td>
+                      <td><input type="text" class="table-input" id="q2_id" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">EXE</td>
+                      <td><input type="text" class="table-input" id="q2_exe" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">MEM</td>
+                      <td><input type="text" class="table-input" id="q2_mem" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold;">WB</td>
+                      <td><input type="text" class="table-input" id="q2_wb" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ2Answer()">تحقق من المراحل</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q3") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:580px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">1. Time (Single cycle implementation) =</td>
+                      <td><input type="text" class="table-input" id="q3_single" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">1. Time (Pipelined implementation) =</td>
+                      <td><input type="text" class="table-input" id="q3_pipe" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">2. Clock cycle time if EX & MEM parallel =</td>
+                      <td><input type="text" class="table-input" id="q3_parallel" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">3. Does modification improve speed? (Yes/No):</td>
+                      <td>
+                        <select class="table-input" id="q3_improve">
+                          <option value="">-- Select --</option>
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ3Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q4") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:520px;">
+                <table class="exam-table">
+                  <thead>
+                    <tr><th>Predictor Type</th><th>Number of Miss Predictions</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left;">1. 1-bit static predictor (predict NT)</td>
+                      <td><input type="text" class="table-input" id="q4_1" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">2. 1-bit dynamic predictor (predict NT)</td>
+                      <td><input type="text" class="table-input" id="q4_2" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left;">3. 2-bit dynamic predictor (predict weak NT)</td>
+                      <td><input type="text" class="table-input" id="q4_3" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ4Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          } else if (sub.type === "table_q5") {
+            interactionHtml = `
+              <div class="table-container ltr-content" style="max-width:550px;">
+                <table class="exam-table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Number of misses for sequence (0, 1, 2, 3, 4, 7) =</td>
+                      <td><input type="text" class="table-input" id="q5_misses" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">Max number of words stored in 16-row cache =</td>
+                      <td><input type="text" class="table-input" id="q5_words" placeholder=""></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:left; font-weight:bold;">How many bits is the tag field? =</td>
+                      <td><input type="text" class="table-input" id="q5_tag" placeholder=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkQ5Answer()">تحقق</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+            `;
+          }
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="ltr-content">
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function checkQ1Answer() {
+      const subId = "q1";
+      const elN = document.getElementById("q1_nops_a");
+      const elC = document.getElementById("q1_cycles_a");
+      const elS = document.getElementById("q1_stalls_b");
+      const elR = document.getElementById("q1_reorder");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      elN.disabled = elC.disabled = elS.disabled = elR.disabled = true;
+
+      const okN = elN.value.trim() === "8";
+      const okC = elC.value.trim() === "19" || elC.value.trim() === "15";
+      const okS = elS.value.trim() === "2" || elS.value.trim() === "11" || elS.value.trim() === "13";
+      const cleanR = elR.value.toLowerCase().replace(/[\s,$]/g, '');
+      const okR = cleanR.includes("lw4") || cleanR.includes("lw$4");
+
+      elN.className = okN ? 'table-input correct' : 'table-input wrong';
+      elC.className = okC ? 'table-input correct' : 'table-input wrong';
+      elS.className = okS ? 'table-input correct' : 'table-input wrong';
+      elR.className = okR ? 'table-input correct' : 'table-input wrong';
+
+      if (okN && okC && okS && okR) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ2Answer() {
+      const subId = "q2";
+      const elId = document.getElementById("q2_id");
+      const elExe = document.getElementById("q2_exe");
+      const elMem = document.getElementById("q2_mem");
+      const elWb = document.getElementById("q2_wb");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = v => v.toLowerCase().replace(/[\s-]/g, '');
+
+      elId.disabled = elExe.disabled = elMem.disabled = elWb.disabled = true;
+
+      const okId = clean(elId.value) === "u" || clean(elId.value).includes("any");
+      const okExe = clean(elExe.value).includes("rtype") || clean(elExe.value).includes("add") || clean(elExe.value).includes("r");
+      const okMem = clean(elMem.value).includes("branch") || clean(elMem.value).includes("beq");
+      const okWb = clean(elWb.value).includes("rtype") || clean(elWb.value).includes("add") || clean(elWb.value).includes("r");
+
+      elId.className = okId ? 'table-input correct' : 'table-input wrong';
+      elExe.className = okExe ? 'table-input correct' : 'table-input wrong';
+      elMem.className = okMem ? 'table-input correct' : 'table-input wrong';
+      elWb.className = okWb ? 'table-input correct' : 'table-input wrong';
+
+      if (okId && okExe && okMem && okWb) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ3Answer() {
+      const subId = "q3";
+      const elS = document.getElementById("q3_single");
+      const elP = document.getElementById("q3_pipe");
+      const elPar = document.getElementById("q3_parallel");
+      const elImp = document.getElementById("q3_improve");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      const clean = v => v.toLowerCase().replace(/[\s]/g, '');
+
+      elS.disabled = elP.disabled = elPar.disabled = elImp.disabled = true;
+
+      const vS = clean(elS.value);
+      const okS = vS.includes("0.00068") || vS.includes("0.68ms") || vS.includes("680") || vS.includes("0.00072") || vS.includes("720");
+
+      const vP = clean(elP.value);
+      const okP = vP.includes("0.0002") || vP.includes("0.2ms") || vP.includes("200");
+
+      const vPar = clean(elPar.value);
+      const okPar = vPar.includes("200");
+
+      const okImp = elImp.value.trim().toLowerCase() === "no";
+
+      elS.className = okS ? 'table-input correct' : 'table-input wrong';
+      elP.className = okP ? 'table-input correct' : 'table-input wrong';
+      elPar.className = okPar ? 'table-input correct' : 'table-input wrong';
+      elImp.className = okImp ? 'table-input correct' : 'table-input wrong';
+
+      if (okS && okP && okPar && okImp) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ4Answer() {
+      const subId = "q4";
+      const el1 = document.getElementById("q4_1");
+      const el2 = document.getElementById("q4_2");
+      const el3 = document.getElementById("q4_3");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      el1.disabled = el2.disabled = el3.disabled = true;
+
+      const ok1 = el1.value.trim() === "6";
+      const ok2 = el2.value.trim() === "6";
+      const ok3 = el3.value.trim() === "6";
+
+      el1.className = ok1 ? 'table-input correct' : 'table-input wrong';
+      el2.className = ok2 ? 'table-input correct' : 'table-input wrong';
+      el3.className = ok3 ? 'table-input correct' : 'table-input wrong';
+
+      if (ok1 && ok2 && ok3) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function checkQ5Answer() {
+      const subId = "q5";
+      const elM = document.getElementById("q5_misses");
+      const elW = document.getElementById("q5_words");
+      const elT = document.getElementById("q5_tag");
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+
+      elM.disabled = elW.disabled = elT.disabled = true;
+
+      const okM = elM.value.trim() === "2" || elM.value.trim() === "3";
+      const okW = elW.value.trim().includes("64") || elW.value.trim() === "256";
+      const okT = elT.value.trim() === "24" || elT.value.trim() === "24 bits" || elT.value.trim() === "22";
+
+      elM.className = okM ? 'table-input correct' : 'table-input wrong';
+      elW.className = okW ? 'table-input correct' : 'table-input wrong';
+      elT.className = okT ? 'table-input correct' : 'table-input wrong';
+
+      if (okM && okW && okT) userScores[subId] = true;
+      else delete userScores[subId];
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const resetFields = ids => {
+        ids.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.disabled = false; el.value = ''; el.className = 'table-input'; }
+        });
+      };
+
+      if (subId === "q1") resetFields(["q1_nops_a", "q1_cycles_a", "q1_stalls_b", "q1_reorder"]);
+      if (subId === "q2") resetFields(["q2_id", "q2_exe", "q2_mem", "q2_wb"]);
+      if (subId === "q3") resetFields(["q3_single", "q3_pipe", "q3_parallel", "q3_improve"]);
+      if (subId === "q4") resetFields(["q4_1", "q4_2", "q4_3"]);
+      if (subId === "q5") resetFields(["q5_misses", "q5_words", "q5_tag"]);
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

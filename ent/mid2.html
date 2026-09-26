@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | الريادة والابتكار (Entrepreneurship) - أسئلة الميد (Ch. 2)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ent">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">الريادة والابتكار (Entrepreneurship)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Chapter 2 — أسئلة سنوات امتحان الميد (Inside the Entrepreneurial Mind: From Ideas to Reality)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ent">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    const examSections = [
+      {
+        title: "Part 1: Creativity vs. Innovation & Brain Fundamentals (Questions 1 – 31)",
+        context: "Official exam questions covering definitions of creativity, innovation, Levitt's quote, competitive survival, and left vs. right brain processing:",
+        subQuestions: [
+          {
+            id: "ent2_1",
+            type: "single",
+            text: "1. The ability to develop new ideas and to discover new ways of looking at problems and opportunities is called ______.",
+            opts: ["entrepreneurship", "innovation", "creativity", "creative thinking"],
+            ans: 2,
+            dispAnswer: "c) creativity",
+            exp: "الإبداع (Creativity) هو القدرة على تطوير أفكار جديدة واكتشاف طرق جديدة للنظر إلى المشكلات والفرص[cite: 17]."
+          },
+          {
+            id: "ent2_2",
+            type: "single",
+            text: "2. An entrepreneurial 'secret' for creating value in the marketplace is ______.",
+            opts: ["applying creativity and innovation to solve problems", "creating new products and services", "learning by doing", "applying lessons learned from history"],
+            ans: 0,
+            dispAnswer: "a) applying creativity and innovation to solve problems",
+            exp: "السر الريادي لخلق القيمة في السوق يكمن في تطبيق الإبداع والابتكار لحل المشكلات وتلبية الاحتياجات[cite: 17]."
+          },
+          {
+            id: "ent2_3",
+            type: "single",
+            text: "3. The ability to apply creative solutions to problems and opportunities to enhance or to enrich people's lives is called ______.",
+            opts: ["entrepreneurship", "innovation", "creativity", "creative thinking"],
+            ans: 1,
+            dispAnswer: "b) innovation",
+            exp: "الابتكار (Innovation) هو التطبيق العملي للحلول الإبداعية لتحسين وإثراء حياة الناس[cite: 17]."
+          },
+          {
+            id: "ent2_4",
+            type: "single",
+            text: "4. Harvard's Ted Levitt says that creativity is ______ new things, and innovation is ______ new things.",
+            opts: ["thinking; doing", "doing; thinking", "seeing; doing", "thinking; applying"],
+            ans: 0,
+            dispAnswer: "a) thinking; doing",
+            exp: "مقولة تيد ليفيت الشهيرة: الإبداع هو التفكير بأشياء جديدة، والابتكار هو فعل وتطبيق أشياء جديدة[cite: 17]."
+          },
+          {
+            id: "ent2_5",
+            type: "single",
+            text: "5. Entrepreneurship is a constant process that relies on ______.",
+            opts: ["creativity, innovation, and profit", "the ability to win over the consumer", "creativity, innovation, and application in the marketplace", "intellectual property rights"],
+            ans: 2,
+            dispAnswer: "c) creativity, innovation, and application in the marketplace",
+            exp: "الريادة عملية مستمرة تجمع بين الإبداع والابتكار والتطبيق الفعلي في السوق[cite: 17]."
+          },
+          {
+            id: "ent2_6",
+            type: "single",
+            text: "6. ______ is necessary for building a competitive advantage and for business survival.",
+            opts: ["One single idea", "A motivated owner", "Creativity", "A low-priced product"],
+            ans: 2,
+            dispAnswer: "c) Creativity",
+            exp: "الإبداع شرط أساسي لبناء ميزة تنافسية مستدامة ولضمان بقاء المنشأة في السوق[cite: 17]."
+          },
+          {
+            id: "ent2_7",
+            type: "single",
+            text: "7. Creativity is the ability to apply creative solutions to problems and opportunities to enhance or enrich people's lives.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "هذا تعريف الابتكار (Innovation) وليس الإبداع؛ فالإبداع يتعلق بالتفكير وتوليد الأفكار[cite: 17]."
+          },
+          {
+            id: "ent2_8",
+            type: "single",
+            text: "8. Innovation is the ability to develop new ideas and to discover new ways of looking at problems and opportunities.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "هذا تعريف الإبداع (Creativity) وليس الابتكار[cite: 17]."
+          },
+          {
+            id: "ent2_9",
+            type: "single",
+            text: "9. Creativity is the ability to develop new ideas and to discover new ways of looking at problems and opportunities.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تعريف الإبداع الصحيح والمباشر[cite: 17]."
+          },
+          {
+            id: "ent2_10",
+            type: "single",
+            text: "10. Innovation is the ability to apply creative solutions to problems and opportunities to enhance or enrich people's lives.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تعريف الابتكار الصحيح والمباشر[cite: 17]."
+          },
+          {
+            id: "ent2_11",
+            type: "single",
+            text: "11. Successful entrepreneurs come up with ideas and then find ways to make them work to solve a problem or fill a need.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "رواد الأعمال الناجحون يربطون الفكرة بالتنفيذ لحل المشكلات وتلبية الاحتياجات[cite: 17]."
+          },
+          {
+            id: "ent2_12",
+            type: "single",
+            text: "12. Creativity and innovation are the signature of large, entrepreneurial businesses.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الإبداع والابتكار هما السمة المميزة للشركات الريادية الصغيرة وليست الكبرى[cite: 17]."
+          },
+          {
+            id: "ent2_13",
+            type: "single",
+            text: "13. Creativity and innovation are the signature of small, entrepreneurial businesses.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "المشاريع الصغيرة هي الحاضنة الأبرز للإبداع والابتكار[cite: 17]."
+          },
+          {
+            id: "ent2_14",
+            type: "single",
+            text: "14. Innovation must be a constant process because most ideas do not work and most innovations fail.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يجب أن يكون الابتكار عملية مستمرة لأن معظم الأفكار تفشل وتتعثر قبل الوصول للنجاح[cite: 17]."
+          },
+          {
+            id: "ent2_15",
+            type: "single",
+            text: "15. For every 5,000 to 10,000 new drug discoveries, only about five make it to clinical trials and only one typically gets to the market.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "إحصائية علمية تدل على ندرة وصعوبة وصول الأفكار الجديدة إلى السوق التجاري[cite: 17]."
+          },
+          {
+            id: "ent2_16",
+            type: "single",
+            text: "16. Creativity often involves creating something from nothing. However, it is more likely to result in ______.",
+            opts: ["elaborating on the present", "putting old things together in new ways", "taking something away to create something simpler or better", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "الإبداع يتضمن البناء على الحاضر، أو دمج القديم بطرق مبتكرة، أو التبسيط بحذف الزوائد[cite: 17]."
+          },
+          {
+            id: "ent2_17",
+            type: "single",
+            text: "17. When developing creative solutions to modern problems, entrepreneurs must ______.",
+            opts: ["go beyond merely using whatever has worked in the past", "limit the creative process to only profitable ventures", "remember what has worked in the past", "pay attention to limiting factors"],
+            ans: 0,
+            dispAnswer: "a) go beyond merely using whatever has worked in the past",
+            exp: "يجب على الريادي تجاوز الحلول التقليدية القديمة وعدم الاكتفاء بما نجح في الماضي[cite: 17]."
+          },
+          {
+            id: "ent2_18",
+            type: "single",
+            text: "18. Research shows that anyone can learn to be creative. The problem is ______.",
+            opts: ["many organizations fail to foster an environment that encourages creativity", "most people never tap into their pools of innate creativity", "most people have never been taught to be creative", "All of the above"],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "غياب البيئة المشجعة، عدم استغلال الطاقات الفطرية، ونقص التدريب يعيق ظهور الإبداع[cite: 17]."
+          },
+          {
+            id: "ent2_19",
+            type: "single",
+            text: "19. Although creativity sometimes involves generating something from nothing, it more likely results in elaborating on the present, putting old things together in new ways, or taking something away to create something simpler or better.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "طبيعة الإبداع الأكثر شيوعاً تقوم على التحسين والدمج والتبسيط[cite: 17]."
+          },
+          {
+            id: "ent2_20",
+            type: "single",
+            text: "20. Creativity is not only an important source for building a competitive advantage, but it also is necessary for survival.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الإبداع ضرورة حتمية للبقاء والمنافسة في بيئة الأعمال المتسارعة[cite: 17]."
+          },
+          {
+            id: "ent2_21",
+            type: "single",
+            text: "21. History is always a reliable predictor of the future of business.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التاريخ ليس دائماً مؤشراً موثوقاً لمستقبل الأعمال بسبب التغيرات التكنولوجية والاقتصادية الجذرية[cite: 17]."
+          },
+          {
+            id: "ent2_22",
+            type: "single",
+            text: "22. Entrepreneurs must embrace traditional assumptions and perspectives about how things ought to be because they support creativity.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التمسك بالافتراضات التقليدية يقيد الإبداع ويخنقه[cite: 17]."
+          },
+          {
+            id: "ent2_23",
+            type: "single",
+            text: "23. Research into the operation of the human brain shows that each hemisphere of the brain ______.",
+            opts: ["develops symmetrically", "controls similar functions", "does not dominate the other hemisphere", "processes information differently"],
+            ans: 3,
+            dispAnswer: "d) processes information differently",
+            exp: "كل نصف من نصفي الدماغ البشري يعالج المعلومات بطريقة مختلفة ومميزة[cite: 17]."
+          },
+          {
+            id: "ent2_24",
+            type: "single",
+            text: "24. The left brain is guided by ______.",
+            opts: ["kaleidoscopic, lateral thinking", "linear, vertical thinking", "asymmetrical thinking", "intuitive thinking"],
+            ans: 1,
+            dispAnswer: "b) linear, vertical thinking",
+            exp: "النصف الأيسر من الدماغ يسترشد بالتفكير الخطي والعمودي المنطقي[cite: 17]."
+          },
+          {
+            id: "ent2_25",
+            type: "single",
+            text: "25. The right brain is guided by ______.",
+            opts: ["kaleidoscopic, lateral thinking", "linear, vertical thinking", "asymmetrical thinking", "logical thinking"],
+            ans: 0,
+            dispAnswer: "a) kaleidoscopic, lateral thinking",
+            exp: "النصف الأيمن من الدماغ يعتمد على التفكير الجانبي والمتعدد الزوايا كالمشكال (Kaleidoscopic, lateral)[cite: 17]."
+          },
+          {
+            id: "ent2_26",
+            type: "single",
+            text: "26. Which hemisphere of the brain is responsible for language, logic, and symbols?",
+            opts: ["Right hemisphere", "Left hemisphere", "Lateral hemisphere", "Intuitive hemisphere"],
+            ans: 1,
+            dispAnswer: "b) Left hemisphere",
+            exp: "النصف الأيسر مسؤول عن اللغة والمنطق والرموز والأرقام[cite: 17]."
+          },
+          {
+            id: "ent2_27",
+            type: "single",
+            text: "27. Which hemisphere of the brain is responsible for the body's emotional, intuitive, and spatial functions?",
+            opts: ["Right hemisphere", "Left hemisphere", "Vertical hemisphere", "Logical hemisphere"],
+            ans: 0,
+            dispAnswer: "a) Right hemisphere",
+            exp: "النصف الأيمن مسؤول عن المشاعر، والحدس، والتصور المكاني والبصري[cite: 17]."
+          },
+          {
+            id: "ent2_28",
+            type: "single",
+            text: "28. Which hemisphere of the brain processes information in a step-by-step fashion?",
+            opts: ["Right hemisphere", "Left hemisphere", "Lateral hemisphere", "Intuitive hemisphere"],
+            ans: 1,
+            dispAnswer: "b) Left hemisphere",
+            exp: "النصف الأيسر يعالج المعلومات خطوة بخطوة بطريقة تسلسلية ومنهجية[cite: 17]."
+          },
+          {
+            id: "ent2_29",
+            type: "single",
+            text: "29. Which hemisphere of the brain processes information all at once and by relying heavily on images?",
+            opts: ["Right hemisphere", "Left hemisphere", "Vertical hemisphere", "Logical hemisphere"],
+            ans: 0,
+            dispAnswer: "a) Right hemisphere",
+            exp: "النصف الأيمن يعالج المعلومات ككل دفعة واحدة بالاعتماد على الصور والتخيل[cite: 17]."
+          },
+          {
+            id: "ent2_30",
+            type: "single",
+            text: "30. ______ thinking is narrowly focused and systematic, proceeding in a highly logical fashion from one point to the next.",
+            opts: ["Left-brained", "Right-brained", "Unconventional", "Intuitive"],
+            ans: 0,
+            dispAnswer: "a) Left-brained",
+            exp: "التفكير المرتبط بالدماغ الأيسر منظم ومنطقي وينتقل تسلسلياً من نقطة إلى أخرى[cite: 17]."
+          },
+          {
+            id: "ent2_31",
+            type: "single",
+            text: "31. ______ thinking is somewhat unconventional and unstructured.",
+            opts: ["Left-brained", "Right-brained", "Systematic", "Logical"],
+            ans: 1,
+            dispAnswer: "b) Right-brained",
+            exp: "التفكير المرتبط بالدماغ الأيمن غير تقليدي وغير مقيد بهياكل صارمة[cite: 17]."
+          }
+        ]
+      },
+      {
+        title: "Part 2: Left vs. Right Brain Hemispheres & Lateral Thinking (Questions 32 – 53)",
+        context: "Official True/False exam questions exploring divergent vs. convergent reasoning and brain duality in entrepreneurship:",
+        subQuestions: [
+          {
+            id: "ent2_32",
+            type: "single",
+            text: "32. Creative thinking involves research into the operation of the human brain and the roles each hemisphere of the brain plays.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "فهم التفكير الإبداعي يرتكز على دراسة عمل نصفي الدماغ ووظائفهما[cite: 17]."
+          },
+          {
+            id: "ent2_33",
+            type: "single",
+            text: "33. Successful entrepreneurship requires left-brain thinking only.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الريادة الناجحة تتطلب التفكير المتكامل بين نصفي الدماغ الأيمن والأيسر معاً[cite: 17]."
+          },
+          {
+            id: "ent2_34",
+            type: "single",
+            text: "34. The left brain is guided by linear, vertical thinking.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الدماغ الأيسر خطي ومنطقي وعمودي[cite: 17]."
+          },
+          {
+            id: "ent2_35",
+            type: "single",
+            text: "35. The left brain relies on kaleidoscopic, lateral thinking.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التفكير الجانبي والمشكالي هو سمة الدماغ الأيمن[cite: 17]."
+          },
+          {
+            id: "ent2_36",
+            type: "single",
+            text: "36. The right brain is guided by linear, vertical thinking.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التفكير الخطي والعمودي يتبع الدماغ الأيسر[cite: 17]."
+          },
+          {
+            id: "ent2_37",
+            type: "single",
+            text: "37. The right brain relies on kaleidoscopic, lateral thinking.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الدماغ الأيمن يفكر بطرق بصرية ومتعددة الزوايا وغير خطية[cite: 17]."
+          },
+          {
+            id: "ent2_38",
+            type: "single",
+            text: "38. While most people see what they have always seen, creative entrepreneurs are able to see beyond preconceptions.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "رواد الأعمال المبدعون يمتلكون القدرة على تجاوز الأفكار المسبقة ورؤية الفرص الخفية[cite: 17]."
+          },
+          {
+            id: "ent2_39",
+            type: "single",
+            text: "39. Research shows that each hemisphere of the human brain processes information differently and that one side of the brain tends to be dominant over the other.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يميل أحد جانبي الدماغ عادة إلى الهيمنة لدى غالبية الأفراد[cite: 17]."
+          },
+          {
+            id: "ent2_40",
+            type: "single",
+            text: "40. The left brain handles language, logic, and symbols.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "وظيفة الدماغ الأيسر الأساسية تشمل اللغة والمنطق والرموز[cite: 17]."
+          },
+          {
+            id: "ent2_41",
+            type: "single",
+            text: "41. The right brain takes care of the body's emotional, intuitive, and spatial functions.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "وظيفة الدماغ الأيمن تشمل العواطف والحدس والإدراك المكاني[cite: 17]."
+          },
+          {
+            id: "ent2_42",
+            type: "single",
+            text: "42. The right brain processes information intuitively - all at once, relying heavily on images.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "معالجة حدسية شمولية دفعة واحدة بالاعتماد على الصور[cite: 17]."
+          },
+          {
+            id: "ent2_43",
+            type: "single",
+            text: "43. Right-brain thinking draws on the power of divergent reasoning, which is the ability to create a multitude of original, diverse ideas, while left-brain thinking counts on convergent reasoning, the ability to evaluate multiple ideas and choose the best solution to a given problem.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "التفكير التباعدي الإبداعي (Divergent) للدماغ الأيمن، والتفكير التقاربي التقييمي (Convergent) للدماغ الأيسر[cite: 17]."
+          },
+          {
+            id: "ent2_44",
+            type: "single",
+            text: "44. Entrepreneurship requires both left- and right-brained thinking.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "توليد الأفكار بالدماغ الأيمن وتقييمها وإدارتها تجارياً بالدماغ الأيسر[cite: 17]."
+          },
+          {
+            id: "ent2_45",
+            type: "single",
+            text: "45. The left-brain processes information in a step-by-step fashion.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "المعالجة التسلسلية والخطوة بخطوة هي طبيعة الدماغ الأيسر[cite: 17]."
+          },
+          {
+            id: "ent2_46",
+            type: "single",
+            text: "46. Entrepreneurs need to rely on left-brain thinking to generate innovative product, service, or business ideas and use right-brain thinking to judge the market potential of the ideas they generate.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "العبارة معكوسة؛ فالأفكار المبتكرة تُولد بالدماغ الأيمن ويُحكم على جدواها بالدماغ الأيسر[cite: 17]."
+          },
+          {
+            id: "ent2_47",
+            type: "single",
+            text: "47. Right-brain thinking is much like the image of a kaleidoscope.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يشبه التفكير الأيمن حركة المشكال في تشكيل أنماط وأفكار بصرية جديدة ومفاجئة[cite: 17]."
+          },
+          {
+            id: "ent2_48",
+            type: "single",
+            text: "48. The left-brain processes information intuitively - all at once, relying heavily on images.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "هذه خاصية الدماغ الأيمن؛ أما الأيسر فهو منطقي تسلسلي[cite: 17]."
+          },
+          {
+            id: "ent2_49",
+            type: "single",
+            text: "49. The right brain processes information in a step-by-step fashion.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "المعالجة خطوة بخطوة من سمات الدماغ الأيسر[cite: 17]."
+          },
+          {
+            id: "ent2_50",
+            type: "single",
+            text: "50. Right-brained individuals tend to challenge tradition, custom, and routine.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "يميل أصحاب التفكير الأيمن إلى تحدي الروتين والتقاليد والأعراف الجامدة[cite: 17]."
+          },
+          {
+            id: "ent2_51",
+            type: "single",
+            text: "51. Left-brained individuals realize that there may be more than one right answer.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التفكير الأيسر يبحث دائماً عن إجابة صحيحة واحدة منطقية؛ بينما الأيمن يرى إجابات متعددة[cite: 17]."
+          },
+          {
+            id: "ent2_52",
+            type: "single",
+            text: "52. Successful entrepreneurs push technological and economic boundaries forward in creative ways and sometimes make unconventional decisions.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "رواد الأعمال الناجحون يوسعون الآفاق بقرارات إبداعية غير تقليدية[cite: 17]."
+          },
+          {
+            id: "ent2_53",
+            type: "single",
+            text: "53. The rapidly accelerating rate of change has created an environment in which staying in a leadership position requires constant creativity, innovation, and entrepreneurship.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تسارع التغير في بيئة الأعمال يفرض إبداعاً وابتكاراً مستمراً للحفاظ على الصدارة[cite: 17]."
+          }
+        ]
+      },
+      {
+        title: "Part 3: Barriers & Enhancers to Creativity (Questions 54 – 72)",
+        context: "Official exam questions covering mental blocks, organizational culture, diversity, and techniques for boosting creativity:",
+        subQuestions: [
+          {
+            id: "ent2_54",
+            type: "single",
+            text: "54. All of the following represent barriers to creativity that entrepreneurs impose upon themselves except ______.",
+            opts: ["focusing on being too logical", "being too practical", "blindly following rules", "searching for more than one answer"],
+            ans: 3,
+            dispAnswer: "d) searching for more than one answer",
+            exp: "البحث عن أكثر من إجابة صحيحة هو محفز للإبداع وليس عائقاً ذهنياً[cite: 17]."
+          },
+          {
+            id: "ent2_55",
+            type: "single",
+            text: "55. Viewing play as frivolous is a mental block that stifles creativity.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "اعتبار اللعب والمرح أمراً تافهاً هو عائق ذهني يحد من التدفق الإبداعي[cite: 17]."
+          },
+          {
+            id: "ent2_56",
+            type: "single",
+            text: "56. 'Constantly being practical' is a mental block that can stifle creativity.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الإفراط الدائم في الواقعية والعملية يخنق الأفكار الابتكارية في مهدها[cite: 17]."
+          },
+          {
+            id: "ent2_57",
+            type: "single",
+            text: "57. Businesses typically foster an environment that encourages creativity.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "تميل معظم بيئات الشركات التقليدية إلى تقييد الإبداع وفرض القواعد الصارمة[cite: 17]."
+          },
+          {
+            id: "ent2_58",
+            type: "single",
+            text: "58. Ambiguity tends to destroy creativity.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الغموض يفتح المجال للتأمل وحرية الابتكار ولا يدمر الإبداع[cite: 17]."
+          },
+          {
+            id: "ent2_59",
+            type: "single",
+            text: "59. Failure is an important part of the creative process, as it provides a chance to learn how to succeed.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الفشل جزء لا يتجزأ من مسار الابتكار وفرصة ثمينة للتعلم وتعديل المسار[cite: 17]."
+          },
+          {
+            id: "ent2_60",
+            type: "single",
+            text: "60. Employees tend to rise or fall to the level of expectations entrepreneurs have of them.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "أثر التوقعات (Pygmalion effect)؛ مستوى أداء الموظفين يتأثر مباشرة بسقف توقعات القائد[cite: 17]."
+          },
+          {
+            id: "ent2_61",
+            type: "single",
+            text: "61. Entrepreneurs can stimulate their own creativity and encourage it among workers by ______.",
+            opts: ["expecting and tolerating failure", "avoiding problems", "limiting rewards", "not taking chances"],
+            ans: 0,
+            dispAnswer: "a) expecting and tolerating failure",
+            exp: "توقع الخطأ وتقبل الفشل والتعلم منه يوفر الأمان النفسي اللازم للمخاطرة الإبداعية[cite: 17]."
+          },
+          {
+            id: "ent2_62",
+            type: "single",
+            text: "62. Which of the following is not one of the ways entrepreneurs can stimulate their own creativity and encourage it among their workers?",
+            opts: ["Provide creativity training.", "Encourage curiosity.", "View challenges as problems.", "Develop a corporate culture that both fosters and rewards creativity."],
+            ans: 2,
+            dispAnswer: "c) View challenges as problems.",
+            exp: "النظر للتحديات كمشاكل محبطة يعيق الإبداع؛ بل يجب النظر إليها كفرص للحل والابتكار[cite: 17]."
+          },
+          {
+            id: "ent2_63",
+            type: "single",
+            text: "63. Employees must be given the tools and resources they need to be creative. One of the most valuable set of resources is ______.",
+            opts: ["setting limits and providing challenges", "establishing rules and guidelines", "time, support and encouragement", "reinforce traditional problem solving methods"],
+            ans: 2,
+            dispAnswer: "c) time, support and encouragement",
+            exp: "إتاحة الوقت الكافي، والدعم، والتشجيع المستمر هي أثمن الموارد لتمكين الإبداع[cite: 17]."
+          },
+          {
+            id: "ent2_64",
+            type: "single",
+            text: "64. Hiring a diverse workforce ______.",
+            opts: [
+              "helps in cultivating organizational creativity",
+              "allows for different ideas and varying methods of problem solving",
+              "brings in people from different backgrounds, with different cultural experiences, hobbies, and interests",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "تنوع الموظفين يثري بيئة العمل بتجارب وأفكار متعددة تحفز الابتكار المؤسسي[cite: 17]."
+          },
+          {
+            id: "ent2_65",
+            type: "single",
+            text: "65. The ______ environment has an impact on the level of people's creativity.",
+            opts: ["physical", "sounds in the", "external", "internal"],
+            ans: 0,
+            dispAnswer: "a) physical",
+            exp: "البيئة المادية المحيطة (Physical environment) كالمساحات والألوان والإضاءة تؤثر مباشرة على الإبداع[cite: 17]."
+          },
+          {
+            id: "ent2_66",
+            type: "single",
+            text: "66. All of the following are enhancements to individual creativity except ______.",
+            opts: ["keeping a journal to record thoughts and ideas", "limiting your reading sources", "taking time off", "allowing yourself to be creative"],
+            ans: 1,
+            dispAnswer: "b) limiting your reading sources",
+            exp: "تضييق وتقييد مصادر القراءة يحد من التفكير ويضعف الإبداع الفردي[cite: 17]."
+          },
+          {
+            id: "ent2_67",
+            type: "single",
+            text: "67. Which of the following is not an enhancement to individual creativity?",
+            opts: [
+              "Listening to other people.",
+              "Recognizing the creative power of mistakes.",
+              "Keeping a toy box in your office.",
+              "Working without breaks until the project is complete or the problem is solved."
+            ],
+            ans: 3,
+            dispAnswer: "d) Working without breaks until the project is complete or the problem is solved.",
+            exp: "العمل المتواصل دون استراحة يرهق الدماغ ويمنع مرحلة الاحتضان والتأمل اللازمة للإبداع[cite: 17]."
+          },
+          {
+            id: "ent2_68",
+            type: "single",
+            text: "68. Which of the following sets of experiences may enhance individual creativity?",
+            opts: [
+              "Travel and recognize the creative power of mistakes and accidents.",
+              "Notice what is missing.",
+              "Journal and listen to people and customers.",
+              "All the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All the above",
+            exp: "السفر، وملاحظة النواقص، والتدوين، والاستماع للعملاء كلها تجارب تصقل الإبداع الفردي[cite: 17]."
+          },
+          {
+            id: "ent2_69",
+            type: "single",
+            text: "69. Research shows that not everyone can be creative.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "تؤكد الدراسات أن كل إنسان يمتلك طاقة إبداعية فطرية يمكن تعلمها وتنميتها بالتدريب[cite: 17]."
+          },
+          {
+            id: "ent2_70",
+            type: "single",
+            text: "70. Hiring a diverse workforce makes it more difficult to achieve creativity in the workplace.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التنوع يسهل ويحفز الإبداع المؤسسي ولا يعيقه[cite: 17]."
+          },
+          {
+            id: "ent2_71",
+            type: "single",
+            text: "71. Entrepreneurs can encourage creative thinking in their employees by setting examples of creative behavior and rewarding creative behavior when exhibited by their employees.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تقديم القدوة الإبداعية ومكافأة المبتكرين ينشر ثقافة الابتكار في المنظمة[cite: 17]."
+          },
+          {
+            id: "ent2_72",
+            type: "single",
+            text: "72. Enhancing individual creativity may be cultivated through such activities as modeling, encouragement, recognition, allowing failure, listening, talking to children, and taking time off.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "أنشطة فعالة ومثبتة علمياً لتجديد وتحفيز الطاقات الإبداعية الفردية[cite: 17]."
+          }
+        ]
+      },
+      {
+        title: "Part 4: The 7 Steps of the Creative Process (Questions 73 – 88)",
+        context: "Official exam questions covering Preparation, Investigation, Transformation, Incubation, Illumination, Verification, and Implementation:",
+        subQuestions: [
+          {
+            id: "ent2_73",
+            type: "single",
+            text: "73. Which stage of the creative process includes on-the-job training?",
+            opts: ["Implementation", "Preparation", "Illumination", "Verification"],
+            ans: 1,
+            dispAnswer: "b) Preparation",
+            exp: "مرحلة الإعداد والتحضير (Preparation) تشمل التعليم والتدريب على رأس العمل واكتساب المعرفة الأساسية[cite: 17]."
+          },
+          {
+            id: "ent2_74",
+            type: "single",
+            text: "74. Which stage of the creative process requires one to develop a solid understanding of the problem or decision?",
+            opts: ["Investigation", "Preparation", "Illumination", "Verification"],
+            ans: 0,
+            dispAnswer: "a) Investigation",
+            exp: "مرحلة الاستقصاء والتحري (Investigation) تتطلب دراسة متعمقة لفهم المشكلة وجمع البيانات عنها[cite: 17]."
+          },
+          {
+            id: "ent2_75",
+            type: "single",
+            text: "75. Which stage of the creative process involves viewing the similarities and differences in the information collected?",
+            opts: ["Transformation", "Incubation", "Illumination", "Verification"],
+            ans: 0,
+            dispAnswer: "a) Transformation",
+            exp: "مرحلة التحويل والتحوير (Transformation) تقوم على مقارنة البيانات ورؤية أوجه التشابه والاختلاف بينها[cite: 17]."
+          },
+          {
+            id: "ent2_76",
+            type: "single",
+            text: "76. The ability to see the similarities and the connections among various data and events is called ______.",
+            opts: ["convergent thinking", "divergent thinking", "transformational thinking", "illumination"],
+            ans: 0,
+            dispAnswer: "a) convergent thinking",
+            exp: "التفكير التقاربي (Convergent thinking) هو القدرة على رؤية أوجه الشبه والروابط بين المعلومات[cite: 17]."
+          },
+          {
+            id: "ent2_77",
+            type: "single",
+            text: "77. The ability to see the connections among various data and events is called ______.",
+            opts: ["convergent thinking", "divergent thinking", "transformational thinking", "illumination"],
+            ans: 0,
+            dispAnswer: "a) convergent thinking",
+            exp: "التفكير التقاربي يربط بين البيانات والأحداث المختلفة[cite: 17]."
+          },
+          {
+            id: "ent2_78",
+            type: "single",
+            text: "78. ______ thinking is the ability to see similarities and ______ thinking is the ability to see differences among various data and events.",
+            opts: ["Divergent; convergent", "Convergent; divergent", "Convergent; transformational", "None of the above"],
+            ans: 1,
+            dispAnswer: "b) Convergent; divergent",
+            exp: "التقاربي (Convergent) يرى أوجه التشابه، والتباعدي (Divergent) يرى أوجه الاختلاف والتباين[cite: 17]."
+          },
+          {
+            id: "ent2_79",
+            type: "single",
+            text: "79. During the incubation phase of the creative process, the entrepreneur might do all of the following except which of the following to let ideas 'marinate' in his mind?",
+            opts: [
+              "Do something totally unrelated for a while.",
+              "Relax and play regularly.",
+              "Work on the problem or opportunity in a different environment.",
+              "Don't allow one's self to daydream."
+            ],
+            ans: 3,
+            dispAnswer: "d) Don't allow one's self to daydream.",
+            exp: "أحلام اليقظة والاسترخاء الذهني جزء أساسي ومفيد في مرحلة الحضانة والاحتضان الفكري[cite: 17]."
+          },
+          {
+            id: "ent2_80",
+            type: "single",
+            text: "80. At which stage of the creative process does a spontaneous breakthrough occur, allowing all of the previous stages to come together to produce the 'Eureka factor' or the 'light bulb goes on'?",
+            opts: ["Implementation", "Preparation", "Illumination", "Verification"],
+            ans: 2,
+            dispAnswer: "c) Illumination",
+            exp: "مرحلة الإشراق والإلهام (Illumination) هي لحظة الانفراج التلقائي وسطوع فكرة الحل ('وجدتها!')[cite: 17]."
+          },
+          {
+            id: "ent2_81",
+            type: "single",
+            text: "81. 'Verification' refers to ______.",
+            opts: [
+              "validating the idea as accurate and useful",
+              "possibly conducting experiments, running simulations, and test marketing a product or service",
+              "possibly asking questions such as 'will it work?' and 'is it really a better solution?'",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "مرحلة التحقق والتثبت تشمل اختبار الفكرة تجريبياً والتأكد من جدواها وفائدتها في الواقع[cite: 17]."
+          },
+          {
+            id: "ent2_82",
+            type: "single",
+            text: "82. The focus of which of the following step in the creative process is to transform the idea into reality?",
+            opts: ["Implementation", "Preparation", "Illumination", "Verification"],
+            ans: 0,
+            dispAnswer: "a) Implementation",
+            exp: "مرحلة التنفيذ (Implementation) هي تحويل الفكرة إلى منتج أو خدمة واقعية في السوق[cite: 17]."
+          },
+          {
+            id: "ent2_83",
+            type: "single",
+            text: "83. The creative process involves seven distinct steps including preparation, investigation, transformation, incubation, illumination, verification, and implementation.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "الخطوات السبع العلمية للعملية الإبداعية بالترتيب[cite: 17]."
+          },
+          {
+            id: "ent2_84",
+            type: "single",
+            text: "84. 'Convergent thinking' is the ability to see the differences among data and events.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التفكير التقاربي يرى أوجه التشابه والصلات، بينما التباعدي هو الذي يرى الاختلافات[cite: 17]."
+          },
+          {
+            id: "ent2_85",
+            type: "single",
+            text: "85. 'Divergent thinking' is the ability to see similarities and connections among various data and events.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "التفكير التباعدي يرى الاختلافات والبدائل المتعددة[cite: 17]."
+          },
+          {
+            id: "ent2_86",
+            type: "single",
+            text: "86. It may appear in the incubation stage of the creative process that the entrepreneur is loafing, as he is taking time to reflect on the information collected.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "قد يبدو الريادي خاملاً في مرحلة الاحتضان، بينما عقله الباطن يعالج وينضج الأفكار بهدوء[cite: 17]."
+          },
+          {
+            id: "ent2_87",
+            type: "single",
+            text: "87. The illumination stage of the creative process is often called the 'Eureka factor' and is characterized by a spontaneous breakthrough.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "لحظة الإشراق المفاجئة وظهور فكرة الحل[cite: 17]."
+          },
+          {
+            id: "ent2_88",
+            type: "single",
+            text: "88. The typical entrepreneurial philosophy for implementation is 'Ready, aim, aim, aim...'",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "فلسفة الريادي هي 'Ready, aim, fire!' بالمبادرة والتنفيذ، وليس التردد المفرط 'aim, aim...'[cite: 17]."
+          }
+        ]
+      },
+      {
+        title: "Part 5: Problem-Solving Techniques & Intellectual Property (Questions 89 – 117)",
+        context: "Official exam questions covering Brainstorming, Mind Mapping, TRIZ, Rapid Prototyping, Patents, Trademarks, and Copyrights:",
+        subQuestions: [
+          {
+            id: "ent2_89",
+            type: "single",
+            text: "89. ______ is a process in which a small group of people interacts to produce a large quantity of imaginative ideas.",
+            opts: ["Groupthink", "Mind-mapping", "Brainstorming", "Prototyping"],
+            ans: 2,
+            dispAnswer: "c) Brainstorming",
+            exp: "العصف الذهني (Brainstorming) هو جلسة تفاعلية لتوليد أكبر كم ممكن من الأفكار الإبداعية دون نقد مسبق[cite: 17]."
+          },
+          {
+            id: "ent2_90",
+            type: "single",
+            text: "90. Effective brainstorming involves all of the following except ______.",
+            opts: ["a small group of people", "an open, uninhibited environment", "an effective method to evaluate ideas", "very little structure"],
+            ans: 2,
+            dispAnswer: "c) an effective method to evaluate ideas",
+            exp: "أثناء جلسة العصف الذهني يُمنع تقييم أو نقد الأفكار نهائياً؛ فالتقييم يؤجل لمرحلة لاحقة[cite: 17]."
+          },
+          {
+            id: "ent2_91",
+            type: "single",
+            text: "91. ______ is a graphical technique that encourages thinking on both sides of the brain, visually displays the various relationships among the ideas, and improves the ability to view a problem from many sides.",
+            opts: ["Brainstorming", "Mind mapping", "Prototyping", "Groupthink"],
+            ans: 1,
+            dispAnswer: "b) Mind mapping",
+            exp: "الخرائط الذهنية (Mind mapping) أداة بصرية تدمج التفكير الأيمن والأيسر وتوضح الروابط المتشعبة بين الأفكار[cite: 17]."
+          },
+          {
+            id: "ent2_92",
+            type: "single",
+            text: "92. Mind mapping is a useful tool for jump-starting creativity. It includes all of the following except ______.",
+            opts: [
+              "sketching a picture to symbolize the problem or area of focus in the center of a sheet of paper",
+              "writing down every idea that comes into your mind, connecting each idea to the central picture",
+              "allowing your mind to rest for a few minutes before integrating the ideas",
+              "forcing creativity when ideas start to trickle"
+            ],
+            ans: 3,
+            dispAnswer: "d) forcing creativity when ideas start to trickle",
+            exp: "إجبار العقل على الإبداع عند تباطؤ الأفكار خطأ؛ بل يجب تركه يستريح ليتدفق طبيعياً[cite: 17]."
+          },
+          {
+            id: "ent2_93",
+            type: "single",
+            text: "93. The technique of ______ uses three columns that allow the entrepreneur to weigh both the advantages and the disadvantages of a particular decision and work to maximize the variables that support it while minimizing those that work against it.",
+            opts: ["force-field analysis", "TRIZ", "brainstorming", "mind mapping"],
+            ans: 0,
+            dispAnswer: "a) force-field analysis",
+            exp: "تحليل مجال القوى (Force-field analysis) يوازن بين القوى الدافعة للتغيير والقوى المعارضة له في أعمدة محددة[cite: 17]."
+          },
+          {
+            id: "ent2_94",
+            type: "single",
+            text: "94. The 'theory of inventive problem solving' is a left-brained, scientific, systematic process based on innovative patents and is referred to as ______.",
+            opts: ["JIT", "RP", "TQM", "TRIZ"],
+            ans: 3,
+            dispAnswer: "d) TRIZ",
+            exp: "نظرية تريز (TRIZ) هي نهج علمي ومنهجي مستنبط من دراسة آلاف براءات الاختراع لحل المشكلات التقنية[cite: 17]."
+          },
+          {
+            id: "ent2_95",
+            type: "single",
+            text: "95. The premise behind ______ is that transforming an idea into an actual model will lead to improvements in its design.",
+            opts: ["rapid prototyping", "mind-mapping", "brainstorming", "inventions"],
+            ans: 0,
+            dispAnswer: "a) rapid prototyping",
+            exp: "النماذج الأولية السريعة (Rapid prototyping) تحول الفكرة إلى مجسم ملموس لاختباره وتطوير تصميمه[cite: 17]."
+          },
+          {
+            id: "ent2_96",
+            type: "single",
+            text: "96. The three principles (three Rs) of rapid prototyping are ______.",
+            opts: [
+              "develop a rough model, rapidly, and for the right price",
+              "develop a complete model, rapidly, and for the right problem",
+              "develop a rough model, rapidly, and for the right problem",
+              "develop a right model, roughly, and for the right price"
+            ],
+            ans: 2,
+            dispAnswer: "c) develop a rough model, rapidly, and for the right problem",
+            exp: "قاعدة الـ 3Rs للنماذج الأولية: نموذج تقريبي (Rough)، بسرعة (Rapidly)، وللمشكلة الصحيحة (Right problem)[cite: 17]."
+          },
+          {
+            id: "ent2_97",
+            type: "single",
+            text: "97. When 'brainstorming,' individuals should be encouraged to use 'idea hitchhiking,' or building new ideas on those already suggested.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "البناء والتطوير على أفكار الزملاء المطروحة (Idea hitchhiking) من أهم ركائز العصف الذهني[cite: 17]."
+          },
+          {
+            id: "ent2_98",
+            type: "single",
+            text: "98. During a brainstorming session, company rank and department affiliation are irrelevant.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تُلغى الرتب والمسميات الوظيفية أثناء العصف الذهني لضمان تدفق الأفكار بحرية ودون خوف[cite: 17]."
+          },
+          {
+            id: "ent2_99",
+            type: "single",
+            text: "99. Mind-mapping is a graphical technique that encourages thinking on both sides of the brain, visually displays the various relationships among ideas, and improves the ability to view a problem from many sides.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تعريف شامل للخرائط الذهنية ووظيفتها في التفكير الشمولي[cite: 17]."
+          },
+          {
+            id: "ent2_100",
+            type: "single",
+            text: "100. Force-field analysis is a useful technique for evaluating the forces that support and oppose a proposed change.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تحليل مجال القوى يقيّم القوى المؤيدة والمعارضة لأي قرار أو تغيير مقترح[cite: 17]."
+          },
+          {
+            id: "ent2_101",
+            type: "single",
+            text: "101. TRIZ is an acronym for a systematic approach to help solve technical problems based on the study of hundreds of the most innovative patents.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "منهجية تريز العلمية الروسية لحل المشكلات الابتكارية[cite: 17]."
+          },
+          {
+            id: "ent2_102",
+            type: "single",
+            text: "102. Rapid prototyping, transforming an idea into an actual model, typically does not lead to improvements in design.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "العبارة خاطئة؛ فالنمذجة السريعة تقود مباشرة إلى كشف العيوب وتحسين التصميم[cite: 17]."
+          },
+          {
+            id: "ent2_103",
+            type: "single",
+            text: "103. Steps in the patent process include ______.",
+            opts: [
+              "establishing whether it is a novelty",
+              "documenting and verifying the date the idea was first conceived",
+              "searching existing patents",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "إثبات الجدة، توثيق تاريخ ولادة الفكرة، والبحث في البراءات السابقة خطوات ضرورية للتسجيل[cite: 17]."
+          },
+          {
+            id: "ent2_104",
+            type: "single",
+            text: "104. To which governmental office must applications for patents be submitted?",
+            opts: [
+              "The U.S. Patent and Trademark Office",
+              "The individual State Offices of Patent Development",
+              "The Federal Trade Commission",
+              "The Securities and Exchange Commission"
+            ],
+            ans: 0,
+            dispAnswer: "a) The U.S. Patent and Trademark Office",
+            exp: "مكتب براءات الاختراع والعلامات التجارية الأمريكي (USPTO) هو الجهة الرسمية المخولة[cite: 17]."
+          },
+          {
+            id: "ent2_105",
+            type: "single",
+            text: "105. To protect patent claims, an inventor should be able to verify and document the ______.",
+            opts: [
+              "research conducted to create the invention",
+              "fact that the invention was created in another country",
+              "date on which the idea was first conceived",
+              "initial sales of the invention"
+            ],
+            ans: 2,
+            dispAnswer: "c) date on which the idea was first conceived",
+            exp: "توثيق تاريخ ولادة الفكرة واكتمالها كتابياً هو الدرع القانوني الأول لحماية أسبقية الاختراع[cite: 17]."
+          },
+          {
+            id: "ent2_106",
+            type: "single",
+            text: "106. More than ______ percent of those holding patents win their infringement suits:",
+            opts: ["15", "30", "45", "66"],
+            ans: 3,
+            dispAnswer: "d) 66",
+            exp: "أكثر من 66% من أصحاب براءات الاختراع يكسبون قضايا التعدي والانتهاك في المحاكم[cite: 17]."
+          },
+          {
+            id: "ent2_107",
+            type: "single",
+            text: "107. Any distinctive word, phrase, symbol, name, or logo a firm uses to distinguish itself or its products is called a ______.",
+            opts: ["trademark", "patent", "copyright", "service mark"],
+            ans: 0,
+            dispAnswer: "a) trademark",
+            exp: "العلامة التجارية (Trademark) هي الاسم أو الرمز أو الشعار المميز لمنتجات الشركة[cite: 17]."
+          },
+          {
+            id: "ent2_108",
+            type: "single",
+            text: "108. Which of the following question(s) should you consider before entering a lawsuit to protect intellectual property?",
+            opts: [
+              "Can you afford the loss of time, money, and privacy the lawsuit will bring?",
+              "Can the opponent afford to pay if you win?",
+              "Do you expect to get enough from the suit to pay for the costs of hiring an attorney?",
+              "All of the above"
+            ],
+            ans: 3,
+            dispAnswer: "d) All of the above",
+            exp: "قبل الدخول في نزاع قضائي يجب تقييم تكاليف المحامين، وقدرة الخصم على السداد، والخسائر المحتملة[cite: 17]."
+          },
+          {
+            id: "ent2_109",
+            type: "single",
+            text: "109. A ______ is an exclusive right that protects the creators of original works such as literary, dramatic, musical, and artistic works.",
+            opts: ["trademark", "patent", "copyright", "service mark"],
+            ans: 2,
+            dispAnswer: "c) copyright",
+            exp: "حقوق الطبع والنشر والتأليف (Copyright) تحمي المصنفات الفكرية والأدبية والفنية والموسيقية[cite: 17]."
+          },
+          {
+            id: "ent2_110",
+            type: "single",
+            text: "110. Copyrights protect the creator of original works such as ______.",
+            opts: [
+              "software, choreography, and motion pictures",
+              "symbols, names, and designs",
+              "text and verbiage of any kind",
+              "slogans and designs"
+            ],
+            ans: 0,
+            dispAnswer: "a) software, choreography, and motion pictures",
+            exp: "تشمل حقوق التأليف البرمجيات الحاسوبية، والأفلام، وتصميم الرقصات، والأعمال المكتوبة[cite: 17]."
+          },
+          {
+            id: "ent2_111",
+            type: "single",
+            text: "111. A patent protects the creator of original works of authorship such as for software.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "الأعمال الأدبية والمؤلفات والبرمجيات تُحمى بحقوق التأليف (Copyright) بينما تحمي البراءة الاختراعات الوظيفية[cite: 17]."
+          },
+          {
+            id: "ent2_112",
+            type: "single",
+            text: "112. A patent gives the inventor the exclusive right to make, use, or sell an invention for 50 years.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "مدة براءة الاختراع هي 20 عاماً فقط وليست 50 عاماً[cite: 17]."
+          },
+          {
+            id: "ent2_113",
+            type: "single",
+            text: "113. Trademarks are distinctive words, symbols, designs, names, or logos used for company identification.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "تعريف العلامة التجارية الدقيق كرمز لتمييز هوية الشركة ومنتجاتها[cite: 17]."
+          },
+          {
+            id: "ent2_114",
+            type: "single",
+            text: "114. A service mark offers a different kind of protection but distinguishes the source of a product rather than a service.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "علامة الخدمة (Service mark) تميز مصدر الخدمة وليس المنتج السلعي[cite: 17]."
+          },
+          {
+            id: "ent2_115",
+            type: "single",
+            text: "115. Trade dress is the unique combination of elements that a company uses to create a product's image and to promote it.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "المظهر التجاري (Trade dress) هو المظهر البصري العام المميز للمنتج وتغليفه وهويته الترويجية[cite: 17]."
+          },
+          {
+            id: "ent2_116",
+            type: "single",
+            text: "116. The major problem with relying on the legal system to enforce ownership rights is the cost of infringement lawsuits, which can quickly exceed the budget of most small businesses.",
+            opts: ["True", "False"],
+            ans: 0,
+            dispAnswer: "True",
+            exp: "التكاليف القضائية الباهظة لقضايا الانتهاك الفكري تفوق ميزانيات أغلب المشاريع الناشئة[cite: 17]."
+          },
+          {
+            id: "ent2_117",
+            type: "single",
+            text: "117. The U.S. Copyright Office does not require registering the creative work because registering it does not give creators greater protection over their work.",
+            opts: ["True", "False"],
+            ans: 1,
+            dispAnswer: "False",
+            exp: "رغم أن الحق يثبت فورياً بإنشاء العمل، إلا أن تسجيله لدى مكتب حقوق التأليف يمنح حماية قانونية أكبر وميزات مقاضاة حاسمة[cite: 17]."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        const correctOpt = document.getElementById(`opt-${subId}-${sub.ans}`);
+        if (correctOpt) correctOpt.classList.add('correct');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

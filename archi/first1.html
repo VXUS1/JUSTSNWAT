@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JUSTSNWAT | Fundamentals of Computer Networks - First Exam 2019</title>
+  <title>JUSTSNWAT | Computer Architecture - First Exam</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
@@ -148,15 +148,6 @@
       background: #ff453a;
       color: #fff;
     }
-
-    .svg-container {
-      background: #111317;
-      border: 1px solid var(--apple-border);
-      border-radius: 10px;
-      padding: 16px;
-      text-align: center;
-      margin: 12px 0;
-    }
   </style>
 </head>
 <body>
@@ -168,11 +159,11 @@
 
   <div class="container">
     <div class="nav-bar">
-      <a class="back-link" href="../index.html#/s/computer-networks">‹ رجوع للمواد</a>
+      <a class="back-link" href="../index.html#/s/archi">‹ رجوع للمواد</a>
     </div>
 
-    <div class="subject-title">Fundamentals of Computer Networks (NES 312)</div>
-    <div class="subject-subtitle" id="quiz-subtitle">First Exam — Fall 2019/2020</div>
+    <div class="subject-title">Computer Architecture</div>
+    <div class="subject-subtitle" id="quiz-subtitle">First Exam — Full 20 Questions</div>
 
     <div class="sticky-bar">
       <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
@@ -259,7 +250,7 @@
   </div>
 
   <script>
-    const originalDriveLink = "https://drive.google.com/file/d/1l3lAJVmvqUVZd-yOcbglmfr8Um8Nudco/view";
+    const originalDriveLink = "https://drive.google.com/drive/folders/1wdBuHTcCwfTKaHpP9hG6t-rbURyg7Wzn";
 
     function escapeHtml(text) {
       return String(text)
@@ -272,264 +263,290 @@
 
     const examSections = [
       {
-        title: "Problem 1: Short Answer Questions (50 Points)",
-        context: "Short answer questions (5 points each) covering core concepts of Computer Networks:",
+        title: "First Exam Questions (Complete 20 Questions)",
+        context: "Official solved exam sheet with evaluated parameter R values:",
         subQuestions: [
           {
-            id: "p1_q1",
+            id: "q1",
             type: "input",
-            text: "Question 1: IETF stands for ____________",
+            text: "1. A program executes 4 × 10^9 instructions on a 3 GHz processor and finishes in 6 seconds. What is the average CPI?",
             img: "",
-            validate: (input) => {
-              const cleaned = input.toLowerCase().replace(/[^a-z]/g, '');
-              return cleaned.includes("internetengineeringtaskforce");
-            },
-            dispAnswer: "Internet Engineering Task Force",
-            exp: "IETF هو اختصار Internet Engineering Task Force.",
-            placeholder: "Enter the full term..."
-          },
-          {
-            id: "p1_q2",
-            type: "input",
-            text: `Question 2: Consider the following figure. Suppose that A uses traceroute to trace the route to B. How many probes are sent? (Assume no probes are lost)
-<div class="svg-container ltr-content">
-  <svg width="460" height="90" viewBox="0 0 460 90" style="max-width:100%; height:auto;">
-    <line x1="40" y1="45" x2="420" y2="45" stroke="#8e8e93" stroke-width="2"/>
-    <rect x="15" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
-    <text x="37" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">A</text>
-    <circle cx="130" cy="45" r="18" fill="#1c1c1e" stroke="#5ac8fa" stroke-width="2"/>
-    <text x="130" y="50" fill="#5ac8fa" font-size="12" text-anchor="middle">R1</text>
-    <circle cx="210" cy="45" r="18" fill="#1c1c1e" stroke="#5ac8fa" stroke-width="2"/>
-    <text x="210" y="50" fill="#5ac8fa" font-size="12" text-anchor="middle">R2</text>
-    <circle cx="290" cy="45" r="18" fill="#1c1c1e" stroke="#5ac8fa" stroke-width="2"/>
-    <text x="290" y="50" fill="#5ac8fa" font-size="12" text-anchor="middle">R3</text>
-    <rect x="370" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
-    <text x="392" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">B</text>
-  </svg>
-</div>`,
-            img: "",
-            unit: "probes",
-            validate: (input) => {
-              const num = parseInt(input.trim().replace(/[^0-9]/g, ''), 10);
-              return num === 12;
-            },
-            dispAnswer: "12",
-            exp: "هنالك 4 قفزات (3 راوترات + الوجهة النهائية B). يرسل traceroute عادةً 3 probes لكل راوتر/وجهة: 4 * 3 = 12 probes.",
-            placeholder: "Enter number..."
-          },
-          {
-            id: "p1_q3",
-            type: "input",
-            text: "Question 3: The amount of time required to push all of a packet's bits into a link is called the ____________ delay.",
-            img: "",
-            validate: (input) => {
-              const val = input.toLowerCase().trim();
-              return val.includes("transmission");
-            },
-            dispAnswer: "transmission",
-            exp: "الوقت اللازم لدفع جميع بتات الحزمة إلى الرابط يُسمى Transmission delay (L/R).",
-            placeholder: "Enter delay type..."
-          },
-          {
-            id: "p1_q4",
-            type: "input",
-            text: "Question 4: Cable and DSL are two residential Internet access technologies. Which one can be described as dedicated and which one as shared?",
-            img: "",
-            validate: (input) => {
-              const val = input.toLowerCase();
-              return (val.includes("dsl") && val.includes("dedicated")) || (val.includes("cable") && val.includes("shared"));
-            },
-            dispAnswer: "DSL is dedicated, Cable is shared",
-            exp: "DSL يوفر قناة مخصصة (Dedicated) من المنزل إلى مقسم الهاتف DSLAM، بينما Cable يعتبر وسيطاً مشتركاً (Shared access).",
-            placeholder: "Enter your answer..."
-          },
-          {
-            id: "p1_q5",
-            type: "input",
-            text: "Question 5: Name two elastic applications:",
-            img: "",
-            validate: (input) => {
-              const val = input.toLowerCase();
-              const matches = ["email", "web", "http", "ftp", "text", "file", "sms"].filter(k => val.includes(k));
-              return matches.length >= 1;
-            },
-            dispAnswer: "E-mail, Web browsing / File transfer (FTP)",
-            exp: "التطبيقات المرنة (Elastic applications) هي التطبيقات التي لا تتطلب معدل نقل ثابت وتتحمل التأخير مثل الإيميل والتصفح ونقل الملفات.",
-            placeholder: "Enter two applications..."
-          },
-          {
-            id: "p1_q6",
-            type: "input",
-            text: "Question 6: Name two applications that can tolerate data loss:",
-            img: "",
-            validate: (input) => {
-              const val = input.toLowerCase();
-              const matches = ["audio", "video", "game", "voip", "stream", "multimedia", "telephony"].filter(k => val.includes(k));
-              return matches.length >= 1;
-            },
-            dispAnswer: "Online games, Audio/Video streaming (or VoIP)",
-            exp: "التطبيقات التي تتحمل فقدان البيانات هي تطبيقات الوسائط المتعددة اللحظية مثل ألعاب الأونلاين والبث المباشر والمكالمات الصوتية.",
-            placeholder: "Enter two applications..."
-          },
-          {
-            id: "p1_q7",
-            type: "input",
-            text: "Question 7: How long does it take to send a file of 2 Mbits from host A to host B over a circuit-switched network? Assume link speeds are 1 Mbps, TDM with 8 slots/sec, and 1 sec to establish circuit.",
-            img: "",
-            unit: "seconds",
-            validate: (input) => {
-              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 17) < 0.1;
-            },
-            dispAnswer: "17",
-            exp: "معدل الإرسال المتاح للدائرة = 1 Mbps / 8 slots = 125 kbps (أو 1/8 Mbps). زمن النقل = 2 Mbits / (1/8 Mbps) = 16 ثانية. بإضافة 1 ثانية لإنشاء الدائرة (setup time)، يصبح المجموع = 1 + 16 = 17 ثانية.",
-            placeholder: "Enter number..."
-          },
-          {
-            id: "p1_q8",
-            type: "input",
-            text: `Suppose within your Web browser you click on a link to obtain a Web page. Assume the IP address is cached. The Web page contains a very small HTML file that references 5 very small objects on the same server. Neglecting transmission times, how much roundtrip times (in RTT) is required in:
-<br><br><strong>Question 8:</strong> Non-persistent HTTP with no parallel TCP connections?`,
-            img: "",
-            unit: "RTT",
-            validate: (input) => {
-              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 12) < 0.1;
-            },
-            dispAnswer: "12",
-            exp: "كل كائن يحتاج 2 RTT (واحد لفتح اتصال TCP والآخر لطلب وجلب الكائن عبر HTTP). لدينا كائن HTML أساسي + 5 كائنات مدمجة = 6 كائنات. المجموع = 6 * 2 = 12 RTT.",
-            placeholder: "Enter number..."
-          },
-          {
-            id: "p1_q9",
-            type: "input",
-            text: "Question 9: Non-persistent HTTP with 4 parallel TCP connections? (Enter value in RTT)",
-            img: "",
-            unit: "RTT",
-            validate: (input) => {
-              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 6) < 0.1;
-            },
-            dispAnswer: "6",
-            exp: "تحميل صفحة HTML الأساسية يأخذ 2 RTT. يتبقى 5 كائنات؛ يتم فتح 4 اتصالات متوازية وتحميل 4 كائنات بالتوازي (2 RTT)، ثم الكائن الخامس في دفعة ثانية متوازية (2 RTT). المجموع = 2 + 2 + 2 = 6 RTT.",
-            placeholder: "Enter number..."
-          },
-          {
-            id: "p1_q10",
-            type: "input",
-            text: "Question 10: Persistent HTTP with pipelining? (Enter value in RTT)",
-            img: "",
-            unit: "RTT",
-            validate: (input) => {
-              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 3) < 0.1;
-            },
-            dispAnswer: "3",
-            exp: "فتح اتصال TCP يأخذ 1 RTT، طلب وجلب صفحة HTML يأخذ 1 RTT. بعد ذلك، يتم طلب جميع الكائنات الخمسة المتبقية في نفس الوقت عبر الـ pipelining وتصل معاً في 1 RTT إضافي. المجموع = 1 + 1 + 1 = 3 RTT.",
-            placeholder: "Enter number..."
-          }
-        ]
-      },
-      {
-        title: "Problem 2: Store-and-Forward Switches (25 Points)",
-        context: `Hosts A and B are each connected to a store-and-forward switch S via 10-Mbps links. The propagation delay on each link is 0.1 ms.
-<div class="svg-container ltr-content">
-  <svg width="400" height="90" viewBox="0 0 400 90" style="max-width:100%; height:auto;">
-    <line x1="60" y1="45" x2="340" y2="45" stroke="#8e8e93" stroke-width="2"/>
-    <rect x="20" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
-    <text x="42" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">A</text>
-    <rect x="175" y="25" width="50" height="40" rx="4" fill="#1c1c1e" stroke="#30d158" stroke-width="2"/>
-    <text x="200" y="50" fill="#30d158" font-size="13" font-weight="bold" text-anchor="middle">S</text>
-    <rect x="335" y="25" width="45" height="40" rx="6" fill="#1c1c1e" stroke="#0a84ff" stroke-width="2"/>
-    <text x="357" y="50" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">B</text>
-    <text x="110" y="35" fill="#8e8e93" font-size="11" text-anchor="middle">10 Mbps</text>
-    <text x="285" y="35" fill="#8e8e93" font-size="11" text-anchor="middle">10 Mbps</text>
-  </svg>
-</div>
-Calculate the total time required to transmit 15,000 bits from A to B:`,
-        subQuestions: [
-          {
-            id: "p2_a",
-            type: "input",
-            text: "(a) [10 points] As a single packet (Enter only the number in ms):",
-            img: "",
-            unit: "ms",
-            validate: (input) => {
-              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 3.2) < 0.05 || Math.abs(num - 0.0032) < 0.0001;
-            },
-            dispAnswer: "3.2",
-            exp: "d_trans = 15,000 / (10 * 10^6) = 1.5 ms لكل رابط. لكل رابط هنالك d_prop = 0.1 ms. بما أن المحول يعمل بـ Store-and-Forward وعلى رابطين: Total = 2 * (d_trans + d_prop) = 2 * (1.5 + 0.1) = 3.2 ms.",
-            placeholder: "Enter number..."
-          },
-          {
-            id: "p2_b",
-            type: "input",
-            text: "(b) [15 points] As three 5,000-bit packets sent one right after the other (Enter only the number in ms):",
-            img: "",
-            unit: "ms",
-            validate: (input) => {
-              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 2.2) < 0.05 || Math.abs(num - 0.0022) < 0.0001;
-            },
-            dispAnswer: "2.2",
-            exp: "لحزمة واحدة 5000 بت: d_trans = 5,000 / 10^7 = 0.5 ms. الحزمة الأولى تصل B عند: 2 * (0.5 + 0.1) = 1.2 ms. بما أن الإرسال عبر خط أنابيب (pipelining)، كل حزمة لاحقة تصل بعد 0.5 ms إضافية. الوقت الكلي = 1.2 + 0.5 + 0.5 = 2.2 ms.",
-            placeholder: "Enter number..."
-          }
-        ]
-      },
-      {
-        title: "Problem 3: Proxy Server & Delays (25 Points)",
-        context: `An institutional network is connected to the Internet:
-- Transmission rate of access link = 1.5 Mbps
-- Transmission rate of LAN = 10 Mbps
-- Average object size = 750,000 bits
-- Average request rate = 1.5 requests/sec
-- Internet delay = 4 seconds
-- Average access delay formula: Δ / (1 - Δ * β), where Δ = L/R_access and β is arrival rate.
-- LAN delay = L / R_LAN (ignoring prop/proc/queue).`,
-        subQuestions: [
-          {
-            id: "p3_a",
-            type: "input",
-            text: "a. [7 Points] Determine the traffic intensity of the access link:",
-            img: "../images/cw_1.png",
             unit: "",
             validate: (input) => {
               const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 0.75) < 0.02;
+              return Math.abs(num - 4.5) < 0.05;
             },
-            dispAnswer: "0.75",
-            exp: "Δ = 750,000 / 1,500,000 = 0.5 s. β = 1.5 requests/s. Traffic intensity = Δ * β = 0.5 * 1.5 = 0.75.",
+            dispAnswer: "4.5",
+            exp: "معادلة زمن التنفيذ: <bdi>CPU Time = (Instruction Count × CPI) / Clock Rate</bdi>.<br><bdi>6 = (4 × 10^9 × CPI) / (3 × 10^9) = (4/3) × CPI</bdi>.<br><bdi>CPI = 6 × (3 / 4) = 4.5</bdi>.",
             placeholder: "Enter number..."
           },
           {
-            id: "p3_b",
+            id: "q2",
             type: "input",
-            text: "b. [8 Points] Determine the total average response time (Enter only the number in seconds):",
+            text: "2. In a certain program, 40% of the execution time is due to a part that can be accelerated by a factor of 5. Using Amdahl's Law, what is the overall speedup?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 1.47) < 0.02 || Math.abs(num - 1.4606) < 0.02;
+            },
+            dispAnswer: "≈ 1.47 (or 1.4606)",
+            exp: "قانون أمداهل لتسريع النظام: <bdi>Speedup = 1 / ((1 - Fraction_enhanced) + (Fraction_enhanced / Speedup_part))</bdi>.<br><bdi>Speedup = 1 / (0.6 + (0.4 / 5)) = 1 / (0.6 + 0.08) = 1 / 0.68 ≈ 1.4706</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q3",
+            type: "input",
+            text: "3. The speedup of Machine A over machine B is 1.25 for a given benchmark, what is the execution time using machine B if Machine A runs the same benchmark in 10 seconds?",
             img: "",
             unit: "seconds",
             validate: (input) => {
               const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 6.075) < 0.05 || Math.abs(num - 6.08) < 0.05;
+              return Math.abs(num - 12.5) < 0.1;
             },
-            dispAnswer: "6.075",
-            exp: "LAN delay = 750,000 / 10^7 = 0.075 s. Access delay = 0.5 / (1 - 0.75) = 2 s. Internet delay = 4 s. Total = 0.075 + 2 + 4 = 6.075 s.",
+            dispAnswer: "12.5",
+            exp: "نسبة التسريع: <bdi>Speedup(A over B) = Time_B / Time_A = 1.25</bdi>.<br><bdi>Time_B = 1.25 × Time_A = 1.25 × 10 = 12.5 seconds</bdi>.",
             placeholder: "Enter number..."
           },
           {
-            id: "p3_c",
+            id: "q4",
             type: "input",
-            text: "c. [10 Points] Now suppose a cache is installed with hit ratio = 0.7. Find the total response time (Enter only the number in seconds):",
+            text: "4. A processor working on a 1.5 GHz frequency executes 1.2 × 10^9 instructions in 0.8 seconds. What is its MIPS rating?",
             img: "",
-            unit: "seconds",
+            unit: "MIPS",
             validate: (input) => {
               const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
-              return Math.abs(num - 1.22) < 0.08 || Math.abs(num - 1.24) < 0.08 || Math.abs(num - 1.15) < 0.1;
+              return Math.abs(num - 1500) < 1;
             },
-            dispAnswer: "≈ 1.22",
-            exp: "في حالة الـ Hit (بنسبة 0.7): التأخير = LAN delay = 0.075 s. في حالة الـ Miss (بنسبة 0.3): يصل الرابط معدل طلبات β_new = 0.3 * 1.5 = 0.45 req/s. بالتالي Access delay الجديد = 0.5 / (1 - 0.5 * 0.45) = 0.5 / 0.775 ≈ 0.645 s. زمن الـ Miss = 0.075 + 0.645 + 4 = 4.72 s. الإجمالي = 0.7 * (0.075) + 0.3 * (4.72) ≈ 1.22 ثانية.",
+            dispAnswer: "1500",
+            exp: "مقياس الميبس: <bdi>MIPS = Instruction Count / (Execution Time × 10^6)</bdi>.<br><bdi>MIPS = (1.2 × 10^9) / (0.8 × 10^6) = 1.2 × 1000 / 0.8 = 1500</bdi>.",
             placeholder: "Enter number..."
+          },
+          {
+            id: "q5",
+            type: "input",
+            text: "5. An instruction mix has an average CPI of 3.2 for a program with 2 × 10^9 instructions. What is the execution time of this program in billions of cycles?",
+            img: "",
+            unit: "billion cycles",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 6.4) < 0.1;
+            },
+            dispAnswer: "6.4",
+            exp: "إجمالي عدد دورات المعالج: <bdi>Cycles = Instruction Count × CPI</bdi>.<br><bdi>Cycles = (2 × 10^9) × 3.2 = 6.4 × 10^9 cycles = 6.4 billion cycles</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q6",
+            type: "input",
+            text: "6. We want an overall speedup of 2 for a program by improving a certain part by a factor of 3. According to Amdahl's Law, what fraction of the original execution time must this part represent?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 0.75) < 0.02 || Math.abs(num - 75) < 1;
+            },
+            dispAnswer: "0.75 (or 75%)",
+            exp: "بتطبيق قانون أمداهل: <bdi>2 = 1 / ((1 - f) + f / 3)</bdi>.<br><bdi>(1 - f) + f / 3 = 0.5  ==>  1 - (2/3)f = 0.5  ==>  (2/3)f = 0.5  ==>  f = 0.75</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q7",
+            type: "input",
+            text: "7. A SPEC benchmark suite reports individual ratios for a machine as: 1.5, 1.5, 2.0, 3.0, 0.75, and 1.25. What is the geometric mean SPEC ratio for this machine?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 1.527) < 0.02 || Math.abs(num - 1.53) < 0.02;
+            },
+            dispAnswer: "≈ 1.527",
+            exp: "المتوسط الهندسي لمقاييس <bdi>SPEC</bdi>:<br><bdi>GM = (1.5 × 1.5 × 2.0 × 3.0 × 0.75 × 1.25)^(1/6) = (12.65625)^(1/6) ≈ 1.527</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q8",
+            type: "input",
+            text: "8. Given lw $t0, 0xFF00($s1) and $s1 = 0x00004020, what is the effective address used by this instruction? (in hexadecimal)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim().replace(/^0x/, '');
+              return val === "00003f20" || val === "3f20";
+            },
+            dispAnswer: "0x00003F20",
+            exp: "يتم تمديد الإزاحة الفورية (<bdi>0xFF00</bdi>) ذات الـ 16 بت بإشارة (<bdi>Sign-extension</bdi>) لتصبح <bdi>0xFFFFFF00</bdi> (-256).<br>العنوان الفعال = <bdi>0x00004020 + 0xFFFFFF00 = 0x00003F20</bdi>.",
+            placeholder: "0x..."
+          },
+          {
+            id: "q9",
+            type: "input",
+            text: "9. A beq instruction is located at address 0x00400040 and has a signed offset of +6. What is the branch target address? (in hexadecimal)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim().replace(/^0x/, '');
+              return val === "0040005c" || val === "40005c";
+            },
+            dispAnswer: "0x0040005C",
+            exp: "عنوان القفز المشروط في معمارية <bdi>MIPS</bdi>:<br><bdi>Target = (PC + 4) + (offset × 4) = 0x00400044 + (6 × 4) = 0x00400044 + 0x18 = 0x0040005C</bdi>.",
+            placeholder: "0x..."
+          },
+          {
+            id: "q10",
+            type: "input",
+            text: "10. Assume $t2 = 0x00000015. After executing addi $t2, $t2, 0x8000, what is the new value in $t2 in hexadecimal?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim().replace(/^0x/, '');
+              return val === "ffff8015";
+            },
+            dispAnswer: "0xFFFF8015",
+            exp: "تعليمة <bdi>addi</bdi> تمدد القيمة المباشرة <bdi>0x8000</bdi> بإشارة (<bdi>Sign-extension</bdi>) لأن بت الإشارة هو 1، فتتحول إلى <bdi>0xFFFF8000</bdi>.<br><bdi>0x00000015 + 0xFFFF8000 = 0xFFFF8015</bdi>.",
+            placeholder: "0x..."
+          },
+          {
+            id: "q11",
+            type: "input",
+            text: "11. Write the 32-bit binary encoding (no hex) of: srl $s1, $s2, 5",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.replace(/[\s-]/g, '').trim();
+              return val === "00000000000100101000100101000010";
+            },
+            dispAnswer: "00000000000100101000100101000010",
+            exp: "ترميز صيغة <bdi>R-type</bdi> لتعليمة الإزاحة <bdi>srl</bdi>:<br>• <bdi>opcode = 000000</bdi><br>• <bdi>rs = 00000</bdi><br>• <bdi>rt = $s2 = 18 = 10010</bdi><br>• <bdi>rd = $s1 = 17 = 10001</bdi><br>• <bdi>shamt = 5 = 00101</bdi><br>• <bdi>funct = 000010</bdi>.<br>المجموع: <bdi>000000-00000-10010-10001-00101-000010</bdi>.",
+            placeholder: "Enter 32-bit binary..."
+          },
+          {
+            id: "q12",
+            type: "input",
+            text: "12. Consider the instruction sltiu $t0, $t0, 12. What is the final content of $t0 if its initial content is 0x80000000? (in hexadecimal)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim().replace(/^0x/, '');
+              return val === "0" || val === "00000000" || val === "0000 0000";
+            },
+            dispAnswer: "0x00000000 (0)",
+            exp: "تعليمة <bdi>sltiu</bdi> تجري مقارنة غير موقعة (<bdi>Unsigned</bdi>). القيمة <bdi>0x80000000</bdi> كقيمة غير موقعة هي <bdi>2^31 ≈ 2.14 × 10^9</bdi> وهي أكبر بكثير من 12، وبالتالي المقارنة (<bdi>t0 < 12</bdi>) خاطئة وتخزن 0.",
+            placeholder: "0x..."
+          },
+          {
+            id: "q13",
+            type: "input",
+            text: "13. Assume big-endian memory. The word at address 0x10001000 is 0xCAFEBABE. What value does lb $t1, 1($t0) load in $t1 if $t0 = 0x10001001? (in hexadecimal)",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim().replace(/^0x/, '');
+              return val === "ffffffba" || val === "ffff ffba";
+            },
+            dispAnswer: "0xFFFFFFBA",
+            exp: "العنوان الفعال للتحميل: <bdi>0x10001001 + 1 = 0x10001002</bdi>.<br>في نظام <bdi>Big-endian</bdi>:<br>• <bdi>0x10001000 = CA</bdi><br>• <bdi>0x10001001 = FE</bdi><br>• <bdi>0x10001002 = BA</bdi><br>• <bdi>0x10001003 = BE</bdi>.<br>البايت عند العنوان 0x10001002 هو <bdi>0xBA</bdi> (1011 1010 بت الإشارة 1)، وتعليمة <bdi>lb</bdi> تمدد الإشارة إلى 32 بت فتصبح: <bdi>0xFFFFFFBA</bdi>.",
+            placeholder: "0x..."
+          },
+          {
+            id: "q14",
+            type: "input",
+            text: "14. Initially $t3 = 0x000000F5. After executing andi $t3, $t3, 0xAAAA, what is the value in $t3 in hexadecimal?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().trim().replace(/^0x/, '');
+              return val === "000000a0" || val === "a0";
+            },
+            dispAnswer: "0x000000A0",
+            exp: "تعليمة <bdi>andi</bdi> تمدد القيمة الفورية بأصفار (<bdi>Zero-extension</bdi>) لتصبح <bdi>0x0000AAAA</bdi>.<br><bdi>0x000000F5 & 0x0000AAAA</bdi>:<br>• <bdi>F5 = 1111 0101</bdi><br>• <bdi>AA = 1010 1010</bdi><br>• الناتج المنطقي <bdi>AND = 1010 0000 = 0xA0</bdi>، فيكون الناتج النهائي: <bdi>0x000000A0</bdi>.",
+            placeholder: "0x..."
+          },
+          {
+            id: "q15",
+            type: "input",
+            text: "15. The base address of the Array A (Array of 8-byte double numbers) is stored in register $s1, Write the MIPS sequence of instructions to perform A[5] = 0.",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.toLowerCase().replace(/\s/g, '');
+              const hasFirst = val.includes("sw$zero,40($s1)");
+              const hasSecond = val.includes("sw$zero,44($s1)");
+              return hasFirst && hasSecond;
+            },
+            dispAnswer: "sw $zero, 40($s1)\nsw $zero, 44($s1)",
+            exp: "كل عنصر في المصفوفة نوعه <bdi>double</bdi> بحجم 8 بايت. إزاحة العنصر الخامس: <bdi>5 × 8 = 40</bdi> بايت.<br>لتصفير 8 بايت باستخدام مسجلات MIPS الأساسية نكتب كلمتين متعاقبتين (4 بايت لكل منهما) بقيمة صفر:<br><bdi>sw $zero, 40($s1)</bdi><br><bdi>sw $zero, 44($s1)</bdi>.",
+            placeholder: "Enter MIPS instructions..."
+          },
+          {
+            id: "q16",
+            type: "input",
+            text: "16. Assume 16-bit IEEE754-like format with 7 bits for the exponent (bias=63). Represent -8.75 using this format in 16-bit binary:",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.replace(/[\s-]/g, '').trim().toLowerCase();
+              return val === "1100001000011000" || val === "0xc218" || val === "c218";
+            },
+            dispAnswer: "1 1000010 00011000 (0xC218)",
+            exp: "تحويل العدد <bdi>-8.75</bdi>:<br>• إشارة سالبة: <bdi>Sign bit = 1</bdi>.<br>• القيمة الثنائية: <bdi>8.75 = 1000.11 = 1.00011 × 2^3</bdi>.<br>• الأس المنحاز: <bdi>Exponent = 3 + 63 = 66 = 1000010_2</bdi> (7 بت).<br>• الكسر (Mantissa): يتبقى 8 بتات (<bdi>16 - 1 - 7 = 8</bdi>)، فتكون: <bdi>00011000</bdi>.<br>التمثيل الكامل: <bdi>1 1000010 00011000</bdi>.",
+            placeholder: "Enter 16-bit binary..."
+          },
+          {
+            id: "q17",
+            type: "input",
+            text: "17. Assume the same 16-bit format (1 sign bit, 7 exponent bits with bias=63, 8 fraction bits). What does 1-0111100-01000000 represent in decimal?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.-]/g, ''));
+              return Math.abs(num - (-0.15625)) < 0.001 || Math.abs(num - (-5/32)) < 0.001;
+            },
+            dispAnswer: "-0.15625 (or -5/32)",
+            exp: "تحليل الحقول:<br>• بت الإشارة = 1 (سالب).<br>• حقل الأس = <bdi>0111100_2 = 60</bdi>، الأس الفعلي = <bdi>60 - 63 = -3</bdi>.<br>• حقل الكسر = <bdi>01000000_2 = 0.25</bdi>، الجزء الدال الكامل = <bdi>1 + 0.25 = 1.25</bdi>.<br>القيمة العشرية: <bdi>-1.25 × 2^(-3) = -1.25 / 8 = -0.15625</bdi>.",
+            placeholder: "Enter decimal number..."
+          },
+          {
+            id: "q18",
+            type: "input",
+            text: "18. Using the first version of the multiplier hardware customized for 8 bit by 8 bit multiplication, what is the 16-bit binary content of the multiplicand register after 4 iterations (4 adds and 4 shifts) if its initial content is equivalent to (17)10 in decimal?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.replace(/[\s-]/g, '').trim().toLowerCase();
+              return val === "0000000100010000" || val === "0x0110" || val === "0110";
+            },
+            dispAnswer: "0000000100010000 (0x0110)",
+            exp: "في النسخة الأولى من جهاز الضرب لمعاملات 8 بت:<br>• مسجل المضروب (<bdi>Multiplicand</bdi>) عرضه 16 بت، ويوضع المضروب الابتدائي في النصف الأيمن: <bdi>0000 0000 0001 0001</bdi>.<br>• في كل تكرار، يزاح مسجل المضروب نحو اليسار بمقدار 1 بت.<br>• بعد 4 تكرارات (4 إزاحات لليسار): <bdi>0000 0001 0001 0000</bdi>.",
+            placeholder: "Enter 16-bit binary..."
+          },
+          {
+            id: "q19",
+            type: "input",
+            text: "19. If the register write and register shifts are performed in one clock cycle (write on the falling edge and shift on the rising edge), what is the time required to complete the 32x32 multiplication if the clock frequency is 1 GHz?",
+            img: "",
+            unit: "ns",
+            validate: (input) => {
+              const num = parseFloat(input.trim().replace(/[^0-9.]/g, ''));
+              return Math.abs(num - 32) < 0.1;
+            },
+            dispAnswer: "32",
+            exp: "عملية ضرب 32 بت تتطلب 32 تكراراً. وبما أن الكتابة والإزاحة تُنجزان في دورة ساعة واحدة، فإن العملية تستغرق 32 دورة ساعة.<br>زمن دورة الساعة عند تردد 1 GHz هو: <bdi>T = 1 / 10^9 = 1 ns</bdi>.<br>الزمن الإجمالي: <bdi>32 × 1 ns = 32 ns</bdi>.",
+            placeholder: "Enter number..."
+          },
+          {
+            id: "q20",
+            type: "input",
+            text: "20. Using the second version of the divider hardware customized for 8 bit by 4 bit division, what is the final content of the remainder register if the dividend is 01100011 and the divisor is (1000)2?",
+            img: "",
+            unit: "",
+            validate: (input) => {
+              const val = input.replace(/[\s-]/g, '').trim().toLowerCase();
+              return val === "0011" || val === "00000011" || val === "3" || val === "00111100";
+            },
+            dispAnswer: "0011 (or 00000011, decimal 3)",
+            exp: "قيمة المقسوم: <bdi>01100011_2 = 99_10</bdi>.<br>قيمة المقسوم عليه: <bdi>1000_2 = 8_10</bdi>.<br>ناتج القسمة: <bdi>99 / 8 = 12</bdi> (00001100) والباقي هو <bdi>3</bdi> (0011_2).<br>في نهاية خوارزمية القسمة، يستقر باقي القسمة في مسجل الباقي بقيمة 3 ثنائياً.",
+            placeholder: "Enter answer..."
           }
         ]
       }
@@ -596,8 +613,8 @@ Calculate the total time required to transmit 15,000 bits from A to B:`,
               ${interactionHtml}
               <div class="solution-box" id="sol-${sub.id}">
                 <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
-                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
-                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">${sub.exp}</div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)} ${sub.unit ? escapeHtml(sub.unit) : ''}</div>
+                <div style="margin-top: 6px; font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right; white-space: pre-wrap;">${sub.exp}</div>
               </div>
             </div>
           `;
@@ -681,20 +698,20 @@ Calculate the total time required to transmit 15,000 bits from A to B:`,
     }
 
     function resetSubQuestion(subId) {
-      const inputEl = document.getElementById(`input-${subId}`);
-      const resetBtn = document.getElementById(`reset-btn-${subId}`);
-      const checkBtn = document.getElementById(`btn-check-${subId}`);
-      const sol = document.getElementById(`sol-${subId}`);
-      const imgBox = document.getElementById(`img-box-${subId}`);
-
       delete userScores[subId];
 
+      const inputEl = document.getElementById(`input-${subId}`);
       if (inputEl) {
         inputEl.disabled = false;
         inputEl.value = '';
         inputEl.className = 'text-input-field';
         inputEl.focus();
       }
+
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const imgBox = document.getElementById(`img-box-${subId}`);
 
       if (checkBtn) checkBtn.style.display = 'inline-flex';
       if (resetBtn) resetBtn.style.display = 'none';
