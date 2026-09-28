@@ -1,28 +1,28 @@
 {
-  "background_color": "#ffffff",
+  "name": "سنوات التكنو",
+  "short_name": "سنوات التكنو",
   "description": "بنك أسئلة السنوات سابقة لطلاب التكنو - امتحانات وحلول.",
-  "dir": "ltr",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/JUSTSNWAT/",
+  "scope": "/JUSTSNWAT/",
+  "id": "/JUSTSNWAT/",
   "display": "standalone",
-  "name": "vxus1.github",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "vxus1.github",
-  "start_url": "/",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "icons": [
     {
       "src": "https://vxus1.github.io/JUSTSNWAT/favicon.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "48x48",
-      "isSquare": true,
-      "isPng": true,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 48,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://vxus1.github.io/JUSTSNWAT/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ],
-  "id": "/"
+  ]
 }
