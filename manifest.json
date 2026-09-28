@@ -13,13 +13,13 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "https://vxus1.github.io/JUSTSNWAT/favicon.png",
+      "src": "https://vxus1.github.io/JUSTSNWAT/android/launchericon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://vxus1.github.io/JUSTSNWAT/favicon.png",
+      "src": "https://vxus1.github.io/JUSTSNWAT/android/launchericon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
