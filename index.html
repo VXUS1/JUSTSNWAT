@@ -28,6 +28,10 @@
   --text-secondary: #8e95a5;
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
   --radius: 16px;
+  
+  /* المتغيرات اللحظية المشتركة المتزامنة مع الكرة */
+  --theme-color: #0a84ff;
+  --theme-glow: rgba(10, 132, 255, 0.45);
 }
 
 * {
@@ -93,6 +97,7 @@ a {
   transition: border-color 0.3s var(--ease-apple);
 }
 
+/* الخط المتوهج أعلى يسار الهيدر متزامن بالألوان */
 .masthead::before {
   content: "";
   position: absolute;
@@ -101,8 +106,9 @@ a {
   height: 2px;
   top: 0;
   left: 8%;
-  background: linear-gradient(90deg, transparent, #E11D48, transparent);
-  box-shadow: 0 0 22px rgba(225, 29, 72, 0.7);
+  background: linear-gradient(90deg, transparent, var(--theme-color, #0a84ff), transparent) !important;
+  box-shadow: 0 0 22px var(--theme-glow, rgba(10, 132, 255, 0.5)) !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
 .masthead.scrolled {
@@ -128,6 +134,13 @@ a {
   overflow: visible;
 }
 
+/* دائرة اللوجو متزامنة مع ألوان الكرة */
+.logo-animated .disc {
+  fill: var(--theme-color, #0a84ff) !important;
+  filter: drop-shadow(0 0 8px var(--theme-glow, rgba(10, 132, 255, 0.4)));
+  transition: fill 0.15s ease, filter 0.15s ease;
+}
+
 .logo-animated .word {
   display: flex;
   flex-direction: column;
@@ -149,16 +162,18 @@ a {
   display: inline-block;
 }
 
+/* الشريط أسفل اسم اللوجو متزامن بالألوان */
 .logo-animated .logo-bar {
   height: 4px !important;
   width: 52px !important;
   margin: 6px 0 0 0 !important;
   padding: 0 !important;
-  background: var(--apple-red) !important;
+  background: var(--theme-color, #0a84ff) !important;
   border: none !important;
   border-radius: 3px !important;
   transform-origin: left !important;
-  box-shadow: 0 0 12px rgba(225, 29, 72, 0.45);
+  box-shadow: 0 0 12px var(--theme-glow, rgba(10, 132, 255, 0.45)) !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
 .logo-animated .mark .fb { transform-box: fill-box; }
@@ -2218,8 +2233,9 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         }
       });
     }
-       /* =======================================================
-       4. محرك الكرة الأرضية - متزامن لحظياً مع العنوان
+
+    /* =======================================================
+       4. محرك الكرة الأرضية - متزامن لحظياً مع العنوان واللوجو
        ======================================================= */
     var globeAnimId = null;
 
@@ -2431,7 +2447,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       // عنصر العنوان للربط اللحظي
       var titleEl = document.querySelector(".landing-title-clean");
 
-      // 6. حلقة التحريك مع التزامن اللوني المباشر
+      // 6. حلقة التحريك مع التزامن الشامل للكرة والعنوان واللوجو
       function animate() {
         globeAnimId = requestAnimationFrame(animate);
 
@@ -2439,19 +2455,26 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         var phase = (Math.sin(time) + 1) * 0.5;
         var smoothT = phase * phase * (3 - 2 * phase); // 0 (أزرق) <--> 1 (أورانج)
         
-        // تغيير لون خطوط الكرة
+        // 1. تغيير خطوط الكرة الأرضية
         continentMaterial.color.lerpColors(colorBlue, colorOrange, smoothT);
 
-        // مزامنة ألوان العنوان (JUSTSNWAT) بنفس الكسر من الثانية
+        // حساب اللون المشترك اللحظي
+        var r = Math.round(10 + (249 - 10) * smoothT);
+        var g = Math.round(132 + (115 - 132) * smoothT);
+        var b = Math.round(255 + (22 - 255) * smoothT);
+        var themeRgb  = "rgb(" + r + "," + g + "," + b + ")";
+        var themeGlow = "rgba(" + r + "," + g + "," + b + ", 0.45)";
+
+        // 2. تحديث اللوجو والهيدر فورياً
+        document.documentElement.style.setProperty("--theme-color", themeRgb);
+        document.documentElement.style.setProperty("--theme-glow", themeGlow);
+
+        // 3. مزامنة ألوان العنوان (JUSTSNWAT) بنفس الكسر من الثانية
         if (!titleEl || !titleEl.isConnected) {
           titleEl = document.querySelector(".landing-title-clean");
         }
         if (titleEl) {
-          // حساب تدرج الإضاءة اللحظي
-          var r = Math.round(10 + (249 - 10) * smoothT);
-          var g = Math.round(132 + (115 - 132) * smoothT);
-          var b = Math.round(255 + (22 - 255) * smoothT);
-          titleEl.style.setProperty("--glow-color", "rgba(" + r + "," + g + "," + b + ", 0.42)");
+          titleEl.style.setProperty("--glow-color", themeGlow);
           titleEl.style.setProperty("--bg-pos", (smoothT * 100).toFixed(1) + "%");
         }
 
@@ -2474,6 +2497,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       }
       animate();
     }
+
     /* =======================================================
        5. صفحة قائمة الأقسام والتصنيفات
        ======================================================= */
