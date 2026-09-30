@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | أنظمة قواعد البيانات - Database Systems Exams</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border, rgba(255, 255, 255, 0.12));
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface, rgba(255, 255, 255, 0.05));
+      border: 1px solid var(--apple-border-strong, rgba(255, 255, 255, 0.18));
+      color: var(--text-primary, #f5f5f7);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover, rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue, #0a84ff);
+      color: #ffffff;
+      border-color: var(--apple-blue, #0a84ff);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border, rgba(255, 255, 255, 0.15));
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      direction: rtl;
+      text-align: right;
+      flex-wrap: wrap;
+    }
+    .part-badge {
+      background: rgba(10, 132, 255, 0.15);
+      color: #5ac8fa;
+      border: 1px solid rgba(10, 132, 255, 0.35);
+      padding: 3px 12px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .part-title-text {
+      flex: 1;
+      font-family: 'Cairo', sans-serif;
+      line-height: 1.5;
+    }
+
+    .parent-q-desc {
+      font-size: 0.96rem;
+      line-height: 1.8;
+      color: var(--text-primary, #e8e8ed);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: 'JetBrains Mono', Consolas, -apple-system, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.1));
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s ease;
+    }
+    .sub-question-card:hover {
+      border-color: rgba(10, 132, 255, 0.3);
+    }
+
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary, #f5f5f7);
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.1));
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      font-size: 0.95rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.2) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.2) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.84rem;
+      flex-shrink: 0;
+      color: var(--apple-blue, #0a84ff);
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .btn-action {
+      background: rgba(10, 132, 255, 0.15);
+      color: #0a84ff;
+      border: 1px solid rgba(10, 132, 255, 0.35);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: 'Cairo', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      background: #0a84ff;
+      color: #fff;
+    }
+
+    .solution-box {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* DB Tables Styling */
+    .db-state-wrapper {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 16px 0 22px 0;
+    }
+    .db-table-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.12));
+      border-radius: 10px;
+      padding: 12px;
+      flex: 1 1 280px;
+      overflow-x: auto;
+    }
+    .db-table-title {
+      font-weight: 800;
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+      color: #5ac8fa;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    .raw-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      text-align: left;
+    }
+    .raw-table th, .raw-table td {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 10px;
+    }
+    .raw-table th {
+      background: rgba(10, 132, 255, 0.14);
+      color: #f5f5f7;
+      font-weight: 700;
+    }
+    .raw-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .raw-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .pk-attr {
+      text-decoration: underline;
+      font-weight: 700;
+      color: #ffd60a;
+    }
+    .fk-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 1px 4px;
+      background: rgba(10, 132, 255, 0.3);
+      color: #5ac8fa;
+      border-radius: 4px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/db">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">أنظمة قواعد البيانات (Database Systems)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان سكند — قيود التكامل العلائقي، المفاتيح، وتحويل ER إلى Relational</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/db">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1IAQkk5dWQc-kxJRbobM87IVsKBQfwftH/view?usp=drive_link";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const U = s => ({
+      svg: '<span style="font-family:JetBrains Mono,Consolas,monospace;font-size:.90rem;line-height:1.8">' +
+           s.replace(/_([A-Za-z0-9_ -]+)_/g, '<u style="text-decoration-thickness: 1.8px; text-underline-offset: 3px;">$1</u>') +
+           '</span>'
+    });
+
+    const Q = (id, text, opts, ans, disp, exp, dg = '') => ({
+      id,
+      text,
+      opts,
+      ans,
+      dispAnswer: disp,
+      exp,
+      diagram: dg
+    });
+
+    /* ============ Diagrams Generator for ER Models ============ */
+    function getERPage3Svg() {
+      return `
+      <svg viewBox="0 0 850 560" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:850px;height:auto;display:block;margin:auto;color:var(--text-primary,#e8e8ed);font-family:'Times New Roman',serif">
+        <!-- CLIENT -->
+        <rect x="180" y="115" width="100" height="34" stroke="currentColor" fill="none" stroke-width="1.6"/>
+        <text x="230" y="137" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">Client</text>
+        <line x1="180" y1="125" x2="135" y2="85" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="110" cy="75" rx="34" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="110" y="79" text-anchor="middle" font-size="12" fill="currentColor">IP</text>
+        <line x1="98" y1="83" x2="122" y2="83" stroke="currentColor" stroke-width="1.4"/>
+
+        <line x1="260" y1="115" x2="285" y2="75" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="295" cy="65" rx="36" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="295" y="69" text-anchor="middle" font-size="12" fill="currentColor">Name</text>
+
+        <!-- accesses relationship M:N -->
+        <line x1="280" y1="132" x2="380" y2="132" stroke="currentColor" stroke-width="1.4"/>
+        <polygon points="380,132 425,110 470,132 425,154" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="425" y="137" text-anchor="middle" font-size="13" fill="currentColor">accesses</text>
+        <line x1="470" y1="132" x2="570" y2="132" stroke="currentColor" stroke-width="1.4"/>
+        <text x="310" y="125" text-anchor="middle" font-size="13" font-weight="bold" fill="currentColor">M</text>
+        <text x="540" y="125" text-anchor="middle" font-size="13" font-weight="bold" fill="currentColor">N</text>
+
+        <!-- FILE (Weak Entity) -->
+        <rect x="570" y="115" width="105" height="36" stroke="currentColor" fill="none" stroke-width="1.6"/>
+        <rect x="574" y="119" width="97" height="28" stroke="currentColor" fill="none" stroke-width="1.2"/>
+        <text x="622" y="138" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">File</text>
+        <line x1="585" y1="115" x2="535" y2="65" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="510" cy="55" rx="42" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="510" y="59" text-anchor="middle" font-size="12" fill="currentColor">Filename</text>
+        <line x1="485" y1="63" x2="535" y2="63" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 2"/>
+
+        <line x1="622" y1="115" x2="622" y2="70" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="622" cy="55" rx="30" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="622" y="59" text-anchor="middle" font-size="12" fill="currentColor">Type</text>
+
+        <line x1="660" y1="115" x2="710" y2="65" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="730" cy="55" rx="28" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="730" y="59" text-anchor="middle" font-size="12" fill="currentColor">Size</text>
+
+        <!-- Identifying Relationship "in" (Double Diamond) -->
+        <line x1="622" y1="151" x2="622" y2="175" stroke="currentColor" stroke-width="2.6"/>
+        <polygon points="622,175 668,205 622,235 576,205" stroke="currentColor" fill="none" stroke-width="1.6"/>
+        <polygon points="622,181 660,205 622,229 584,205" stroke="currentColor" fill="none" stroke-width="1.2"/>
+        <text x="622" y="210" text-anchor="middle" font-size="13" fill="currentColor">in</text>
+        <line x1="622" y1="235" x2="622" y2="280" stroke="currentColor" stroke-width="1.6"/>
+        <text x="635" y="165" font-size="13" font-weight="bold" fill="currentColor">N</text>
+        <text x="635" y="260" font-size="13" font-weight="bold" fill="currentColor">1</text>
+
+        <!-- DIRECTORY -->
+        <rect x="565" y="280" width="115" height="38" stroke="currentColor" fill="none" stroke-width="1.6"/>
+        <text x="622" y="304" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">Directory</text>
+        <line x1="565" y1="288" x2="520" y2="255" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="495" cy="245" rx="38" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="495" y="249" text-anchor="middle" font-size="12" fill="currentColor">Dir_name</text>
+        <line x1="470" y1="253" x2="520" y2="253" stroke="currentColor" stroke-width="1.4"/>
+
+        <line x1="565" y1="300" x2="515" y2="300" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="485" cy="300" rx="46" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="485" y="304" text-anchor="middle" font-size="11.5" fill="currentColor">Date_of_mod</text>
+
+        <!-- Recursive "parent" on Directory (1:N) -->
+        <path d="M 680 290 L 735 290 L 735 315 L 755 315" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <polygon points="755,315 785,295 815,315 785,335" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="785" y="319" text-anchor="middle" font-size="12" fill="currentColor">parent</text>
+        <path d="M 785 335 L 785 365 L 650 365 L 650 318" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="705" y="282" font-size="12" font-weight="bold" fill="currentColor">child (N)</text>
+        <text x="710" y="360" font-size="12" font-weight="bold" fill="currentColor">parent (1)</text>
+
+        <!-- HOST -->
+        <rect x="180" y="315" width="100" height="36" stroke="currentColor" fill="none" stroke-width="1.6"/>
+        <text x="230" y="338" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">Host</text>
+        <line x1="180" y1="325" x2="135" y2="320" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="110" cy="320" rx="32" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="110" y="324" text-anchor="middle" font-size="12" fill="currentColor">IP</text>
+        <line x1="98" y1="328" x2="122" y2="328" stroke="currentColor" stroke-width="1.4"/>
+
+        <line x1="180" y1="345" x2="135" y2="370" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="110" cy="375" rx="34" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="110" y="379" text-anchor="middle" font-size="12" fill="currentColor">Server</text>
+
+        <line x1="220" y1="351" x2="200" y2="405" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="190" cy="415" rx="38" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="190" y="419" text-anchor="middle" font-size="12" fill="currentColor">Location</text>
+
+        <!-- Multivalued attribute Name (double ellipse) -->
+        <line x1="250" y1="351" x2="280" y2="395" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="295" cy="405" rx="38" ry="15" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <ellipse cx="295" cy="405" rx="42" ry="19" stroke="currentColor" fill="none" stroke-width="1.2"/>
+        <text x="295" y="409" text-anchor="middle" font-size="12" fill="currentColor">Name</text>
+
+        <!-- Resides relationship (Host 1 - N Directory) -->
+        <line x1="280" y1="333" x2="385" y2="333" stroke="currentColor" stroke-width="1.4"/>
+        <polygon points="385,333 430,312 475,333 430,354" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="430" y="338" text-anchor="middle" font-size="13" fill="currentColor">Resides</text>
+        <path d="M 475 333 L 530 333 L 530 305 L 565 305" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="305" y="325" font-size="13" font-weight="bold" fill="currentColor">1</text>
+        <text x="545" y="322" font-size="13" font-weight="bold" fill="currentColor">N</text>
+
+        <!-- SPECIALIZATION ISA (Directory -> Root, Non-Root) -->
+        <line x1="622" y1="318" x2="622" y2="370" stroke="currentColor" stroke-width="1.6"/>
+        <polygon points="622,370 605,395 639,395" stroke="currentColor" fill="none" stroke-width="1.6"/>
+        <circle cx="622" cy="385" r="4" fill="currentColor"/>
+
+        <path d="M 610 395 L 560 430" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <rect x="520" y="430" width="80" height="32" stroke="currentColor" fill="none" stroke-width="1.5"/>
+        <text x="560" y="451" text-anchor="middle" font-size="13" font-weight="bold" fill="currentColor">Root</text>
+
+        <path d="M 634 395 L 685 430" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <rect x="650" y="430" width="90" height="32" stroke="currentColor" fill="none" stroke-width="1.5"/>
+        <text x="695" y="451" text-anchor="middle" font-size="13" font-weight="bold" fill="currentColor">Non-Root</text>
+
+        <line x1="695" y1="462" x2="695" y2="495" stroke="currentColor" stroke-width="1.4"/>
+        <ellipse cx="695" cy="508" rx="42" ry="14" stroke="currentColor" fill="none" stroke-width="1.4"/>
+        <text x="695" y="512" text-anchor="middle" font-size="12" fill="currentColor">Permission</text>
+      </svg>
+      `;
+    }
+
+    const examSections = [
+      {
+        badge: "Part I",
+        title: "قيود التكامل العلائقي — Relational Integrity Constraints (Q1–Q6)",
+        context: `Consider the following relational database (schema, and state), that keeps track of borrowed (مستعارة) books in a library.
+
+Book(<u>ISBN</u>, title, publisher, year)
+Borrow(<u>ISBN</u>, <u>STNO</u>, borrow-date, return-date)
+Student(<u>STNO</u>, Sname, Address, Major, GPA)
+
+Assume, we have one copy of each book in the library, return-date is left null for unreturned books, Borrow.ISBN is a FK which references Book.ISBN, and Borrow.STNO is a FK which references Student.STNO.
+
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Book</div>
+    <table class="raw-table">
+      <thead>
+        <tr><th><span class="pk-attr">ISBN</span></th><th>title</th><th>publisher</th><th>year</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1111</td><td>Database</td><td>Pearson</td><td>2015</td></tr>
+        <tr><td>2222</td><td>Oracle</td><td>Cenagig</td><td>2014</td></tr>
+        <tr><td>3333</td><td>C++</td><td>Addison</td><td>2000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card">
+    <div class="db-table-title">Student</div>
+    <table class="raw-table">
+      <thead>
+        <tr><th><span class="pk-attr">STNO</span></th><th>Sname</th><th>Address</th><th>Major</th><th>GPA</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10</td><td>Omar</td><td>Irbid</td><td>CS</td><td>75</td></tr>
+        <tr><td>20</td><td>Ruba</td><td>Amman</td><td>CIS</td><td>77</td></tr>
+        <tr><td>30</td><td>Eiman</td><td>Amman</td><td>SE</td><td>82</td></tr>
+        <tr><td>40</td><td>Ali</td><td>Irbid</td><td>CIS</td><td>87</td></tr>
+        <tr><td>50</td><td>Laith</td><td>Irbid</td><td>CS</td><td>88</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card">
+    <div class="db-table-title">Borrow</div>
+    <table class="raw-table">
+      <thead>
+        <tr><th><span class="pk-attr">ISBN</span> <span class="fk-badge">FK</span></th><th><span class="pk-attr">STNO</span> <span class="fk-badge">FK</span></th><th>borrow-date</th><th>return-date</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1111</td><td>10</td><td>2/3/17</td><td><i>null</i></td></tr>
+        <tr><td>2222</td><td>10</td><td>1/2/17</td><td>28/2/17</td></tr>
+        <tr><td>3333</td><td>20</td><td>5/2/17</td><td><i>null</i></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`,
+        subQuestions: [
+          Q(
+            "q1",
+            "1- Insert into Student values (40, 'Reem', 'Irbid', 'CS', 70)",
+            ["Entity", "Accepted", "Referential", "Key"],
+            3,
+            "d. Key",
+            `• السبب: في جدول Student، المفتاح الأساسي (Primary Key) هو STNO.
+• بالنظر إلى حالة الجدول، نجد أن القيمة (40) موجودة مسبقاً للطالب 'Ali'.
+• محاولة إدخال سجل جديد بنفس المفتاح الأساسي STNO = 40 يؤدي إلى تكرار المفتاح، وهذا ينتهك قيد المفتاح الأساسي (Key Constraint / Uniqueness).`
+          ),
+          Q(
+            "q2",
+            "2- Insert into Borrow values (2222, 10, '7/3/17', Null)",
+            ["Entity", "Accepted", "Referential", "Key"],
+            3,
+            "d. Key",
+            `• السبب: في مخطط جدول Borrow، المفتاح الأساسي المركب للجدول هو (ISBN, STNO) [حيث تم تمثيل العلاقة M:N بأخذ مفتاحي الجدولين، أو مع فرضية وجود نسخة واحدة لكل كتاب فإن الكتاب والمستعير معاً يشكلان المفتاح].
+• بالنظر إلى السجل الثاني في جدول Borrow، نجد أن الزوج (2222, 10) مسجل وموجود مسبقاً في الجدول.
+• محاولة إدخال سجل جديد بنفس المفتاح (2222, 10) تمثل تكراراً للمفتاح الأساسي، مما ينتهك قيد المفتاح (Key Constraint).`
+          ),
+          Q(
+            "q3",
+            "3- Insert into Borrow values (3333, 50, Null, Null)",
+            ["Entity", "Domain", "Referential", "Key"],
+            0,
+            "a. Entity",
+            `• السبب: قيد تكامل الكيان (Entity Integrity Constraint) ينص على أنه "لا يجوز لأي سمة تشارك في المفتاح الأساسي أن تأخذ قيمة خالية (NULL)".
+• تاريخ الاستعارة borrow-date يُعد سمة أساسية في عملية الاستعارة وتشارك في تمييز عمليات الاستعارة (أو معرفة كـ NOT NULL / جزء من الكيان)، وتمرير قيمة Null ينتهك قيد تكامل الكيان (Entity Integrity).`
+          ),
+          Q(
+            "q4",
+            "4- Delete from Book where ISBN = 3333",
+            ["Entity", "Accepted", "Referential", "Key"],
+            2,
+            "c. Referential",
+            `• السبب: الكتاب ذو الرقم 3333 مستعار حالياً ومسجل في جدول Borrow (السجل الثالث: 3333, 20, 5/2/17).
+• بما أن Borrow.ISBN هو مفتاح أجنبي (FK) يشير إلى Book.ISBN، فإن حذف الكتاب من جدول Book سيترك سجلاً في جدول Borrow يشير إلى كتاب غير موجود (Dangling / Orphan Tuple).
+• هذا يخالف وينتهك مباشرة قيد التكامل المرجعي (Referential Integrity Constraint).`
+          ),
+          Q(
+            "q5",
+            "5- Delete from Student where STNO = 40",
+            ["Entity", "Accepted", "Referential", "Key"],
+            1,
+            "b. Accepted",
+            `• السبب: الطالب رقم 40 (Ali) غير مستعير لأي كتاب حالياً ولا يظهر في جدول Borrow على الإطلاق (أرقام الطلاب في جدول Borrow هي 10 و 20 فقط).
+• بالتالي لا توجد أي علاقة أو سجل في جدول آخر يشير إلى هذا الطالب عبر مفتاح أجنبي (FK).
+• لذلك، عملية الحذف مقبولة نظامياً (Accepted) ولا تنتهك أي قيد من قيود قاعدة البيانات.`
+          ),
+          Q(
+            "q6",
+            "6- Insert into Book values (4444,Java,Deitel,April)",
+            ["Entity", "Domain", "Referential", "Key"],
+            1,
+            "b. Domain",
+            `• السبب: السمة الرابعة في جدول Book هي سنة النشر (year)، ونطاق قيمها (Domain) هو أرقام صحيحة تمثل سنوات (مثل 2015, 2014, 2000).
+• في جملة الإدخال، تم تمرير القيمة 'April' (اسم شهر / نص) في حقل السنة، وهي قيمة لا تنتمي لنطاق السمة المسموح به.
+• هذا ينتهك قيد النطاق (Domain Constraint).`
+          )
+        ]
+      },
+      {
+        badge: "Part II",
+        title: "المفاتيح الفائقة والمرشحة ودرجة الجدول — Keys & Relation Degree (Q7–Q10)",
+        context: `For the following table, answer the questions below:
+
+<div style="max-width: 380px; margin: 14px auto 20px auto; overflow-x: auto;">
+  <table class="raw-table" style="text-align: center;">
+    <thead>
+      <tr>
+        <th style="width: 25%;">A</th>
+        <th style="width: 25%;">B</th>
+        <th style="width: 25%;">C</th>
+        <th style="width: 25%;">D</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>x1</td><td>b1</td><td>c1</td><td>d1</td></tr>
+      <tr><td>x2</td><td>b1</td><td>c1</td><td>d2</td></tr>
+      <tr><td>x2</td><td>b2</td><td>c2</td><td>d1</td></tr>
+      <tr><td>x1</td><td>b2</td><td>c2</td><td>d1</td></tr>
+    </tbody>
+  </table>
+</div>`,
+        subQuestions: [
+          Q(
+            "q7",
+            "7- One of the following is a possible candidate key for the relation based on its current tuples",
+            ["{A, D}", "{A}", "{A, B}", "{C, D}"],
+            2,
+            "c. {A, B}",
+            `• تحليل كل خيار:
+  - {A}: يحتوي على تكرار (x1 يتكرر مرتين في الصف 1 و 4، و x2 مرتين في الصف 2 و 3) ❌
+  - {A, D}: الصف الأول (x1, d1) والصف الرابع (x1, d1) متطابقان تماماً ❌
+  - {C, D}: الصف الثالث (c2, d1) والصف الرابع (c2, d1) متطابقان تماماً ❌
+  - {A, B}: قيم كل صف فريدة تماماً:
+    الصف 1: (x1, b1)
+    الصف 2: (x2, b1)
+    الصف 3: (x2, b2)
+    الصف 4: (x1, b2)
+  لا يوجد أي تكرار، كما أنه أصغري (Minimal) لأن A وحده أو B وحده لا يحققان الفرادة. إذن {A, B} هو Candidate Key صالح.`
+          ),
+          Q(
+            "q8",
+            "8- Which one of the following attributes can be used as the primary key?",
+            ["{A, B}", "{A, D}", "{B, C}", "{C, D}"],
+            0,
+            "a. {A, B}",
+            `• السبب: لكي يتم اختيار مجموعة سمات كمفتاح أساسي (Primary Key)، يجب أولاً أن تكون مفتاحاً مرشحاً (Candidate Key) يميز كل صف بفرادة تامة ودون تكرار.
+• بفحص الخيارات:
+  - {A, D} يحتوي على تكرار في الصفين 1 و 4 (x1, d1).
+  - {B, C} يحتوي على تكرار في الصفين 1 و 2 (b1, c1)، والصفين 3 و 4 (b2, c2).
+  - {C, D} يحتوي على تكرار في الصفين 3 و 4 (c2, d1).
+• المجموعة الوحيدة الفريدة بالكامل من بين الخيارات هي {A, B}، لذا هي الوحيدة التي تصلح كمفتاح أساسي.`
+          ),
+          Q(
+            "q9",
+            "9- Which one of the following attributes can be used as a superkey?",
+            ["{A, C}", "{A, B, C}", "{A, B, D}", "all of them"],
+            3,
+            "d. all of them",
+            `• تعريف الـ Superkey: أي مجموعة من السمات تميز كل صف في الجدول بفرادة تامة:
+1. فحص {A, C}:
+   - الصف 1: (x1, c1)
+   - الصف 2: (x2, c1)
+   - الصف 3: (x2, c2)
+   - الصف 4: (x1, c2)
+   جميعها مختلفة وفريدة، إذن {A, C} هو Superkey (ومفتاح مرشح أيضاً).
+2. فحص {A, B, C}: بما أن {A, B} مفتاح مرشح فريد، فإن إضافة أي سمة أخرى إليه (مثل C) ينتج بالتأكيد Superkey.
+3. فحص {A, B, D}: بنفس القاعدة، بما أن {A, B} فريد، فإن {A, B, D} هو Superkey.
+• النتيجة: جميع الخيارات المذكورة (all of them) تمثل Superkeys صحيحة.`
+          ),
+          Q(
+            "q10",
+            "10- The degree of this table is:",
+            ["3", "4", "5", "6"],
+            1,
+            "b. 4",
+            `• السبب: درجة الجدول (Degree أو Arity) هي عدد الأعمدة / السمات (Attributes) في مخطط العلاقة.
+• الجدول يحتوي على 4 أعمدة: A, B, C, D. إذن الدرجة = 4.
+(ملاحظة: عدد الصفوف يُسمى Cardinality وهو أيضاً 4 في هذا الجدول).`
+          )
+        ]
+      },
+      {
+        badge: "Part III",
+        title: "تحويل مخطط الكيانات والعلاقات إلى مخطط علائقي (ER-to-Relational Mapping)",
+        context: `Q2. Complete the conversion of the ER model shown below to a relational one. You have to mark the primary and foreign keys or you will lose the point for that attribute (by underlying for primary keys and write F.K on top of a foreign key). Do not use arrows between tables! [10 pts]
+
+<div style="background: rgba(255,255,255,0.03); border: 1px solid var(--apple-border); border-radius: 12px; padding: 16px; margin: 12px 0 16px; overflow-x: auto;">
+  ${getERPage3Svg()}
+</div>`,
+        subQuestions: [
+          Q(
+            "q11",
+            "11. How should the entity Host and its multivalued attribute 'Name' be mapped into relations?",
+            [
+              U("Host(_IP_, Server, Location), Host_Name(_IP_, _Name_)"),
+              U("Host(_IP_, Server, Location, Name)"),
+              U("Host(_IP_, Server, Location), Name(_Name_, IP)"),
+              U("Host(_IP_, _Name_, Server, Location)")
+            ],
+            0,
+            "a. Host(IP, Server, Location), Host_Name(IP, Name)",
+            `• السبب: في قواعد تحويل ER إلى Relational (Step 4: Mapping Multivalued Attributes):
+1. الكيان الأساسي Host يُنشأ له جدول بالسمات الأحادية: Host(<u>IP</u>, Server, Location).
+2. السمة متعددة القيم Name (الممثلة بدائرة مزدوجة Double Ellipse) يُنشأ لها جدول مستقل Host_Name.
+3. يحتوي جدول Host_Name على المفتاح الأساسي للكيان IP كمفتاح أجنبي (FK)، بالإضافة إلى السمة Name.
+4. المفتاح الأساسي للجدول الجديد مركب من الاثنين معاً: {IP, Name}.`
+          ),
+          Q(
+            "q12",
+            "12. The entity File is a weak entity (double rectangle) with partial key 'Filename' related to Directory via 'in' (1:N). How is File mapped?",
+            [
+              U("File(_Filename_, Type, Size)"),
+              U("File(_Dname_, _Filename_, Type, Size) where Dname is FK referencing Directory"),
+              U("File(_Filename_, Type, Size, Dname) where only Filename is PK"),
+              U("File(_IP_, Filename, Type, Size)")
+            ],
+            1,
+            "b. File(Dname, Filename, Type, Size)",
+            `• السبب: في تحويل الكيان الضعيف (Step 2: Mapping Weak Entity Types):
+1. نأخذ جميع السمات البسيطة للكيان الضعيف (Filename, Type, Size).
+2. نضيف المفتاح الأساسي للكيان المالك Directory (وهو Dname) كمفتاح أجنبي (FK) داخل جدول File.
+3. المفتاح الأساسي للكيان الضعيف يتكون من المفتاح الأساسي للمالك مع المفتاح الجزئي: {Dname, Filename}.`
+          ),
+          Q(
+            "q13",
+            "13. The relationship 'accesses' between Client and File is M:N. How should this relationship be mapped?",
+            [
+              U("Accesses(_Client_IP_, _Dname_, _Filename_)"),
+              U("File(_Dname_, _Filename_, Type, Size, Client_IP)"),
+              U("Client(_IP_, Name, Filename)"),
+              U("Accesses(_Client_IP_, _Filename_)")
+            ],
+            0,
+            "a. Accesses(Client_IP, Dname, Filename)",
+            `• السبب: في تحويل علاقة M:N (Step 5: Mapping M:N Relationship Types):
+1. نُنشئ جدولاً مستقلاً للعلاقة يُسمى Accesses.
+2. نضع فيه المفاتيح الأساسية للكيانين المشتركين في العلاقة كـ Foreign Keys:
+   - مفتاح Client هو: Client_IP (FK يشير إلى Client).
+   - مفتاح File هو مفتاح مركب يتكون من: (Dname, Filename) (FK يشير إلى جدول File).
+3. المفتاح الأساسي لجدول Accesses يتكون من اتحاد هذه المفاتيح: {Client_IP, Dname, Filename}.
+(ملاحظة: محاولة وضع مفتاح Client داخل جدول File مباشرة كما فعل الطالب في الورقة يُعد خطأً كبيراً كلفه 4 علامات).`
+          ),
+          Q(
+            "q14",
+            "14. Directory has a recursive relationship 'parent' representing folder hierarchy (1:N). How is this relationship mapped?",
+            [
+              "By adding a foreign key (e.g. Parent_Dname) inside the Directory table that references Directory(Dname).",
+              "By creating a new separate M:N table for parent.",
+              "It cannot be represented in the relational model.",
+              "By creating two completely duplicated tables for Directory."
+            ],
+            0,
+            "a. By adding a foreign key (Parent_Dname) inside Directory referencing Directory(Dname)",
+            `• السبب: في تحويل العلاقات الأحادية العودية من نوع 1:N (Recursive 1:N Relationship):
+- كل مجلد فرعي يتبع مجلداً رئيساً واحداً فقط (1)، بينما المجلد الرئيس قد يحتوي عدة مجلدات فرعية (N).
+- يتم تمثيل ذلك ببساطة بإضافة حقل مفتاح أجنبي (Self-referencing FK) مثل Parent_Dname داخل نفس جدول Directory يشير إلى المفتاح الأساسي لنفس الجدول Directory(Dname).`
+          ),
+          Q(
+            "q15",
+            "15. Directory specializes into Root and Non-Root (which has the attribute 'Permission'). According to standard specialization mapping (Option 8A), how is Non-Root mapped?",
+            [
+              U("Non_Root(_Dname_, Permission) where Dname is PK and FK referencing Directory(Dname)"),
+              U("Non_Root(_Permission_, Dname)"),
+              U("Directory(_Dname_, Permission) without sub-tables"),
+              U("Non_Root(_Permission_) only")
+            ],
+            0,
+            "a. Non_Root(Dname, Permission)",
+            `• السبب: في تحويل التخصيص والوراثة (Mapping of Specialization/Generalization - Option 8A):
+- يُنشأ جدول للكيان العام Directory(Dname, Date_of_mod, ...).
+- يُنشأ جدول للفئة الفرعية Non_Root يحتوي على مفتاح الكيان العام Dname ليكون هو المفتاح الأساسي (PK) وفي نفس الوقت مفتاحاً أجنبياً (FK) يشير إلى جدول Directory، بالإضافة إلى السمات الخاصة بالفئة الفرعية (Permission).`
+          ),
+          Q(
+            "q16",
+            "16. Which of the following represents the complete, correct relational database schema for the entire ER diagram?",
+            [
+              U("Client(_IP_, Name)<br>Host(_IP_, Server, Location)<br>Host_Name(_IP_, _Name_) [IP is FK]<br>Directory(_Dname_, Date_of_mod, Host_IP, Parent_Dname) [Host_IP, Parent_Dname are FKs]<br>Non_Root(_Dname_, Permission) [Dname is PK & FK]<br>File(_Dname_, _Filename_, Type, Size) [Dname is FK]<br>Accesses(_Client_IP_, _Dname_, _Filename_) [Client_IP & (Dname, Filename) are FKs]"),
+              U("Client(_IP_, Name)<br>Host(_IP_, Server, Location, Name)<br>Directory(_Dname_, Date_of_mod)<br>File(_Filename_, Type, Size)<br>Accesses(_IP_, _Filename_)"),
+              U("Client(_IP_, Name)<br>Host(_IP_, Server, Location)<br>Directory(_Dname_, Date_of_mod, Host_IP)<br>File(_Filename_, Type, Size, Client_IP)"),
+              U("Client(_IP_, Name)<br>Host(_IP_, Server)<br>Directory(_Dname_, Date_of_mod)<br>File(_Dname_, _Filename_, Type, Size)")
+            ],
+            0,
+            "a. Complete Schema (7 Tables with all PKs & FKs)",
+            `• الحل الكامل المعتمد للسؤال الثاني (10 درجات كاملة):
+1. جدول Client:
+   Client(<u>IP</u>, Name)
+2. جدول الكيان Host:
+   Host(<u>IP</u>, Server, Location)
+3. جدول السمة متعددة القيم Name:
+   Host_Name(<u>IP</u>, <u>Name</u>) -> [IP هو FK إلى Host]
+4. جدول Directory (يشمل FK للعلاقة Resides و FK للعلاقة parent):
+   Directory(<u>Dname</u>, Date_of_mod, Host_IP, Parent_Dname) -> [Host_IP هو FK إلى Host، و Parent_Dname هو FK إلى Directory]
+5. جدول الفئة الفرعية Non-Root:
+   Non_Root(<u>Dname</u>, Permission) -> [Dname هو PK و FK إلى Directory]
+6. جدول الكيان الضعيف File:
+   File(<u>Dname</u>, <u>Filename</u>, Type, Size) -> [Dname هو FK إلى Directory]
+7. جدول علاقة الوصول M:N بين Client و File:
+   Accesses(<u>Client_IP</u>, <u>Dname</u>, <u>Filename</u>) -> [Client_IP هو FK إلى Client، و (Dname, Filename) هو FK إلى File].`
+          )
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div style="min-width:0;flex:1">${typeof opt === 'string' ? escapeHtml(opt) : opt.svg}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.text)}</div>
+              ${sub.diagram ? `<div style="background:rgba(255,255,255,0.03);border:1px solid var(--apple-border);border-radius:10px;padding:14px 10px;margin:4px 0 14px;overflow-x:auto">${sub.diagram}</div>` : ''}
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div style="font-weight: 700; color: #5ac8fa; font-family: 'Cairo', sans-serif;">الإجابة النموذجية المعتمدة (Final Answer):</div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #30d158;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 10px; font-size: 0.92rem; line-height: 1.7; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line; font-family: 'Cairo', sans-serif;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">
+              <span class="part-badge">${section.badge}</span>
+              <span class="part-title-text">${section.title}</span>
+            </div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

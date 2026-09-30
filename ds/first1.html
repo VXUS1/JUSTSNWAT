@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | تراكيب البيانات - Data Structures First Exam</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.96rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.98rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .code-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 12px 0 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #f8f8f2;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .user-ans-input {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      min-width: 180px;
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      text-align: left;
+      transition: all 0.2s var(--ease-apple);
+    }
+    .user-ans-input:focus {
+      border-color: var(--apple-blue, #0a84ff);
+    }
+    .user-ans-input.correct {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.15) !important;
+    }
+    .user-ans-input.wrong {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.15) !important;
+    }
+    .user-ans-input:disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
+    }
+
+    .blank-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+    .blank-label {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    /* زر إعادة السؤال مخفي افتراضياً */
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* حاوية الصور الأصلية */
+    .q-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      filter: blur(8px);
+      transform: scale(0.95) translateY(-10px);
+      transition: all 0.4s var(--ease-apple);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .q-image-container.show {
+      max-height: 1200px;
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1) translateY(0);
+      margin: 16px 0 22px;
+      padding: 16px;
+      border-color: var(--apple-border-strong);
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-block;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      transition: transform 0.4s var(--ease-apple);
+    }
+    .q-image-container.show .q-original-img {
+      animation: appleScaleBounce 0.5s var(--ease-apple);
+    }
+    @keyframes appleScaleBounce {
+      0% { transform: scale(0.97); }
+      60% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+
+    /* صندوق الحل وانسيابية الظهور */
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* جداول الامتحان */
+    .table-quiz {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 14px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--apple-border);
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .table-quiz th, .table-quiz td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.90rem;
+    }
+    .table-quiz th {
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 700;
+      color: var(--apple-blue);
+      text-align: left;
+    }
+    .table-quiz tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* صحح لنفسك */
+    .self-grade-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .self-grade-title {
+      font-weight: 800;
+      color: #5ac8fa;
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+    .self-grade-textarea {
+      width: 100%;
+      min-height: 110px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #f8f8f2;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      outline: none;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .self-grade-textarea:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+    .self-grade-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-grade {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-grade-pass {
+      background: rgba(48, 209, 88, 0.15);
+      color: #30d158;
+      border: 1px solid rgba(48, 209, 88, 0.4);
+    }
+    .btn-grade-pass.active {
+      background: #30d158;
+      color: #000;
+    }
+    .btn-grade-fail {
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+    }
+    .btn-grade-fail.active {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* السحب والإفلات */
+    .dnd-editor {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 14px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+    }
+    .dnd-editor.locked {
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .dnd-line {
+      display: flex;
+      align-items: center;
+      margin: 6px 0;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .dnd-indent-1 { padding-left: 24px; }
+    .dnd-indent-2 { padding-left: 48px; }
+
+    .drop-slot {
+      min-width: 290px;
+      min-height: 36px;
+      border: 1.5px dashed rgba(255, 255, 255, 0.35);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 4px 10px;
+      transition: all 0.2s;
+    }
+    .drop-slot.drag-over {
+      border-color: #0a84ff;
+      background: rgba(10, 132, 255, 0.2);
+    }
+    .drop-slot.filled {
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.07);
+    }
+    .drop-slot.correct-slot {
+      border-color: #30d158 !important;
+      background: rgba(48, 209, 88, 0.18) !important;
+    }
+    .drop-slot.wrong-slot {
+      border-color: #ff453a !important;
+      background: rgba(255, 69, 58, 0.18) !important;
+    }
+    .slot-placeholder {
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 0.82rem;
+      user-select: none;
+    }
+
+    .dnd-pool-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin: 14px 0 8px 0;
+    }
+    .dnd-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      min-height: 50px;
+    }
+    .dnd-pool.locked {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .drag-item {
+      background: rgba(10, 132, 255, 0.15);
+      border: 1px solid rgba(10, 132, 255, 0.45);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.2s;
+    }
+    .drag-item:hover {
+      background: rgba(10, 132, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    .drag-item.in-slot {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .drag-item.in-slot::after {
+      content: "✕";
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .ascii-struct-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 10px 0 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #8be9fd;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ds">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">تراكيب البيانات (Data Structures)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان الشهر الأول (First Exam 2019/2020) — أسئلة الامتحان كاملة مع الأكواد والشروحات</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">Show/Hide Solutions</button>
+        <button class="btn" onclick="resetQuiz()">Restart Quiz</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ds">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/161I8KjRf0PL2puOciTD1dqOFqwRyUY06/view?usp=drive_link";
+    let userScores = {};
+    let dndStates = {};
+
+    function cleanStr(s) {
+      if (!s) return "";
+      return s.trim().toLowerCase().replace(/\s+/g, " ");
+    }
+
+    function cleanBigO(s) {
+      if (!s) return "";
+      let res = s.trim().toLowerCase();
+      if (res.startsWith("o(") && res.endsWith(")")) {
+        res = res.substring(2, res.length - 1).trim();
+      }
+      return res.replace(/\s+/g, " ").replace(/\*/g, "");
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /* ================= EXAM DATA DEFINITION ================= */
+    const examSections = [
+      {
+        title: "PART-I: Complexity & Big-O Operations (6 pts)",
+        context: "Official questions covering operation counts, search complexity, algorithm processing times, and block execution analysis:",
+        subQuestions: [
+          {
+            id: "ds_p1_q1",
+            type: "blanks",
+            img: "",
+            header: "1. Assuming n = 10, what is the exact number of operations of the underlined C++ expressions pointed to by \"e\" and \"f\"? (2 pt.)",
+            code: "for (i = 0; i < n; i++)        // pointed to by e\n    for (j = 0; j < n/2; j++)  // pointed to by f\n        cout << i * j;",
+            fields: [
+              { label: "Expression e:", key: "e", expected: ["120"], placeholder: "Total operations..." },
+              { label: "Expression f:", key: "f", expected: ["100"], placeholder: "Total operations..." }
+            ],
+            dispAnswer: "e: 120 | f: 100",
+            exp: "حساب عدد العمليات بالتفصيل عندما n = 10:\n• التعبير e (الحلقة الخارجية): 10 + (50 + 10) + 50 = 120 عملية.\n• التعبير f (الحلقة الداخلية): 50 + 50 = 100 عملية."
+          },
+          {
+            id: "ds_p1_q2",
+            type: "big_o_single",
+            img: "",
+            header: "2. What is the complexity in terms of Big-O of searching for a given element X in an array-based list of length n? (1 pt.)",
+            note: "(ملاحظة: اكتب ما بداخل الأقواس فقط دون كتابة O(...))",
+            expected: ["n"],
+            placeholder: "e.g. 1, log n, n...",
+            dispAnswer: "n  (أي O(n))",
+            exp: "البحث التسلسلي (Sequential Search) في مصفوفة غير مرتبة يتطلب في أسوأ الحالات المرور على كافة العناصر n، لذلك التعقيد هو O(n)."
+          },
+          {
+            id: "ds_p1_q3",
+            type: "table_blanks",
+            img: "",
+            header: "3. What is the complexity in terms of Big-O of the following expressions which represent the processing time T(n) spent by an algorithm to solve a problem of size n? (2 pts.)",
+            note: "(ملاحظة: املأ الفراغ على اليمين بما بداخل الأقواس فقط)",
+            headers: ["Expression T(n)", "Big-O: O( ... )"],
+            rows: [
+              { text: "5n²(n + 3)", expected: ["n^3", "n3", "n**3"], placeholder: "Complexity..." },
+              { text: "n(n - 1)", expected: ["n^2", "n2", "n**2"], placeholder: "Complexity..." },
+              { text: "3n * log(n) + 11", expected: ["n log n", "n log(n)", "nlogn", "nlog(n)"], placeholder: "Complexity..." },
+              { text: "2n + 300 + n log n + n²", expected: ["n^2", "n2", "n**2"], placeholder: "Complexity..." }
+            ],
+            dispAnswer: "1) n^3  |  2) n^2  |  3) n log n  |  4) n^2",
+            exp: "في حساب Big-O نأخذ الحد ذو أعلى رتبة نمو ونهمل المعاملات الثابتة والحدود الأصغر:\n• 5n²(n+3) = 5n³ + 15n² → الحد الأعلى هو n³.\n• n(n-1) = n² - n → الحد الأعلى هو n².\n• 3n*log(n) + 11 → الحد الأعلى هو n log n.\n• 2n + 300 + n log n + n² → الحد الأعلى هو n²."
+          },
+          {
+            id: "ds_p1_q4",
+            type: "big_o_single",
+            img: "",
+            header: "4. What is the complexity in terms of Big-O of the following sequence of statements? (1 pt.)",
+            code: "if (A[j-1] > A[j])\n{\n    temp = A[j-1];\n    A[j-1] = A[j];\n    A[j] = temp;\n}",
+            note: "(ملاحظة: اكتب ما بداخل الأقواس فقط دون كتابة O(...))",
+            expected: ["1"],
+            placeholder: "e.g. 1, log n, n...",
+            dispAnswer: "1  (أي O(1))",
+            exp: "الجمل لا تحتوي على أي حلقات تكرارية (Loops)، بل هي مجرد جملة شرطية وعمليات إسناد بسيطة تستغرق زمناً ثابتاً O(1)."
+          }
+        ]
+      },
+      {
+        title: "PART-II: Array-Based Lists Implementation & Methods (8 pts)",
+        context: "Official questions on array manipulations, custom removeAt method, algorithmic findMin, and tracing functions:",
+        subQuestions: [
+          {
+            id: "ds_p2_q1_a",
+            type: "blanks",
+            img: "",
+            header: "1.a) Assume that the array list List1 has max size 100, and contains the following elements: [\"W\", \"A\", \"B\", \"D\", \"G\"]\nWhat is the content of the list List1 after executing the following four statements? (1 pt.)",
+            code: "List1.deleteAt(1);\nList1.insertAt(4, \"K\");\nList1.insert(\"T\");\nList1.insert(\"B\");",
+            fields: [
+              { label: "List Content:", key: "content", expected: ["w,b,d,g,k,t", "w,b,d,g,k,t,b"], placeholder: "List elements (e.g. A, B, C...)" }
+            ],
+            dispAnswer: "W, B, D, G, K, T",
+            exp: "تتبع العمليات:\n1) البداية: [W, A, B, D, G]\n2) deleteAt(1): حذف 'A' ← تصبح [W, B, D, G]\n3) insertAt(4, 'K'): إضافة 'K' في الموقع 4 ← [W, B, D, G, K]\n4) insert('T'): يضاف للنهاية ← [W, B, D, G, K, T]\n5) insert('B'): 'B' مكرر وموجود مسبقاً فلا يتم إضافته مرة أخرى بحسب نموذج المادة."
+          },
+          {
+            id: "ds_p2_q1_b",
+            type: "blanks",
+            img: "",
+            header: "1.b) What is the output of each of the following two statements? Consider the original List1 that contains [\"W\", \"A\", \"B\", \"D\", \"G\"]. (1 pt.)",
+            code: "cout << List1.length();\ncout << List1.seqSearch(\"D\");",
+            fields: [
+              { label: "cout << List1.length();", key: "len", expected: ["5"], placeholder: "Enter output..." },
+              { label: "cout << List1.seqSearch(\"D\");", key: "search", expected: ["3"], placeholder: "Enter output..." }
+            ],
+            dispAnswer: "length(): 5 | seqSearch(\"D\"): 3",
+            exp: "• عدد العناصر 5.\n• الفهرس للعنصر 'D' في القائمة الأصلية [W, A, B, D, G] هو 3."
+          },
+          {
+            id: "ds_p2_q2",
+            type: "self_grade",
+            img: "",
+            header: "2. The function removeAt of the class arrayListType removes an element from the list by shifting the elements of the list. Because the elements of the list are unordered, you could simply remove the element by swapping the last element of the list with the item to be removed and reducing the length of the list.\n\nRewrite the function removeAt using this technique. As an example: suppose we have 8 elements in the list and we want to remove the element List[4], then it will be replaced by element List[7] instead of shifting up or left. (2 pts.)",
+            placeholder: "template <class elemType>\nvoid arrayListType<elemType>::removeAt(int location)\n{\n    // Write your code here...\n}",
+            modelAnswer: "template <class elemType>\nvoid arrayListType<elemType>::removeAt(int location)\n{\n    if (location < 0 || location >= length) {\n        cout << \"location is out of boundary\";\n    }\n    else {\n        list[location] = list[length - 1];\n        length--;\n    }\n}",
+            exp: "بما أن القائمة غير مرتبة (unordered)، نقوم بنسخ العنصر الأخير مباشرة إلى موقع العنصر المطلوب حذفه `list[location] = list[length - 1];` ثم إنقاص الطول `length--;`، مما يجعل عملية الحذف تنفذ في زمن O(1) بدلاً من الإزاحة O(n)."
+          },
+          {
+            id: "ds_p2_q3",
+            type: "dnd",
+            img: "",
+            header: "3. Complete the following NON MEMBER function of the arrayListType class. Using the arrayListType class with int type (i.e., the list stores integer numbers). This function finds the smallest element of the list. You should fill the specified lines with the proper calls to arrayListType functions. (2 pts.)",
+            dndTemplate: [
+              { type: "text", text: "int findMinItem(arrayListType &list1) {\n    int min, x;\n    // store the first element in min" },
+              { type: "slot", index: 0, placeholder: "[ Drop Line 1 ]", indent: 1 },
+              { type: "text", text: "    // loop over the elements" },
+              { type: "slot", index: 1, placeholder: "[ Drop Line 2 ]", indent: 1 },
+              { type: "text", text: "    {\n        // store the ith element in x" },
+              { type: "slot", index: 2, placeholder: "[ Drop Line 3 ]", indent: 2 },
+              { type: "slot", index: 3, placeholder: "[ Drop Line 4 ]", indent: 2 },
+              { type: "slot", index: 4, placeholder: "[ Drop Line 5 ]", indent: 3 },
+              { type: "text", text: "    }\n    return min;\n}" }
+            ],
+            expected: [
+              "list1.retrieveAt(0, min);",
+              "for (int i = 0; i < list1.listSize(); i++)",
+              "list1.retrieveAt(i, x);",
+              "if (x < min)",
+              "min = x;"
+            ],
+            pool: [
+              "list1.retrieveAt(0, min);",
+              "for (int i = 0; i < list1.listSize(); i++)",
+              "list1.retrieveAt(i, x);",
+              "if (x < min)",
+              "min = x;",
+              // Distractors
+              "list1.retrieveAt(min, 0);",
+              "list1.retrieveAt(x, i);",
+              "if (x > min)",
+              "x = min;",
+              "for (int i = 0; i <= list1.listSize(); i++)"
+            ],
+            dispAnswer: "int findMinItem(arrayListType &list1)\n{\n    int min, x;\n    list1.retrieveAt(0, min);\n    for (int i = 0; i < list1.listSize(); i++)\n    {\n        list1.retrieveAt(i, x);\n        if (x < min)\n            min = x;\n    }\n    return min;\n}",
+            exp: "الدالة ليست عضواً في الكلاس (non-member)، لذا لا يمكنها الوصول المباشر لـ list[i]، بل تستخدم دالة `retrieveAt` لقراءة العناصر ومقارنتها لإيجاد الأصغر."
+          },
+          {
+            id: "ds_p2_q4",
+            type: "blanks",
+            img: "",
+            header: "4. Consider the following function foo. If the arrayListType object L has the numbers [10, 20, 30, 40, 50, 60], what will be the content of the list L after calling foo(L)? (2 pts.)",
+            code: "void foo(arrayListType &L)\n{\n    int y;\n    int count = L.Length() / 2;\n    for (int i = 0; i < count; i++) {\n        L.RetrieveAt(i, y);\n        L.InsertAt(count + i, y);\n    }\n}",
+            fields: [
+              { label: "Content of list L:", key: "foo_res", expected: ["10,20,30,10,20,30,40,50,60"], placeholder: "List elements (e.g. 1, 2, 3...)" }
+            ],
+            dispAnswer: "10, 20, 30, 10, 20, 30, 40, 50, 60",
+            exp: "count = 6 / 2 = 3. تدور الحلقة لـ i = 0, 1, 2:\n• i=0: تجلب 10 وتدرجها عند الفهرس 3 ← [10, 20, 30, 10, 40, 50, 60]\n• i=1: تجلب 20 وتدرجها عند الفهرس 4 ← [10, 20, 30, 10, 20, 40, 50, 60]\n• i=2: تجلب 30 وتدرجها عند الفهرس 5 ← [10, 20, 30, 10, 20, 30, 40, 50, 60]"
+          }
+        ]
+      },
+      {
+        title: "PART-III: Doubly & Singly Linked Lists (Q1 & Q2)",
+        context: "Official questions on linked list pointer traversals, node removals, and insertions:",
+        subQuestions: [
+          {
+            id: "ds_p3_q1_1",
+            type: "table_blanks",
+            img: "../images/ds_4.png",
+            header: "Q1) Consider the following doubly linked list and answer the questions below. Each node is based on:\nstruct nodeType { int info; nodeType *next; nodeType *prev; };\n\n1) What is the output of the following assuming the steps are independent? (2 points)",
+            asciiBox: "Doubly Linked List Structure & Addresses:\n• Head (address 800) -> Node 1 (address 600)\n• Tail (address 400) -> Node n (address 850)\n• Pointer p (address 1500) -> Node 2 (address 900)\n\nNodes: [ prev | info | next ]\n- Node 1 (Addr 600): [ NULL | 40 | 900 ]\n- Node 2 (Addr 900): [ 600  | 50 | 500 ]  <-- p points here\n- Node 3 (Addr 500): [ 900  | 30 | ... ]\n- ...\n- Node n-1 (Addr 200): [ ...  | 20 | 850 ]\n- Node n (Addr 850):   [ 200  | 12 | NULL ] <-- Tail points here",
+            headers: ["Code Statement", "Output"],
+            rows: [
+              { text: "cout << Head->next->prev << endl;", expected: ["600"], placeholder: "Output..." },
+              { text: "cout << (Head->prev == Tail->next ? \"T\" : \"F\") << endl;", expected: ["t", "\"t\"", "true"], placeholder: "Output..." },
+              { text: "cout << p << endl;", expected: ["900"], placeholder: "Output..." },
+              { text: "while (p->next != NULL) p = p->next;\ncout << p->next << endl;", expected: ["0", "null", "nullptr"], placeholder: "Output..." }
+            ],
+            dispAnswer: "1) 600  |  2) T  |  3) 900  |  4) 0 (or NULL)",
+            exp: "1) Head->next هو 900، والـ prev للعقدة 900 يعود لـ 600.\n2) Head->prev يساوي NULL و Tail->next يساوي NULL، وبما أنهما متساويان تطبع 'T'.\n3) طباعة p تطبع العنوان الذي تشير إليه مباشرة وهو 900.\n4) بعد اكتمال الحلقة يصل p لآخر عقدة حيث p->next هو NULL (أو 0)."
+          },
+          {
+            id: "ds_p3_q1_2",
+            type: "dnd",
+            img: "",
+            header: "2) Write the required code to remove the first node by using the Head pointer only. (1 point)",
+            dndTemplate: [
+              { type: "text", text: "// Step 1: Move Head to next node" },
+              { type: "slot", index: 0, placeholder: "[ Drop Line 1 ]", indent: 0 },
+              { type: "text", text: "// Step 2: Delete the old first node" },
+              { type: "slot", index: 1, placeholder: "[ Drop Line 2 ]", indent: 0 },
+              { type: "text", text: "// Step 3: Set prev pointer of new first node to NULL" },
+              { type: "slot", index: 2, placeholder: "[ Drop Line 3 ]", indent: 0 }
+            ],
+            expected: [
+              "Head = Head->next;",
+              "delete Head->prev;",
+              "Head->prev = NULL;"
+            ],
+            pool: [
+              "Head = Head->next;",
+              "delete Head->prev;",
+              "Head->prev = NULL;",
+              // Distractors
+              "delete Head;",
+              "Head->next->prev = NULL;",
+              "Head = Head->prev;",
+              "Head->prev = Head;"
+            ],
+            dispAnswer: "Head = Head->next;\ndelete Head->prev;\nHead->prev = NULL;",
+            exp: "لحذف العقدة الأولى باستخدام Head فقط:\n1) نحرك Head إلى العقدة الثانية: `Head = Head->next;`\n2) نحذف العقدة الأولى القديمة عبر مؤشر السابقة: `delete Head->prev;`\n3) نجعل مؤشر prev للعقدة الأولى الجديدة NULL: `Head->prev = NULL;`"
+          },
+          {
+            id: "ds_p3_q2_1",
+            type: "table_blanks",
+            img: "../images/ds_5.png",
+            header: "Q2) Consider the following singly linked list and answer the questions below. Each node is based on:\nstruct nodeType { int info; nodeType *next; };\n\n1) What is the output of the following lines of code? Questions are independent of each other. (3 points)",
+            asciiBox: "Singly Linked List Structure:\n• Chain of nodes: first -> [ 2 ] -> [ 2 ] -> [ 3 ] -> [ 4 ] -> [ 5 ] -> [ 6 ] -> NULL\n• Pointer 'first' points to 1st node (info = 2)\n• Pointer 'last' points to 6th node (info = 6)\n• Pointer 'C' points to 3rd node (info = 3)\n• Variable Count = 6",
+            headers: ["Code Snippet", "Output"],
+            rows: [
+              { text: "cout << C->next->info;", expected: ["4"], placeholder: "Output..." },
+              { text: "cout << last->info;", expected: ["6"], placeholder: "Output..." },
+              { text: "cout << (first->next->next == C->next);", expected: ["0", "false"], placeholder: "Output..." },
+              { text: "nodeType *N = new nodeType;\nN->info = 10;\nN->next = C->next->next;\nC->next->next = N;\ncout << C->next->next->info;", expected: ["10"], placeholder: "Output..." },
+              { text: "nodeType *p = first;\nwhile (p->next != C->next)\n    p = p->next;\ncout << p->info;", expected: ["3"], placeholder: "Output..." },
+              { text: "nodeType *p = C;\nwhile (p->info != 4)\n    p = p->next;\ncout << p->next->info;", expected: ["5"], placeholder: "Output..." }
+            ],
+            dispAnswer: "1) 4  |  2) 6  |  3) 0  |  4) 10  |  5) 3  |  6) 5",
+            exp: "1) العقدة التالية لـ C قيمتها 4.\n2) العقدة الأخيرة قيمتها 6.\n3) first->next->next تشير للعقدة 3، بينما C->next تشير للعقدة 4، العناوين غير متطابقة فتطبع 0.\n4) بعد ربط C->next->next = N، تصبح القيمة عند C->next->next->info هي 10.\n5) الحلقة تتوقف عندما p->next == C->next (أي عند العقدة C)، فتطبع 3.\n6) p يبدأ من C ويتوقف عند العقدة 4، ثم p->next تشير للعقدة 5 فتطبع 5."
+          },
+          {
+            id: "ds_p3_q2_2",
+            type: "self_grade",
+            img: "",
+            header: "2) Write the required C++ statements that allow you to insert a new node with (info = 8) after the node that contains (info = 3). (2 points)",
+            placeholder: "// Write your C++ statements here...\nnodeType *newNode = new nodeType;\nnewNode->info = 8;\n...",
+            modelAnswer: "nodeType *newNode = new nodeType;\nnewNode->info = 8;\nnewNode->next = C->next;\nC->next = newNode;",
+            exp: "خطوات الإدراج بعد العقدة التي تحتوي على 3 (المشار إليها بـ C):\n1) حجز عقدة جديدة: `nodeType *newNode = new nodeType;`\n2) تعيين القيمة: `newNode->info = 8;`\n3) ربط العقدة الجديدة بالعقدة التي تلي C: `newNode->next = C->next;`\n4) توجيه C للعقدة الجديدة: `C->next = newNode;`"
+          }
+        ]
+      }
+    ];
+
+    /* ================= DYNAMIC RENDERING ================= */
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          let interactionHtml = '';
+
+          // Conditional image button & image container
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}"
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> Show Original Question Image
+            </button>
+          ` : '';
+
+          // 1. Text Blanks
+          if (sub.type === "blanks" || sub.type === "big_o_single") {
+            const noteHtml = sub.note ? `<div style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:8px; direction:rtl; text-align:right;">${sub.note}</div>` : '';
+            const codeHtml = sub.code ? `<div class="code-block">${escapeHtml(sub.code)}</div>` : '';
+
+            let fieldsHtml = '';
+            if (sub.type === "big_o_single") {
+              fieldsHtml = `
+                <div class="blank-row">
+                  <span class="blank-label">O (</span>
+                  <input type="text" class="user-ans-input" id="input-${sub.id}-0" placeholder="${escapeHtml(sub.placeholder || 'Complexity...')}" style="min-width: 140px; max-width: 170px;" onkeydown="if(event.key==='Enter') checkBlanksQuestion('${sub.id}')">
+                  <span class="blank-label">)</span>
+                </div>
+              `;
+            } else {
+              fieldsHtml = sub.fields.map((f, idx) => `
+                <div class="blank-row">
+                  <span class="blank-label" style="min-width: 120px;">${escapeHtml(f.label)}</span>
+                  <input type="text" class="user-ans-input" id="input-${sub.id}-${idx}" placeholder="${escapeHtml(f.placeholder)}" style="min-width: 260px; max-width: 440px;" onkeydown="if(event.key==='Enter') checkBlanksQuestion('${sub.id}')">
+                </div>
+              `).join('');
+            }
+
+            interactionHtml = `
+              ${codeHtml}
+              ${noteHtml}
+              ${fieldsHtml}
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkBlanksQuestion('${sub.id}')">Check</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetBlanksQuestion('${sub.id}')">Reset Question ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> Show Solution
+                </button>
+              </div>
+            `;
+          }
+
+          // 2. Table Blanks
+          else if (sub.type === "table_blanks") {
+            const noteHtml = sub.note ? `<div style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:8px; direction:rtl; text-align:right;">${sub.note}</div>` : '';
+            const asciiHtml = sub.asciiBox ? `<div class="ascii-struct-box">${escapeHtml(sub.asciiBox).replace(/\n/g, '<br>')}</div>` : '';
+
+            const rowsHtml = sub.rows.map((r, rIdx) => `
+              <tr>
+                <td style="font-family: 'JetBrains Mono', monospace; white-space: pre-wrap;">${escapeHtml(r.text)}</td>
+                <td>
+                  <input type="text" class="user-ans-input" id="input-${sub.id}-${rIdx}" placeholder="${escapeHtml(r.placeholder)}" style="width: 100%; min-width: 140px;" onkeydown="if(event.key==='Enter') checkTableQuestion('${sub.id}')">
+                </td>
+              </tr>
+            `).join('');
+
+            interactionHtml = `
+              ${asciiHtml}
+              ${noteHtml}
+              <table class="table-quiz">
+                <thead>
+                  <tr>
+                    <th style="width: 65%;">${escapeHtml(sub.headers[0])}</th>
+                    <th style="width: 35%;">${escapeHtml(sub.headers[1])}</th>
+                  </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+              </table>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkTableQuestion('${sub.id}')">Check</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetTableQuestion('${sub.id}')">Reset Question ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> Show Solution
+                </button>
+              </div>
+            `;
+          }
+
+          // 3. Self Grade
+          else if (sub.type === "self_grade") {
+            interactionHtml = `
+              <div class="self-grade-box">
+                <div class="self-grade-title">📝 اكتب الكود الخاص بك هنا ثم طابقه مع الحل النموذجي:</div>
+                <textarea class="self-grade-textarea" id="textarea-${sub.id}" placeholder="${escapeHtml(sub.placeholder)}"></textarea>
+                <div class="self-grade-btn-row">
+                  <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                    <span>💡</span> Show Solution
+                  </button>
+                  ${imageButtonHtml}
+                  <span style="color: var(--text-secondary); font-size: 0.88rem; margin: 0 8px;">صحح لنفسك:</span>
+                  <button class="btn-grade btn-grade-pass" id="btn-pass-${sub.id}" onclick="selfGrade('${sub.id}', true)">My Answer Is Correct ✓</button>
+                  <button class="btn-grade btn-grade-fail" id="btn-fail-${sub.id}" onclick="selfGrade('${sub.id}', false)">My Answer Is Incorrect ✗</button>
+                  <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSelfGrade('${sub.id}')">Reset Question ↻</button>
+                </div>
+              </div>
+            `;
+          }
+
+          // 4. Drag & Drop
+          else if (sub.type === "dnd") {
+            initDndState(sub);
+
+            let editorLinesHtml = '';
+            sub.dndTemplate.forEach(line => {
+              if (line.type === "text") {
+                editorLinesHtml += `<div class="dnd-line" style="white-space: pre-wrap;">${escapeHtml(line.text)}</div>`;
+              } else if (line.type === "slot") {
+                const indentClass = line.indent === 1 ? 'dnd-indent-1' : (line.indent === 2 ? 'dnd-indent-2' : (line.indent === 3 ? 'style="padding-left:72px;"' : ''));
+                editorLinesHtml += `
+                  <div class="dnd-line" ${line.indent === 3 ? indentClass : ''} class="${line.indent < 3 ? indentClass : ''}">
+                    <div class="drop-slot" id="slot-${sub.id}-${line.index}"
+                         ondragover="dndAllowDrop(event)" ondragleave="dndDragLeave(event)"
+                         ondrop="dndDrop(event, '${sub.id}', ${line.index})"
+                         onclick="dndRemoveFromSlot('${sub.id}', ${line.index})">
+                      <span class="slot-placeholder">${escapeHtml(line.placeholder)}</span>
+                    </div>
+                  </div>
+                `;
+              }
+            });
+
+            interactionHtml = `
+              <div class="dnd-editor" id="dnd-editor-${sub.id}">${editorLinesHtml}</div>
+              <div class="dnd-pool-title">Available Code Snippets (Drag or click to place in slot):</div>
+              <div class="dnd-pool" id="pool-${sub.id}" ondragover="dndAllowDrop(event)" ondrop="dndDropToPool(event)"></div>
+              <div class="answer-input-row">
+                <button class="btn" id="btn-check-${sub.id}" onclick="checkDNDQuestion('${sub.id}')">Check</button>
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetDNDQuestion('${sub.id}')">Reset Question ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> Show Solution
+                </button>
+              </div>
+            `;
+          }
+
+          // Solution Box
+          const solModelCode = sub.modelAnswer ? `<div class="code-block" style="margin-top: 8px;">${escapeHtml(sub.modelAnswer)}</div>` : '';
+          const solDispAns = sub.dispAnswer ? `<div style="margin-top: 4px; font-weight: bold; color: #5ac8fa; font-family: 'JetBrains Mono', monospace; white-space: pre-wrap;">${escapeHtml(sub.dispAnswer)}</div>` : '';
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.header)}</div>
+              ${imageContainerHtml}
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                ${solDispAns}
+                ${solModelCode}
+                <div style="margin-top: 8px; font-size: 0.90rem; line-height: 1.6; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      renderAllDndPools();
+      calculateScore();
+      setupReportModal();
+    }
+
+    /* ================= IMAGE TOGGLE & FALLBACK ================= */
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    function findSub(id) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === id);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    /* ================= CHECK HANDLERS (SECOND1 STYLE) ================= */
+    function checkBlanksQuestion(subId) {
+      const sub = findSub(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub) return;
+
+      let allCorrect = true;
+      if (sub.type === "big_o_single") {
+        const inputEl = document.getElementById(`input-${subId}-0`);
+        const val = cleanBigO(inputEl.value);
+        inputEl.disabled = true;
+        if (sub.expected.includes(val)) {
+          inputEl.className = "user-ans-input correct";
+        } else {
+          inputEl.className = "user-ans-input wrong";
+          allCorrect = false;
+        }
+      } else {
+        sub.fields.forEach((f, idx) => {
+          const inputEl = document.getElementById(`input-${subId}-${idx}`);
+          let val = cleanStr(inputEl.value).replace(/[\[\]"]/g, "").replace(/\s*,\s*/g, ",");
+          inputEl.disabled = true;
+          if (f.expected.includes(val)) {
+            inputEl.className = "user-ans-input correct";
+          } else {
+            inputEl.className = "user-ans-input wrong";
+            allCorrect = false;
+          }
+        });
+      }
+
+      if (allCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      // إخفاء زر تحقق وإظهار زر إعادة السؤال
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetBlanksQuestion(subId) {
+      delete userScores[subId];
+      const sub = findSub(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      const count = sub.type === "big_o_single" ? 1 : sub.fields.length;
+      for (let i = 0; i < count; i++) {
+        const el = document.getElementById(`input-${subId}-${i}`);
+        if (el) {
+          el.disabled = false;
+          el.value = '';
+          el.className = 'user-ans-input';
+        }
+      }
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function checkTableQuestion(subId) {
+      const sub = findSub(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub) return;
+
+      let allCorrect = true;
+      sub.rows.forEach((r, idx) => {
+        const inputEl = document.getElementById(`input-${subId}-${idx}`);
+        let val = cleanBigO(inputEl.value);
+        inputEl.disabled = true;
+        if (r.expected.includes(val)) {
+          inputEl.className = "user-ans-input correct";
+        } else {
+          inputEl.className = "user-ans-input wrong";
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetTableQuestion(subId) {
+      delete userScores[subId];
+      const sub = findSub(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      sub.rows.forEach((_, idx) => {
+        const el = document.getElementById(`input-${subId}-${idx}`);
+        if (el) {
+          el.disabled = false;
+          el.value = '';
+          el.className = 'user-ans-input';
+        }
+      });
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function selfGrade(subId, isCorrect) {
+      const passBtn = document.getElementById(`btn-pass-${subId}`);
+      const failBtn = document.getElementById(`btn-fail-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const ta = document.getElementById(`textarea-${subId}`);
+
+      if (ta) ta.disabled = true;
+
+      if (isCorrect) {
+        userScores[subId] = true;
+        if (passBtn) passBtn.classList.add('active');
+        if (failBtn) failBtn.classList.remove('active');
+      } else {
+        delete userScores[subId];
+        if (failBtn) failBtn.classList.add('active');
+        if (passBtn) passBtn.classList.remove('active');
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSelfGrade(subId) {
+      delete userScores[subId];
+      const passBtn = document.getElementById(`btn-pass-${subId}`);
+      const failBtn = document.getElementById(`btn-fail-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+      const ta = document.getElementById(`textarea-${subId}`);
+
+      if (ta) {
+        ta.disabled = false;
+        ta.value = '';
+      }
+      if (passBtn) passBtn.classList.remove('active');
+      if (failBtn) failBtn.classList.remove('active');
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    /* ================= DRAG & DROP HANDLERS ================= */
+    let draggedItemInfo = null;
+
+    function initDndState(sub) {
+      dndStates[sub.id] = {
+        slots: new Array(sub.expected.length).fill(null),
+        pool: sub.pool.map((txt, i) => ({ id: `${sub.id}-item-${i}`, text: txt }))
+      };
+    }
+
+    function renderAllDndPools() {
+      for (const subId in dndStates) {
+        renderDndInstance(subId);
+      }
+    }
+
+    function renderDndInstance(subId) {
+      const poolEl = document.getElementById(`pool-${subId}`);
+      const state = dndStates[subId];
+      const sub = findSub(subId);
+      if (!poolEl || !state || !sub) return;
+
+      poolEl.innerHTML = '';
+      state.pool.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'drag-item';
+        el.id = item.id;
+        el.draggable = true;
+        el.innerText = item.text;
+        el.ondragstart = (e) => dndDragStart(e, subId, item.id);
+        el.onclick = () => dndClickInsert(subId, item.id);
+        poolEl.appendChild(el);
+      });
+
+      for (let s = 0; s < sub.expected.length; s++) {
+        const slotEl = document.getElementById(`slot-${subId}-${s}`);
+        if (!slotEl) continue;
+        slotEl.innerHTML = '';
+        if (state.slots[s]) {
+          slotEl.classList.add('filled');
+          const span = document.createElement('span');
+          span.className = 'drag-item in-slot';
+          span.innerText = state.slots[s].text;
+          slotEl.appendChild(span);
+        } else {
+          slotEl.classList.remove('filled');
+          const pl = document.createElement('span');
+          pl.className = 'slot-placeholder';
+          const tSlot = sub.dndTemplate.find(t => t.type === 'slot' && t.index === s);
+          pl.innerText = tSlot ? tSlot.placeholder : `[ Drop Line ${s + 1} ]`;
+          slotEl.appendChild(pl);
+        }
+      }
+    }
+
+    function dndDragStart(e, subId, itemId) {
+      draggedItemInfo = { subId, itemId };
+      e.dataTransfer.setData('text/plain', JSON.stringify({ subId, itemId }));
+    }
+
+    function dndAllowDrop(e) {
+      e.preventDefault();
+      if (e.currentTarget.classList.contains('drop-slot')) {
+        e.currentTarget.classList.add('drag-over');
+      }
+    }
+
+    function dndDragLeave(e) {
+      if (e.currentTarget.classList.contains('drop-slot')) {
+        e.currentTarget.classList.remove('drag-over');
+      }
+    }
+
+    function dndDrop(e, subId, slotIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+
+      let info = draggedItemInfo;
+      try {
+        const raw = e.dataTransfer.getData('text/plain');
+        if (raw) info = JSON.parse(raw);
+      } catch (err) {}
+
+      if (!info || info.subId !== subId) return;
+
+      const state = dndStates[subId];
+      const itemIdx = state.pool.findIndex(i => i.id === info.itemId);
+      if (itemIdx === -1) return;
+
+      const item = state.pool.splice(itemIdx, 1)[0];
+      if (state.slots[slotIdx]) {
+        state.pool.push(state.slots[slotIdx]);
+      }
+      state.slots[slotIdx] = item;
+      clearDndSlotStyles(subId);
+      renderDndInstance(subId);
+    }
+
+    function dndDropToPool(e) {
+      e.preventDefault();
+    }
+
+    function dndClickInsert(subId, itemId) {
+      const state = dndStates[subId];
+      const emptySlotIdx = state.slots.findIndex(s => s === null);
+      if (emptySlotIdx === -1) return;
+
+      const itemIdx = state.pool.findIndex(i => i.id === itemId);
+      if (itemIdx === -1) return;
+
+      const item = state.pool.splice(itemIdx, 1)[0];
+      state.slots[emptySlotIdx] = item;
+      clearDndSlotStyles(subId);
+      renderDndInstance(subId);
+    }
+
+    function dndRemoveFromSlot(subId, slotIdx) {
+      const state = dndStates[subId];
+      if (!state.slots[slotIdx]) return;
+
+      const item = state.slots[slotIdx];
+      state.slots[slotIdx] = null;
+      state.pool.push(item);
+      clearDndSlotStyles(subId);
+      renderDndInstance(subId);
+    }
+
+    function clearDndSlotStyles(subId) {
+      const sub = findSub(subId);
+      if (!sub) return;
+      for (let s = 0; s < sub.expected.length; s++) {
+        const slotEl = document.getElementById(`slot-${subId}-${s}`);
+        if (slotEl) slotEl.classList.remove('correct-slot', 'wrong-slot');
+      }
+    }
+
+    function checkDNDQuestion(subId) {
+      const sub = findSub(subId);
+      const state = dndStates[subId];
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const editorEl = document.getElementById(`dnd-editor-${subId}`);
+      const poolEl = document.getElementById(`pool-${subId}`);
+      if (!sub || !state) return;
+
+      let allCorrect = true;
+      let allFilled = true;
+
+      for (let s = 0; s < sub.expected.length; s++) {
+        const slotEl = document.getElementById(`slot-${subId}-${s}`);
+        if (!slotEl) continue;
+        slotEl.classList.remove('correct-slot', 'wrong-slot');
+
+        const item = state.slots[s];
+        if (!item) {
+          allFilled = false;
+          allCorrect = false;
+          slotEl.classList.add('wrong-slot');
+        } else if (item.text === sub.expected[s]) {
+          slotEl.classList.add('correct-slot');
+        } else {
+          allCorrect = false;
+          slotEl.classList.add('wrong-slot');
+        }
+      }
+
+      if (editorEl) editorEl.classList.add('locked');
+      if (poolEl) poolEl.classList.add('locked');
+
+      if (allCorrect && allFilled) {
+        userScores[subId] = true;
+      } else {
+        delete userScores[subId];
+      }
+
+      if (checkBtn) checkBtn.style.display = 'none';
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+      calculateScore();
+    }
+
+    function resetDNDQuestion(subId) {
+      delete userScores[subId];
+      const sub = findSub(subId);
+      const checkBtn = document.getElementById(`btn-check-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const editorEl = document.getElementById(`dnd-editor-${subId}`);
+      const poolEl = document.getElementById(`pool-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      initDndState(sub);
+      clearDndSlotStyles(subId);
+      renderDndInstance(subId);
+
+      if (editorEl) editorEl.classList.remove('locked');
+      if (poolEl) poolEl.classList.remove('locked');
+
+      if (checkBtn) checkBtn.style.display = 'inline-flex';
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    /* ================= GENERAL HELPERS ================= */
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

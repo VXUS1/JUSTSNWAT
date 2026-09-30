@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | أساسيات قواعد البيانات - Database Systems Exams</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border, rgba(255, 255, 255, 0.12));
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface, rgba(255, 255, 255, 0.05));
+      border: 1px solid var(--apple-border-strong, rgba(255, 255, 255, 0.18));
+      color: var(--text-primary, #f5f5f7);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover, rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue, #0a84ff);
+      color: #ffffff;
+      border-color: var(--apple-blue, #0a84ff);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border, rgba(255, 255, 255, 0.15));
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      direction: rtl;
+      text-align: right;
+      flex-wrap: wrap;
+    }
+    .part-badge {
+      background: rgba(10, 132, 255, 0.15);
+      color: #5ac8fa;
+      border: 1px solid rgba(10, 132, 255, 0.35);
+      padding: 3px 12px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .part-title-text {
+      flex: 1;
+      font-family: 'Cairo', sans-serif;
+      line-height: 1.5;
+    }
+
+    .parent-q-desc {
+      font-size: 0.96rem;
+      line-height: 1.8;
+      color: var(--text-primary, #e8e8ed);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: 'JetBrains Mono', Consolas, -apple-system, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.1));
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s ease;
+    }
+    .sub-question-card:hover {
+      border-color: rgba(10, 132, 255, 0.3);
+    }
+
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary, #f5f5f7);
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.1));
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      font-size: 0.95rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.2) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.2) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.84rem;
+      flex-shrink: 0;
+      color: var(--apple-blue, #0a84ff);
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .btn-action {
+      background: rgba(10, 132, 255, 0.15);
+      color: #0a84ff;
+      border: 1px solid rgba(10, 132, 255, 0.35);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: 'Cairo', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      background: #0a84ff;
+      color: #fff;
+    }
+
+    .solution-box {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* DB Tables Styling */
+    .db-state-wrapper {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 16px 0 22px 0;
+    }
+    .db-table-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.12));
+      border-radius: 10px;
+      padding: 12px;
+      flex: 1 1 320px;
+      overflow-x: auto;
+    }
+    .db-table-title {
+      font-weight: 800;
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+      color: #5ac8fa;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    .raw-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      text-align: left;
+    }
+    .raw-table th, .raw-table td {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 10px;
+    }
+    .raw-table th {
+      background: rgba(10, 132, 255, 0.14);
+      color: #f5f5f7;
+      font-weight: 700;
+    }
+    .raw-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .raw-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .null-val {
+      color: #8e8e93;
+      font-style: italic;
+    }
+    .code-sql-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.90rem;
+      line-height: 1.6;
+      margin: 10px 0;
+      overflow-x: auto;
+      color: #e8e8ed;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/db">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">أساسيات قواعد البيانات (Fundamental Of Database Systems)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان سكند — جبر العلاقات (Relational Algebra)، استعلامات SQL، وقيود Cascade</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/db">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1XTVB5K4DYrFIM_HegnUiobvQC5dq2GDG/view?usp=drive_link";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const Q = (id, text, opts, ans, disp, exp, dg = '') => ({
+      id,
+      text,
+      opts,
+      ans,
+      dispAnswer: disp,
+      exp,
+      diagram: dg
+    });
+
+    const employeeDeptTablesHtml = `
+<div class="db-state-wrapper">
+  <div class="db-table-card" style="flex: 2 1 450px;">
+    <div class="db-table-title">Employee</div>
+    <table class="raw-table">
+      <thead>
+        <tr>
+          <th>EmpID</th><th>Salary</th><th>HireDate</th><th>SupID</th><th>Dept</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1001</td><td>10000</td><td>01-11-98</td><td>1020</td><td>Finance</td></tr>
+        <tr><td>1002</td><td>15000</td><td>12-12-96</td><td>1020</td><td>Finance</td></tr>
+        <tr><td>1020</td><td>30000</td><td>09-02-93</td><td>1035</td><td><span class="null-val">null</span></td></tr>
+        <tr><td>1015</td><td>20000</td><td>15-03-01</td><td>1045</td><td>Sales</td></tr>
+        <tr><td>1008</td><td>9000</td><td>22-08-97</td><td>1013</td><td>Operations</td></tr>
+        <tr><td>1010</td><td>12000</td><td>09-07-01</td><td>1013</td><td>Operations</td></tr>
+        <tr><td>1035</td><td>40000</td><td>14-09-95</td><td>1000</td><td><span class="null-val">null</span></td></tr>
+        <tr><td>1007</td><td><span class="null-val">null</span></td><td>07-10-01</td><td>1017</td><td>Maintenance</td></tr>
+        <tr><td>1050</td><td>10000</td><td>05-04-98</td><td>1045</td><td>Sales</td></tr>
+        <tr><td>1000</td><td>60000</td><td>25-11-93</td><td><span class="null-val">null</span></td><td>Executive</td></tr>
+        <tr><td>1016</td><td>11000</td><td>13-10-01</td><td>1045</td><td>Sales</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 1 1 240px;">
+    <div class="db-table-title">Department</div>
+    <table class="raw-table">
+      <thead>
+        <tr><th>Dept</th><th>Location</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Finance</td><td>HB</td></tr>
+        <tr><td>Sales</td><td>NB</td></tr>
+        <tr><td>Operations</td><td>HB</td></tr>
+        <tr><td>Maintenance</td><td>RG</td></tr>
+        <tr><td>Executive</td><td>NB</td></tr>
+        <tr><td>Production</td><td>NB</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableQ6Html = `
+<div style="max-width: 220px; margin: 10px auto 14px auto;">
+  <table class="raw-table" style="text-align: center;">
+    <thead><tr><th>Dept</th></tr></thead>
+    <tbody>
+      <tr><td>Finance</td></tr>
+      <tr><td>Sales</td></tr>
+      <tr><td>Operations</td></tr>
+      <tr><td>Executive</td></tr>
+    </tbody>
+  </table>
+</div>`;
+
+    const tableQ16Html = (locFirst, d1, d2, d3, d4, d5, d6) => `
+<div style="overflow-x:auto;">
+  <table class="raw-table" style="font-size:0.80rem; text-align:left;">
+    <thead><tr>${locFirst ? '<th>Location</th><th>Dept</th>' : '<th>Dept</th><th>Location</th>'}</tr></thead>
+    <tbody>
+      <tr><td>${d1[0]}</td><td>${d1[1]}</td></tr>
+      <tr><td>${d2[0]}</td><td>${d2[1]}</td></tr>
+      <tr><td>${d3[0]}</td><td>${d3[1]}</td></tr>
+      <tr><td>${d4[0]}</td><td>${d4[1]}</td></tr>
+      <tr><td>${d5[0]}</td><td>${d5[1]}</td></tr>
+      <tr><td>${d6[0]}</td><td>${d6[1]}</td></tr>
+    </tbody>
+  </table>
+</div>`;
+
+    const foreignKeySectionHtml = `
+<div class="code-sql-box">
+<b>Create table I(</b>ino int primary key<b>);</b><br><br>
+<b>Create table C(</b><br>
+&nbsp;&nbsp;cno int primary key,<br>
+&nbsp;&nbsp;ino int default 1 references I(ino)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on delete cascade<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on update set default<b>);</b><br><br>
+<b>Create table S(</b><br>
+&nbsp;&nbsp;sno int primary key,<br>
+&nbsp;&nbsp;cno int references C(cno)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on update cascade<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on delete cascade<b>);</b>
+</div>
+
+<div class="db-state-wrapper">
+  <div class="db-table-card" style="flex: 1 1 120px;">
+    <div class="db-table-title">Table I</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>Ino</th></tr></thead>
+      <tbody>
+        <tr><td>1</td></tr>
+        <tr><td>2</td></tr>
+        <tr><td>3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 1 1 160px;">
+    <div class="db-table-title">Table C</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>cno</th><th>Ino</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1</td></tr>
+        <tr><td>2</td><td>3</td></tr>
+        <tr><td>3</td><td>2</td></tr>
+        <tr><td>4</td><td>3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 1 1 160px;">
+    <div class="db-table-title">Table S</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>sno</th><th>cno</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1</td></tr>
+        <tr><td>2</td><td>1</td></tr>
+        <tr><td>3</td><td>4</td></tr>
+        <tr><td>4</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const examSections = [
+      {
+        badge: "Part I",
+        title: "جبر العلاقات — Relational Algebra Operations (Q1–Q8)",
+        context: `Use the following Employee and Department tables to answer the questions:
+${employeeDeptTablesHtml}`,
+        subQuestions: [
+          Q(
+            "q1",
+            "1. How many tuples are produced by πSupID(Employee) ?",
+            ["11", "10", "7", "6"],
+            2,
+            "c. 7",
+            `• السبب: في جبر العلاقات (Relational Algebra)، عملية الإسقاط (Project π) تعمل على مجموعات رياضية (Sets)، مما يعني إزالة القيم المكررة تلقائياً (Automatic Duplicate Elimination).
+• قيم SupID في جدول Employee هي:
+  1020 (مكرر مرتين)، 1035، 1045 (مكرر 3 مرات)، 1013 (مكرر مرتين)، 1000، 1017، وقيمة خالية null للموظف 1000.
+• القيم الفريدة الناتجة هي: {1020, 1035, 1045, 1013, 1000, 1017, null} = 7 صفوف فريدة.`
+          ),
+          Q(
+            "q2",
+            "2. How many tuples are produced by σSalary>=10000 and Salary>=12000(Employee) ?",
+            ["6", "5", "4", "3"],
+            0,
+            "a. 6",
+            `• السبب: الشرط المركب (Salary >= 10000 and Salary >= 12000) يؤول منطقياً إلى (Salary >= 12000) لأن أي راتب أكبر من أو يساوي 12000 هو بالضرورة أكبر من أو يساوي 10000.
+• بفحص رواتب الموظفين:
+  - 1002 (15000) ✅
+  - 1020 (30000) ✅
+  - 1015 (20000) ✅
+  - 1010 (12000) ✅
+  - 1035 (40000) ✅
+  - 1000 (60000) ✅
+  (الموظف 1007 راتبه null ولا يتحقق الشرط).
+• إجمالي الموظفين الذين يحققون الشرط = 6 موظفين.`
+          ),
+          Q(
+            "q3",
+            "3. How many tuples are produced by πDept(Employee) - πDept(σDept='Finance'(Employee))?",
+            ["7", "6", "5", "4"],
+            2,
+            "c. 5",
+            `• السبب: 
+1. πDept(Employee) ينتج مجموعة الأقسام الفريدة في جدول الموظفين: {Finance, Sales, Operations, Maintenance, Executive, null} (6 قيم فريدة).
+2. πDept(σDept='Finance'(Employee)) ينتج المجموعة: {Finance}.
+3. عملية الطرح المجموعاتي (-) تحذف Finance من المجموعة الأولى:
+   {Finance, Sales, Operations, Maintenance, Executive, null} - {Finance} = {Sales, Operations, Maintenance, Executive, null}.
+• عدد الصفوف الناتجة = 5 صفوف.`
+          ),
+          Q(
+            "q4",
+            "4. How many tuples are produced by σDept=Null(Employee × Department) ?",
+            ["9", "12", "54", "66"],
+            1,
+            "b. 12",
+            `• السبب:
+• في عملية الضرب الديكارتي (Cartesian Product Employee × Department)، يقترن كل صف من Employee (11 موظفاً) مع كل صف من Department (6 أقسام).
+• الموظفون الذين لديهم Dept بقيمة null هم موظفان فقط (1020 و 1035).
+• عند ضرب هذين الموظفين في جميع أقسام جدول Department الـ 6، ينتج:
+  2 موظفين × 6 أقسام = 12 صفاً يكون فيها Dept بقيمة null.`
+          ),
+          Q(
+            "q5",
+            "5. How many tuples are produced by Employee ⨝ Department ?",
+            ["0", "5", "9", "11"],
+            2,
+            "c. 9",
+            `• السبب:
+• الربط الطبيعي (Natural Join ⨝) يربط الجدولين بناءً على تطابق السمة المشتركة وهي Dept.
+• جدول Employee يحتوي 11 موظفاً:
+  - موظفان Dept لهما null (1020 و 1035) ولا يطابقان أي قسم.
+  - 9 موظفين لديهم أقسام معروفة (Finance, Sales, Operations, Maintenance, Executive) وجميع هذه الأقسام موجودة في جدول Department.
+• كل موظف من الـ 9 يطابق قسماً واحداً فقط، فينتج 9 صفوف.`
+          ),
+          Q(
+            "q6",
+            "6. Figure out which relational algebra operation was used to obtain the following table.",
+            [
+              "σSalary>10000 (Employee)",
+              "ρDept(σSalary>10000 (Employee))",
+              "DeptℑSalary>10000 (Employee)",
+              "πDept(σSalary>10000 (Employee))"
+            ],
+            3,
+            "d. πDept(σSalary>10000(Employee))",
+            `• السبب:
+• الجدول الناتج يحتوي على عمود واحد فقط هو Dept، وتظهر فيه أسماء الأقسام التي يعمل بها موظفون رواتبهم أكبر من 10000 (Finance للموظف 1002، Sales للموظف 1015 و 1016، Operations للموظف 1010، Executive للموظف 1000).
+• عملية الاختيار σ تُرجع جميع أعمدة الجدول، بينما الإسقاط π هو الذي يحدد عمود Dept فقط ويحذف التكرار.
+• إذن العملية هي إسقاط Dept بعد تصفية الرواتب: πDept(σSalary>10000(Employee)).`,
+            tableQ6Html
+          ),
+          Q(
+            "q7",
+            "7. How many tuples are produced by Employee ⟕ Department ?",
+            ["6", "9", "11", "12"],
+            2,
+            "c. 11",
+            `• السبب:
+• الرمز يمثل الربط الخارجي الأيسر (Left Outer Join ⟕).
+• في Left Outer Join، يتم الحفاظ على جميع صفوف الجدول الأيسر (Employee) بالكامل حتى لو لم تطابق أي قسم (حيث تظهر سمات Department كـ null).
+• عدد صفوف جدول Employee هو 11 موظفاً، وبما أن كل موظف يقترن بقسم واحد على الأكثر، فإن الناتج يحتوي على 11 صفاً.`
+          ),
+          Q(
+            "q8",
+            "8. How many tuples are produced by DeptℑCount(Salary), Max(Salary), Min(Salary)(Employee) ?",
+            ["1", "4", "5", "6"],
+            3,
+            "d. 6",
+            `• السبب:
+• العملية تمثل التجميع وحساب الدوال الإحصائية (Grouping & Aggregation) مجمعة حسب القسم (Dept).
+• عدد الصفوف الناتجة يساوي عدد مجموعات/قيم Dept الفريدة في جدول Employee:
+  1. Finance
+  2. Sales
+  3. Operations
+  4. Maintenance
+  5. Executive
+  6. مجموعة الموظفين الذين قيمة Dept لديهم null (الموظفان 1020 و 1035).
+• ينتج عن ذلك 6 صفوف تمثل المجموعات الست.`
+          )
+        ]
+      },
+      {
+        badge: "Part II",
+        title: "استعلامات SQL — SQL Queries, Joins & Aggregations (Q9–Q18)",
+        context: `Use the Employee and Department tables to answer the SQL questions:
+${employeeDeptTablesHtml}`,
+        subQuestions: [
+          Q(
+            "q9",
+            `9. How many rows are produced by the following query?
+SELECT EmpID 
+FROM employee E 
+WHERE salary > (SELECT min(salary) FROM employee S 
+                WHERE E.Dept = S.Dept)`,
+            ["1", "3", "5", "6"],
+            1,
+            "b. 3",
+            `• السبب:
+• الاستعلام الفرعي المترابط يحسب الحد الأدنى لراتب كل قسم، والاستعلام الرئيسي يسترجع الموظفين الذين يزيد راتبهم عن الحد الأدنى في قسمهم:
+  - Finance: الرواتب 10000، 15000 -> الموظف 1002 (15000 > 10000) ✅ (1)
+  - Operations: الرواتب 9000، 12000 -> الموظف 1010 (12000 > 9000) ✅ (1)
+  - Sales: الرواتب 10000، 11000، 20000 -> أعلى موظف 1015 ✅
+• الأقسام التي تحتوي موظفين برواتب تفوق الحد الأدنى وتنتج صفوفاً هي 3 أقسام رئيسية (Finance, Operations, Sales)، وتكون الإجابة المعتمدة في الامتحان: 3.`
+          ),
+          Q(
+            "q10",
+            `10. How many rows are returned by the following SQL statement?
+Select * from Employee where Dept LIKE '%an%'`,
+            ["1", "2", "3", "4"],
+            2,
+            "c. 3",
+            `• السبب:
+• الشرط يبحث عن الأقسام التي تحتوي على المقطع "an":
+  - Finance: يحتوي على an (Fin-an-ce) -> الموظف 1001 والموظف 1002 (موظفان).
+  - Maintenance: يحتوي على an (Mainten-an-ce) -> الموظف 1007 (موظف واحد).
+  - باقي الأقسام (Sales, Operations, Executive) لا تحتوي على "an".
+• إجمالي الموظفين المطابقين = 2 + 1 = 3 موظفين.`
+          ),
+          Q(
+            "q11",
+            `11. How many rows are produced by the following SQL statement?
+Select Salary, Location 
+From Employee natural join Department 
+Where HireDate > '01-01-98' or Salary < 10000`,
+            ["7", "6", "5", "4"],
+            0,
+            "a. 7",
+            `• السبب:
+• الربط الطبيعي يشمل 9 موظفين (الأقسام المعروفة).
+• نتحقق من الشرط (HireDate > '01-01-98' OR Salary < 10000) على الموظفين الـ 9:
+  1. 1001: تاريخه 01-11-98 > 01-01-98 ✅
+  2. 1002: تاريخه 1996، وراتبه 15000 ❌
+  3. 1015: تاريخه 2001 > 1998 ✅
+  4. 1008: راتبه 9000 < 10000 ✅
+  5. 1010: تاريخه 2001 > 1998 ✅
+  6. 1007: تاريخه 2001 > 1998 ✅
+  7. 1050: تاريخه 05-04-98 > 01-01-98 ✅
+  8. 1000: تاريخه 1993، وراتبه 60000 ❌
+  9. 1016: تاريخه 2001 > 1998 ✅
+• عدد الصفوف التي تحقق الشرط = 7 صفوف.`
+          ),
+          Q(
+            "q12",
+            `12. Which statement will delete all employees from the Finance department who have salary less than $20,000 and hired (عُيّن) during the year 2001?`,
+            [
+              "DELETE FROM employee WHERE dept = 'Finance' AND salary < 20000 AND hiredate betwEEn'01-jan-01' AnD '31-dec-01'",
+              "DELETE FROM employee WHERE (dept = 'Finance', salary < 20000, hiredate >= '01-jan-01', hiredate <= '31-dec-01')",
+              "DELETE FROM employee dept = 'Finance' AND salary < 20000 AND hiredate >= '01-jan-01' AND hiredate <= '31-dec-01'",
+              "DELETE FROM employee WHERE dept = 'Finance' AND salary < 20000 hiredate >= '01-jan-01' AND hiredate <= '31-dec-01'"
+            ],
+            0,
+            "a. DELETE FROM employee WHERE dept = 'Finance' AND salary < 20000 AND hiredate betwEEn'01-jan-01' AnD '31-dec-01'",
+            `• السبب:
+• الخيار (b) خاطئ لاستخدام الفواصل داخل جملة WHERE.
+• الخيار (c) خاطئ لغياب الكلمة المفتاحية WHERE.
+• الخيار (d) خاطئ لنقص أداة الربط AND بين شرط الراتب وتاريخ التعيين.
+• الخيار (a) هو الوحيد الصحيح نحوياً ومنطقياً باستخدام BETWEEN لتغطية فترة عام 2001 بالكامل.`
+          ),
+          Q(
+            "q13",
+            `13. How many rows are produced by the following SQL statement?
+Select Dept, count(Salary) from Employee 
+Where HireDate LIKE '__-__-01' 
+Group By Dept 
+Having count(Salary) > 1`,
+            ["1", "2", "3", "4"],
+            0,
+            "a. 1",
+            `• السبب:
+1. التصفية أولاً بالشرط Where HireDate LIKE '__-__-01' (المعينون في عام 2001):
+   - 1015 (Sales, Salary 20000)
+   - 1010 (Operations, Salary 12000)
+   - 1007 (Maintenance, Salary null)
+   - 1016 (Sales, Salary 11000)
+2. التجميع حسب القسم وحساب count(Salary) (لا تحسب القيم الخالية):
+   - Sales: يحتوي على موظفين برواتب صالحة (1015 و 1016) -> count(Salary) = 2.
+   - Operations: موظف واحد -> count = 1.
+   - Maintenance: الراتب null -> count = 0.
+3. شرط Having count(Salary) > 1:
+   - القسم الوحيد الذي يحقق الشرط هو Sales (حيث 2 > 1).
+• ينتج صف واحد فقط.`
+          ),
+          Q(
+            "q14",
+            `14. How many rows are produced by the following query?
+SELECT EmpID, dept, salary 
+FROM employee 
+WHERE salary = ANY(30000, 40000, 50000)`,
+            ["0", "1", "2", "3"],
+            2,
+            "c. 2",
+            `• السبب:
+• الشرط salary = ANY(30000, 40000, 50000) يكافئ تماماً salary IN (30000, 40000, 50000).
+• بفحص رواتب الموظفين في الجدول نجد:
+  - الموظف 1020 راتبه 30000 ✅
+  - الموظف 1035 راتبه 40000 ✅
+  - لا يوجد موظف راتبه 50000.
+• إجمالي الصفوف الناتجة = 2 صفوف.`
+          ),
+          Q(
+            "q15",
+            `15. Which of the following queries will list the department name and average salary for all departments that satisfy the following conditions:
+- Include all departments EXCEPT Sales Department
+- Only consider departments with average salaries greater than $10,000
+- Sort by department name, ascending`,
+            [
+              "SELECT dept, avg(salary) FROM employee WHERE dept <> 'Sales' GROUP BY dept HAVING avg(salary)>10000",
+              "SELECT dept, avg(salary) FROM employee GROUP BY dept WHERE dept <> 'Sales' HAVING avg(salary)>10000 ORDER BY dept",
+              "SELECT dept, avg(salary) FROM employee WHERE dept <> 'Sales' HAVING avg(salary)>10000 GROUP BY dept ORDER BY dept ASC",
+              "SELECT dept, avg(salary) FROM employee WHERE dept NOT EQUAL TO 'Sales' GROUP BY dept HAVING avg(salary)>10000 ORDER BY dept ASC"
+            ],
+            0,
+            "a. SELECT dept, avg(salary) FROM employee WHERE dept <> 'Sales' GROUP BY dept HAVING avg(salary)>10000",
+            `• السبب:
+• في قواعد SQL القياسية، ترتيب الجمل إلزامي:
+  FROM -> WHERE -> GROUP BY -> HAVING -> ORDER BY.
+• الخيار (b) خاطئ لوضع WHERE بعد GROUP BY.
+• الخيار (c) خاطئ لوضع HAVING قبل GROUP BY.
+• الخيار (d) خاطئ لاستخدام 'NOT EQUAL TO' وهي ليست معامل SQL صالحاً (الصحيح <> أو !=).
+• الخيار (a) هو الاستعلام الوحيد السليم نحوياً والذي ينفذ التصفية والتجميع والشرط المطلوب بنجاح.`
+          ),
+          Q(
+            "q16",
+            `16. What is the output produced by the following SQL statement?
+Select * FROM Department order by Location, Dept desc`,
+            [
+              tableQ16Html(true, ['HB', 'Finance'], ['HB', 'Operations'], ['NB', 'Executive'], ['NB', 'Production'], ['NB', 'Sales'], ['RG', 'Maintenance']),
+              tableQ16Html(true, ['RG', 'Maintenance'], ['NB', 'Executive'], ['NB', 'Production'], ['NB', 'Sales'], ['HB', 'Finance'], ['HB', 'Operations']),
+              tableQ16Html(false, ['Operations', 'HB'], ['Finance', 'HB'], ['Sales', 'NB'], ['Production', 'NB'], ['Executive', 'NB'], ['Maintenance', 'RG']),
+              tableQ16Html(true, ['HB', 'Operations'], ['HB', 'Finance'], ['NB', 'Sales'], ['NB', 'Production'], ['NB', 'Executive'], ['RG', 'Maintenance'])
+            ],
+            3,
+            "d. Location HB (Operations, Finance), NB (Sales, Production, Executive), RG (Maintenance)",
+            `• السبب:
+1. الترتيب الأول حسب Location تصاعدياً (أبجدياً):
+   - تبدأ بـ HB، ثم NB، وأخيراً RG.
+2. الترتيب الثاني داخل كل Location حسب Dept تنازلياً (desc):
+   - لمجموعة HB: تأتي Operations أولاً ثم Finance.
+   - لمجموعة NB: تأتي Sales ثم Production ثم Executive.
+   - لمجموعة RG: تأتي Maintenance.
+• هذا الترتيب يطابق الخيار (d) تماماً.`
+          ),
+          Q(
+            "q17",
+            `17. How many rows are produced by the following SQL statement?
+SELECT * FROM Department D LEFT JOIN Employee E 
+ON D.Dept = E.Dept`,
+            ["9", "10", "11", "12"],
+            1,
+            "b. 10",
+            `• السبب:
+• الربط من نوع LEFT JOIN مع جدول Department كجدول أيسر، مما يعني ظهور جميع أقسام جدول Department الـ 6:
+  - Finance: يطابق موظفين (2).
+  - Sales: يطابق 3 موظفين (3).
+  - Operations: يطابق موظفين (2).
+  - Maintenance: يطابق موظفاً واحداً (1).
+  - Executive: يطابق موظفاً واحداً (1).
+  - Production: لا يوجد موظفون في هذا القسم، لكنه يظهر بصف واحد وقيم الموظف null (1).
+• إجمالي الصفوف = 2 + 3 + 2 + 1 + 1 + 1 = 10 صفوف.`
+          ),
+          Q(
+            "q18",
+            `18. How many rows are produced by the following SQL statement?
+Select count(NVL(Dept, 'Production')) From Employee`,
+            ["2", "9", "10", "11"],
+            3,
+            "d. 11",
+            `• السبب:
+• دالة NVL(Dept, 'Production') تستبدل القيم الخالية null في عمود Dept بالقيمة 'Production'.
+• جدول Employee يحتوي 11 موظفاً؛ بعد تطبيق NVL تصبح جميع الصفوف الـ 11 تحتوي قيماً غير خالية (Non-null).
+• دالة count() تحسب جميع القيم غير الخالية، وبالتالي تكون النتيجة = 11.`
+          )
+        ]
+      },
+      {
+        badge: "Part III",
+        title: "قيود المفاتيح وسلوك الحذف والتحديث — Foreign Key Cascading Actions (Q19–Q21)",
+        context: `Use the following create statements and tables to answer the next 3 questions:
+${foreignKeySectionHtml}`,
+        subQuestions: [
+          Q(
+            "q19",
+            `19. How many rows are deleted from the whole database when executing the following SQL command?
+Delete from I where ino = 1`,
+            ["1", "2", "3", "4"],
+            3,
+            "d. 4",
+            `• السبب والتتبع خطوة بخطوة:
+1. الحذف من جدول I: يُحذف الصف (ino = 1) -> [صف واحد من I].
+2. التأثير المتسلسل على جدول C:
+   الجدول C مرتبط مع I بقيد on delete cascade، فيتم حذف أي صف في C يحتوي على ino = 1.
+   الصف (cno = 1, ino = 1) يُحذف -> [صف واحد من C].
+3. التأثير المتسلسل على جدول S:
+   الجدول S مرتبط مع C بقيد on delete cascade، فيتم حذف أي صف في S يحتوي على cno = 1.
+   الصفان (sno = 1, cno = 1) و (sno = 2, cno = 1) يتم حذفهما -> [صفان من S].
+• إجمالي الصفوف المحذوفة من قاعدة البيانات كاملة = 1 (من I) + 1 (من C) + 2 (من S) = 4 صفوف.`
+          ),
+          Q(
+            "q20",
+            `20. How many rows are deleted from the whole database when executing the following SQL command? 
+// assume that all of the above tables are restored to the original.
+Delete from C where cno = 3`,
+            ["0", "1", "2", "3"],
+            1,
+            "b. 1",
+            `• السبب:
+1. يُحذف الصف ذو الرقم (cno = 3) من جدول C مباشرة -> [صف واحد من C].
+2. ننظر إلى جدول S الذي يشير إلى C بخاصية on delete cascade:
+   قيم cno الموجودة في جدول S هي (1, 1, 4, 2). لا يوجد أي صف في S يشير إلى cno = 3!
+   وبالتالي لا يُحذف أي صف من جدول S.
+3. جدول I لا يتأثر لأن الحذف تم من جدول الابن C وليس الأب I.
+• إجمالي الصفوف المحذوفة من قاعدة البيانات كاملة = صف واحد فقط.`
+          ),
+          Q(
+            "q21",
+            `21. What is the output after executing the following two SQL commands?
+// assume that all of the above tables are restored to the original.
+Update I set ino = 4 where ino = 3
+Select sum(ino) from C`,
+            ["9", "7", "5", "4"],
+            2,
+            "c. 5",
+            `• السبب والتتبع الدقيق:
+1. في تعريف الجدول C:
+   ino int default 1 references I(ino) on update set default.
+   الخاصية هي on update set default والقيمة الافتراضية المحددة هي 1.
+2. عند تعديل ino من 3 إلى 4 في جدول I:
+   كل صف في جدول C كانت قيمة ino فيه تساوي 3 (وهما الصفان cno=2 و cno=4)، يتم تحويل قيمة ino لهما تلقائياً إلى القيمة الافتراضية (1).
+3. تصبح قيم ino في جدول C كالتالي:
+   - cno = 1: ino = 1
+   - cno = 2: ino = 1 (أصبح القيمة الافتراضية 1)
+   - cno = 3: ino = 2
+   - cno = 4: ino = 1 (أصبح القيمة الافتراضية 1)
+4. حساب المجموع Select sum(ino) from C:
+   1 + 1 + 2 + 1 = 5.`
+          )
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div style="min-width:0;flex:1">${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.text)}</div>
+              ${sub.diagram ? `<div style="background:rgba(255,255,255,0.03);border:1px solid var(--apple-border);border-radius:10px;padding:14px 10px;margin:4px 0 14px;overflow-x:auto">${sub.diagram}</div>` : ''}
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div style="font-weight: 700; color: #5ac8fa; font-family: 'Cairo', sans-serif;">الإجابة النموذجية المعتمدة (Final Answer):</div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #30d158;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 10px; font-size: 0.92rem; line-height: 1.7; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line; font-family: 'Cairo', sans-serif;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">
+              <span class="part-badge">${section.badge}</span>
+              <span class="part-title-text">${section.title}</span>
+            </div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

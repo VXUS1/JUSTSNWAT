@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | أساسيات قواعد البيانات - Database Systems Exams</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border, rgba(255, 255, 255, 0.12));
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface, rgba(255, 255, 255, 0.05));
+      border: 1px solid var(--apple-border-strong, rgba(255, 255, 255, 0.18));
+      color: var(--text-primary, #f5f5f7);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover, rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue, #0a84ff);
+      color: #ffffff;
+      border-color: var(--apple-blue, #0a84ff);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border, rgba(255, 255, 255, 0.15));
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      direction: rtl;
+      text-align: right;
+      flex-wrap: wrap;
+    }
+    .part-badge {
+      background: rgba(10, 132, 255, 0.15);
+      color: #5ac8fa;
+      border: 1px solid rgba(10, 132, 255, 0.35);
+      padding: 3px 12px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .part-title-text {
+      flex: 1;
+      font-family: 'Cairo', sans-serif;
+      line-height: 1.5;
+    }
+
+    .parent-q-desc {
+      font-size: 0.96rem;
+      line-height: 1.8;
+      color: var(--text-primary, #e8e8ed);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: 'JetBrains Mono', Consolas, -apple-system, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.1));
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s ease;
+    }
+    .sub-question-card:hover {
+      border-color: rgba(10, 132, 255, 0.3);
+    }
+
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary, #f5f5f7);
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.1));
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      font-size: 0.95rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.2) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.2) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.84rem;
+      flex-shrink: 0;
+      color: var(--apple-blue, #0a84ff);
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .btn-action {
+      background: rgba(10, 132, 255, 0.15);
+      color: #0a84ff;
+      border: 1px solid rgba(10, 132, 255, 0.35);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: 'Cairo', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      background: #0a84ff;
+      color: #fff;
+    }
+
+    .solution-box {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* DB Tables Styling */
+    .db-state-wrapper {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 16px 0 22px 0;
+    }
+    .db-table-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border, rgba(255, 255, 255, 0.12));
+      border-radius: 10px;
+      padding: 12px;
+      flex: 1 1 220px;
+      overflow-x: auto;
+    }
+    .db-table-title {
+      font-weight: 800;
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+      color: #5ac8fa;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    .raw-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      text-align: left;
+    }
+    .raw-table th, .raw-table td {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 10px;
+    }
+    .raw-table th {
+      background: rgba(10, 132, 255, 0.14);
+      color: #f5f5f7;
+      font-weight: 700;
+    }
+    .raw-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .raw-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .code-sql-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin: 10px 0;
+      overflow-x: auto;
+      color: #e8e8ed;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/db">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">أساسيات قواعد البيانات (Fundamentals Of Database Systems)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان سكند — جبر العلاقات، قيود المفاتيح المتسلسلة (Cascade)، واستعلامات SQL</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/db">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1OR_Nly84vSEpdWt8kyenkGhadMM7BtR4/view?usp=drive_link";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const Q = (id, text, opts, ans, disp, exp, dg = '') => ({
+      id,
+      text,
+      opts,
+      ans,
+      dispAnswer: disp,
+      exp,
+      diagram: dg
+    });
+
+    const tablesPart1Html = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Student</div>
+    <table class="raw-table">
+      <thead><tr><th>Id</th><th>name</th></tr></thead>
+      <tbody>
+        <tr><td>1234</td><td>joe</td></tr>
+        <tr><td>4000</td><td>hector</td></tr>
+        <tr><td>2000</td><td>ling</td></tr>
+        <tr><td>3000</td><td>ling</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card">
+    <div class="db-table-title">Enrollment</div>
+    <table class="raw-table">
+      <thead><tr><th>Id</th><th>code</th></tr></thead>
+      <tbody>
+        <tr><td>1234</td><td>1500</td></tr>
+        <tr><td>1234</td><td>1200</td></tr>
+        <tr><td>1234</td><td>2001</td></tr>
+        <tr><td>4000</td><td>3010</td></tr>
+        <tr><td>4000</td><td>3000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card">
+    <div class="db-table-title">Course</div>
+    <table class="raw-table">
+      <thead><tr><th>code</th><th>instructor</th></tr></thead>
+      <tbody>
+        <tr><td>1500</td><td>curtis</td></tr>
+        <tr><td>1200</td><td>dave</td></tr>
+        <tr><td>3010</td><td>curtis</td></tr>
+        <tr><td>2001</td><td>olivier</td></tr>
+        <tr><td>3000</td><td>roger</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableQ6Html = `
+<div style="max-width: 220px; margin: 10px auto 14px auto;">
+  <table class="raw-table" style="text-align: center;">
+    <thead><tr><th>instructor</th></tr></thead>
+    <tbody>
+      <tr><td>curtis</td></tr>
+      <tr><td>olivier</td></tr>
+      <tr><td>roger</td></tr>
+    </tbody>
+  </table>
+</div>`;
+
+    const tableEmpQ7Html = `
+<div style="max-width: 320px; margin: 10px auto 14px auto;">
+  <div class="db-table-title" style="text-align:center;">Emp</div>
+  <table class="raw-table" style="text-align: center;">
+    <thead><tr><th>SSN</th><th>Name</th><th>age</th><th>Salary</th></tr></thead>
+    <tbody>
+      <tr><td>1234</td><td>Ahmad</td><td>23</td><td>1200</td></tr>
+      <tr><td>4321</td><td>Ali</td><td>26</td><td>1300</td></tr>
+      <tr><td>1235</td><td>John</td><td>27</td><td>1350</td></tr>
+      <tr><td>1222</td><td>Ali</td><td>30</td><td>1500</td></tr>
+    </tbody>
+  </table>
+</div>`;
+
+    const tableSRQ8Html = `
+<div class="db-state-wrapper" style="justify-content:center;">
+  <div class="db-table-card" style="flex:0 1 220px;">
+    <div class="db-table-title" style="text-align:center;">S</div>
+    <table class="raw-table" style="text-align: center;">
+      <thead><tr><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><td>A1</td><td>B1</td><td>C1</td><td>D1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card" style="flex:0 1 220px;">
+    <div class="db-table-title" style="text-align:center;">R</div>
+    <table class="raw-table" style="text-align: center;">
+      <thead><tr><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>
+      <tbody>
+        <tr><td>C1</td><td>D1</td><td>E1</td><td>F1</td></tr>
+        <tr><td>C2</td><td>D2</td><td>E2</td><td>F2</td></tr>
+        <tr><td>C3</td><td>D3</td><td>E3</td><td>F3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const schemaPart2Html = `
+<div class="code-sql-box">
+<b>Create table Instructor(</b>ino int primary key, iname char(20), ioffice int<b>);</b><br><br>
+<b>Create table Course(</b><br>
+&nbsp;&nbsp;cno int primary key, ctitle char(20), croom int,<br>
+&nbsp;&nbsp;ino int references Instructor(ino)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on delete cascade on update set null<b>);</b><br><br>
+<b>Create table Student(</b>sno int primary key, sname char(20), major int<b>);</b><br><br>
+<b>Create table Registration(</b><br>
+&nbsp;&nbsp;sno int references Student(sno) on update cascade,<br>
+&nbsp;&nbsp;cno int references Course(cno) on update set null,<br>
+&nbsp;&nbsp;semester int, grade char,<br>
+&nbsp;&nbsp;primary key (sno, cno, semester)<b>);</b>
+</div>
+
+<div class="db-state-wrapper">
+  <div class="db-table-card" style="flex: 1 1 120px;">
+    <div class="db-table-title">Instructor</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>ino</th></tr></thead>
+      <tbody>
+        <tr><td>i1</td></tr>
+        <tr><td>i2</td></tr>
+        <tr><td>i3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 1 1 140px;">
+    <div class="db-table-title">Course</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>cno</th><th>ino</th></tr></thead>
+      <tbody>
+        <tr><td>c1</td><td>i1</td></tr>
+        <tr><td>c2</td><td>i3</td></tr>
+        <tr><td>c3</td><td>i2</td></tr>
+        <tr><td>c4</td><td>i3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 1 1 120px;">
+    <div class="db-table-title">Student</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>sno</th></tr></thead>
+      <tbody>
+        <tr><td>s1</td></tr>
+        <tr><td>s2</td></tr>
+        <tr><td>s3</td></tr>
+        <tr><td>s4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 1 1 200px;">
+    <div class="db-table-title">Registration</div>
+    <table class="raw-table" style="text-align:center;">
+      <thead><tr><th>sno</th><th>cno</th><th>semester</th></tr></thead>
+      <tbody>
+        <tr><td>s1</td><td>c1</td><td>1/2015</td></tr>
+        <tr><td>s2</td><td>c1</td><td>1/2015</td></tr>
+        <tr><td>s2</td><td>c4</td><td>1/2015</td></tr>
+        <tr><td>s3</td><td>c2</td><td>1/2015</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tablesPart3Html = `
+<div class="db-state-wrapper">
+  <div class="db-table-card" style="flex: 1 1 220px;">
+    <div class="db-table-title">Student</div>
+    <table class="raw-table">
+      <thead><tr><th>SNo</th><th>SName</th><th>age</th><th>major</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Ahmad</td><td>20</td><td>CS</td></tr>
+        <tr><td>2</td><td>Jana</td><td>21</td><td>CIS</td></tr>
+        <tr><td>3</td><td>Rami</td><td>22</td><td>CIS</td></tr>
+        <tr><td>7</td><td>Ola</td><td>21</td><td>CIS</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 2 1 320px;">
+    <div class="db-table-title">Book</div>
+    <table class="raw-table">
+      <thead><tr><th>BNo</th><th>BName</th><th>edition</th><th>price</th></tr></thead>
+      <tbody>
+        <tr><td>10</td><td>C++</td><td>Second</td><td>40</td></tr>
+        <tr><td>40</td><td>Oracle</td><td>First</td><td>40</td></tr>
+        <tr><td>30</td><td>Information systems</td><td>First</td><td>17</td></tr>
+        <tr><td>70</td><td>Computer Skills</td><td>Second</td><td>40</td></tr>
+        <tr><td>90</td><td>Multimedia</td><td>Second</td><td>14</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="db-table-card" style="flex: 2 1 300px;">
+    <div class="db-table-title">Borrow</div>
+    <table class="raw-table">
+      <thead><tr><th>SNo</th><th>BNo</th><th>BDate</th><th>RDate</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td>70</td><td>15-Feb-15</td><td>12-Mar-15</td></tr>
+        <tr><td>3</td><td>30</td><td>20-Feb-15</td><td>20-Mar-15</td></tr>
+        <tr><td>3</td><td>40</td><td>1-Mar-15</td><td><i>null</i></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:0.75rem; color:#8e8e93; margin-top:6px;">// BDate: تاريخ الإستعارة , RDate: تاريخ الإرجاع</div>
+  </div>
+</div>`;
+
+    const examSections = [
+      {
+        badge: "Part I",
+        title: "جبر العلاقات — Relational Algebra (Q1–Q8)",
+        context: `Use the following relational database to answer the next questions:
+${tablesPart1Html}`,
+        subQuestions: [
+          Q(
+            "q1",
+            "1. How many tuples are produced by πName(Student) ?",
+            ["1", "2", "3", "4"],
+            2,
+            "c. 3",
+            `• السبب: في جبر العلاقات، عملية الإسقاط (Project π) تحذف التكرار تلقائياً (Duplicate Elimination).
+• قيم name في جدول Student هي: joe، hector، ling، ling.
+• بعد إزالة التكرار لاسم ling، تصبح المجموعة {joe, hector, ling}، أي 3 صفوف فريدة.`
+          ),
+          Q(
+            "q2",
+            "2. How many tuples are produced by σcode=1500 and code=3010(Course) ?",
+            ["0", "1", "2", "3"],
+            0,
+            "a. 0",
+            `• السبب:
+• الشرط يتطلب أن تكون قيمة code مساوية لـ 1500 ومساوية لـ 3010 في نفس الصف في آن واحد (AND).
+• بما أن السمة code تأخذ قيمة واحدة فقط لكل صف، فمن المستحيل رياضياً أن يساوي الرقم قيمتين مختلفتين معاً.
+• لذلك، الشرط خاطئ دائماً (False) وينتج 0 صفوف. (تم تصحيحها في ورقة الإجابة باللون الأحمر على A).`
+          ),
+          Q(
+            "q3",
+            "3. How many tuples are produced by Student - σname='ling'(Student) ?",
+            ["0", "1", "2", "3"],
+            2,
+            "c. 2",
+            `• السبب:
+• جدول Student يحتوي على 4 صفوف.
+• التصفية σname='ling'(Student) تسترجع صفي ling (المعرفين 2000 و 3000).
+• عملية الطرح (-) تحذف صفي ling من الجدول الأصلي، فيتبقى صفا (joe و hector).
+• عدد الصفوف المتبقية = 2 صفوف.`
+          ),
+          Q(
+            "q4",
+            "4. How many tuples are produced by σname='ling'(Student × Enrollment) ?",
+            ["2", "4", "6", "10"],
+            3,
+            "d. 10",
+            `• السبب:
+• يحتوي جدول Student على صفين يحملان الاسم 'ling'.
+• يحتوي جدول Enrollment على 5 صفوف.
+• في الضرب الديكارتي (Cartesian Product)، يقترن كل صف من صفي 'ling' مع جميع صفوف Enrollment الـ 5:
+  2 × 5 = 10 صفوف.`
+          ),
+          Q(
+            "q5",
+            "5. How many attributes are produced by Student ⨝ Enrollment ?",
+            ["2", "3", "4", "5"],
+            1,
+            "b. 3",
+            `• السبب:
+• السؤال يطلب عدد السمات (attributes / الأعمدة) الناتجة وليس عدد الصفوف!
+• في الربط الطبيعي (Natural Join ⨝)، تدمج سمات الجدولين وتظهر السمة المشتركة (Id) مرة واحدة فقط.
+• الأعمدة الناتجة هي: (Id, name, code) -> بالضبط 3 أعمدة. (تم تصحيحها في ورقة الإجابة باللون الأحمر على B).`
+          ),
+          Q(
+            "q6",
+            "6. Figure out which relational algebra operation was used to obtain each of the following table.",
+            [
+              "σcode>2000(Course)",
+              "πinstructor(σcode>2000(Course))",
+              "ℑinstructor(Course)",
+              "ρinstructor(σcode>2000(Course))"
+            ],
+            1,
+            "b. πinstructor(σcode>2000(Course))",
+            `• السبب:
+• في جدول Course، المقررات التي تحقق الشرط code > 2000 هي:
+  - 3010 (curtis)
+  - 2001 (olivier)
+  - 3000 (roger)
+• الجدول المعطى يضم عموداً واحداً فقط هو instructor بهذه القيم الثلاث.
+• العملية التي تقوم بتصفية الصفوف أولاً ثم عزل عمود المدرس هي الإسقاط بعد الاختيار: πinstructor(σcode>2000(Course)).`,
+            tableQ6Html
+          ),
+          Q(
+            "q7",
+            "7. How many tuples are produced by πName(σage>=25 and salary>=1250(Emp)) ?",
+            ["1", "2", "3", "4"],
+            1,
+            "b. 2",
+            `• السبب:
+• الشرط هو age >= 25 AND salary >= 1250:
+  - Ahmad (23, 1200) ❌ (العمر والراتب لا يحققان الشرط)
+  - Ali (26, 1300) ✅
+  - John (27, 1350) ✅
+  - Ali (30, 1500) ✅
+• الصفوف الثلاثة التي حققت الشرط أسماؤها: Ali, John, Ali.
+• عملية الإسقاط πName تحذف الاسم المكرر 'Ali'، فيتبقى الاسمان الفريدان: {Ali, John} = صفان (2). (تم تصحيحها في ورقة الإجابة باللون الأحمر على B).`,
+            tableEmpQ7Html
+          ),
+          Q(
+            "q8",
+            "8. Consider the following two relations. The degree of S ⨝ R is ________.",
+            ["1", "6", "8", "10"],
+            1,
+            "b. 6",
+            `• السبب:
+• درجة العلاقة (Degree) تعني عدد الأعمدة في ناتج الربط الطبيعي.
+• الجدول S يملك 4 أعمدة (A, B, C, D)، والجدول R يملك 4 أعمدة (C, D, E, F).
+• السمتان المشتركتان هما C و D؛ وفي الربط الطبيعي تظهر السمات المشتركة مرة واحدة فقط:
+  الدرجة = 4 + 4 - 2 = 6 أعمدة (A, B, C, D, E, F). (تم تصحيحها في ورقة الإجابة باللون الأحمر على B).`,
+            tableSRQ8Html
+          )
+        ]
+      },
+      {
+        badge: "Part II",
+        title: "قيود المفاتيح المتسلسلة — Foreign Keys & Cascading (Q9–Q11)",
+        context: `Use the following create statements and tables to answer the next questions:
+${schemaPart2Html}`,
+        subQuestions: [
+          Q(
+            "q9",
+            `9. How many rows are deleted from the whole database when executing the following SQL command?
+Delete from Instructor where ino = 'i2'`,
+            ["0", "1", "2", "3"],
+            2,
+            "c. 2",
+            `• السبب والتتبع:
+1. في جدول Instructor: يُحذف المدرس 'i2' مباشرة -> [صف واحد].
+2. جدول Course مرتبط مع Instructor بقيد on delete cascade:
+   الصف الوحيد في Course الذي يحتوي على ino = 'i2' هو المقرر c3، فيتم حذفه متسلسلاً -> [صف واحد].
+3. جدول Registration: المقرر c3 غير مسجل لأي طالب في جدول Registration، فلا تتأثر أي صفوف أخرى.
+• إجمالي الصفوف المحذوفة من قاعدة البيانات = 1 + 1 = 2 صفوف.`
+          ),
+          Q(
+            "q10",
+            `10. How many rows are deleted from the whole database when executing the following SQL command?
+// Assume that all of the above tables are restored to the original.
+Delete from Instructor where ino = 'i3'`,
+            ["0", "1", "2", "3"],
+            0,
+            "a. 0",
+            `• السبب:
+• المدرس 'i3' يدرّس المقررين c2 و c4 في جدول Course.
+• حذف 'i3' يحاول متسلسلاً حذف المقررات c2 و c4 من جدول Course.
+• لكن جدول Registration يحتوي على تسجيلات للطلاب في هذين المقررين (c4 مسجل لـ s2، و c2 مسجل لـ s3).
+• عمود cno في Registration يشكل جزءاً من المفتاح الأساسي ولا يقبل الحذف التلقائي دون cascade صريح في Registration، مما يمنع عملية الحذف (Restricted / Violation).
+• تفشل العملية بالكامل ويتم حذف 0 صفوف. (تم تصحيحها في ورقة الإجابة باللون الأحمر على A).`
+          ),
+          Q(
+            "q11",
+            `11. What is the output after executing the following two SQL commands?
+// Assume that all of the above tables are restored to the original.
+Update Instructor set ino = 'i4' where ino = 'i1'
+Select count(ino) from Course`,
+            ["1", "2", "3", "4"],
+            2,
+            "c. 3",
+            `• السبب:
+1. في جدول Course تم تعريف المفتاح الأجنبي بخاصية on update set null:
+   عند تعديل ino في جدول Instructor من 'i1' إلى 'i4'، يتم تحويل قيمة ino في المقرر c1 المرتبط به إلى null.
+2. تصبح قيم ino في جدول Course كالتالي:
+   - c1: null
+   - c2: i3
+   - c3: i2
+   - c4: i3
+3. دالة count(ino) تحسب فقط القيم غير الخالية (Non-null):
+   الصف c1 لا يُحسب، ويتبقى 3 صفوف تحتوي قيماً صالحة، فتكون النتيجة = 3. (تم تصحيحها في ورقة الإجابة باللون الأحمر على C).`
+          )
+        ]
+      },
+      {
+        badge: "Part III",
+        title: "استعلامات SQL — SQL Queries, Joins & Subqueries (Q12–Q21)",
+        context: `Consider the following tables then answer the next questions:
+${tablesPart3Html}`,
+        subQuestions: [
+          Q(
+            "q12",
+            `12. How many columns are returned by the following SQL statement?
+Select * from Student where age not in (19, 20, 21)`,
+            ["0", "1", "3", "4"],
+            3,
+            "d. 4",
+            `• السبب:
+• السؤال يسأل عن عدد الأعمدة (columns) وليس عدد الصفوف!
+• الاستعلام يبدأ بـ Select * from Student، وبما أن جدول Student يحتوي على 4 أعمدة هي (SNo, SName, age, major)، فإن الناتج يحتوي على 4 أعمدة دائماً.`
+          ),
+          Q(
+            "q13",
+            `13. How many rows are produced by the following SQL statement?
+Select BName, edition 
+From Student natural join Borrow natural join Book 
+Where age < 22 and major = 'CIS'`,
+            ["1", "2", "3", "60"],
+            0,
+            "a. 1",
+            `• السبب:
+1. الطلاب الذين يحققون الشرط (age < 22 AND major = 'CIS'):
+   - الطالبة Jana (SNo = 2, age = 21, CIS) ✅
+   - الطالبة Ola (SNo = 7, age = 21, CIS) ✅
+2. بالربط مع جدول الاستعارة Borrow عبر SNo:
+   - Jana (2) استعارت كتاباً واحداً فقط (BNo = 70).
+   - Ola (7) لم تستعر أي كتاب (غير موجودة في Borrow).
+3. بالربط مع جدول Book عبر BNo:
+   - الكتاب رقم 70 هو 'Computer Skills' ويطابق سجلاً واحداً.
+• ينتج صف واحد فقط.`
+          ),
+          Q(
+            "q14",
+            `14. How many rows are produced by the following SQL statement?
+Select distinct edition, price from Book`,
+            ["2", "3", "4", "5"],
+            2,
+            "c. 4",
+            `• السبب:
+• أزواج (edition, price) في جدول Book هي:
+  1. (Second, 40) - للكتاب 10
+  2. (First, 40) - للكتاب 40
+  3. (First, 17) - للكتاب 30
+  4. (Second, 40) - للكتاب 70 (مكرر مع السجل الأول)
+  5. (Second, 14) - للكتاب 90
+• كلمة distinct تحذف الزوج المكرر (Second, 40)، فيتبقى 4 أزواج فريدة.`
+          ),
+          Q(
+            "q15",
+            `15. How many rows are produced by the following SQL statement?
+Select BNo from Book where BName like 'C%'`,
+            ["1", "2", "3", "4"],
+            1,
+            "b. 2",
+            `• السبب:
+• الشرط 'C%' يعني أسماء الكتب التي تبدأ بحرف C:
+  - C++ (BNo = 10) ✅
+  - Computer Skills (BNo = 70) ✅
+• باقي الكتب لا تبدأ بحرف C، فينتج صفان (2).`
+          ),
+          Q(
+            "q16",
+            `16. How many rows are produced by the following SQL statement?
+Select edition, count(BNo) from Book 
+Where BNo between 10 and 50 
+Group By edition 
+Having count(BNo) >= 2`,
+            ["1", "2", "3", "4"],
+            0,
+            "a. 1",
+            `• السبب:
+1. التصفية أولاً بالشرط Where BNo between 10 and 50 تستبقي:
+   - BNo 10 (Second)
+   - BNo 40 (First)
+   - BNo 30 (First)
+2. التجميع حسب edition:
+   - Second: يضم كتاباً واحداً فقط (count = 1).
+   - First: يضم كتابين (count = 2).
+3. شرط المجموعة Having count(BNo) >= 2:
+   - الطبعة First فقط تحقق الشرط (2 >= 2).
+• ينتج صف واحد فقط للطبعة First.`
+          ),
+          Q(
+            "q17",
+            `17. How many rows are produced by the following SQL statement?
+Select distinct BName from Book order by edition, BNo desc`,
+            ["2", "3", "4", "5"],
+            3,
+            "d. 5",
+            `• السبب:
+• جدول Book يحتوي 5 كتب، وجميع أسماء الكتب BName مختلفة وفريدة تماماً (C++, Oracle, Information systems, Computer Skills, Multimedia).
+• بما أنه لا يوجد أي اسم كتاب مكرر، فإن Select distinct BName تسترجع أسماء الكتب الـ 5 كاملة.`
+          ),
+          Q(
+            "q18",
+            `18. How many rows are produced by the following SQL statement?
+Select BDate from Student natural join Borrow 
+Where age in (20, 21)`,
+            ["1", "2", "3", "4"],
+            0,
+            "a. 1",
+            `• السبب:
+1. الطلاب في الفئة العمرية (20, 21) هم:
+   - Ahmad (SNo = 1, age = 20)
+   - Jana (SNo = 2, age = 21)
+   - Ola (SNo = 7, age = 21)
+2. بالربط الطبيعي مع جدول Borrow:
+   - الطالبة الوحيدة من بينهم التي تملك سجلاً في جدول Borrow هي Jana (SNo = 2) بتاريخ استعارة واحد (15-Feb-15).
+• ينتج صف واحد فقط.`
+          ),
+          Q(
+            "q19",
+            `19. How many rows are produced by the following SQL statement?
+Select SNo from Student 
+intersect 
+Select SNo from Borrow`,
+            ["1", "2", "3", "4"],
+            1,
+            "b. 2",
+            `• السبب:
+• أرقام الطلاب في جدول Student هي: {1, 2, 3, 7}.
+• أرقام الطلاب الذين استعاروا كتباً في جدول Borrow هي: {2, 3}.
+• عملية التقاطع (intersect) تعطي العناصر المشتركة بين المجموعتين: {2, 3}.
+• عدد الصفوف الناتجة = صفان (2).`
+          ),
+          Q(
+            "q20",
+            `20. Choose SQL statement that lists the books' numbers that not yet returned (لم يتم إرجاعه لحد الآن)`,
+            [
+              "Select BNo from Borrow where RDate > BDate",
+              "Select BNo from Borrow where RDate = null",
+              "Select BNo from Borrow where RDate like null",
+              "Select BNo from Borrow where RDate is null"
+            ],
+            3,
+            "d. Select BNo from Borrow where RDate is null",
+            `• السبب:
+• الكتاب الذي لم يتم إرجاعه يكون تاريخ إرجاعه فارغاً (null).
+• في لغة SQL، مقارنة القيمة الخالية لا تصح باستخدام المعاملات العادية (= أو like) لأن نتيجتها دائماً تكون Unknown.
+• الصياغة القياسية الوحيدة الصحيحة لفحص القيمة الخالية هي باستخدام المعامل: IS NULL. (تم تصحيحها في ورقة الإجابة باللون الأحمر على D).`
+          ),
+          Q(
+            "q21",
+            `21. Choose SQL statement that lists the names of all students who borrowed at least one book with price less than 20.`,
+            [
+              "Select SName from Student natural join Borrow Where BNo not in (select BNo from Book where price < 20)",
+              "Select SName from Student join Borrow join Book Where price < 20",
+              "Select SName from Student where SNo in Select SNo from Borrow where BNo in Select BNo from Book where price < 20",
+              "Select SName from Student where SNo not in Select SNo from Borrow where BNo not in Select BNo from Book where price < 20"
+            ],
+            2,
+            "c. Select SName from Student where SNo in Select SNo from Borrow where BNo in Select BNo from Book where price < 20",
+            `• السبب:
+• الاستعلام الفرعي الداخلي يسترجع أرقام الكتب التي سعرها أقل من 20 (Select BNo from Book where price < 20).
+• الاستعلام الأوسط يسترجع أرقام الطلاب الذين استعاروا تلك الكتب (Select SNo from Borrow where BNo in ...).
+• الاستعلام الخارجي يسترجع أسماء هؤلاء الطلاب (Select SName from Student where SNo in ...).
+• هذا التسلسل المنطقي المتداخل يطابق تماماً الخيار (c). (تم تصحيحها في ورقة الإجابة باللون الأحمر على C).`
+          )
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div style="min-width:0;flex:1">${opt}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.text)}</div>
+              ${sub.diagram ? `<div style="background:rgba(255,255,255,0.03);border:1px solid var(--apple-border);border-radius:10px;padding:14px 10px;margin:4px 0 14px;overflow-x:auto">${sub.diagram}</div>` : ''}
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div style="font-weight: 700; color: #5ac8fa; font-family: 'Cairo', sans-serif;">الإجابة النموذجية المعتمدة (Final Answer):</div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #30d158;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 10px; font-size: 0.92rem; line-height: 1.7; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line; font-family: 'Cairo', sans-serif;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">
+              <span class="part-badge">${section.badge}</span>
+              <span class="part-title-text">${section.title}</span>
+            </div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

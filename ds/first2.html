@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | تراكيب البيانات - First Exam Summer 2022</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.98rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .code-block {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.90rem;
+      line-height: 1.65;
+      color: #79c0ff;
+      margin: 10px 0 14px 0;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 15px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.94rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* أنيميشن الصور */
+    .q-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      filter: blur(8px);
+      transform: scale(0.95) translateY(-10px);
+      transition: all 0.4s var(--ease-apple);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .q-image-container.show {
+      max-height: 1200px;
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1) translateY(0);
+      margin: 16px 0 20px;
+      padding: 16px;
+      border-color: var(--apple-border-strong);
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-block;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      transition: transform 0.4s var(--ease-apple);
+    }
+    .q-image-container.show .q-original-img {
+      animation: appleScaleBounce 0.5s var(--ease-apple);
+    }
+    @keyframes appleScaleBounce {
+      0% { transform: scale(0.97); }
+      60% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+
+    /* أنيميشن بوكس الحل */
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ds">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">تراكيب البيانات (Data Structures - CS211)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان منتصف الفصل الصيفي 2021/2022 — 25 سؤالاً شاملاً مع الحلول المعتمدة والشروحات</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ds">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const letters = ['A', 'B', 'C', 'D'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const examSections = [
+      {
+        title: "CS211 - Data Structures: First Exam (Summer Semester 2021/2022)",
+        context: "Official exam questions covering Complexity analysis, ArrayLists, Doubly & Singly Linked Lists, and Circular Lists:",
+        subQuestions: [
+          {
+            id: "q1",
+            text: "1. What is the number of operations executed in this code?\n\nx = 10;\nif (x <= 10)\n    cout << x;\nelse\n    x = x + 1;",
+            img: "",
+            opts: ["3", "4", "5", "6"],
+            ans: 0, // a
+            dispAnswer: "a. 3",
+            exp: "العمليات المنفذة: 1) إسناد القيمة x = 10 (عملية واحدة)، 2) مقارنة الشرط x <= 10 (عملية واحدة)، 3) طباعة cout << x (عملية واحدة). جملة else لا تنفذ. المجموع = 3 عمليات."
+          },
+          {
+            id: "q2",
+            text: "2. Which of the following functions has the fastest growth rate?",
+            img: "",
+            opts: ["g(n) = n", "g(n) = log2(n)", "g(n) = n log2(n)", "g(n) = 1"],
+            ans: 2, // c
+            dispAnswer: "c. g(n) = n log2(n)",
+            exp: "ترتيب معدلات النمو من الأبطأ إلى الأسرع: O(1) < O(log n) < O(n) < O(n log n). إذن الأسرع نمواً (fastest growth rate) بين الخيارات هو n log2(n)."
+          },
+          {
+            id: "q3",
+            text: "3. What is the time complexity of the following algorithm?\n\nint x;\ncin >> x;\nfor (int i = 0; i < N; i++)\n    for (int j = 0; j < N/2; j++) {\n        cout << i * j << endl;\n    }",
+            img: "",
+            opts: ["O(N^2)", "O(1)", "O(N)", "O(2N)"],
+            ans: 0, // a
+            dispAnswer: "a. O(N^2)",
+            exp: "الحلقة الخارجية تدور N مرة، والحلقة الداخلية تدور N/2 مرة. عدد التكرارات = N * (N/2) = (1/2) * N^2، وبالتالي التعقيد الزمني هو O(N^2)."
+          },
+          {
+            id: "q4",
+            text: "4. What is the number of operations required to execute the statement cout << i*j << endl; in this code?\n\nint x;\ncin >> x;\nfor (int i = 0; i < x; i++) {\n    for (int j = 0; j < x/2; j++) {\n        cout << i*j << endl;\n    }\n}",
+            img: "",
+            opts: ["(3/2)*(x^2)", "3*(x^2)", "(3/2)*(x^2 + 1)", "3*(x^2 + x/2)"],
+            ans: 0, // a
+            dispAnswer: "a. (3/2)*(x^2)",
+            exp: "تنفيذ الجملة cout << i*j << endl يتطلب 3 عمليات في كل دورة (الضرب i*j، وعمليتا الإخراج <<). وعدد مرات تكرار الحلقة = x * (x/2) = (x^2)/2. إذن إجمالي العمليات = 3 * (x^2 / 2) = (3/2) * (x^2)."
+          },
+          {
+            id: "q5",
+            text: "5. Depends on the definition of arrayListType class. Assume that the array list List1 has the max size 100, and has the following elements: [\"F\", \"U\", \"W\", \"D\", \"R\"]. What is the output after executing the following statements?\n\nList1.insertAt(3, \"T\");\nList1.insert(\"G\");\nList1.insertAt(0, \"E\");\nList1.removeAt(1);\nList1.replaceAt(1, \"Z\");\nList1.print();",
+            img: "",
+            opts: ["E Z W T D R G", "E Z U W T D R", "Z U W T D R G", "G Z U W T D R"],
+            ans: 0, // a
+            dispAnswer: "a. E Z W T D R G",
+            exp: "تتبع الخطوات:\n1) الأصل: [F, U, W, D, R]\n2) insertAt(3, 'T') -> [F, U, W, T, D, R]\n3) insert('G') يضيف للنهاية -> [F, U, W, T, D, R, G]\n4) insertAt(0, 'E') -> [E, F, U, W, T, D, R, G]\n5) removeAt(1) يحذف 'F' -> [E, U, W, T, D, R, G]\n6) replaceAt(1, 'Z') يبدل 'U' بـ 'Z' -> [E, Z, W, T, D, R, G]."
+          },
+          {
+            id: "q6",
+            text: "6. Depends on the definition of arrayListType class. Assume that the array list List1 has the max size 100, and has the following elements: [\"F\", \"U\", \"W\", \"D\", \"R\"]. What is the output after executing the following statements?\n\nList1.insertAt(3, \"T\");\nList1.insertEnd(\"S\");\nList1.removeAt(1);\nList1.insertAt(2, \"E\");\nList1.replaceAt(5, \"Z\");\nList1.insert(\"E\");\nList1.remove(\"U\");\ncout << List1.listSize();",
+            img: "",
+            opts: ["6", "7", "8", "5"],
+            ans: 1, // b
+            dispAnswer: "b. 7",
+            exp: "تتبع حجم القائمة:\n- البداية: 5 عناصر\n- insertAt -> 6\n- insertEnd -> 7\n- removeAt -> 6\n- insertAt -> 7\n- replaceAt لا تغير الحجم -> 7\n- insert(\"E\") تفحص التكرار (موجودة مسبقاً فلا تضاف) -> 7\n- remove(\"U\") تفحص الحذف ولكن 'U' حذفت سابقاً بالـ removeAt(1) فلا تجدها -> 7. الحجم النهائي = 7."
+          },
+          {
+            id: "q7",
+            text: "7. Depends on the definition of arrayListType class. Assume that the array list List1 has the max size 100, and has the following elements: [14, 17, 17, 54, 10, 25, 17]. What is the output of the following statement?\n\ncout << List1.seqSearch(17);",
+            img: "",
+            opts: ["1", "2", "6", "3"],
+            ans: 0, // a
+            dispAnswer: "a. 1",
+            exp: "دالة البحث التسلسلي (seqSearch) تبدأ من الفهرس 0 وتعيد أول موقع يظهر فيه العنصر. الرقم 17 يظهر لأول مرة عند الفهرس 1 (حيث index 0 = 14, index 1 = 17)."
+          },
+          {
+            id: "q8",
+            text: "8. Depends on the definition of arrayListType class. Assume that the array list List1 has the max size 100, and has the following elements: [14, 17, 54, 10, 25]. We added the function fun as member to the class:\n\nint arrayListType::fun() {\n    if (length == 0) return -1;\n    if (length == 1) return 0;\n    for (int i = 1; i < length; i++)\n        if (items[i] > items[i - 1]) return 1;\n    return 2;\n}\n\nWhat is the output of the following statement: cout << List1.fun();?",
+            img: "",
+            opts: ["1", "2", "0", "-1"],
+            ans: 0, // a
+            dispAnswer: "a. 1",
+            exp: "عند i = 1، يتم فحص: items[1] > items[0] أي (17 > 14)، والشرط يتحقق فوراً فترجع الدالة 1 مباشرة."
+          },
+          {
+            id: "q9",
+            text: "9. Depends on the definition of arrayListType class. Assume that the array list List1 has the max size 100, and has the following elements: [\"F\", \"U\", \"W\", \"D\", \"R\"]. What is the output after executing the following statements?\n\nstring x = \"G\";\nList1.retrieveAt(3, x);\ncout << x;",
+            img: "",
+            opts: ["D", "W", "G", "R"],
+            ans: 0, // a
+            dispAnswer: "a. D",
+            exp: "دالة retrieveAt(3, x) تجلب العنصر الموجود في الفهرس 3 وتخزنه في المتغير x. العناصر حسب الفهارس: 0: 'F'، 1: 'U'، 2: 'W'، 3: 'D'. إذن يتم تخزين وطباعة 'D'."
+          },
+          {
+            id: "q10",
+            text: "10. Depends on the definition of arrayListType class. Assume that the array list List1 has the max size N. What is time complexity of following code in terms of big O notation?\n\nfor (i = 0; i < 10; i++) {\n    cin >> x;\n    cout << List1.seqSearch(x);\n}",
+            img: "",
+            opts: ["O(N)", "O(1)", "O(N^2)", "O(10 * N)"],
+            ans: 0, // a
+            dispAnswer: "a. O(N)",
+            exp: "الحلقة تدور بعدد ثابت من المرات (10 مرات). وفي كل دورة تنفذ seqSearch بتعقيد O(N). إذن التعقيد الإجمالي: 10 * O(N) = O(N)."
+          },
+          {
+            id: "q11",
+            text: "11. Depends on the definition of arrayListType class. One of the following can be used to clear the array list list1 completely without need to make any shift.",
+            img: "",
+            opts: [
+              "for (i = 0; i < list1.listSize(); i++) list1.removeAt(0);",
+              "for (i = 0; i < list1.listSize(); i++) list1.removeAt(i);",
+              "for (i = list1.listSize() - 1; i >= 0; i--) list1.removeAt(0);",
+              "for (i = list1.listSize() - 1; i >= 0; i--) list1.removeAt(i);"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. for (i = list1.listSize() - 1; i >= 0; i--) list1.removeAt(i);",
+            exp: "عند الحذف دائماً من آخر موقع في القائمة (index = listSize() - 1 وتنازلياً)، يتم حذف العنصر الأخير مباشرة وإنقاص الطول دون الحاجة لإزاحة (shift) أي عنصر إطلاقاً."
+          },
+          {
+            id: "q12",
+            text: "12. What should be changed in the following function so it returns the position of last occurrence of item?\n\nint arrayListType<elemType>::seqSearch(const elemType& item) const\n{\n    int loc;\n    bool found = false;\n    for (loc = 0; loc < length; loc++) //line 1\n        if (list[loc] == item)         //line 2\n        {\n            found = true;              //line 3\n            break;                     //line 4\n        }\n    if (found)\n        return loc;                    //line 5\n    else\n        return -1;\n}",
+            img: "",
+            opts: [
+              "line 1 changed to: for (loc = length - 1; loc >= 0; loc--)",
+              "remove break at line 4",
+              "line 5 changed to: return length;",
+              "line 4 changed to: return loc;"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. line 1 changed to: for (loc = length - 1; loc >= 0; loc--)",
+            exp: "لإيجاد آخر ظهور (last occurrence)، يجب عكس اتجاه البحث ليبدأ من نهاية المصفوفة (length - 1) باتجاه البداية، فأول تطابق يتم العثور عليه يكون هو آخر ظهور فعلياً."
+          },
+          {
+            id: "q13",
+            text: "13. Consider the following doubly linked List. What is the value of c->back->next->back->info?\n\nDoubly Linked List structure:\nfirst -> [ 8 ] <-> [ 15 ] <-> [ 24 ] <-> [ 40 ] <- last\n(Pointer c points to node [ 15 ])",
+            img: "../images/ds_6.png",
+            opts: ["8", "15", "24", "run-time error"],
+            ans: 0, // a
+            dispAnswer: "a. 8",
+            exp: "تتبع المؤشرات بدءاً من c (التي تحمل 15):\n1) c->back تشير للعقدة [8]\n2) c->back->next تعود للعقدة [15]\n3) c->back->next->back تشير مجدداً للعقدة [8]\n4) حقل info يساوي 8."
+          },
+          {
+            id: "q14",
+            text: "14. Consider the doubly linked List that has the following nodes: [5 <-> 17 <-> 44 <-> 52]. What is the output of the following code:\n\nnodeType *p = first;\nwhile (p != last->back)\n    p = p->next;\ncout << p->info;",
+            img: "",
+            opts: ["5", "17", "44", "52"],
+            ans: 2, // c
+            dispAnswer: "c. 44",
+            exp: "المؤشر last يشير للعقدة 52، إذن last->back يشير للعقدة التي تسبقها مباشرة وهي 44. تتوقف حلقة التكرار عندما يصل p إلى last->back (أي عند العقدة 44)، ثم يطبع p->info وهي 44."
+          },
+          {
+            id: "q15",
+            text: "15. Consider the doubly linked List list1 that has size of 4. Which of the following is equivalent to statement: nodeType *p = last->back->back->next;",
+            img: "",
+            opts: [
+              "nodeType *p = first->next->next;",
+              "nodeType *p = first->next->next->back;",
+              "nodeType *p = first->next->back->next;",
+              "nodeType *p = first->next->next->next;"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. nodeType *p = first->next->next;",
+            exp: "في قائمة طولها 4 عقد (1, 2, 3, 4):\n- last هي العقدة 4 -> back هي العقدة 3 -> back هي العقدة 2 -> next هي العقدة 3.\n- بالمقابل: first هي العقدة 1 -> next هي 2 -> next هي العقدة 3. إذن التعبيران يشيران لنفس العقدة (العقدة الثالثة)."
+          },
+          {
+            id: "q16",
+            text: "16. What is the output of the following code if the user input are: 5 12 8 1 25 13 -1?\n\nint main()\n{\n    orderedLinkedList<int> list1;\n    int num;\n    cin >> num;\n    while (num != -1)\n    {\n        list1.insertLast(num);\n        cin >> num;\n    }\n    list1.print();\n}",
+            img: "",
+            opts: [
+              "1 5 8 12 13 25",
+              "5 12 8 1 25 13",
+              "13 25 1 8 12 5",
+              "5 12 8 1 25 13 -1"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. 1 5 8 12 13 25",
+            exp: "نوع القائمة هو orderedLinkedList (قائمة مرتبة). في القوائم المرتبة يتم الحفاظ دائماً على الترتيب التصاعدي للعناصر بغض النظر عن ترتيب إدخالها، وتطبع: 1 5 8 12 13 25."
+          },
+          {
+            id: "q17",
+            text: "17. What is the output of the following code if the user input are: 5 12 8 1 25 13 -1?\n\nint main()\n{\n    unorderedLinkedList<int> list1;\n    int num;\n    cin >> num;\n    while (num != -1)\n    {\n        list1.insertFirst(num);\n        cin >> num;\n        list1.deleteNode(1);\n    }\n    list1.print();\n}",
+            img: "",
+            opts: [
+              "5 8 12 13 25",
+              "5 12 8 25 13",
+              "13 25 8 12 5",
+              "-1 13 25 8 12 5"
+            ],
+            ans: 2, // c
+            dispAnswer: "c. 13 25 8 12 5",
+            exp: "كل عنصر يُضاف في البداية insertFirst، وعند إدخال الرقم 1 يتم حذفه فوراً بالجملة deleteNode(1). بما أن الإضافة تتم في البداية، تخرج الأرقام بترتيب عكسي لما أُدخل عدا الرقم 1: 13 25 8 12 5."
+          },
+          {
+            id: "q18",
+            text: "18. In unordered singly linked List. If C points to node in the middle of list, The correct statements to add the node pointed by N after the node pointed by C are:",
+            img: "",
+            opts: [
+              "N->link = C->link; C->link = N;",
+              "N->link = C; C->link = N;",
+              "C->link = N; N->link = C;",
+              "N = C->link; C->link = N->link;"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. N->link = C->link; C->link = N;",
+            exp: "لإدراج عقدة N بعد العقدة C دون فقدان بقية القائمة: نربط أولاً N بالعقدة التالية لـ C عبر N->link = C->link، ثم نوجه رابط C للعقدة الجديدة عبر C->link = N."
+          },
+          {
+            id: "q19",
+            text: "19. In a circular linked list with size 4, which of the following conditions is true?",
+            img: "",
+            opts: [
+              "last->link == first",
+              "last == first",
+              "last->link == NULL",
+              "first->link->link->link == first"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. last->link == first",
+            exp: "الخاصية الأساسية للقائمة المترابطة الدائرية (Circular Linked List) هي أن رابط العقدة الأخيرة last->link يلتف دائماً ليشير إلى العقدة الأولى first."
+          },
+          {
+            id: "q20",
+            text: "20. In a circular linked list with size 1, which of the following conditions is true?",
+            img: "",
+            opts: [
+              "last->link == first",
+              "last == first",
+              "first->link == first",
+              "all conditions are true"
+            ],
+            ans: 3, // d
+            dispAnswer: "d. all conditions are true",
+            exp: "عندما تحتوي القائمة الدائرية على عقدة واحدة فقط: مؤشر last يساوي first، ومؤشر last->link يشير للعقدة نفسها (first)، ومؤشر first->link يشير لنفسه أيضاً (first). إذن جميع الشروط صحيحة."
+          },
+          {
+            id: "q21",
+            text: "21. Consider the following singly linked List. What is the output of following statements?\n\nnodeType *q = p->link;\np->link = q->link;\ndelete q;\ncout << head->link->link->info;\n\nStructure: head -> [ 45 ] -> [ 65 ] (pointed to by p) -> [ 34 ] -> [ 76 ] -> NULL",
+            img: "../../images/ds_7.png",
+            opts: ["run-time error", "65", "34", "76"],
+            ans: 3, // d
+            dispAnswer: "d. 76",
+            exp: "المؤشر p يشير للعقدة [65].\n1) q = p->link يشير للعقدة [34]\n2) p->link = q->link يربط العقدة [65] مباشرة بالعقدة [76]\n3) delete q يحذف العقدة [34]\nالقائمة تصبح: head(45) -> 65 -> 76.\n4) head->link هو 65، و head->link->link هو 76، فتطبع القيمة 76."
+          },
+          {
+            id: "q22",
+            text: "22. Consider the ordered singly linked List List1. What is time complexity of following code in terms of big O notation?\n\nfor (i = 0; i < N; i++) {\n    cin >> x;\n    cout << List1.insert(x);\n}",
+            img: "",
+            opts: ["O(N)", "O(1)", "O(N^2)", "O(2N)"],
+            ans: 2, // c
+            dispAnswer: "c. O(N^2)",
+            exp: "عملية الإدراج في قائمة مترابطة مرتبة تتطلب بحثاً خطياً O(N) لتحديد الموقع المناسب لكل عنصر. وحيث أن الحلقة تتكرر N مرة، فإن التعقيد الكلي هو N * O(N) = O(N^2)."
+          },
+          {
+            id: "q23",
+            text: "23. Which of the following codes delete all nodes in singly linked list EXCEPT the last node? Note: the list has more than 2 nodes.",
+            img: "",
+            opts: [
+              "nodeType<Type> *temp; while (first->link != NULL) { temp = first; first = first->link; delete temp; } count = 1;",
+              "nodeType<Type> *temp; while (first != NULL) { temp = first; first = first->link; delete temp; } count = 1;",
+              "nodeType<Type> *temp; while (first->link != last) { temp = first; first = first->link; delete temp; } count = 1;",
+              "nodeType<Type> *temp; while (first != last->link) { temp = first; first = first->link; delete temp; } count = 1;"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. nodeType<Type> *temp; while (first->link != NULL) { temp = first; first = first->link; delete temp; } count = 1;",
+            exp: "الشرط while (first->link != NULL) يستمر بحذف العقدة الأولى وتقديم مؤشر first للعقدة التالية حتى يصل إلى العقدة الأخيرة (التي يكون رابطها NULL) فيتوقف دون حذفها، ويحدث count = 1."
+          },
+          {
+            id: "q24",
+            text: "24. Consider the unordered singly linked List list1 that has the following nodes: [5 -> 17 -> 44 -> 52]. What is the output of the following code?\n\nlist1.insertFirst(25);\nlist1.deleteNode(17);\nif (list1.search(44)) list1.insertLast(99);\nelse list1.deleteNode(5);\nlist1.print();",
+            img: "",
+            opts: [
+              "25 5 44 52 99",
+              "25 5 52 99",
+              "25 44 52",
+              "25 5 44 52"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. 25 5 44 52 99",
+            exp: "تتبع الخطوات:\n1) البداية: [5, 17, 44, 52]\n2) insertFirst(25) -> [25, 5, 17, 44, 52]\n3) deleteNode(17) -> [25, 5, 44, 52]\n4) search(44) صحيح لأن 44 موجودة -> ينفذ insertLast(99) -> [25, 5, 44, 52, 99]."
+          },
+          {
+            id: "q25",
+            text: "25. Consider the ordered singly linked List list1 that has the following nodes: [5 -> 17 -> 44 -> 52]. What is the place of insertion of 50 in last statement?\n\nlist1.insertFirst(25);\nlist1.deleteNode(17);\nif (list1.search(44)) list1.insertLast(99);\nelse list1.deleteNode(5);\nlist1.insert(50);",
+            img: "",
+            opts: ["last node", "second node", "third node", "forth node"],
+            ans: 3, // d
+            dispAnswer: "d. forth node",
+            exp: "القائمة مرتبة (ordered). بعد تنفيذ العمليات تصبح العناصر: [5, 25, 44, 52, 99].\nعند إدراج 50 في مكانها المرتب الصحيح، ستقع بين 44 و 52: [5 (1st), 25 (2nd), 44 (3rd), 50 (4th), 52 (5th), 99 (6th)]. إذن تقع كـ العقدة الرابعة (forth node)."
+          }
+        ]
+      }
+    ];
+
+    const originalDriveLink = "https://drive.google.com/drive/folders/16IcvFiQneycd0G1D_AswYwiWWlZRhOEv?direction=a";
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}"
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div style="font-family: ${opt.includes(';') || opt.includes('{') || opt.includes('(') ? "'JetBrains Mono', monospace" : "inherit"}; white-space: pre-wrap;">${escapeHtml(opt)}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.text)}</div>
+              ${imageContainerHtml}
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 8px; font-size: 0.90rem; line-height: 1.6; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    /* ================= LOGIC: NO LEAKS ON WRONG + SHOW RESET ================= */
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        // لا يتم إظهار الإجابة الصحيحة إطلاقاً عند الخطأ
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    /* ================= IMAGE TOGGLE & FALLBACK ================= */
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    /* ================= GENERAL SCORE & HELPERS ================= */
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

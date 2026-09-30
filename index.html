@@ -9,8 +9,7 @@
 
 <title>JUSTSNWAT | بنك أسئلة السنوات السابقة</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Exo+2:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <!-- Three.js Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
@@ -20,7 +19,7 @@
   --apple-surface-hover: rgba(26, 32, 48, 0.9);
   --apple-border: rgba(255, 255, 255, 0.08);
   --apple-border-strong: rgba(255, 255, 255, 0.16);
-  --apple-red: #ff453a;
+  --apple-red: #E11D48;
   --apple-blue: #0a84ff;
   --apple-green: #30d158;
   --apple-gold: #ffd700;
@@ -83,7 +82,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 14px clamp(20px, 5vw, 64px);
+  padding: 10px clamp(16px, 4vw, 48px);
   background: linear-gradient(180deg, rgba(14, 18, 28, 0.94) 0%, rgba(6, 7, 10, 0.88) 100%);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -101,9 +100,9 @@ a {
   min-width: 180px;
   height: 2px;
   top: 0;
-  right: 8%;
-  background: linear-gradient(90deg, transparent, #0a84ff, transparent);
-  box-shadow: 0 0 22px rgba(10, 132, 255, 0.7);
+  left: 8%;
+  background: linear-gradient(90deg, transparent, #E11D48, transparent);
+  box-shadow: 0 0 22px rgba(225, 29, 72, 0.7);
 }
 
 .masthead.scrolled {
@@ -111,47 +110,195 @@ a {
   box-shadow: 0 14px 34px rgba(0,0,0,0.46);
 }
 
-.nav-right-side {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.brand-line {
+/* ================= Animated Logo (يسار النافبار) ================= */
+.logo-animated {
+  direction: ltr !important;
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  user-select: none;
+  text-decoration: none;
+  order: 2;
 }
 
-.brand-mark {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 10px;
-  background: linear-gradient(145deg, var(--apple-red), #9f1239 68%);
-  box-shadow: 0 7px 22px rgba(255, 69, 58, 0.25);
+.logo-animated .mark {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  overflow: visible;
 }
 
-.brand-mark span {
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+.logo-animated .word {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.brand {
-  font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+.logo-animated .name {
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(22px, 3.8vw, 30px);
   font-weight: 900;
-  letter-spacing: 2px;
-  color: #ffffff;
+  letter-spacing: .06em;
+  color: #fff;
+  line-height: 1;
+  display: flex;
+  direction: ltr;
 }
 
-/* قائمة الأقسام المنسدلة */
+.logo-animated .name span {
+  display: inline-block;
+}
+
+.logo-animated .logo-bar {
+  height: 4px !important;
+  width: 52px !important;
+  margin: 6px 0 0 0 !important;
+  padding: 0 !important;
+  background: var(--apple-red) !important;
+  border: none !important;
+  border-radius: 3px !important;
+  transform-origin: left !important;
+  box-shadow: 0 0 12px rgba(225, 29, 72, 0.45);
+}
+
+.logo-animated .mark .fb { transform-box: fill-box; }
+.logo-animated .tassel { transform-box: view-box; transform-origin: 72px 34px; }
+.logo-animated .jhook { stroke-dasharray: 1; }
+
+.logo-animated.play .disc     { transform-origin: center; animation: pop .6s cubic-bezier(.2,1.4,.4,1) both; }
+.logo-animated.play .top      { animation: drop .55s cubic-bezier(.3,1.3,.5,1) .5s both; }
+.logo-animated.play .base     { animation: drop .45s cubic-bezier(.3,1.3,.5,1) .7s both; }
+.logo-animated.play .jhook    { animation: draw .6s ease-in-out 1s both; }
+.logo-animated.play .ball     { transform-origin: center; animation: pop .35s cubic-bezier(.3,1.6,.5,1) 1.55s both; }
+.logo-animated.play .tassel   { animation: swing 1.3s ease-out 1.9s both; }
+.logo-animated.play .name span{ animation: rise .5s ease-out both; animation-delay: calc(.9s + var(--i)*.06s); }
+.logo-animated.play .logo-bar { animation: grow .6s ease-out 1.6s both; }
+
+@keyframes pop   { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes drop  { from { transform: translateY(-34px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes draw  { from { stroke-dashoffset: 1; opacity: 1; } to { stroke-dashoffset: 0; opacity: 1; } }
+@keyframes swing { 
+  0% { transform: rotate(0); } 
+  30% { transform: rotate(-12deg); } 
+  50% { transform: rotate(8deg); } 
+  70% { transform: rotate(-4deg); } 
+  85% { transform: rotate(1.5deg); } 
+  100% { transform: rotate(0); } 
+}
+@keyframes rise  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes grow  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.logo-animated.play .jhook { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { 
+  .logo-animated.play * { animation: none !important; } 
+  .logo-animated.play .jhook { opacity: 1; stroke-dashoffset: 0; } 
+}
+
+/* قائمة الأقسام المنسدلة (يمين النافبار) */
 .dept-dropdown {
   position: relative;
+  order: 1;
+}
+
+.header-search-btn {
+  order: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: #f5f5f7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.2s var(--ease-apple), background 0.2s var(--ease-apple), border-color 0.2s var(--ease-apple), transform 0.2s var(--ease-apple);
+}
+
+.header-search-btn:hover {
+  color: #ffffff;
+  background: rgba(10, 132, 255, 0.18);
+  border-color: rgba(10, 132, 255, 0.65);
+  transform: translateY(-1px);
+}
+
+.header-search-btn:focus-visible {
+  outline: 2px solid var(--apple-blue);
+  outline-offset: 3px;
+}
+
+.header-actions {
+  order: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: min(18vh, 140px) 18px 24px;
+  background: rgba(3, 5, 9, 0.76);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.header-search-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.header-search-dialog {
+  width: min(100%, 700px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transform: translateY(-8px);
+  transition: transform 0.25s var(--ease-apple);
+}
+
+.header-search-overlay.active .header-search-dialog {
+  transform: translateY(0);
+}
+
+.header-search-close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  flex: none;
+  color: #f5f5f7;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.header-search-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.header-search-overlay .lux-search-container {
+  max-width: none;
+  min-width: 0;
+  flex: 1;
+}
+
+.header-search-overlay .lux-search-container.is-focused .lux-search-box {
+  transform: none;
+}
+
+.header-search-overlay .lux-results-dropdown {
+  max-height: min(50vh, 380px);
 }
 
 .dept-dropdown-btn {
@@ -161,7 +308,7 @@ a {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--apple-border-strong);
   color: #f5f5f7;
-  padding: 7px 16px;
+  padding: 8px 18px;
   border-radius: 999px;
   font-size: 13.5px;
   font-weight: 700;
@@ -255,6 +402,11 @@ a {
   color: #f472b6;
 }
 
+.dept-menu-tag.tag-cis {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+}
+
 .dept-menu-sub {
   font-size: 12px;
   color: var(--text-secondary);
@@ -292,35 +444,70 @@ a {
 }
 
 .landing-subtitle {
-  margin: -8px auto 22px;
-  color: rgba(226, 234, 238, 0.72);
-  font-size: clamp(13px, 1.8vw, 15px);
+  margin: -6px auto 26px;
+  color: rgba(226, 234, 238, 0.78);
+  font-size: clamp(13.5px, 1.8vw, 15.5px);
   font-weight: 600;
   text-align: center;
+  max-width: 600px;
+  line-height: 1.6;
 }
 
+/* =========================================================
+   العنوان (JUSTSNWAT) - متزامن لحظياً 100% مع الكرة الأرضية
+   ========================================================= */
 .landing-title-clean {
-  font-size: clamp(2.8rem, 6.5vw, 4.4rem);
+  font-family: 'Exo 2', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(2.9rem, 6.8vw, 4.6rem);
   font-weight: 900;
-  letter-spacing: -0.02em;
-  margin: 0 0 16px;
+  letter-spacing: 0.05em;
+  margin: 0 0 14px;
   display: inline-block;
-  background: linear-gradient(110deg, #ffffff 15%, #93c5fd 45%, #ffffff 55%, #dbeafe 75%, #ffffff 100%);
-  background-size: 250% auto;
-  background-clip: text;
+  position: relative;
+  text-transform: uppercase;
+  background: linear-gradient(
+    120deg,
+    #0a84ff 0%,
+    #38bdf8 30%,
+    #ffffff 50%,
+    #fb923c 70%,
+    #f97316 100%
+  );
+  background-size: 260% 100%;
+  background-position: var(--bg-pos, 0%) 50%;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: titleShimmer 5s ease-in-out infinite, titleFloat 4s ease-in-out infinite;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+  filter: drop-shadow(0 0 8px var(--glow-color, rgba(10, 132, 255, 0.4))) 
+          drop-shadow(0 0 18px var(--glow-color, rgba(10, 132, 255, 0.2)));
+  animation: titleFloat 4s ease-in-out infinite alternate;
+  will-change: transform, filter, background-position;
+  cursor: default;
 }
 
-@keyframes titleShimmer {
-  0% { background-position: 250% center; }
-  100% { background-position: -250% center; }
+/* هالة خلفية ناعمة ومريحة تتغير ألوانها بالتزامن التام مع الكرة */
+.landing-title-clean::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, var(--glow-color, rgba(10, 132, 255, 0.28)) 0%, transparent 72%);
+  filter: blur(35px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.65;
 }
 
+/* حركة طفو خفيفة وانسيابية بدون أي تشويش */
 @keyframes titleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-3.5px);
+  }
 }
 
 /* شريط البحث */
@@ -351,7 +538,7 @@ a {
   position: absolute;
   inset: -2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(10, 132, 255, 0), rgba(10, 132, 255, 0.5), rgba(255, 69, 58, 0.4), rgba(10, 132, 255, 0));
+  background: linear-gradient(90deg, rgba(10, 132, 255, 0), rgba(10, 132, 255, 0.5), rgba(225, 29, 72, 0.4), rgba(10, 132, 255, 0));
   z-index: -1;
   opacity: 0;
   transition: opacity 0.4s var(--ease-apple);
@@ -524,6 +711,10 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .landing-title-clean,
+  .landing-title-clean::before { 
+    animation: none !important; 
+  }
   #app.route-leave,
   #app.route-enter,
   #app.route-enter > * {
@@ -643,6 +834,15 @@ a {
   background: radial-gradient(circle at 35% 30%, rgba(31, 95, 148, 0.95), rgba(15, 45, 80, 0.98) 75%);
   border-color: #38bdf8;
   box-shadow: 0 0 24px rgba(56, 189, 248, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+}
+
+.dept-showcase-card.card-cis .dept-orb {
+  background: radial-gradient(circle at 35% 30%, rgba(126, 34, 206, 0.95), rgba(59, 7, 100, 0.98) 75%);
+  border-color: #a855f7;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+}
+.dept-showcase-card.card-cis:hover .dept-orb {
+  box-shadow: 0 0 34px rgba(168, 85, 247, 0.65), inset 0 2px 8px rgba(255, 255, 255, 0.5);
 }
 
 .dept-showcase-card.card-chem .dept-orb {
@@ -899,7 +1099,8 @@ a {
 .subject-computer-networks { --subject-bg: linear-gradient(135deg, rgba(30, 64, 175, 0.88), rgba(15, 23, 42, 0.92) 72%); }
 .subject-archi { --subject-bg: linear-gradient(135deg, rgba(190, 24, 93, 0.88), rgba(24, 24, 27, 0.92) 72%); }
 .subject-os, .subject-os2 { --subject-bg: linear-gradient(135deg, rgba(75, 85, 99, 0.88), rgba(17, 24, 39, 0.92) 72%); }
-.subject-data-structures { --subject-bg: linear-gradient(135deg, rgba(13, 148, 136, 0.88), rgba(15, 23, 42, 0.92) 72%); }
+.subject-ds { --subject-bg: linear-gradient(135deg, rgba(13, 148, 136, 0.88), rgba(15, 23, 42, 0.92) 72%); }
+.subject-db { --subject-bg: linear-gradient(135deg, rgba(109, 40, 217, 0.88), rgba(30, 27, 75, 0.92) 72%); }
 .subject-chem103 { --subject-bg: linear-gradient(135deg, rgba(5, 150, 105, 0.88), rgba(6, 78, 59, 0.92) 72%); }
 
 .row {
@@ -933,7 +1134,7 @@ a {
 .chev { color: var(--text-secondary); flex: none; }
 
 /* =========================================================
-   Exams Modern Layout & Filter Tabs (تصميم كروت وفلاتر الامتحانات)
+   Exams Modern Layout & Filter Tabs
    ========================================================= */
 .exams-filter-bar {
   display: flex;
@@ -1022,13 +1223,12 @@ a {
   border-radius: 6px;
 }
 
-.pill-final { background: rgba(255, 69, 58, 0.16); color: #ff9b94; border: 1px solid rgba(255, 69, 58, 0.25); }
+.pill-final { background: rgba(225, 29, 72, 0.16); color: #ff9b94; border: 1px solid rgba(225, 29, 72, 0.25); }
 .pill-mid { background: rgba(10, 132, 255, 0.16); color: #7dd3fc; border: 1px solid rgba(10, 132, 255, 0.25); }
 .pill-first { background: rgba(245, 158, 11, 0.16); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.25); }
 .pill-quiz { background: rgba(48, 209, 88, 0.16); color: #85e99e; border: 1px solid rgba(48, 209, 88, 0.25); }
 .pill-other { background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid var(--apple-border); }
 
-/* شارة عدد الأسئلة اليدوية */
 .exam-qcount-pill {
   font-size: 11.5px;
   font-family: 'JetBrains Mono', monospace;
@@ -1070,7 +1270,7 @@ a {
   justify-content: center;
   width: 100%;
   gap: 7px;
-  background: linear-gradient(135deg, rgba(255, 69, 58, 0.18) 0%, rgba(10, 132, 255, 0.18) 100%);
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.18) 0%, rgba(10, 132, 255, 0.18) 100%);
   border: 1px solid var(--apple-red);
   color: #ff9b94;
   padding: 8px 18px;
@@ -1085,7 +1285,7 @@ a {
   background: var(--apple-red);
   color: #ffffff;
   transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 4px 18px rgba(255, 69, 58, 0.35);
+  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.35);
 }
 
 .filelink {
@@ -1126,7 +1326,7 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 14px;
   background: linear-gradient(145deg, var(--apple-red), #9f1239 68%);
-  box-shadow: 0 0 34px rgba(255, 69, 58, 0.3);
+  box-shadow: 0 0 34px rgba(225, 29, 72, 0.3);
   transform: scale(0.9);
   transition: transform 0.42s var(--ease-apple);
 }
@@ -1209,7 +1409,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 .btn-bug-float svg { color: var(--apple-red); }
 .btn-bug-float:hover {
   background: rgba(28, 35, 52, 0.98);
-  border-color: rgba(255, 69, 58, 0.5);
+  border-color: rgba(225, 29, 72, 0.5);
   transform: translateY(-3px) scale(1.02);
 }
 
@@ -1269,7 +1469,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 }
 .report-status { display: none; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 700; text-align: center; margin-top: 10px; }
 .report-status.success { display: block; background: rgba(48, 209, 88, 0.15); border: 1px solid var(--apple-green); color: #85e99e; }
-.report-status.error { display: block; background: rgba(255, 69, 58, 0.15); border: 1px solid var(--apple-red); color: #ff9b94; }
+.report-status.error { display: block; background: rgba(225, 29, 72, 0.15); border: 1px solid var(--apple-red); color: #ff9b94; }
 
 @media (max-width: 820px) {
   .departments-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1282,80 +1482,146 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
   .glass-globe-section { height: 390px; }
 }
 @media (max-width: 480px) {
+  .masthead { gap: 8px; padding-inline: 12px; }
+  .header-actions { gap: 6px; }
+  .header-search-btn { width: 36px; height: 36px; }
+  .dept-dropdown-btn { gap: 5px; padding: 7px 9px; font-size: 12.5px; }
+  .logo-animated { gap: 6px; }
+  .logo-animated .mark { width: 36px; height: 36px; }
+  .logo-animated .name { font-size: clamp(17px, 5vw, 20px); }
+  .logo-animated .logo-bar { width: 42px !important; height: 3px !important; }
   .btn-bug-float { bottom: 20px; right: 16px; padding: 8px 14px; font-size: 13px; }
   .subject-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 360px) {
+  .masthead { gap: 6px; padding-inline: 10px; }
+  .header-actions { gap: 4px; }
+  .header-search-btn { width: 34px; height: 34px; }
+  .dept-dropdown-btn { gap: 4px; padding: 6px 7px; font-size: 11.5px; }
+  .logo-animated { gap: 5px; }
+  .logo-animated .mark { width: 32px; height: 32px; }
+  .logo-animated .name { font-size: 16px; }
+  .logo-animated .logo-bar { width: 36px !important; }
 }
 </style>
 </head>
 <body>
   <!-- الهيدر العلوي -->
   <header class="masthead">
-    <div class="nav-right-side">
-      <div class="brand-line">
-        <span class="brand-mark" aria-hidden="true"><span></span></span>
-        <a class="brand" href="#/">JUSTSNWAT</a>
-      </div>
+    <div class="header-actions">
+    <button class="header-search-btn" id="headerSearchBtn" type="button" aria-label="افتح البحث" title="البحث">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="16" y1="16" x2="21" y2="21"></line>
+      </svg>
+    </button>
+    <!-- قائمة الأقسام والتصنيفات المنسدلة (يمين النافبار) -->
+    <div class="dept-dropdown" id="deptDropdown">
+      <button class="dept-dropdown-btn" id="deptDropdownBtn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span>التخصصات والمواد</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div class="dept-dropdown-menu" id="deptDropdownMenu">
+        <a href="#/dept/nes" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>Network Engineering & Security</span>
+            <span class="dept-menu-tag">NES</span>
+          </div>
+          <span class="dept-menu-sub">هندسة وأمن شبكات الحاسوب</span>
+        </a>
+        <a href="#/dept/cpe" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>Computer Engineering</span>
+            <span class="dept-menu-tag">CPE</span>
+          </div>
+          <span class="dept-menu-sub">هندسة الحاسوب</span>
+        </a>
+        <a href="#/dept/cs" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>Computer Science</span>
+            <span class="dept-menu-tag">CS</span>
+          </div>
+          <span class="dept-menu-sub">علوم الحاسوب</span>
+        </a>
+        <a href="#/dept/cis" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>Computer Information Systems</span>
+            <span class="dept-menu-tag tag-cis">CIS</span>
+          </div>
+          <span class="dept-menu-sub">نظم المعلومات الحاسوبية</span>
+        </a>
+        <a href="#/dept/chem" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>Chemistry</span>
+            <span class="dept-menu-tag">CHEM</span>
+          </div>
+          <span class="dept-menu-sub">الكيمياء والعلوم الأساسية</span>
+        </a>
 
-      <!-- قائمة الأقسام والتصنيفات المنسدلة -->
-      <div class="dept-dropdown" id="deptDropdown">
-        <button class="dept-dropdown-btn" id="deptDropdownBtn" type="button" aria-haspopup="true" aria-expanded="false">
-          <span>التصنيفات والمواد</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </button>
-        <div class="dept-dropdown-menu" id="deptDropdownMenu">
-          <a href="#/dept/nes" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>Network Engineering & Security</span>
-              <span class="dept-menu-tag">NES</span>
-            </div>
-            <span class="dept-menu-sub">هندسة وأمن شبكات الحاسوب</span>
-          </a>
-          <a href="#/dept/cpe" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>Computer Engineering</span>
-              <span class="dept-menu-tag">CPE</span>
-            </div>
-            <span class="dept-menu-sub">هندسة الحاسوب</span>
-          </a>
-          <a href="#/dept/cs" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>Computer Science</span>
-              <span class="dept-menu-tag">CS</span>
-            </div>
-            <span class="dept-menu-sub">علوم الحاسوب</span>
-          </a>
-          <a href="#/dept/chem" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>Chemistry</span>
-              <span class="dept-menu-tag">CHEM</span>
-            </div>
-            <span class="dept-menu-sub">الكيمياء والعلوم الأساسية</span>
-          </a>
+        <div class="dept-menu-divider"></div>
 
-          <div class="dept-menu-divider"></div>
+        <a href="#/dept/compulsory" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>المواد الإجبارية</span>
+            <span class="dept-menu-tag tag-comp">إجباري</span>
+          </div>
+          <span class="dept-menu-sub">متطلبات الجامعة والكلية الإجبارية</span>
+        </a>
+        <a href="#/dept/elective" class="dept-menu-item">
+          <div class="dept-menu-title">
+            <span>المواد الاختيارية</span>
+            <span class="dept-menu-tag tag-elec">اختياري</span>
+          </div>
+          <span class="dept-menu-sub">المساقات والمتطلبات الاختيارية والحرة</span>
+        </a>
 
-          <a href="#/dept/compulsory" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>المواد الإجبارية</span>
-              <span class="dept-menu-tag tag-comp">إجباري</span>
-            </div>
-            <span class="dept-menu-sub">متطلبات الجامعة والكلية الإجبارية</span>
-          </a>
-          <a href="#/dept/elective" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>المواد الاختيارية</span>
-              <span class="dept-menu-tag tag-elec">اختياري</span>
-            </div>
-            <span class="dept-menu-sub">المساقات والمتطلبات الاختيارية والحرة</span>
-          </a>
-
-          <a href="#/depts" class="dept-menu-all">استعراض كافة الأقسام والتصنيفات ←</a>
-        </div>
+        <a href="#/depts" class="dept-menu-all">استعراض كافة الأقسام والتخصصات ←</a>
       </div>
     </div>
+    </div>
+
+    <!-- اللوجو (يسار النافبار) -->
+    <a href="#/" class="logo-animated play" id="siteLogo" role="banner" aria-label="JUSTSNWAT">
+      <svg class="mark" viewBox="0 0 84 84" aria-hidden="true">
+        <circle class="disc fb" cx="42" cy="42" r="40" fill="#E11D48"/>
+        <polygon class="top fb" points="42,20 72,32 42,44 12,32" fill="#fff"/>
+        <path class="base fb" d="M27 39 L27 53 Q42 61 57 53 L57 39 L42 45 Z" fill="#fff"/>
+        <g class="tassel">
+          <path class="jhook" pathLength="1" d="M72 34 V55 Q72 64 65 64 Q59.5 64 59 59" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle class="ball fb" cx="59" cy="57" r="3.6" fill="#fff"/>
+        </g>
+      </svg>
+      <div class="word">
+        <div class="name" id="logoLetters"></div>
+        <div class="logo-bar"></div>
+      </div>
+    </a>
   </header>
+
+  <div class="header-search-overlay" id="headerSearchOverlay" aria-hidden="true">
+    <div class="header-search-dialog" role="dialog" aria-modal="true" aria-label="البحث عن مادة">
+      <button class="header-search-close" id="headerSearchClose" type="button" aria-label="إغلاق البحث">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="lux-search-container" id="headerLuxSearchWrap">
+        <div class="lux-search-box">
+          <span class="lux-search-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input type="search" class="lux-search-input" id="headerLuxSearchInput" placeholder="ابحث عن أي مادة (مثال: بروتوكولات، كيمياء، معمارية، NES415)..." autocomplete="off">
+        </div>
+        <div class="lux-results-dropdown" id="headerLuxResultsDropdown"></div>
+      </div>
+    </div>
+  </div>
 
   <div class="wrap">
     <main id="app"></main>
@@ -1433,6 +1699,19 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     "use strict";
 
     /* =======================================================
+       0. بناء حروف اللوجو
+       ======================================================= */
+    var logoLetters = document.getElementById('logoLetters');
+    if (logoLetters) {
+      'JUSTSNWAT'.split('').forEach(function(c, i) {
+        var s = document.createElement('span');
+        s.textContent = c;
+        s.style.setProperty('--i', i);
+        logoLetters.appendChild(s);
+      });
+    }
+
+    /* =======================================================
        1. البيانات: تصنيف المواد
        ======================================================= */
     var allSubjects = [
@@ -1448,23 +1727,32 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       { id: "os", name: "Operating Systems (CPE)", arName: "نظم التشغيل", code: "CPE473", dept: "cpe" },
 
       { id: "os2", name: "Operating Systems (CS)", arName: "نظم التشغيل", code: "CS375", dept: "cs" },
-      { id: "data-structures", name: "Data Structures", arName: "تراكيب البيانات", code: "HSS211CS", dept: "cs" },
+      { id: "ds", name: "Data Structures", arName: "تراكيب البيانات", code: "CS211", dept: "cs" },
+
+      { id: "db", name: "Database", arName: "أساسيات قواعد البيانات", code: "CIS221", dept: "cis" },
 
       { id: "chem103", name: "Chemistry 103", arName: "الكيمياء 103", code: "HSS103CHEM", dept: "chem" },
 
-      { id: "ar", name: "Communication Skills In Arabic", arName: "اللغة العربية ومهارات الإتصال والتواصل", code: "COMP", dept: "compulsory" },
-      { id: "en", name: "Communication Skills In English", arName: "اللغة الإنجليزية ومهارات الإتصال والتواصل", code: "COMP", dept: "compulsory" },
-      { id: "ls", name: "Life Skills", arName: "المهارات الحياتية", code: "COMP", dept: "compulsory" },
-      { id: "ent", name: "Entrepreneurship And Innovation", arName: "الريادة والإبتكار", code: "COMP", dept: "compulsory" },
-      { id: "lead", name: "Leader And Social Responsibility", arName: "التربية الوطنية والمسؤولية المجتمعية", code: "COMP", dept: "compulsory" },
-      { id: "mil", name: "Military Science", arName: "العلوم العسكرية", code: "COMP", dept: "compulsory" },
+      { id: "ar", name: "اللغة العربية ومهارات الإتصال والتواصل", arName: "Communication Skills In Arabic", code: "COMP", dept: "compulsory" },
+      { id: "en", name: "اللغة الإنجليزية ومهارات الإتصال والتواصل", arName: "Communication Skills In English", code: "COMP", dept: "compulsory" },
+      { id: "ls", name: "المهارات الحياتية", arName: "Life Skills", code: "COMP", dept: "compulsory" },
+      { id: "ent", name: "الريادة والإبتكار", arName: "Entrepreneurship And Innovation", code: "COMP", dept: "compulsory" },
+      { id: "lead", name: "التربية الوطنية والمسؤولية المجتمعية", arName: "Leadership And Social Responsibility", code: "COMP", dept: "compulsory" },
+      { id: "mil", name: "العلوم العسكرية", arName: "Military Science", code: "COMP", dept: "compulsory" },
 
+      { id: "digital", name: "الثقافة الرقمية", arName: "Digital Skills", code: "ELEC", dept: "elective" },
+      { id: "traffic", name: "السلامة المرورية", arName: "Road Safety", code: "ELEC", dept: "elective" },
+      { id: "bee", name: "تربية نحل", arName: "Beekeeping", code: "ELEC", dept: "elective" },
+      { id: "health", name: "تعزيز الصحة", arName: "Health Promotion", code: "ELEC", dept: "elective" },
+      { id: "famhealth", name: "صحة الأسرة", arName: "Family Health", code: "ELEC", dept: "elective" },
+      { id: "pets", name: "رعاية الحيوانات المنزلية", arName: "Pet Animal Care", code: "ELEC", dept: "elective" },
     ];
 
     var deptMeta = {
       "nes": { name: "Network Engineering & Security", arName: "هندسة وأمن شبكات الحاسوب", tag: "NES", desc: "تصفح مواد هندسة الشبكات وأمن المعلومات." },
       "cpe": { name: "Computer Engineering", arName: "هندسة الحاسوب", tag: "CPE", desc: "تصفح مواد هندسة الحاسوب." },
       "cs":  { name: "Computer Science", arName: "علوم الحاسوب", tag: "CS", desc: "تصفح مواد قسم علوم الحاسوب." },
+      "cis": { name: "Computer Information Systems", arName: "نظم المعلومات الحاسوبية", tag: "CIS", desc: "تصفح مواد قسم نظم المعلومات الحاسوبية." },
       "chem":{ name: "Chemistry", arName: "الكيمياء", tag: "CHEM", desc: "تصفح مواد قسم الكيمياء والعلوم الأساسية." },
       "compulsory": { name: "Compulsory Courses", arName: "المواد الإجبارية", tag: "COMP", desc: "المساقات ومتطلبات الجامعة والكلية الإجبارية لجميع التخصصات." },
       "elective":   { name: "Elective Courses", arName: "المواد الاختيارية", tag: "ELEC", desc: "المساقات الحرة والاختيارية والمواد العامة." }
@@ -1526,19 +1814,33 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       ],
       "os": [],
       "os2": [],
-      "data-structures": [],
+      "ds": [
+        { id: "mid-ds", title: "Mid 2020-2021 Exam", link: "ds/mid1.html", note: "امتحان ميد 2020-2021 كامل ومحلول.", questionsCount: 30 },
+        { id: "first1-ds", title: "First 2020 Exam", link: "ds/first1.html", note: "امتحان فيرست 2020 كامل ومحلول.", questionsCount: 13 },
+        { id: "first2-ds", title: "First 2022 Exam", link: "ds/first2.html", note: "امتحان فيرست 2022 كامل ومحلول.", questionsCount: 25 },
+        { id: "second1-ds", title: "Second 2020 Exam", link: "ds/second1.html", note: "امتحان سكند 2020 كامل ومحلول.", questionsCount: 26 },
+        { id: "second2-ds", title: "Second 2022 Exam", link: "ds/second2.html", note: "امتحان سكند 2022 كامل ومحلول.", questionsCount: 25 },
+        { id: "final1-ds", title: "Final Exam 2020-2021", link: "ds/final1.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 36 },
+        { id: "final2-ds", title: "Final Exam 2021", link: "ds/final2.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 38 }
+      ],
+      "db": [
+        { id: "mid-db", title: "Mid 2020-2021 Exam", link: "db/mid1.html", note: "امتحان ميد 2020-2021 كامل ومحلول.", questionsCount: 25 },
+        { id: "first1-db", title: "First 2020-2021 Exam", link: "db/first1.html", note: "امتحان فيرست 2018 كامل ومحلول.", questionsCount: 30 },
+        { id: "first2-db", title: "First Exam", link: "db/first2.html", note: "امتحان فيرست كامل ومحلول.", questionsCount: 21 },
+        { id: "second1-db", title: "Second Exam 2015", link: "db/second1.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 16 },
+        { id: "second2-db", title: "Second Exam 2017", link: "db/second2.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 21 },
+        { id: "second3-db", title: "Second Exam 2016", link: "db/second3.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 21 }
+      ],
       "chem103": [
         { id: "first1-chem", title: "First Exam (1)", link: "chem/first1.html", note: "امتحان الفيرست كامل ومحلول.", questionsCount: 20 },
         { id: "first2-chem", title: "First Exam (2)", link: "chem/first2.html", note: "امتحان الفيرست كامل ومحلول.", questionsCount: 20 },
         { id: "first3-chem", title: "First Exam (3)", link: "chem/first3.html", note: "امتحان الفيرست كامل ومحلول.", questionsCount: 23 },
         { id: "first4-chem", title: "First Exam (4)", link: "chem/first4.html", note: "امتحان الفيرست كامل ومحلول.", questionsCount: 20 },
         { id: "first5-chem", title: "First Exam (5)", link: "chem/first5.html", note: "امتحان الفيرست كامل ومحلول.", questionsCount: 20 },
-
         { id: "second1-chem", title: "Second Exam (1)", link: "chem/second1.html", note: "امتحان السكند كامل ومحلول.", questionsCount: 25 },
         { id: "second2-chem", title: "Second Exam (2)", link: "chem/second2.html", note: "امتحان السكند كامل ومحلول.", questionsCount: 20 },
         { id: "second3-chem", title: "Second Exam (3)", link: "chem/second3.html", note: "امتحان السكند كامل ومحلول.", questionsCount: 16 },
         { id: "second4-chem", title: "Second Exam (4)", link: "chem/second4.html", note: "امتحان السكند كامل ومحلول.", questionsCount: 20 },
-
         { id: "final1-chem", title: "Final Exam 2017", link: "chem/final1.html", note: "امتحان الفاينل 2017 كامل ومحلول.", questionsCount: 27 },
         { id: "final2-chem", title: "Final Exam Past Years & Suggestions", link: "chem/final2.html", note: "امتحان الفاينل سنوات واسئلة مقترحة محلول بالكامل.", questionsCount: 48 },
         { id: "final3-chem", title: "Final Exam Past Years (+100 Questions)", link: "chem/final3.html", note: "امتحان الفاينل سنوات اكثر من 100 سؤال محلول بالكامل.", questionsCount: 100 }
@@ -1546,30 +1848,28 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       "ar": [
         { id: "mid1-ar", title: "Mid Exam (1)", link: "arabic/mid1.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 56 },
         { id: "mid2-ar", title: "Mid Exam (2)", link: "arabic/mid2.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 78 },
-        { id: "final-ar", title: "Final Exam", link: "arabic/final1.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 88 },
+        { id: "final-ar", title: "Final Exam", link: "arabic/final1.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 88 }
       ],
       "en": [
         { id: "mid1-en", title: "Mid Exam", link: "english/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 85 },
-        { id: "final-en", title: "Final Exam", link: "english/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 100 },
+        { id: "final-en", title: "Final Exam", link: "english/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 100 }
       ],
       "ls": [
         { id: "mid-ls1", title: "Mid Module 1 Lecture 1", link: "life-skills/mid.html", note: "امتحان ميد (1) كامل ومحلول.", questionsCount: 75 },
         { id: "mid-ls2", title: "Mid Module 1 Lecture 2", link: "life-skills/mid2.html", note: "امتحان ميد (2) كامل ومحلول.", questionsCount: 40 },
         { id: "mid-ls3", title: "Mid Module 1 Lecture 3", link: "life-skills/mid3.html", note: "امتحان ميد (3) كامل ومحلول.", questionsCount: 30 },
         { id: "mid-ls4", title: "Mid Module 1 Lecture 4", link: "life-skills/mid4.html", note: "امتحان ميد (4) كامل ومحلول.", questionsCount: 40 },
-
         { id: "final-ls1", title: "Final Module 2 Lecture 3&4", link: "life-skills/final1.html", note: "امتحان الفاينل (1) كامل ومحلول.", questionsCount: 39 },
         { id: "final-ls2", title: "Final Module 3 Lecture 1&2", link: "life-skills/final2.html", note: "امتحان الفاينل (2) كامل ومحلول.", questionsCount: 50 },
         { id: "final-ls3", title: "Final Module 4 Lecture 1&2", link: "life-skills/final3.html", note: "امتحان الفاينل (3) كامل ومحلول.", questionsCount: 33 },
         { id: "final-ls4", title: "Final Module 5 Lecture 1&2", link: "life-skills/final4.html", note: "امتحان الفاينل (4) كامل ومحلول.", questionsCount: 56 },
         { id: "final-ls5", title: "Final Module 6", link: "life-skills/final5.html", note: "امتحان الفاينل (5) كامل ومحلول.", questionsCount: 40 },
-        { id: "final-ls6", title: "Final Module 7", link: "life-skills/final6.html", note: "امتحان الفاينل (6) كامل ومحلول.", questionsCount: 42 },
+        { id: "final-ls6", title: "Final Module 7", link: "life-skills/final6.html", note: "امتحان الفاينل (6) كامل ومحلول.", questionsCount: 42 }
       ],
       "ent": [
         { id: "mid1-ei", title: "Mid CH1 Exam", link: "ent/mid.html", note: "امتحان ميد شابتر 1 كامل ومحلول.", questionsCount: 107 },
         { id: "mid2-ei", title: "Mid CH2 Exam", link: "ent/mid2.html", note: "امتحان ميد شابتر 2 كامل ومحلول.", questionsCount: 117 },
-
-        { id: "final-ei", title: "Final Exam", link: "ent/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 96 },
+        { id: "final-ei", title: "Final Exam", link: "ent/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 96 }
       ],
       "lead": [
         { id: "quiz-lead", title: "Quiz CH1 Suggested + Past Q's", link: "lead/quiz.html", note: "كويز (CH1) أسئلة مقترحة + سابقة محلولة.", questionsCount: 61 },
@@ -1577,25 +1877,43 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         { id: "mid1-lead", title: "Mid Exam Suggested CH2", link: "lead/mid1.html", note: "مكمل CH2 كامل ومحلول.", questionsCount: 40 },
         { id: "mid2-lead", title: "Mid Exam Suggested CH3", link: "lead/mid2.html", note: "مكمل ميد CH3 محلول.", questionsCount: 47 },
         { id: "mid3-lead", title: "Mid Exam Suggested CH4", link: "lead/mid3.html", note: "مكمل ميد CH4 محلول.", questionsCount: 46 },
-
         { id: "final-lead", title: "Final Exam", link: "lead/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 26 },
         { id: "final1-lead", title: "Final Exam Suggested CH5", link: "lead/final1.html", note: "مكمل فاينل CH5 محلول.", questionsCount: 45 },
         { id: "final2-lead", title: "Final Exam Suggested CH6", link: "lead/final2.html", note: "مكمل فاينل CH6 محلول.", questionsCount: 42 },
-        { id: "final3-lead", title: "Final Exam Suggested CH7", link: "lead/final3.html", note: "مكمل فاينل CH7 محلول.", questionsCount: 40 },
-
+        { id: "final3-lead", title: "Final Exam Suggested CH7", link: "lead/final3.html", note: "مكمل فاينل CH7 محلول.", questionsCount: 40 }
       ],
       "mil": [
         { id: "mid-mil", title: "Mid Exam", link: "mil/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 55 },
         { id: "mid1-mil", title: "Mid Exam Suggested Q's", link: "mil/mid1.html", note: "امتحان ميد مكمل كامل ومحلول.", questionsCount: 60 },
-
         { id: "final-mil", title: "Final Exam", link: "mil/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 40 },
-        { id: "final1-mil", title: "Final Exam Suggested Q's", link: "mil/final1.html", note: "امتحان فاينل مكمل كامل ومحلول.", questionsCount: 47 },
-
+        { id: "final1-mil", title: "Final Exam Suggested Q's", link: "mil/final1.html", note: "امتحان فاينل مكمل كامل ومحلول.", questionsCount: 47 }
+      ],
+      "digital": [
+        { id: "mid-digital", title: "Mid Exam", link: "digital/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 121 },
+        { id: "final-digital", title: "Final Exam", link: "digital/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 160 }
+      ],
+      "traffic": [
+        { id: "mid-traffic", title: "Mid Exam", link: "traffic/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 30 },
+        { id: "final-traffic", title: "Final Exam", link: "traffic/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 134 }
+      ],
+      "bee": [
+        { id: "mid-bee", title: "Mid Exam", link: "bee/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 155 },
+        { id: "final-bee", title: "Final Exam", link: "bee/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 58 }
+      ],
+      "health": [
+        { id: "mid-health", title: "Mid Exam", link: "health/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 109 },
+        { id: "final-health", title: "Final Exam", link: "health/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 89 }
+      ],
+      "famhealth": [
+        { id: "mid-famhealth", title: "Mid Exam", link: "famhealth/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 68 },
+        { id: "final-famhealth", title: "Final Exam", link: "famhealth/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 39 }
+      ],
+      "pets": [
+        { id: "mid-pets", title: "Mid Exam", link: "pets/mid.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 136 },
+        { id: "final-pets", title: "Final Exam", link: "pets/final.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 115 }
       ]
-
     };
 
-    /* متغير الفلترة للاختبارات */
     var currentExamFilter = "all";
 
     function getExamCategory(exam) {
@@ -1617,7 +1935,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       }
     }
 
-    /* عرض عدد الأسئلة فقط في حال تم تعيين الحقل يدوياً */
     function getExamQuestionsCount(exam) {
       if (exam && exam.questionsCount != null && exam.questionsCount !== "") {
         return exam.questionsCount + " سؤال";
@@ -1659,7 +1976,82 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     var app = document.getElementById("app");
     var deptDropdown = document.getElementById("deptDropdown");
     var deptDropdownBtn = document.getElementById("deptDropdownBtn");
+    var headerSearchBtn = document.getElementById("headerSearchBtn");
+    var headerSearchOverlay = document.getElementById("headerSearchOverlay");
+    var headerSearchClose = document.getElementById("headerSearchClose");
+    var headerSearchWrap = document.getElementById("headerLuxSearchWrap");
+    var headerSearchInput = document.getElementById("headerLuxSearchInput");
+    var headerSearchResults = document.getElementById("headerLuxResultsDropdown");
     var routeTimer = null;
+
+    function focusHomeSearch() {
+      var input = document.getElementById("luxSearchInput");
+      var wrap = document.getElementById("luxSearchWrap");
+      var dropdown = document.getElementById("luxResultsDropdown");
+      if (!input || !wrap || !dropdown) return;
+      wrap.classList.add("is-focused");
+      renderLuxSearchResults(input.value, dropdown);
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      input.focus();
+    }
+
+    function closeHeaderSearch() {
+      if (!headerSearchOverlay) return;
+      headerSearchOverlay.classList.remove("active");
+      headerSearchOverlay.setAttribute("aria-hidden", "true");
+      if (headerSearchWrap) headerSearchWrap.classList.remove("is-focused");
+      if (headerSearchInput) headerSearchInput.blur();
+    }
+
+    if (headerSearchBtn) {
+      headerSearchBtn.addEventListener("click", function () {
+        var homeInput = document.getElementById("luxSearchInput");
+        if (parseHash().type === "home" && homeInput) {
+          focusHomeSearch();
+          return;
+        }
+        headerSearchOverlay.classList.add("active");
+        headerSearchOverlay.setAttribute("aria-hidden", "false");
+        headerSearchWrap.classList.add("is-focused");
+        renderLuxSearchResults(headerSearchInput.value, headerSearchResults);
+        window.setTimeout(function () { headerSearchInput.focus(); }, 200);
+      });
+    }
+
+    if (headerSearchClose) {
+      headerSearchClose.addEventListener("click", closeHeaderSearch);
+    }
+
+    if (headerSearchOverlay) {
+      headerSearchOverlay.addEventListener("click", function (e) {
+        if (e.target === headerSearchOverlay) {
+          closeHeaderSearch();
+          return;
+        }
+        var result = e.target.closest("[data-open]");
+        if (result) {
+          currentExamFilter = "all";
+          closeHeaderSearch();
+          location.hash = "#/s/" + encodeURIComponent(result.getAttribute("data-open"));
+        }
+      });
+
+      headerSearchInput.addEventListener("focus", function () {
+        headerSearchWrap.classList.add("is-focused");
+        renderLuxSearchResults(this.value, headerSearchResults);
+      });
+
+      headerSearchInput.addEventListener("input", function () {
+        renderLuxSearchResults(this.value, headerSearchResults);
+      });
+
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && headerSearchOverlay.classList.contains("active")) {
+          closeHeaderSearch();
+          headerSearchBtn.focus();
+        }
+      });
+    }
 
     if (deptDropdown && deptDropdownBtn) {
       deptDropdownBtn.addEventListener("click", function (e) {
@@ -1769,6 +2161,30 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       initWeEvolveGlobe();
     }
 
+    function renderLuxSearchResults(q, dropdown) {
+      var matches = searchSubjects(q, null);
+      if (!matches.length) {
+        dropdown.innerHTML = '<div class="lux-no-results">لم نجد مادة مطابقة... جرب البحث برمز المادة أو جزء من اسمها.</div>';
+        return;
+      }
+
+      dropdown.innerHTML = matches.map(function (s) {
+        var count = (exams[s.id] || []).length;
+        var countText = count === 0 ? "قريباً" : count + " نماذج";
+        return '' +
+          '<div class="lux-result-item" data-open="' + esc(s.id) + '">' +
+            '<div class="lux-result-titles">' +
+              '<div class="lux-result-en">' + esc(s.name) + '</div>' +
+              '<div class="lux-result-ar">' + esc(s.arName) + '</div>' +
+            '</div>' +
+            '<div class="lux-result-badges">' +
+              '<span class="lux-code-badge">' + esc(s.code) + '</span>' +
+              '<span class="lux-count-badge">' + esc(countText) + '</span>' +
+            '</div>' +
+          '</div>';
+      }).join("");
+    }
+
     function setupLuxSearch() {
       var wrap = document.getElementById("luxSearchWrap");
       var input = document.getElementById("luxSearchInput");
@@ -1776,41 +2192,17 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       if (!wrap || !input || !dropdown) return;
 
-      function updateResults(q) {
-        var matches = searchSubjects(q, null);
-        if (!matches.length) {
-          dropdown.innerHTML = '<div class="lux-no-results">لم نجد مادة مطابقة... جرب البحث برمز المادة أو جزء من اسمها.</div>';
-          return;
-        }
-
-        dropdown.innerHTML = matches.map(function (s) {
-          var count = (exams[s.id] || []).length;
-          var countText = count === 0 ? "قريباً" : count + " نماذج";
-          return '' +
-            '<div class="lux-result-item" data-open="' + esc(s.id) + '">' +
-              '<div class="lux-result-titles">' +
-                '<div class="lux-result-en">' + esc(s.name) + '</div>' +
-                '<div class="lux-result-ar">' + esc(s.arName) + '</div>' +
-              '</div>' +
-              '<div class="lux-result-badges">' +
-                '<span class="lux-code-badge">' + esc(s.code) + '</span>' +
-                '<span class="lux-count-badge">' + esc(countText) + '</span>' +
-              '</div>' +
-            '</div>';
-        }).join("");
-      }
-
       input.addEventListener("focus", function () {
         wrap.classList.add("is-focused");
-        updateResults(this.value);
+        renderLuxSearchResults(this.value, dropdown);
       });
 
       input.addEventListener("input", function () {
-        updateResults(this.value);
+        renderLuxSearchResults(this.value, dropdown);
       });
 
       document.addEventListener("click", function (e) {
-        if (!wrap.contains(e.target)) {
+        if (!wrap.contains(e.target) && !e.target.closest("#headerSearchBtn")) {
           wrap.classList.remove("is-focused");
         }
       });
@@ -1826,9 +2218,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         }
       });
     }
-
-    /* =======================================================
-       4. محرك الكرة الأرضية التقنية (Three.js)
+       /* =======================================================
+       4. محرك الكرة الأرضية - متزامن لحظياً مع العنوان
        ======================================================= */
     var globeAnimId = null;
 
@@ -1852,6 +2243,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       var GLOBE_RADIUS = 72;
 
+      // 1. باطن الكرة الأصلي
       var coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.99, 48, 48);
       var coreMat = new THREE.MeshBasicMaterial({
         color: 0x0b1219,
@@ -1861,6 +2253,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       });
       globeGroup.add(new THREE.Mesh(coreGeo, coreMat));
 
+      // 2. الهالة الفضية الأصلية
       var silverRim = new THREE.ShaderMaterial({
         vertexShader: `
           varying vec3 vNormal;
@@ -1887,23 +2280,50 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       });
       globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS * 1.025, 48, 48), silverRim));
 
+      // 3. ألوان الانتقال: أزرق كهربائي وبرتقالي نيون
+      var colorBlue   = new THREE.Color(0x00b4ff); // أزرق نيون
+      var colorOrange = new THREE.Color(0xff6a00); // برتقالي نيون
+
       var continentMaterial = new THREE.LineBasicMaterial({
-        color: 0xe2ad45,
+        color: 0x00b4ff,
         transparent: true,
-        opacity: 0.86,
+        opacity: 0.88,
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
 
+      function latLonToVector3(lat, lon, r) {
+        var phi = (90 - lat) * (Math.PI / 180);
+        var theta = (lon + 180) * (Math.PI / 180);
+        return new THREE.Vector3(
+          -(r * Math.sin(phi) * Math.cos(theta)),
+          r * Math.cos(phi),
+          r * Math.sin(phi) * Math.sin(theta)
+        );
+      }
+
       function addLandOutline(ring) {
         if (!ring || ring.length < 3) return;
-        var outline = ring.map(function (point) {
-          return latLonToVector3(point[1], point[0], GLOBE_RADIUS * 1.006);
-        });
-        globeGroup.add(new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints(outline),
-          continentMaterial
-        ));
+        var current = [];
+        for (var i = 0; i < ring.length; i++) {
+          var pt = ring[i];
+          if (pt[1] < -80) continue;
+
+          if (current.length > 0) {
+            var prevPt = ring[i - 1];
+            if (Math.abs(pt[0] - prevPt[0]) > 140) {
+              if (current.length > 1) {
+                globeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(current), continentMaterial));
+              }
+              current = [];
+            }
+          }
+          current.push(latLonToVector3(pt[1], pt[0], GLOBE_RADIUS * 1.006));
+        }
+
+        if (current.length > 1) {
+          globeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(current), continentMaterial));
+        }
       }
 
       fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson")
@@ -1922,23 +2342,14 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         })
         .catch(function () {});
 
-      function latLonToVector3(lat, lon, r) {
-        var phi = (90 - lat) * (Math.PI / 180);
-        var theta = (lon + 180) * (Math.PI / 180);
-        return new THREE.Vector3(
-          -(r * Math.sin(phi) * Math.cos(theta)),
-          r * Math.cos(phi),
-          r * Math.sin(phi) * Math.sin(theta)
-        );
-      }
-
+      // 4. محطات المدن الأصلية
       var hubList = [
-        { lat: 31.95, lon: 35.91 },  // الأردن
-        { lat: 51.50, lon: -0.12 },  // لندن
-        { lat: 40.71, lon: -74.00 }, // نيويورك
-        { lat: 35.67, lon: 139.65 }, // طوكيو
-        { lat: 25.20, lon: 55.27 },  // دبي
-        { lat: -33.86, lon: 151.20 } // سيدني
+        { lat: 31.95, lon: 35.91 },
+        { lat: 51.50, lon: -0.12 },
+        { lat: 40.71, lon: -74.00 },
+        { lat: 35.67, lon: 139.65 },
+        { lat: 25.20, lon: 55.27 },
+        { lat: -33.86, lon: 151.20 }
       ];
 
       hubList.forEach(function (h) {
@@ -1951,6 +2362,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         globeGroup.add(markerMesh);
       });
 
+      // 5. أقواس الاتصال الأصلية والنبضات السريعة
       var pulseItems = [];
       for (var i = 0; i < hubList.length; i++) {
         var pStart = hubList[i];
@@ -2016,8 +2428,32 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         renderer.setSize(container.clientWidth, container.clientHeight);
       });
 
+      // عنصر العنوان للربط اللحظي
+      var titleEl = document.querySelector(".landing-title-clean");
+
+      // 6. حلقة التحريك مع التزامن اللوني المباشر
       function animate() {
         globeAnimId = requestAnimationFrame(animate);
+
+        var time = Date.now() * 0.00055;
+        var phase = (Math.sin(time) + 1) * 0.5;
+        var smoothT = phase * phase * (3 - 2 * phase); // 0 (أزرق) <--> 1 (أورانج)
+        
+        // تغيير لون خطوط الكرة
+        continentMaterial.color.lerpColors(colorBlue, colorOrange, smoothT);
+
+        // مزامنة ألوان العنوان (JUSTSNWAT) بنفس الكسر من الثانية
+        if (!titleEl || !titleEl.isConnected) {
+          titleEl = document.querySelector(".landing-title-clean");
+        }
+        if (titleEl) {
+          // حساب تدرج الإضاءة اللحظي
+          var r = Math.round(10 + (249 - 10) * smoothT);
+          var g = Math.round(132 + (115 - 132) * smoothT);
+          var b = Math.round(255 + (22 - 255) * smoothT);
+          titleEl.style.setProperty("--glow-color", "rgba(" + r + "," + g + "," + b + ", 0.42)");
+          titleEl.style.setProperty("--bg-pos", (smoothT * 100).toFixed(1) + "%");
+        }
 
         pulseItems.forEach(function (p) {
           p.t += 0.0018;
@@ -2038,7 +2474,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       }
       animate();
     }
-
     /* =======================================================
        5. صفحة قائمة الأقسام والتصنيفات
        ======================================================= */
@@ -2085,6 +2520,18 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
           <line x1="20" y1="37.5" x2="48" y2="37.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
           <path d="M30.5 43 L28.5 52 L39.5 52 L37.5 43" stroke="#ffffff" stroke-width="2.4" fill="#ffffff" fill-opacity="0.18" stroke-linejoin="round" />
           <line x1="24" y1="52" x2="44" y2="52" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" />
+        </svg>
+      `;
+
+      var iconCisSvg = `
+        <svg class="dept-orb-svg" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="34" cy="18" rx="19" ry="6.5" stroke="#ffffff" stroke-width="2.5" fill="#ffffff" fill-opacity="0.18" />
+          <path d="M15 18 V28 C15 31.6 23.5 34.5 34 34.5 C44.5 34.5 53 31.6 53 28 V18" stroke="#ffffff" stroke-width="2.5" />
+          <path d="M15 28 V38 C15 41.6 23.5 44.5 34 44.5 C44.5 44.5 53 41.6 53 38 V28" stroke="#ffffff" stroke-width="2.5" />
+          <path d="M15 38 V48 C15 51.6 23.5 54.5 34 54.5 C44.5 54.5 53 51.6 53 48 V38" stroke="#ffffff" stroke-width="2.5" />
+          <circle cx="23" cy="28" r="1.5" fill="#a855f7" />
+          <circle cx="23" cy="38" r="1.5" fill="#a855f7" />
+          <circle cx="23" cy="48" r="1.5" fill="#a855f7" />
         </svg>
       `;
 
@@ -2154,6 +2601,17 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
           cls: "card-cs"
         },
         { 
+          id: "cis",  
+          name: "Computer Information Systems", 
+          arName: "نظم المعلومات الحاسوبية", 
+          tag: "CIS",  
+          desc: "قواعد البيانات، استرجاع المعلومات، وتحليل الأنظمة البرمجية.",
+          icon: iconCisSvg,
+          accent: "#a855f7",
+          glow: "rgba(168, 85, 247, 0.35)",
+          cls: "card-cis"
+        },
+        { 
           id: "chem",  
           name: "Chemistry", 
           arName: "الكيمياء", 
@@ -2211,8 +2669,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         '<div style="padding-top: 10px;">' +
           '<a href="#/" class="back">' + iconBack() + ' رجوع للرئيسية</a>' +
           '<div class="dept-header" style="margin-bottom: 22px;">' +
-            '<h2>الأقسام والتصنيفات الأكاديمية</h2>' +
-            '<p>اختر التخصص أو التصنيف لاستعراض المواد ونماذج الامتحانات والحلول المعتمدة.</p>' +
+            '<h2>الأقسام والتخصصات الأكاديمية</h2>' +
+            '<p>اختر القسم أو التخصص لاستعراض المواد ونماذج الامتحانات والحلول المعتمدة.</p>' +
           '</div>' +
           '<div class="departments-grid">' +
             cardsHtml +
@@ -2225,12 +2683,12 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
        ======================================================= */
     var deptSearch = "";
     function renderDepartment(deptId) {
-      var meta = deptMeta[deptId] || { name: deptId.toUpperCase(), arName: "التصنيف الأكاديمي", tag: deptId.toUpperCase(), desc: "تصفح المواد المتاحة." };
+      var meta = deptMeta[deptId] || { name: deptId.toUpperCase(), arName: "التخصص الأكاديمي", tag: deptId.toUpperCase(), desc: "تصفح المواد المتاحة." };
       var matches = searchSubjects(deptSearch, deptId);
 
       var body = "";
       if (!matches.length) {
-        body = '<div class="empty"><strong>لا توجد مواد مضافة حالياً في هذا التصنيف</strong>سيتم توفير المساقات والأسئلة قريباً.</div>';
+        body = '<div class="empty"><strong>لا توجد مواد مضافة حالياً لهذا القسم أو التخصص</strong>سيتم توفير المساقات والأسئلة قريباً.</div>';
       } else {
         body = '<div class="subject-grid">' + matches.map(function (s) {
           var examList = exams[s.id] || [];
@@ -2253,7 +2711,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       app.innerHTML =
         '<div style="padding-top: 10px;">' +
-          '<a href="#/depts" class="back">' + iconBack() + ' رجوع لكافة الأقسام والتصنيفات</a>' +
+          '<a href="#/depts" class="back">' + iconBack() + ' رجوع لكافة الأقسام والتخصصات</a>' +
           '<div class="dept-header">' +
             '<h2>' + esc(meta.name) + ' (' + esc(meta.tag) + ')</h2>' +
             '<div class="dept-ar-head">' + esc(meta.arName) + '</div>' +
@@ -2282,7 +2740,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     }
 
     /* =======================================================
-       7. صفحة المادة والاختبارات (مع شبكة الكروت وأزرار الفلترة وعدد الأسئلة اليدوي)
+       7. صفحة المادة والاختبارات
        ======================================================= */
     function renderSubject(subjectId) {
       var s = allSubjects.find(function (item) { return item.id === subjectId; });

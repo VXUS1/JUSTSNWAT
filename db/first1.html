@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | أنظمة قواعد البيانات - Database Systems Exams</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.98rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .scenario-box {
+      background: rgba(10, 132, 255, 0.06);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 15px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.94rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/db">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">أساسيات قواعد البيانات (Database Systems)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان فيرست 2018</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/db">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/folders/19CsYWuX_u6e9pupPZJ_mKMxSghhXgipq";
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const examSections = [
+      {
+        title: "الجزء الأول: مفاهيم قواعد البيانات ومعماريتها",
+        context: "Answer each of the following multiple choice question. Keep the space clean and your choice clear. Confusing selections will NOT be graded! (20 pts)",
+        subQuestions: [
+          {
+            id: "ex1_q1",
+            text: "1. ______ schema describes physical storage structures",
+            opts: ["Internal", "Conceptual", "External", "DBMS"],
+            ans: 0, // a
+            dispAnswer: "a. Internal",
+            exp: "المخطط الداخلي (Internal Schema) هو المسؤول عن وصف تراكيب التخزين المادي (Physical storage structures) ومسارات الوصول للملفات في قاعدة البيانات."
+          },
+          {
+            id: "ex1_q2",
+            text: "2. ______ data independence is the capacity to change the internal schema without having to change the conceptual schema",
+            opts: ["Logical", "Physical", "Static", "Dynamic"],
+            ans: 1, // b
+            dispAnswer: "b. Physical",
+            exp: "استقلالية البيانات المادية (Physical Data Independence) هي القدرة على تعديل المخطط الداخلي دون الحاجة لتعديل المخطط المفاهيمي (Conceptual Schema). إجابة الورقة المحددة عند Logical خاطئة."
+          },
+          {
+            id: "ex1_q3",
+            text: "3. A data model is a collection of concepts that can be used to describe the structure of a database, the ______ for manipulating these structures, and certain constraints that the database should obey",
+            opts: ["Operations", "Type", "Skills", "Jobs"],
+            ans: 0, // a
+            dispAnswer: "a. Operations",
+            exp: "نموذج البيانات (Data Model) يتكون أساساً من ثلاثة محاور: 1) تراكيب البيانات (Structures)، 2) العمليات (Operations) للتعديل والاسترجاع، 3) القيود (Constraints)."
+          },
+          {
+            id: "ex1_q4",
+            text: "4. External schema describes the various user ______",
+            opts: ["Views", "Paths", "Programs", "Menus"],
+            ans: 0, // a
+            dispAnswer: "a. Views",
+            exp: "المخطط الخارجي (External Schema) يمثل المستوى الأعلى الذي يصف رؤى المستخدمين المختلفة (User Views) بحسب صلاحية واهتمام كل فئة."
+          },
+          {
+            id: "ex1_q5",
+            text: "5. ______ data model provides concepts that are close to the way many users perceive data",
+            opts: ["Physical", "External", "Internal", "Conceptual"],
+            ans: 3, // d
+            dispAnswer: "d. Conceptual",
+            exp: "نموذج البيانات المفاهيمي (Conceptual / High-level Data Model) مثل نموذج الـ ER يقدم مفاهيم قريبة من طريقة إدراك وفهم المستخدمين للبيانات."
+          },
+          {
+            id: "ex1_q6",
+            text: "6. Database is designed, built, and populated with data for a specific purpose",
+            opts: ["True", "False"],
+            ans: 0, // a
+            dispAnswer: "a. True",
+            exp: "صحيح (True)؛ هذا يمثل التعريف القياسي المعتمد لقاعدة البيانات في كتاب Elmasri: قاعدة البيانات تُصمم وتُبنى وتُملأ بالبيانات لخدمة غرض وهدف محدد."
+          },
+          {
+            id: "ex1_q7",
+            text: "7. Database are known facts that have values and have meaning",
+            opts: ["True", "False"],
+            ans: 1, // b
+            dispAnswer: "b. False",
+            exp: "خطأ (False)؛ تعريف 'الحقائق المعروفة التي تمتلك قيماً ومعنى' هو تعريف البيانات (Data) وليس قاعدة البيانات (Database). قاعدة البيانات هي مجموعة مترابطة من تلك البيانات. إجابة الورقة عند True خاطئة."
+          },
+          {
+            id: "ex1_q8",
+            text: "8. DBMS is a general-purpose software system that facilitates the processes of defining, constructing, manipulating, and sharing databases among various users and applications",
+            opts: ["True", "False"],
+            ans: 0, // a
+            dispAnswer: "a. True",
+            exp: "صحيح (True)؛ هذا هو التعريف الحرفي لنظام إدارة قواعد البيانات (DBMS). الإشارة في الورقة عند False خاطئة تماماً."
+          },
+          {
+            id: "ex1_q9",
+            text: "9. Database catalog stores definition of a database",
+            opts: ["True", "False"],
+            ans: 0, // a
+            dispAnswer: "a. True",
+            exp: "صحيح (True)؛ فهرس قاعدة البيانات (Database Catalog / Dictionary) يقوم بتخزين وصف وتعريف بنية قاعدة البيانات (Metadata). الإشارة في الورقة عند False خاطئة."
+          },
+          {
+            id: "ex1_q10",
+            text: "10. Data redundancy may lead to data inconsistent",
+            opts: ["True", "False"],
+            ans: 0, // a
+            dispAnswer: "a. True",
+            exp: "صحيح (True)؛ تكرار البيانات غير المضبوط (Data Redundancy) يؤدي بالضرورة إلى عدم اتساق البيانات وتضاربها (Data Inconsistency) عند تحديث موقع دون الآخر."
+          }
+        ]
+      },
+      {
+        title: "الجزء الثاني: سيناريو الـ ERD والكيانات",
+        context: "Use the following description to answer questions that follow:\n• There are different course offerings. Each offering will have a certain time slot, a section number associated with it. We will have to occupy a certain room for each section. There is a course number for each offering, and it should specify the semester and year that it will be offered in.\n• Each offering will have to have an exam to test the students, and each of these arranged exams for these offerings will have a name, a place and a time.\n• Students will take these exams, and we record the name, the student number and the program that this student belongs to.",
+        subQuestions: [
+          {
+            id: "ex1_q11",
+            text: "11. How many weak entities do we have for this ER diagram?",
+            opts: ["1", "2", "3", "None"],
+            ans: 3, // d
+            dispAnswer: "d. None",
+            exp: "جميع الكيانات المذكورة في السيناريو (Student, Course_offerings, Exam) تمتلك معرفات ومفاتيح أساسية تحددها، ولا يوجد كيان ضعيف يعتمد وجودياً وتعريفياً على غيره."
+          },
+          {
+            id: "ex1_q12",
+            text: "12. How many identifying relationships do we have for this ER diagram?",
+            opts: ["1", "2", "None"],
+            ans: 2, // c
+            dispAnswer: "c. None",
+            exp: "العلاقة التعريفية (Identifying Relationship) ترتبط حصراً بوجود الكيان الضعيف (Weak Entity)، وبما أنه لا توجد كيانات ضعيفة، فلا توجد أي علاقة تعريفية."
+          },
+          {
+            id: "ex1_q13",
+            text: "13. How many relationships (regular and weak) do we have for this ER diagram (the optimal way to answer it)?",
+            opts: ["1", "2", "3", "4"],
+            ans: 1, // b
+            dispAnswer: "b. 2",
+            exp: "العلاقات المباشرة الصريحة في السيناريو هما علاقتان: 1) العلاقة بين Course_offerings و Exam (كل شعبة يقام لها امتحان)، 2) العلاقة بين Student و Exam (الطلاب يتقدمون للامتحانات). (وإذا أُضيفت علاقة تسجيل الطالب في الشعبة تصبح 3، لكن النص ركز على تقديم الامتحانات)."
+          },
+          {
+            id: "ex1_q14",
+            text: "14. What is the type of the key for the course_offerings entity?",
+            opts: ["Regular primary key", "Partial primary key", "Regular and partial", "There are no keys"],
+            ans: 0, // a
+            dispAnswer: "a. Regular primary key",
+            exp: "كيان Course_offerings يمتلك مفتاحاً أساسياً نظامياً (Regular Primary Key) مركب من (course number, semester, year, section number)."
+          },
+          {
+            id: "ex1_q15",
+            text: "15. What is the type of the key for the course-offering entity?",
+            opts: ["Regular primary key", "Partial primary key", "Regular and partial", "There are no keys"],
+            ans: 0, // a
+            dispAnswer: "a. Regular primary key",
+            exp: "السؤال مكرر في ورقة الامتحان الأصلية بنفس الخيارات، والإجابة الصحيحة هي مفتاح أساسي نظامي (Regular primary key)."
+          },
+          {
+            id: "ex1_q16",
+            text: "16. One of the following entity names is the owner of an existing weak entity for this ER diagram:",
+            opts: ["Student", "Course_offerings", "Exam", "There is no owner"],
+            ans: 3, // d
+            dispAnswer: "d. There is no owner",
+            exp: "بما أنه لا يوجد أي كيان ضعيف في هذا المخطط، فإنه لا يوجد أي كيان مالك (There is no owner)."
+          },
+          {
+            id: "ex1_q17",
+            text: "17. Determine all pairs of entities below where there is a relationship:",
+            opts: ["Student & course_offerings", "Student & exam", "Exam & course_offerings", "All of the above"],
+            ans: 3, // d
+            dispAnswer: "d. All of the above",
+            exp: "الروابط في النظام تشمل ربط الطالب بالشعبة (تسجيل)، والشعبة بالامتحان (عقد امتحان)، والطالب بالامتحان (تقديم الامتحان)، فالإجابة الشاملة هي All of the above."
+          },
+          {
+            id: "ex1_q18",
+            text: "18. How many regular entities do we have in this ER diagram?",
+            opts: ["1", "2", "3", "4"],
+            ans: 2, // c
+            dispAnswer: "c. 3",
+            exp: "الكيانات النظامية الثلاثة هي: 1) Student، 2) Course_offerings، 3) Exam."
+          },
+          {
+            id: "ex1_q19",
+            text: "19. How many attributes were identified for the course_offerings entity:",
+            opts: ["3", "4", "5", "6"],
+            ans: 1, // b
+            dispAnswer: "b. 4",
+            exp: "تم اعتماد 4 سمات أساسية في نموذج تصحيح الورقة (Course#, Section#, Time slot, Room) أو دمج Semester/Year."
+          },
+          {
+            id: "ex1_q20",
+            text: "20. Do we need to consider the university as an entity for this ER diagram?",
+            opts: ["Yes", "No"],
+            ans: 1, // b
+            dispAnswer: "b. No",
+            exp: "لا (No)؛ الجامعة هي نطاق ومحيط النظام الشامل (System boundary) وليست كياناً مستقلاً يُخزن له سجلات متعددة داخل النظام."
+          }
+        ]
+      },
+      {
+        title: " امتحان منفصل: أساسيات ومفاهيم قواعد البيانات",
+        context: "Q1. Answer the following multiple choice questions. Keep the space clean and answer it in the template of the cover page. Not answering in the template/confusing selections will NOT be graded! [10 pts]",
+        subQuestions: [
+          {
+            id: "ex2_q1",
+            text: "1. Select the correct statement:",
+            opts: [
+              "A DBMS is a software system to facilitate the creation and maintenance of a computerized database",
+              "A database system is a software system to enable users to create and maintain a computerized database",
+              "DBMS stands for Database Manipulation Systems",
+              "None of the above"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. A DBMS is a software system to facilitate the creation and maintenance of a computerized database",
+            exp: "العبارة a هي الصحيحة وفق تعريف الكتاب؛ فالـ DBMS هو البرنامج المسؤول عن إنشاء وصيانة قاعدة البيانات. أما خيار b فغير دقيق لأن نظام قاعدة البيانات (Database System) يضم البرنامج والبيانات والتطبيقات معاً وليس مجرد software system. والخيار c خاطئ لأن اسمه Management وليس Manipulation."
+          },
+          {
+            id: "ex2_q2",
+            text: "2. Select the correct statement:",
+            opts: [
+              "End-users can be categorized into casual, designer, or parametric users",
+              "End-users can be categorized into casual, naïve, sophisticated, or stand-alone users",
+              "End-users can be categorized into casual, naïve, or developer users",
+              "None of the above"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. End-users can be categorized into casual, naïve, sophisticated, or stand-alone users",
+            exp: "التصنيف الرسمي المعتمد للمستخدمين النهائيين (End-users) في مرجع Elmasri يضم 4 فئات: Casual, Naive (parametric), Sophisticated, و Stand-alone users."
+          },
+          {
+            id: "ex2_q3",
+            text: "3. Typical ______ functionality is to define and create a particular database in terms of its data types, structures, and constraints",
+            opts: ["DBA", "DBMS", "GIS", "None of the above"],
+            ans: 1, // b
+            dispAnswer: "b. DBMS",
+            exp: "تعريف وإنشاء تراكيب قاعدة البيانات وأنواعها وقيودها هي وظيفة نظام إدارة قواعد البيانات (DBMS Functionality)."
+          },
+          {
+            id: "ex2_q4",
+            text: "4. Database ______ are responsible to define the content, the structure, the constraints, and functions of the database",
+            opts: ["Designers", "Users", "Administrators", "Developers"],
+            ans: 0, // a
+            dispAnswer: "a. Designers",
+            exp: "مصممو قواعد البيانات (Database Designers) هم المسؤولون عن تحديد المحتوى، والجداول، والقيود، والوظائف التي يحتاجها النظام."
+          },
+          {
+            id: "ex2_q5",
+            text: "5. Which of the following is correct:",
+            opts: [
+              "DB schema changes with every operation",
+              "DB schema is determined during DB design",
+              "DB state never changes",
+              "DB schema changes more than the DB state"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. DB schema is determined during DB design",
+            exp: "مخطط قاعدة البيانات (Schema) يتم تحديده وتصميمه أثناء مرحلة التصميم ولا يتغير إلا نادراً، بينما حالة قاعدة البيانات (State) تتغير باستمرار مع كل عملية إضافة أو حذف."
+          },
+          {
+            id: "ex2_q6",
+            text: "6. A data model is a collection of concepts that can be used to describe the structure of a database, the ______ for manipulating these structures, and certain constraints that the database should obey",
+            opts: ["Skills", "Jobs", "Operations", "Types"],
+            ans: 2, // c
+            dispAnswer: "c. Operations",
+            exp: "نموذج البيانات يضم: البنية الهيكلية (Structures)، والعمليات (Operations)، والقيود (Constraints)."
+          },
+          {
+            id: "ex2_q7",
+            text: "7. Conceptual data model:",
+            opts: [
+              "provides concepts that describe details of how data is stored in the computer",
+              "provides concepts that are close to the way many users perceive data",
+              "is used by many commercial DBMS to represent data",
+              "None of the above"
+            ],
+            ans: 1, // b
+            dispAnswer: "b. provides concepts that are close to the way many users perceive data",
+            exp: "نموذج البيانات المفاهيمي يوفر مفاهيم تماثل طريقة إدراك المستخدمين للبيانات في العالم الحقيقي وتجردهم من تفاصيل التخزين التقنية."
+          },
+          {
+            id: "ex2_q8",
+            text: "8. Which of the following is correct?",
+            opts: [
+              "Database state is the actual data stored in a database at a particular moment in time",
+              "Database state is called database intension",
+              "Database schema is called database instance",
+              "The database schema changes more often than the database state"
+            ],
+            ans: 0, // a
+            dispAnswer: "a. Database state is the actual data stored in a database at a particular moment in time",
+            exp: "حالة قاعدة البيانات (Database State / Snapshot) هي البيانات الفعلية المخزنة في لحظة زمنية معينة. المخطط يسمى Intension والحالة تسمى Extension."
+          },
+          {
+            id: "ex2_q9",
+            text: "9. Geographic information systems store information related to maps",
+            opts: ["True", "False"],
+            ans: 0, // a
+            dispAnswer: "a. True",
+            exp: "صحيح (True)؛ نظم المعلومات الجغرافية (GIS) هي أنظمة مخصصة لتخزين ومعالجة الخرائط والبيانات الجغرافية والمكانية."
+          },
+          {
+            id: "ex2_q10",
+            text: "10. DB dictionary is what stores the DB definitions and data as well",
+            opts: ["True", "False"],
+            ans: 1, // b
+            dispAnswer: "b. False",
+            exp: "خطأ (False)؛ قاموس/فهرس قاعدة البيانات (Data Dictionary / Catalog) يخزن تعريفات وبيانات التعريف الوصفية (Metadata / Schema) فقط، ولا يخزن البيانات الفعلية للبرامج والتطبيقات (data as well). إجابة الورقة عند True خاطئة."
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${escapeHtml(opt)}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.text)}</div>
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 8px; font-size: 0.90rem; line-height: 1.6; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    /* ================= منطق عدم كشف الحل عند الخطأ + إظهار إعادة السؤال ================= */
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        // لا يتم إظهار الإجابة الصحيحة عند الخطأ إطلاقاً
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

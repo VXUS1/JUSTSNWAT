@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | تراكيب البيانات - Data Structures Exam</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .parent-q-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      white-space: pre-line;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .ltr-content {
+      direction: ltr !important;
+      text-align: left !important;
+    }
+
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 0.98rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .code-block {
+      background: #111317;
+      border: 1px solid var(--apple-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.90rem;
+      line-height: 1.65;
+      color: #79c0ff;
+      margin: 10px 0 14px 0;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 15px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.94rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+
+    /* حاويات ورسومات SVG المتجاوبة */
+    .svg-diagram-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0 16px 0;
+      overflow-x: auto;
+    }
+    .svg-diagram-wrapper svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* أنيميشن الصور */
+    .q-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      filter: blur(8px);
+      transform: scale(0.95) translateY(-10px);
+      transition: all 0.4s var(--ease-apple);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .q-image-container.show {
+      max-height: 1200px;
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1) translateY(0);
+      margin: 16px 0 20px;
+      padding: 16px;
+      border-color: var(--apple-border-strong);
+    }
+    .q-original-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-block;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      transition: transform 0.4s var(--ease-apple);
+    }
+    .q-image-container.show .q-original-img {
+      animation: appleScaleBounce 0.5s var(--ease-apple);
+    }
+    @keyframes appleScaleBounce {
+      0% { transform: scale(0.97); }
+      60% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+
+    /* أنيميشن بوكس الحل */
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    .solution-box.show {
+      display: block;
+      animation: appleSlideDown 0.32s var(--ease-apple);
+    }
+    @keyframes appleSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ds">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">تراكيب البيانات (Data Structures - CS211)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">امتحان شامل — 36 سؤالاً مع كافة الرسومات البيانية والأكواد والشروحات التفصيلية</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ds">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const examSections = [
+      {
+        title: "Comprehensive Data Structures Exam — Questions & Problems",
+        context: "Official exam questions covering Binary Search Trees, AVL Trees, Graphs, Sorting, Stacks, Queues, and Linked Lists:",
+        subQuestions: [
+          {
+            id: "q1",
+            text: "Question 1: Suppose you have the following Binary search tree, after inserting three nodes 3, 2, 50 respectively the height of the tree will be:",
+            svg: `<svg width="340" height="230" viewBox="0 0 340 230">
+              <defs><style>.node-circle{fill:#1c1c1e;stroke:#0a84ff;stroke-width:2;} .node-text{fill:#fff;font-family:'JetBrains Mono';font-size:12px;text-anchor:middle;dominant-baseline:central;} .edge-line{stroke:#8e8e93;stroke-width:1.5;}</style></defs>
+              <line x1="170" y1="25" x2="90" y2="70" class="edge-line"/><line x1="170" y1="25" x2="250" y2="70" class="edge-line"/>
+              <line x1="90" y1="70" x2="50" y2="120" class="edge-line"/><line x1="90" y1="70" x2="130" y2="120" class="edge-line"/>
+              <line x1="50" y1="120" x2="30" y2="170" class="edge-line"/><line x1="50" y1="120" x2="70" y2="170" class="edge-line"/>
+              <line x1="250" y1="70" x2="210" y2="120" class="edge-line"/><line x1="250" y1="70" x2="290" y2="120" class="edge-line"/>
+              <line x1="210" y1="120" x2="190" y2="170" class="edge-line"/><line x1="290" y1="120" x2="270" y2="170" class="edge-line"/><line x1="290" y1="120" x2="310" y2="170" class="edge-line"/>
+              <circle cx="170" cy="25" r="14" class="node-circle"/><text x="170" y="25" class="node-text">25</text>
+              <circle cx="90" cy="70" r="14" class="node-circle"/><text x="90" y="70" class="node-text">20</text>
+              <circle cx="250" cy="70" r="14" class="node-circle"/><text x="250" y="70" class="node-text">36</text>
+              <circle cx="50" cy="120" r="14" class="node-circle"/><text x="50" y="120" class="node-text">10</text>
+              <circle cx="130" cy="120" r="14" class="node-circle"/><text x="130" y="120" class="node-text">22</text>
+              <circle cx="210" cy="120" r="14" class="node-circle"/><text x="210" y="120" class="node-text">30</text>
+              <circle cx="290" cy="120" r="14" class="node-circle"/><text x="290" y="120" class="node-text">40</text>
+              <circle cx="30" cy="170" r="12" class="node-circle"/><text x="30" y="170" class="node-text">5</text>
+              <circle cx="70" cy="170" r="12" class="node-circle"/><text x="70" y="170" class="node-text">12</text>
+              <circle cx="190" cy="170" r="12" class="node-circle"/><text x="190" y="170" class="node-text">28</text>
+              <circle cx="270" cy="170" r="12" class="node-circle"/><text x="270" y="170" class="node-text">38</text>
+              <circle cx="310" cy="170" r="12" class="node-circle"/><text x="310" y="170" class="node-text">48</text>
+            </svg>`,
+            img: "",
+            opts: ["7", "5", "6", "4"],
+            ans: 2, // 6
+            dispAnswer: "6",
+            exp: "مسار إدراج 3 ثم 2 في الشجرة: 25 -> 20 -> 10 -> 5 -> 3 -> 2. أطول مسار من الجذر إلى الورقة 2 يمر عبر 6 عقد (25, 20, 10, 5, 3, 2)، وبالتالي يكون ارتفاع الشجرة (Tree height) مساوياً لـ 6."
+          },
+          {
+            id: "q2",
+            text: "Question 2: Suppose you have to write a member function to find the sum of even numbers in a linked list, which one of the following codes is correct to do this task?\nNote: the first call is cout << fun(head);",
+            img: "",
+            opts: [
+              "int fun(node *p) { if(p->info % 2 == 0) return (p->info + fun(p->link)); else return fun(p->link); }",
+              "int fun(node *p) { if(p == NULL) return 0; if(p->info % 2 != 0) return (p->info + fun(p->link)); else return fun(p->link); }",
+              "int fun(node *p) { if(p == NULL) return 0; if(p->info % 2 == 0) return (p->info + fun(p->link)); else return fun(p->link); }",
+              "int fun(node *p) { if(p == NULL) return 0; else return p->info + fun(p->link); }"
+            ],
+            ans: 2, // C
+            dispAnswer: "int fun(node *p) {\n    if (p == NULL) return 0;\n    if (p->info % 2 == 0)\n        return (p->info + fun(p->link));\n    else\n        return fun(p->link);\n}",
+            exp: "الدالة العودية الصحيحة يجب أن تحتوي على: 1) شرط توقف (Base Case) يفحص الوصول لنهاية القائمة `p == NULL` ويرجع 0، 2) فحص كون الرقم زوجياً `p->info % 2 == 0` لجمعه مع استدعاء بقية القائمة، وخلاف ذلك تجاوز العقدة واستدعاء `fun(p->link)`."
+          },
+          {
+            id: "q3",
+            text: "Question 3: Use the selection sort algorithm below to sort the following list and show the list after 3 iterations:\n25 46 12 10 34 21 17",
+            code: "for (index = 0; index < length - 1; index++) {\n    // 1. Find smallest element in list[index...length-1]\n    // 2. Swap smallest element with list[index]\n}",
+            img: "",
+            opts: [
+              "10 12 17 25 34 21 46",
+              "10 12 46 25 34 21 17",
+              "10 12 17 46 34 21 25",
+              "10 12 17 21 34 46 25"
+            ],
+            ans: 0, // A
+            dispAnswer: "10 12 17 25 34 21 46",
+            exp: "تتبع دورات خوارزمية Selection Sort:\n- الأصل: [25, 46, 12, 10, 34, 21, 17]\n- الدورة 1: أصغر عنصر هو 10، يتبادل مع 25 -> [10, 46, 12, 25, 34, 21, 17]\n- الدورة 2: أصغر عنصر متبقٍ هو 12، يتبادل مع 46 -> [10, 12, 46, 25, 34, 21, 17]\n- الدورة 3: أصغر عنصر متبقٍ هو 17، يتبادل مع 46 -> [10, 12, 17, 25, 34, 21, 46]."
+          },
+          {
+            id: "q4",
+            text: "Question 4: Based on the stack and queue we studied, what does the following code do to the stack s1?",
+            code: "stackType<int> s1, s2;\nqueueType<int> Q;\nwhile(!s1.isEmptyStack()) {\n    if (s1.top() % 2 == 0)\n        Q.addQueue(s1.top());\n    else\n        s2.push(s1.top());\n    s1.pop();\n}\nwhile(!Q.isEmptyQueue()) {\n    s1.push(Q.front());\n    Q.deleteQueue();\n}",
+            img: "",
+            opts: [
+              "Delete the even number from the stack s1, and keep the odd number in stack s1 in same order",
+              "Delete the even number from the stack s1, and keep the odd number in stack s1 in reverse order",
+              "Delete the odd number from the stack s1, and keep the even number in stack s1 in reverse order",
+              "Delete the odd number from the stack s1, and keep the even number in stack s1 in same order"
+            ],
+            ans: 2, // C
+            dispAnswer: "Delete the odd number from the stack s1, and keep the even number in stack s1 in reverse order",
+            exp: "الأرقام الفردية يتم نقلها إلى s2 وتترك هناك دون إرجاعها إلى s1 (حذف الفردي). أما الأرقام الزوجية فتنقل إلى الطابور Q ثم يعاد إدخالها إلى s1، وبما أن الطابور يتبع FIFO وإعادة وضعها في المكدس تقلب ترتيبها بالنسبة لموقعها الأصلي، فإن الأرقام الزوجية تبقى في s1 بترتيب معكوس (reverse order)."
+          },
+          {
+            id: "q5",
+            text: "Question 5: A binary search tree is generated by inserting the following integers: 8, 10, 3, 1, 6, 14, 5, 7, 12. What is the level for node 12?",
+            img: "",
+            opts: ["2", "3", "4", "1"],
+            ans: 1, // 3
+            dispAnswer: "3",
+            exp: "تتبع بناء الشجرة: 8 في المستوى 0 -> يمين 8 هو 10 (المستوى 1) -> يمين 10 هو 14 (المستوى 2) -> يسار 14 هو 12 (المستوى 3). إذن مستوى العقدة 12 هو 3."
+          },
+          {
+            id: "q6",
+            text: "Question 6: According to the following weighted graph, what is the sum of the weights on the shortest path from vertex A to vertex D?",
+            svg: `<svg width="280" height="190" viewBox="0 0 280 190">
+              <defs>
+                <style>.node-c{fill:#1c1c1e;stroke:#0a84ff;stroke-width:2;} .node-t{fill:#fff;font-family:'JetBrains Mono';font-size:13px;text-anchor:middle;dominant-baseline:central;} .edge-w{stroke:#8e8e93;stroke-width:1.5;marker-end:url(#arrow);} .w-txt{fill:#5ac8fa;font-family:'JetBrains Mono';font-size:11px;font-weight:bold;}</style>
+                <marker id="arrow" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8e8e93"/></marker>
+              </defs>
+              <line x1="50" y1="35" x2="230" y2="35" class="edge-w"/><text x="140" y="25" class="w-txt">3</text>
+              <line x1="230" y1="35" x2="140" y2="90" class="edge-w"/><text x="190" y="55" class="w-txt">2</text>
+              <line x1="230" y1="35" x2="230" y2="155" class="edge-w"/><text x="240" y="95" class="w-txt">4</text>
+              <line x1="140" y1="90" x2="50" y2="155" class="edge-w"/><text x="85" y="115" class="w-txt">5</text>
+              <line x1="50" y1="155" x2="230" y2="155" class="edge-w"/><text x="140" y="145" class="w-txt">2</text>
+              <line x1="230" y1="155" x2="140" y2="90" class="edge-w"/><text x="190" y="130" class="w-txt">5</text>
+              <circle cx="50" cy="35" r="16" class="node-c"/><text x="50" y="35" class="node-t">A</text>
+              <circle cx="230" cy="35" r="16" class="node-c"/><text x="230" y="35" class="node-t">B</text>
+              <circle cx="140" cy="90" r="16" class="node-c"/><text x="140" y="90" class="node-t">C</text>
+              <circle cx="50" cy="155" r="16" class="node-c"/><text x="50" y="155" class="node-t">E</text>
+              <circle cx="230" cy="155" r="16" class="node-c"/><text x="230" y="155" class="node-t">D</text>
+            </svg>`,
+            img: "",
+            opts: ["7", "5", "10", "4"],
+            ans: 0, // 7
+            dispAnswer: "7",
+            exp: "أقصر مسار موجه من A إلى D هو: A -> B (وزن 3) ثم B -> D (وزن 4). مجموع الأوزان = 3 + 4 = 7."
+          },
+          {
+            id: "q7",
+            text: "Question 7: Given the adjacency matrix of a directed graph (Rows: A, G, B, S, F, H, C, D where edges exist for A->(G,B), G->(S,F), B->H, S->C, F->C, H->D, C->D), what is NOT TRUE in the following statements?",
+            img: "../images/ds_16.png",
+            opts: [
+              "G is adjacent to S",
+              "G is adjacent to F",
+              "C is adjacent to S",
+              "B is adjacent from A"
+            ],
+            ans: 2, // C
+            dispAnswer: "C is adjacent to S",
+            exp: "في المخطط الموجه، إذا كان القوس من S إلى C (أي S -> C)، فإن S مجاور إلى C (S is adjacent to C)، و C مجاور من S (C is adjacent from S). أما القول بأن 'C is adjacent to S' فخاطئ لأن الحافة الموجهة تنطلق من S نحو C وليس العكس."
+          },
+          {
+            id: "q8",
+            text: "Question 8: In the Binary Search Tree from Question 1, after deleting the node that contains info = 36, the node that will replace the deleted node is:",
+            img: "../images/ds_17.png",
+            opts: ["48", "25", "30", "28"],
+            ans: 2, // 30
+            dispAnswer: "30",
+            exp: "العقدة 36 تملك ابنين (30 و 40). عند حذف عقدة تملك ابنين، تُستبدل بأكبر قيمة في شجرتها الفرعية اليسرى (Immediate Predecessor). الشجرة اليسرى جذرها 30 ولا تملك ابناً أيمن، إذن أكبر قيمة فيها هي 30."
+          },
+          {
+            id: "q10",
+            text: "Question 10: Given the Insertion Sort function and the list [10, 20, 30, 40, 50, 70, 80, 65, 90], how many item shifts are required before we move the value 65 to its right location? (Consider 65 is the key value).",
+            img: "../images/ds_18.png",
+            opts: ["4", "1", "2", "0"],
+            ans: 2, // 2
+            dispAnswer: "2",
+            exp: "العنصر 65 يقارن مع العناصر التي تسبقه: يقارن مع 80 (80 > 65) فتتم إزاحة 80 خطوة لليمين (إزاحة 1)، ثم يقارن مع 70 (70 > 65) فتتم إزاحة 70 خطوة لليمين (إزاحة 2)، ثم يقارن مع 50 (50 < 65) فيتوقف ويوضع 65 مكانه. عدد الإزاحات = 2."
+          },
+          {
+            id: "q11",
+            text: "Question 11: Which of these adjacency lists represent a simple directed graph?",
+            img: "../images/ds_20.png",
+            opts: [
+              "Graph with self-loop on node 3 (3 -> 3)",
+              "Graph with parallel edges on node 2 (2 -> 4, 4)",
+              "Graph with clean simple edges without loops or duplicate edges",
+              "All of them are simple graph"
+            ],
+            ans: 2, // C
+            dispAnswer: "Graph with clean simple edges without loops or duplicate edges",
+            exp: "المخطط الموجه البسيط (Simple Directed Graph) يشترط عدم وجود أي حلقات ذاتية (Self-loops) كحافة العقدة لنفسها، وعدم وجود حواف متوازية مكررة بين نفس الزوج من العقد."
+          },
+          {
+            id: "q12",
+            text: "Question 12: Suppose you have a Queue implemented as linked list containing [4 -> 7 -> 10 -> 13]. If we want to insert a newNode with info = 2, which of the following sets of statements is correct for doing this insertion?",
+            img: "../images/ds_19.png",
+            opts: [
+              "queueFront = (queueFront + 1) % maxQueueSize; list[queueFront] = newNode; count++;",
+              "queueRear->link = newNode; queueRear = queueRear->link;",
+              "queueRear = (queueRear + 1) % maxQueueSize; list[queueRear] = newNode; count++;",
+              "queueFront->link = newNode; queueFront = queueFront->link;"
+            ],
+            ans: 1, // B
+            dispAnswer: "queueRear->link = newNode; queueRear = queueRear->link;",
+            exp: "في الطابور المترابط (Linked Queue)، تتم الإضافة دائماً عند النهاية (Rear): نربط العقدة الأخيرة بالعقدة الجديدة عبر `queueRear->link = newNode;` ثم نحدث مؤشر النهاية ليشير إليها عبر `queueRear = queueRear->link;`."
+          },
+          {
+            id: "q13",
+            text: "Question 13: Consider the AVL tree with Root 20, Left 10, Right 30 (with Left 25, Right 50). Which of the following is the updated AVL tree after insertion of 23?",
+            svg: `<svg width="260" height="150" viewBox="0 0 260 150">
+              <defs><style>.avl-c{fill:#1c1c1e;stroke:#30d158;stroke-width:2;} .avl-t{fill:#fff;font-family:'JetBrains Mono';font-size:11px;text-anchor:middle;dominant-baseline:central;} .avl-l{stroke:#8e8e93;stroke-width:1.5;}</style></defs>
+              <line x1="130" y1="20" x2="70" y2="60" class="avl-l"/><line x1="130" y1="20" x2="190" y2="60" class="avl-l"/>
+              <line x1="70" y1="60" x2="40" y2="105" class="avl-l"/><line x1="70" y1="60" x2="100" y2="105" class="avl-l"/>
+              <line x1="190" y1="60" x2="220" y2="105" class="avl-l"/>
+              <circle cx="130" cy="20" r="14" class="avl-c"/><text x="130" y="20" class="avl-t">25</text>
+              <circle cx="70" cy="60" r="14" class="avl-c"/><text x="70" y="60" class="avl-t">20</text>
+              <circle cx="190" cy="60" r="14" class="avl-c"/><text x="190" y="60" class="avl-t">30</text>
+              <circle cx="40" cy="105" r="12" class="avl-c"/><text x="40" y="105" class="avl-t">10</text>
+              <circle cx="100" cy="105" r="12" class="avl-c"/><text x="100" y="105" class="avl-t">23</text>
+              <circle cx="220" cy="105" r="12" class="avl-c"/><text x="220" y="105" class="avl-t">50</text>
+            </svg>`,
+            img: "../images/ds_21.png",
+            opts: [
+              "Tree with Root 20, Right 25",
+              "Tree with Root 25, Left 20 (children 10, 23), Right 30 (child 50)",
+              "Tree with Root 30, Left 23",
+              "None of the answers"
+            ],
+            ans: 1, // B
+            dispAnswer: "Tree with Root 25, Left 20 (children 10, 23), Right 30 (child 50)",
+            exp: "إدراج 23 كابن أيسر لـ 25 يسبب خلل توازن من نوع Right-Left (RL) عند الجذر 20. لعلاجه نقوم بدوران مزدوج (Right-Left Double Rotation) فتصعد العقدة 25 لتصبح هي الجذر الجديد للشجرة."
+          },
+          {
+            id: "q14",
+            text: "Question 14: What is the output of the following segment of code?",
+            code: "stackType<int> S;\nqueueType<int> Q;\nS.push(5);\nS.push(2);\nS.push(S.top() * 2);\nS.pop();\nS.push(S.top() - 2);\nS.push(8);\nwhile(!S.isEmptyStack()) {\n    Q.addQueue(S.top());\n    S.pop();\n}\nwhile(!Q.isEmptyQueue()) {\n    cout << Q.front() << \" \";\n    Q.deleteQueue();\n}",
+            img: "",
+            opts: ["5 2 0 8", "8 0 2 5", "8 0 5 2", "2 5 0 8"],
+            ans: 1, // 8 0 2 5
+            dispAnswer: "8 0 2 5",
+            exp: "تتبع عمليات الـ Stack:\n- push(5) -> [5]\n- push(2) -> [5, 2]\n- push(2*2 = 4) -> [5, 2, 4]\n- pop() يخرج 4 -> [5, 2]\n- push(2-2 = 0) -> [5, 2, 0]\n- push(8) -> [5, 2, 0, 8]\nتفريغ الـ Stack في الطابور يدخل العناصر بترتيب خروجها من القمة: 8 ثم 0 ثم 2 ثم 5، ويطبعها الطابور بنفس هذا الترتيب."
+          },
+          {
+            id: "q15",
+            text: "Question 15: What is the value of the balance factor (bf(40)) for the node of info = 40 in the AVL tree? (Left subtree has height 4 with 20->30->33->35, Right subtree has height 3 with 50->45->47).",
+            img: "../images/ds_22.png",
+            opts: ["-1", "2", "1", "0", "-2"],
+            ans: 2, // 1
+            dispAnswer: "1",
+            exp: "معامل التوازن يحسب من: `bf = height(leftSubtree) - height(rightSubtree)`. ارتفاع الشجرة اليسرى للعقدة 40 هو 4، وارتفاع الشجرة اليمنى هو 3، فيكون معامل التوازن = 4 - 3 = 1."
+          },
+          {
+            id: "q16",
+            text: "Question 16: Given the directed graph in Figure-2, the depth-first traversal starting from A, following alphabetical order is:",
+            img: "../images/ds_23.png",
+            opts: [
+              "A, B, H, D, G, F, C, S",
+              "A, B, G, F, S, H, C, D",
+              "A, G, S, B, H, F, C, D",
+              "A, G, B, F, H, S, C, D",
+              "A, G, S, C, D, F, B, H"
+            ],
+            ans: 0, // A
+            dispAnswer: "A, B, H, D, G, F, C, S",
+            exp: "تتبع مسار البحث بالعمق (DFS) أبجدياً: من A نختار B (قبل G) -> من B نذهب إلى H -> من H نذهب إلى D -> من D نذهب إلى G -> من G نذهب إلى F -> من F نذهب إلى C -> من C نذهب إلى S."
+          },
+          {
+            id: "q17",
+            text: "Question 17: Consider the AVL tree with Root 70, Left 50 (children 30, 60), Right 85 (left 75 -> 80, right 95). Which of the following is the updated AVL tree after deletion of 95?",
+            svg: `<svg width="270" height="150" viewBox="0 0 270 150">
+              <defs><style>.avl2-c{fill:#1c1c1e;stroke:#ff9f0a;stroke-width:2;} .avl2-t{fill:#fff;font-family:'JetBrains Mono';font-size:11px;text-anchor:middle;dominant-baseline:central;} .avl2-l{stroke:#8e8e93;stroke-width:1.5;}</style></defs>
+              <line x1="135" y1="20" x2="75" y2="60" class="avl2-l"/><line x1="135" y1="20" x2="200" y2="60" class="avl2-l"/>
+              <line x1="75" y1="60" x2="45" y2="105" class="avl2-l"/><line x1="75" y1="60" x2="105" y2="105" class="avl2-l"/>
+              <line x1="200" y1="60" x2="175" y2="105" class="avl2-l"/><line x1="200" y1="60" x2="230" y2="105" class="avl2-l"/>
+              <circle cx="135" cy="20" r="14" class="avl2-c"/><text x="135" y="20" class="avl2-t">70</text>
+              <circle cx="75" cy="60" r="14" class="avl2-c"/><text x="75" y="60" class="avl2-t">50</text>
+              <circle cx="200" cy="60" r="14" class="avl2-c"/><text x="200" y="60" class="avl2-t">80</text>
+              <circle cx="45" cy="105" r="12" class="avl2-c"/><text x="45" y="105" class="avl2-t">30</text>
+              <circle cx="105" cy="105" r="12" class="avl2-c"/><text x="105" y="105" class="avl2-t">60</text>
+              <circle cx="175" cy="105" r="12" class="avl2-c"/><text x="175" y="105" class="avl2-t">75</text>
+              <circle cx="230" cy="105" r="12" class="avl2-c"/><text x="230" y="105" class="avl2-t">85</text>
+            </svg>`,
+            img: "../images/ds_24.png",
+            opts: [
+              "Tree with Root 50",
+              "Tree with Root 70, Right child 85",
+              "Tree with Root 70, Left child 50 (children 30, 60), Right child 80 (children 75, 85)",
+              "None of the answers"
+            ],
+            ans: 2, // C
+            dispAnswer: "Tree with Root 70, Left child 50 (children 30, 60), Right child 80 (children 75, 85)",
+            exp: "حذف 95 يسبب خلل توازن Left-Right (LR) في الشجرة الفرعية اليمنى عند العقدة 85 (حيث ابنها الأيسر 75 له ابن أيمن 80). لعلاجه نقوم بدوران LR فتصعد العقدة 80 لتصبح جذر الشجرة الفرعية اليمنى وأبناؤها 75 و 85."
+          },
+          {
+            id: "q18",
+            text: "Question 18: Consider a hash table of size = 7 and hash function is h(k) = (2k + 1) mod 7. What will be the content of the hash table after inserting the sequence [1, 3, 5, 10] into the table using open addressing linear probing? (Note: '-' refers to an empty position)",
+            img: "",
+            opts: [
+              "3 10 - 1 5 - -",
+              "- - 3 10 - 1 5",
+              "3 10 - - 1 5 -",
+              "3 10 1 - 5 - -",
+              "3 - 10 1 5 - -"
+            ],
+            ans: 0, // A
+            dispAnswer: "3 10 - 1 5 - -",
+            exp: "حساب مواقع الهاش:\n- k=1: h(1) = 3%7 = 3 -> الموقع 3 = 1\n- k=3: h(3) = 7%7 = 0 -> الموقع 0 = 3\n- k=5: h(5) = 11%7 = 4 -> الموقع 4 = 5\n- k=10: h(10) = 21%7 = 0 (تصادم مع 3) -> بالبحث الخطي يوضع في الموقع 1 = 10.\nالمحتوى من الفهرس 0 إلى 6: 3 10 - 1 5 - -."
+          },
+          {
+            id: "q19",
+            text: "Question 19: Given the doubly linked list in Figure 1, what is the necessary code to insert a new node with info = 18 after the last node with info = 14? (Suppose newNode is already created).",
+            img: "../images/ds_25.png",
+            opts: [
+              "last=newNode; last->next=newNode; newNode->back=last;",
+              "last->back=newNode; newNode->next=last; last=newNode;",
+              "last=newNode; last->back=newNode; newNode->next=last;",
+              "last->next=newNode; newNode->back=last; last=newNode;"
+            ],
+            ans: 3, // D
+            dispAnswer: "last->next=newNode; newNode->back=last; last=newNode;",
+            exp: "لإدراج العقدة في نهاية القائمة المترابطة الثنائية: نوجه رابط العقدة الأخيرة السابقة إليها `last->next = newNode;`، ثم نربط مؤشر back للعقدة الجديدة بالعقدة الأخيرة `newNode->back = last;`، وأخيراً ننقل مؤشر last للعقدة الجديدة `last = newNode;`."
+          },
+          {
+            id: "q20",
+            text: "Question 20: Which of the following statements is/are true about the G1 graph (Edges: BA, BC, AC, AF, FE, CE, CD, DE)?\nI. CEFA is a cycle in the graph G1\nII. F is an odd degree\nIII. CDEC is a simple path in the graph G1\nIV. C and F are adjacent vertices\nV. B and F are connected vertices",
+            svg: `<svg width="240" height="150" viewBox="0 0 240 150">
+              <defs><style>.g-c{fill:#28a745;stroke:#fff;stroke-width:1.5;} .g-t{fill:#fff;font-family:'JetBrains Mono';font-size:12px;font-weight:bold;text-anchor:middle;dominant-baseline:central;} .g-l{stroke:#8e8e93;stroke-width:2;}</style></defs>
+              <line x1="40" y1="40" x2="120" y2="40" class="g-l"/><line x1="120" y1="40" x2="200" y2="40" class="g-l"/>
+              <line x1="40" y1="40" x2="40" y2="120" class="g-l"/><line x1="40" y1="120" x2="120" y2="40" class="g-l"/>
+              <line x1="40" y1="120" x2="120" y2="120" class="g-l"/><line x1="120" y1="120" x2="200" y2="120" class="g-l"/>
+              <line x1="120" y1="40" x2="200" y2="120" class="g-l"/><line x1="200" y1="40" x2="200" y2="120" class="g-l"/>
+              <circle cx="40" cy="40" r="15" class="g-c"/><text x="40" y="40" class="g-t">B</text>
+              <circle cx="120" cy="40" r="15" class="g-c"/><text x="120" y="40" class="g-t">C</text>
+              <circle cx="200" cy="40" r="15" class="g-c"/><text x="200" y="40" class="g-t">D</text>
+              <circle cx="40" cy="120" r="15" class="g-c"/><text x="40" y="120" class="g-t">A</text>
+              <circle cx="120" cy="120" r="15" class="g-c"/><text x="120" y="120" class="g-t">F</text>
+              <circle cx="200" cy="120" r="15" class="g-c"/><text x="200" y="120" class="g-t">E</text>
+            </svg>`,
+            img: "",
+            opts: ["III and V", "I, II and V", "All of them are true", "I and V", "I, II and IV"],
+            ans: 3, // D
+            dispAnswer: "I and V",
+            exp: "• العبارة I صحيحة: المسار C-E-F-A-C يشكل دورة مغلقة (Cycle).\n• العبارة V صحيحة: العقدتان B و F متصلتان بمسار (Connected) عبر B-A-F.\n• بقية العبارات خاطئة: درجة F زوجية (2)، و CDEC دورة وليست مساراً بسيطاً، ولا توجد حافة مباشرة بين C و F."
+          },
+          {
+            id: "q21",
+            text: "Question 21: For the Binary Tree shown below, the order of nodes visited by postOrder traversal will be:",
+            svg: `<svg width="250" height="180" viewBox="0 0 250 180">
+              <defs><style>.t-c{fill:#1c1c1e;stroke:#5ac8fa;stroke-width:2;} .t-txt{fill:#fff;font-family:'JetBrains Mono';font-size:12px;text-anchor:middle;dominant-baseline:central;} .t-l{stroke:#8e8e93;stroke-width:1.5;}</style></defs>
+              <line x1="125" y1="20" x2="70" y2="60" class="t-l"/><line x1="125" y1="20" x2="180" y2="60" class="t-l"/>
+              <line x1="70" y1="60" x2="40" y2="105" class="t-l"/><line x1="70" y1="60" x2="100" y2="105" class="t-l"/>
+              <line x1="100" y1="105" x2="80" y2="150" class="t-l"/><line x1="100" y1="105" x2="120" y2="150" class="t-l"/>
+              <line x1="180" y1="60" x2="210" y2="105" class="t-l"/><line x1="210" y1="105" x2="190" y2="150" class="t-l"/>
+              <circle cx="125" cy="20" r="14" class="t-c"/><text x="125" y="20" class="t-txt">F</text>
+              <circle cx="70" cy="60" r="14" class="t-c"/><text x="70" y="60" class="t-txt">B</text>
+              <circle cx="180" cy="60" r="14" class="t-c"/><text x="180" y="60" class="t-txt">G</text>
+              <circle cx="40" cy="105" r="12" class="t-c"/><text x="40" y="105" class="t-txt">A</text>
+              <circle cx="100" cy="105" r="12" class="t-c"/><text x="100" y="105" class="t-txt">D</text>
+              <circle cx="210" cy="105" r="12" class="t-c"/><text x="210" y="105" class="t-txt">I</text>
+              <circle cx="80" cy="150" r="12" class="t-c"/><text x="80" y="150" class="t-txt">C</text>
+              <circle cx="120" cy="150" r="12" class="t-c"/><text x="120" y="150" class="t-txt">E</text>
+              <circle cx="190" cy="150" r="12" class="t-c"/><text x="190" y="150" class="t-txt">H</text>
+            </svg>`,
+            img: "",
+            opts: ["F B D A C E I G H", "F B A D C E G I H", "A C E D B H I G F", "A B C D E F G H I"],
+            ans: 2, // C
+            dispAnswer: "A C E D B H I G F",
+            exp: "ترتيب Postorder (يسار -> يمين -> جذر):\n- الشجرة اليسرى للجذر F: أيسر B هو A، ثم الشجرة اليمنى لـ B: C ثم E ثم D، ثم جذرها B (ينتج A C E D B)\n- الشجرة اليمنى للجذر F: أيسر I هو H، ثم I، ثم G (ينتج H I G)\n- أخيراً جذر الشجرة F.\nالترتيب الكامل: A C E D B H I G F."
+          },
+          {
+            id: "q22",
+            text: "Question 22: What is the sequence of vertices that are visited by the Depth First Traversal Algorithm starting from vertex 1?",
+            svg: `<svg width="240" height="150" viewBox="0 0 240 150">
+              <defs><style>.df-c{fill:#1c1c1e;stroke:#0a84ff;stroke-width:1.5;} .df-t{fill:#fff;font-family:'JetBrains Mono';font-size:12px;text-anchor:middle;dominant-baseline:central;} .df-l{stroke:#8e8e93;stroke-width:1.2;marker-end:url(#arr);}</style>
+              <marker id="arr" viewBox="0 0 10 10" refX="18" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8e8e93"/></marker></defs>
+              <line x1="70" y1="30" x2="170" y2="30" class="df-l"/><line x1="70" y1="30" x2="30" y2="75" class="df-l"/><line x1="70" y1="30" x2="120" y2="75" class="df-l"/>
+              <line x1="170" y1="30" x2="120" y2="75" class="df-l"/><line x1="170" y1="30" x2="210" y2="75" class="df-l"/>
+              <line x1="120" y1="75" x2="30" y2="75" class="df-l"/><line x1="120" y1="75" x2="70" y2="120" class="df-l"/><line x1="120" y1="75" x2="170" y2="120" class="df-l"/>
+              <line x1="210" y1="75" x2="120" y2="75" class="df-l"/><line x1="210" y1="75" x2="170" y2="120" class="df-l"/>
+              <line x1="170" y1="120" x2="70" y2="120" class="df-l"/><line x1="30" y1="75" x2="70" y2="120" class="df-l"/>
+              <circle cx="70" cy="30" r="14" class="df-c"/><text x="70" y="30" class="df-t">1</text>
+              <circle cx="170" cy="30" r="14" class="df-c"/><text x="170" y="30" class="df-t">2</text>
+              <circle cx="30" cy="75" r="14" class="df-c"/><text x="30" y="75" class="df-t">3</text>
+              <circle cx="120" cy="75" r="14" class="df-c"/><text x="120" y="75" class="df-t">7</text>
+              <circle cx="210" cy="75" r="14" class="df-c"/><text x="210" y="75" class="df-t">5</text>
+              <circle cx="70" cy="120" r="14" class="df-c"/><text x="70" y="120" class="df-t">6</text>
+              <circle cx="170" cy="120" r="14" class="df-c"/><text x="170" y="120" class="df-t">4</text>
+            </svg>`,
+            img: "",
+            opts: ["1 2 3 4 5 7 6", "1 2 5 4 6 7 3", "1 2 3 7 5 6 4", "None of the answers", "1 2 4 3 6 7 5"],
+            ans: 1, // B
+            dispAnswer: "1 2 5 4 6 7 3",
+            exp: "تتبع البحث بالعمق (DFS) رقمياً: نبدأ من 1 -> نتحرك لأصغر جار غير مزار وهو 2 -> من 2 نذهب إلى 5 -> من 5 نذهب إلى 4 -> من 4 نذهب إلى 6 -> نتراجع ثم نزور 7 -> من 7 نصل إلى 3. الترتيب: 1 2 5 4 6 7 3."
+          },
+          {
+            id: "q23",
+            text: "Question 23: Given a circular array-based queue with maxSize = 4, what would be the value of queueFront and queueRear after executing the following lines of code?",
+            code: "queue.addQueue(4);\nqueue.addQueue(2);\nqueue.addQueue(2 * queue.back());\nqueue.deleteQueue();\nqueue.addQueue(queue.front() - 2);\nqueue.deleteQueue();\nqueue.addQueue(5);\nqueue.addQueue(7);",
+            img: "",
+            opts: [
+              "queueFront = 0 and queueRear = 1",
+              "queueFront = 2 and queueRear = 1",
+              "queueFront = 1 and queueRear = 2",
+              "queueFront = 1 and queueRear = 0"
+            ],
+            ans: 1, // B
+            dispAnswer: "queueFront = 2 and queueRear = 1",
+            exp: "تتبع المؤشرات مع modulo 4:\n- البدء: front=0, rear=3\n- add 3 عناصر: rear يستقر عند 2\n- deleteQueue مرتين: يتقدم front بمقدار خطوتين ليصبح front = 2\n- الإضافات المتبقية مع الدوران modulo 4 تجعل مؤشر rear يستقر عند 1."
+          },
+          {
+            id: "q24",
+            text: "Question 24: After executing the following recursive function, what is the output? (Note: First call is cout << fun(2.5, 2);)",
+            code: "float fun(float x, int n) {\n    if (n == 1)\n        return 1;\n    else\n        return x * fun(x, n - 1);\n}",
+            img: "",
+            opts: ["8.75", "3.75", "6.25", "2.5"],
+            ans: 3, // D
+            dispAnswer: "2.5",
+            exp: "عند الاستدعاء `fun(2.5, 2)`: يتحقق فرع else ليعيد `2.5 * fun(2.5, 1)`. الاستدعاء `fun(2.5, 1)` يطابق شرط الأساس `n == 1` فيعيد 1. الناتج = 2.5 * 1 = 2.5."
+          },
+          {
+            id: "q25",
+            text: "Question 25: What is the sequence of vertices that are visited by the Breadth First Traversal Algorithm starting from vertex A?",
+            svg: `<svg width="240" height="130" viewBox="0 0 240 130">
+              <defs><style>.bf-c{fill:#1c1c1e;stroke:#30d158;stroke-width:1.5;} .bf-t{fill:#fff;font-family:'JetBrains Mono';font-size:12px;font-weight:bold;text-anchor:middle;dominant-baseline:central;} .bf-l{stroke:#8e8e93;stroke-width:1.2;marker-end:url(#arr2);}</style>
+              <marker id="arr2" viewBox="0 0 10 10" refX="18" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8e8e93"/></marker></defs>
+              <line x1="30" y1="40" x2="90" y2="40" class="bf-l"/><line x1="30" y1="40" x2="160" y2="20" class="bf-l"/>
+              <line x1="90" y1="40" x2="160" y2="90" class="bf-l"/><line x1="90" y1="40" x2="80" y2="100" class="bf-l"/><line x1="90" y1="40" x2="220" y2="60" class="bf-l"/>
+              <line x1="160" y1="20" x2="220" y2="60" class="bf-l"/><line x1="80" y1="100" x2="160" y2="90" class="bf-l"/>
+              <line x1="160" y1="90" x2="220" y2="60" class="bf-l"/><line x1="220" y1="60" x2="210" y2="105" class="bf-l"/>
+              <circle cx="30" cy="40" r="14" class="bf-c"/><text x="30" y="40" class="bf-t">A</text>
+              <circle cx="90" cy="40" r="14" class="bf-c"/><text x="90" y="40" class="bf-t">B</text>
+              <circle cx="160" cy="20" r="14" class="bf-c"/><text x="160" y="20" class="bf-t">C</text>
+              <circle cx="80" cy="100" r="14" class="bf-c"/><text x="80" y="100" class="bf-t">G</text>
+              <circle cx="160" cy="90" r="14" class="bf-c"/><text x="160" y="90" class="bf-t">D</text>
+              <circle cx="220" cy="60" r="14" class="bf-c"/><text x="220" y="60" class="bf-t">E</text>
+              <circle cx="210" cy="105" r="14" class="bf-c"/><text x="210" y="105" class="bf-t">F</text>
+            </svg>`,
+            img: "",
+            opts: ["A B C D E G F", "A B C E D G F", "None of the answers", "A B D E F G C", "A C B D E G F"],
+            ans: 0, // A
+            dispAnswer: "A B C D E G F",
+            exp: "البحث بالعرض (BFS) يمر مستوى بمستوى: المستوى 0 هو A -> المستوى 1 (جيران A) هما B و C -> المستوى 2 (جيران المستوى السابق بترتيب الحروف) هم D و E و G -> المستوى 3 هو F. الناتج: A B C D E G F."
+          },
+          {
+            id: "q26",
+            text: "Question 26: According to the following binary search tree (Root 30, Left 15 with right 22 -> children 17, 27), after deleting the root node 30 and adjusting the tree, what is the number of comparisons needed to search for the key 27?",
+            svg: `<svg width="240" height="150" viewBox="0 0 240 150">
+              <defs><style>.bst-c{fill:#1c1c1e;stroke:#0a84ff;stroke-width:1.5;} .bst-t{fill:#fff;font-family:'JetBrains Mono';font-size:11px;text-anchor:middle;dominant-baseline:central;} .bst-l{stroke:#8e8e93;stroke-width:1.2;}</style></defs>
+              <line x1="120" y1="20" x2="70" y2="55" class="bst-l"/><line x1="120" y1="20" x2="170" y2="55" class="bst-l"/>
+              <line x1="70" y1="55" x2="45" y2="90" class="bst-l"/><line x1="70" y1="55" x2="95" y2="90" class="bst-l"/>
+              <line x1="95" y1="90" x2="75" y2="125" class="bst-l"/><line x1="95" y1="90" x2="115" y2="125" class="bst-l"/>
+              <line x1="170" y1="55" x2="150" y2="90" class="bst-l"/><line x1="170" y1="55" x2="190" y2="90" class="bst-l"/>
+              <circle cx="120" cy="20" r="13" class="bst-c"/><text x="120" y="20" class="bst-t">30</text>
+              <circle cx="70" cy="55" r="13" class="bst-c"/><text x="70" y="55" class="bst-t">15</text>
+              <circle cx="170" cy="55" r="13" class="bst-c"/><text x="170" y="55" class="bst-t">60</text>
+              <circle cx="45" cy="90" r="12" class="bst-c"/><text x="45" y="90" class="bst-t">7</text>
+              <circle cx="95" cy="90" r="12" class="bst-c"/><text x="95" y="90" class="bst-t">22</text>
+              <circle cx="150" cy="90" r="12" class="bst-c"/><text x="150" y="90" class="bst-t">45</text>
+              <circle cx="190" cy="90" r="12" class="bst-c"/><text x="190" y="90" class="bst-t">75</text>
+              <circle cx="75" cy="125" r="11" class="bst-c"/><text x="75" y="125" class="bst-t">17</text>
+              <circle cx="115" cy="125" r="11" class="bst-c"/><text x="115" y="125" class="bst-t">27</text>
+            </svg>`,
+            img: "",
+            opts: ["4 comparisons", "2 comparisons", "3 comparisons", "1 comparison"],
+            ans: 3, // 1 comparison
+            dispAnswer: "1 comparison",
+            exp: "عند حذف الجذر 30، يُستبدل بأكبر عنصر في الشجرة اليسرى (Immediate Predecessor) وهو 27. بالتالي تصبح العقدة 27 هي الجذر الجديد للشجرة، والبحث عن 27 يتطلب مقارنة واحدة فقط مع الجذر."
+          },
+          {
+            id: "q27",
+            text: "Question 27: Consider the following recursive function, when does this function cause infinite recursion?",
+            code: "int fun(int x) {\n    if (x == 0)\n        return x;\n    else\n        return (x + fun(x - 1));\n}",
+            img: "",
+            opts: [
+              "When the input is zero",
+              "This function will never cause infinite recursion",
+              "When the input is a positive integer",
+              "When the input is a negative integer"
+            ],
+            ans: 3, // D
+            dispAnswer: "When the input is a negative integer",
+            exp: "شرط التوقف هو الوصول إلى الصفر `x == 0`. إذا كان المدخل سالباً (مثل -1)، فإن الاستدعاء ينقص القيمة باستمرار (-2, -3, ...) مبتعداً عن الصفر، مما يسبب دوراناً عودياً لا نهائياً (Infinite recursion)."
+          },
+          {
+            id: "q29",
+            text: "Question 29: What will be the content of the linked list after executing the following code?",
+            code: "unorderedLinkedList<int> L1;\nL1.insertLast(12);\nL1.insertFirst(8);\nL1.insertFirst(15);\nif (L1.back() % 2 == 0)\n    L1.deleteNode(8);\nelse\n    L1.deleteNode(15);",
+            img: "",
+            opts: ["15->8->12", "8->12", "15->12", "12->15"],
+            ans: 2, // C
+            dispAnswer: "15->12",
+            exp: "بناء القائمة: `insertLast(12)` ثم `insertFirst(8)` ثم `insertFirst(15)` ينتج القائمة: 15 -> 8 -> 12. قيمة `L1.back()` هي 12، وبما أن 12 زوجي يتحقق شرط if ويتم تنفيذ `L1.deleteNode(8)`، فتصبح القائمة: 15->12."
+          },
+          {
+            id: "q30",
+            text: "Question 30: Represent the undirected graph G1 (Vertices A, B, C, D, E) into an adjacency matrix:",
+            img: "../images/ds_26.png",
+            opts: [
+              "A_12 = [[0,1,0,1,0], [1,0,1,1,0], [0,1,0,0,1], [1,1,0,0,1], [0,0,1,1,0]]",
+              "A_G0 = [[0,1,0,1,0], [1,0,1,1,0], [0,1,0,1,0], [1,0,1,0,1], [0,0,1,1,0]]",
+              "Non-symmetric matrix",
+              "None of the answers"
+            ],
+            ans: 0, // A
+            dispAnswer: "A_12 = [[0,1,0,1,0], [1,0,1,1,0], [0,1,0,0,1], [1,1,0,0,1], [0,0,1,1,0]]",
+            exp: "مصفوفة الجوار لمخطط غير موجه تكون متماثلة (Symmetric) والقطر الرئيسي أصفاراً لعدم وجود حلقات ذاتية، وتطابق المصفوفة A_12."
+          },
+          {
+            id: "q31",
+            text: "Question 31: Consider the AVL tree with Root 40, Left 30, Right 50 (with Left 45 -> Right 47, Right 60). What is the type of rotation that must be done to convert the tree into an AVL tree after inserting 48?",
+            img: "../images/ds_27.png",
+            opts: [
+              "Double right-left rotation",
+              "Double left-right rotation",
+              "Single right rotation",
+              "No need for any rotation"
+            ],
+            ans: 1, // B
+            dispAnswer: "Double left-right rotation",
+            exp: "إدراج 48 كابن أيمن لـ 47 يزيد عمق المسار في الشجرة الفرعية اليسرى للعقدة 50 (يسار 50 هو 45 ويمين 45 هو 47)، مما يسبب عدم اتزان من نوع Left-Right (LR)، ويتطلب علاجها دوران مزدوج (Double left-right rotation)."
+          },
+          {
+            id: "q32",
+            text: "Question 32: The six items: A, B, C, D, E, and F are pushed to a stack starting from A. The stack is popped four times and each element is inserted in a queue. Then three elements are deleted from the queue and pushed back on the stack. What will be the element on the front of the queue and the value of stackTop?",
+            img: "",
+            opts: [
+              "queue front = C and stackTop = 4",
+              "queue front = C and stackTop = 5",
+              "queue front = C and stackTop = D",
+              "queue front = F and stackTop = D"
+            ],
+            ans: 1, // B
+            dispAnswer: "queue front = C and stackTop = 5",
+            exp: "المكدس فيه [A, B, C, D, E, F]. إخراج 4 عناصر يخرج F ثم E ثم D ثم C وتدخل الطابور بنفس الترتيب: [F, E, D, C]. حذف 3 عناصر من الطابور يحذف F و E و D ويبقى C في المقدمة. إعادة العناصر الثلاثة للمكدس تجعل عدد عناصر المكدس 5 (A, B بالإضافة للثلاثة المرجعة)، وبالتالي stackTop = 5."
+          },
+          {
+            id: "q33",
+            text: "Question 33: The exact number of data comparisons (if (L[i] <= R[j])) needed to merge the sorted subList [6, 13, 18, 24] and [4, 12, 15] are:",
+            img: "../images/ds_28.png",
+            opts: ["4", "6", "5", "7", "8"],
+            ans: 2, // 5
+            dispAnswer: "5",
+            exp: "المقارنات المتتالية:\n1) 6 مع 4 (نأخذ 4)\n2) 6 مع 12 (نأخذ 6)\n3) 13 مع 12 (نأخذ 12)\n4) 13 مع 15 (نأخذ 13)\n5) 18 مع 15 (نأخذ 15)\nتفرغ القائمة اليمنى فيتم نسخ ما تبقى من اليسرى دون مقارنات. إجمالي المقارنات = 5."
+          },
+          {
+            id: "q34",
+            text: "Question 34: The preorder traversal sequence of the binary tree in Figure-3 is:",
+            svg: `<svg width="240" height="150" viewBox="0 0 240 150">
+              <defs><style>.pre-c{fill:#1c1c1e;stroke:#0a84ff;stroke-width:1.5;} .pre-t{fill:#fff;font-family:'JetBrains Mono';font-size:12px;text-anchor:middle;dominant-baseline:central;} .pre-l{stroke:#8e8e93;stroke-width:1.5;}</style></defs>
+              <line x1="120" y1="20" x2="60" y2="55" class="pre-l"/><line x1="120" y1="20" x2="180" y2="55" class="pre-l"/>
+              <line x1="60" y1="55" x2="85" y2="90" class="pre-l"/>
+              <line x1="180" y1="55" x2="140" y2="90" class="pre-l"/><line x1="180" y1="55" x2="215" y2="90" class="pre-l"/>
+              <line x1="140" y1="90" x2="120" y2="125" class="pre-l"/>
+              <line x1="215" y1="90" x2="195" y2="125" class="pre-l"/><line x1="215" y1="90" x2="235" y2="125" class="pre-l"/>
+              <circle cx="120" cy="20" r="14" class="pre-c"/><text x="120" y="20" class="pre-t">A</text>
+              <circle cx="60" cy="55" r="14" class="pre-c"/><text x="60" y="55" class="pre-t">B</text>
+              <circle cx="180" cy="55" r="14" class="pre-c"/><text x="180" y="55" class="pre-t">C</text>
+              <circle cx="85" cy="90" r="12" class="pre-c"/><text x="85" y="90" class="pre-t">D</text>
+              <circle cx="140" cy="90" r="12" class="pre-c"/><text x="140" y="90" class="pre-t">E</text>
+              <circle cx="215" cy="90" r="12" class="pre-c"/><text x="215" y="90" class="pre-t">F</text>
+              <circle cx="120" cy="125" r="11" class="pre-c"/><text x="120" y="125" class="pre-t">G</text>
+              <circle cx="195" cy="125" r="11" class="pre-c"/><text x="195" y="125" class="pre-t">H</text>
+              <circle cx="235" cy="125" r="11" class="pre-c"/><text x="235" y="125" class="pre-t">I</text>
+            </svg>`,
+            img: "",
+            opts: [
+              "D, B, G, E, H, I, F, C, A",
+              "B, D, A, G, E, C, H, F, I",
+              "A, B, D, C, E, G, F, H, I",
+              "D, B, A, G, E, C, H, F, I",
+              "A, B, D, C, G, E, F, H, I"
+            ],
+            ans: 2, // C
+            dispAnswer: "A, B, D, C, E, G, F, H, I",
+            exp: "ترتيب Preorder (جذر -> يسار -> يمين):\n1) الجذر A\n2) يسار A: العقدة B ثم ابنها الأيمن D\n3) يمين A: العقدة C، ثم يسارها E وابنها G، ثم يمينها F وأبناؤها H و I.\nالترتيب: A, B, D, C, E, G, F, H, I."
+          },
+          {
+            id: "q35",
+            text: "Question 35: In selection sort, all elements to the left of the current index are in sorted order and will never be changed again.",
+            img: "",
+            opts: ["True", "False"],
+            ans: 0, // True
+            dispAnswer: "True",
+            exp: "صحيح (True)؛ ففي خوارزمية Selection Sort، عند كل دورة يتم وضع أصغر عنصر متبقٍ في موقعه النهائي الصحيح تماماً، والعناصر الواقعة يسار الفهرس الحالي تكون مرتبة بشكل نهائي ولا يُعاد تحريكها أبداً."
+          },
+          {
+            id: "q37",
+            text: "Question 37: Based on the deleteNode function of unordered linked list, if we need to delete the node with info = 15 (which is the last node) from the list [26 -> 11 -> 45 -> 37 (current) -> 15 (last)], which of the following sets of statements is correct?",
+            img: "../images/ds_29.png",
+            opts: [
+              "current = first; first = first->link; delete current; count--;",
+              "last = current; current = current->link; delete current; last->link = NULL; count--;",
+              "last = current; current->link = last->link; delete last; count--;",
+              "last = current; current->link = last->link; delete current; count--;"
+            ],
+            ans: 1, // B
+            dispAnswer: "last = current; current = current->link; delete current; last->link = NULL; count--;",
+            exp: "لحذف العقدة الأخيرة عندما يشير `current` إلى العقدة التي تسبقها مباشرة: نجعل `last` يؤشر للعقدة الحالية `last = current;`، ثم نتقدم بـ `current` للعقدة المراد حذفها، ونلغي رابط القائمة بجعله `last->link = NULL;`، ثم نحرر الذاكرة `delete current;` وننقص العداد `count--;`."
+          },
+          {
+            id: "q38",
+            text: "Question 38: Given the directed graph in Figure-2, if we use an adjacency list to represent it in memory, then the linked list of the vertex D will include:",
+            img: "../images/ds_30.png",
+            opts: ["4 nodes", "One node", "5 nodes", "3 nodes", "0 nodes"],
+            ans: 4, // 0 nodes
+            dispAnswer: "0 nodes",
+            exp: "قائمة الجوار (Adjacency List) لرأس ما في مخطط موجه تخزن الحواف الخارجة منه (Outgoing Edges). بالرجوع لمصفوفة المخطط في السؤال 7، لا توجد أي حافة موجهة تنطلق من D إلى أي رأس آخر، لذا تحتوي قائمته على 0 عقد."
+          },
+          {
+            id: "q39",
+            text: "Question 39: The type of the list in which no node points to NULL:",
+            img: "",
+            opts: ["Doubly linked list", "Singly linked list", "Circular linked list", "Array-based list"],
+            ans: 2, // Circular linked list
+            dispAnswer: "Circular linked list",
+            exp: "في القائمة المترابطة الدائرية (Circular Linked List)، يلتف مؤشر العقدة الأخيرة ليعود ويؤشر على العقدة الأولى في القائمة، وبالتالي لا يوجد أي مؤشر يحمل القيمة NULL."
+          }
+        ]
+      }
+    ];
+
+    const originalDriveLink = "https://drive.google.com/drive/folders/1stqXBejbb5gtHsOBAt6CQ30DEwnCdBYK";
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      examSections.forEach(section => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+
+        let subQuestionsHtml = '';
+
+        section.subQuestions.forEach(sub => {
+          const hasImage = sub.img && sub.img.trim() !== "";
+          const imageContainerHtml = hasImage ? `
+            <div class="q-image-container" id="img-box-${sub.id}">
+              <img class="q-original-img" 
+                   id="img-${sub.id}"
+                   data-src="${sub.img}" 
+                   alt="Question Image ${sub.id}"
+                   onerror="handleImageFallback(this)" />
+            </div>
+          ` : '';
+
+          const imageButtonHtml = hasImage ? `
+            <button class="btn-action" onclick="toggleOriginalImage('${sub.id}')">
+              <span>📷</span> عرض صورة السؤال الأصلية
+            </button>
+          ` : '';
+
+          const svgHtml = sub.svg ? `<div class="svg-diagram-wrapper">${sub.svg}</div>` : '';
+          const codeHtml = sub.code ? `<div class="code-block">${escapeHtml(sub.code)}</div>` : '';
+
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div style="font-family: ${opt.includes(';') || opt.includes('{') || opt.includes('(') ? "'JetBrains Mono', monospace" : "inherit"}; white-space: pre-wrap;">${escapeHtml(opt)}</div>
+            </div>
+          `).join('');
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header" style="white-space: pre-line;">${escapeHtml(sub.text)}</div>
+              ${svgHtml}
+              ${codeHtml}
+              ${imageContainerHtml}
+              <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+              <div class="answer-input-row">
+                <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+                ${imageButtonHtml}
+                <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                  <span>💡</span> عرض الحل
+                </button>
+              </div>
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة النموذجية المعتمدة (Final Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.95rem; font-weight: bold; line-height: 1.6; font-family: 'JetBrains Mono', Consolas, monospace; color: #5ac8fa;">${escapeHtml(sub.dispAnswer)}</div>
+                <div style="margin-top: 8px; font-size: 0.90rem; line-height: 1.6; color: var(--text-primary); direction: rtl; text-align: right; white-space: pre-line;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    /* ================= LOGIC: NO LEAKS ON WRONG + SHOW RESET ================= */
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        // لا يتم إظهار الإجابة الصحيحة إطلاقاً عند الخطأ
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) {
+        optsBox.classList.remove('locked');
+      }
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    /* ================= IMAGE TOGGLE & FALLBACK ================= */
+    function toggleOriginalImage(subId) {
+      const imgBox = document.getElementById(`img-box-${subId}`);
+      const imgEl = document.getElementById(`img-${subId}`);
+
+      if (imgEl && !imgEl.src && imgEl.dataset.src) {
+        imgEl.src = imgEl.dataset.src;
+      }
+
+      if (imgBox) {
+        imgBox.classList.toggle('show');
+      }
+    }
+
+    function handleImageFallback(imgEl) {
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (imgEl.src.endsWith('.jpg')) {
+          imgEl.src = imgEl.src.replace('.jpg', '.png');
+        } else if (imgEl.src.endsWith('.png')) {
+          imgEl.src = imgEl.src.replace('.png', '.jpg');
+        }
+      }
+    }
+
+    /* ================= GENERAL SCORE & HELPERS ================= */
+    function calculateScore() {
+      let total = 0;
+      examSections.forEach(sec => { total += sec.subQuestions.length; });
+
+      let score = 0;
+      for (const k in userScores) {
+        if (userScores[k]) score++;
+      }
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(id) {
+      const sol = document.getElementById(`sol-${id}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      const allSols = document.querySelectorAll('.solution-box');
+      allSols.forEach(sol => {
+        if (allShown) sol.classList.add('show');
+        else sol.classList.remove('show');
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>
