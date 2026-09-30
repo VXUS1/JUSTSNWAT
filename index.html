@@ -9,7 +9,7 @@
 
 <title>JUSTSNWAT | بنك أسئلة السنوات السابقة</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Exo+2:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Exo+2:wght@700;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 <!-- Three.js Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
@@ -522,6 +522,82 @@ a {
   }
   100% {
     transform: translateY(-3.5px);
+  }
+}
+
+/* =========================================================
+   شريط الإحصائيات (Stats Bar) - تصميم زجاجي متجاوب
+   ========================================================= */
+.home-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 22px auto 8px;
+  max-width: 650px;
+  position: relative;
+  z-index: 35;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 120px;
+  background: rgba(16, 20, 32, 0.68);
+  border: 1px solid var(--apple-border);
+  border-radius: 20px;
+  padding: 14px 12px 12px;
+  text-align: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s var(--ease-apple), border-color 0.25s var(--ease-apple), box-shadow 0.25s var(--ease-apple);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 16px var(--theme-glow, rgba(10, 132, 255, 0.2));
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', 'Exo 2', monospace;
+  font-size: clamp(21px, 4vw, 29px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.stat-value .stat-plus {
+  color: var(--theme-color, #0a84ff);
+  font-size: 0.85em;
+  transition: color 0.15s ease;
+}
+
+.stat-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 580px) {
+  .home-stats-bar {
+    gap: 8px;
+    margin: 18px auto 6px;
+  }
+  .stat-card {
+    min-width: 0;
+    padding: 10px 6px 9px;
+    border-radius: 15px;
+  }
+  .stat-label {
+    font-size: 11px;
+    margin-top: 3px;
   }
 }
 
@@ -1958,6 +2034,69 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     }
 
     /* =======================================================
+       حساب الإحصائيات تلقائياً
+       ======================================================= */
+    function getSiteStats() {
+      var totalSubjects = allSubjects.length;
+      var totalExams = 0;
+      var totalQuestions = 0;
+
+      Object.keys(exams).forEach(function (key) {
+        var list = exams[key] || [];
+        totalExams += list.length;
+        list.forEach(function (exam) {
+          if (exam && exam.questionsCount) {
+            totalQuestions += Number(exam.questionsCount) || 0;
+          }
+        });
+      });
+
+      return {
+        subjects: totalSubjects,
+        exams: totalExams,
+        questions: totalQuestions
+      };
+    }
+
+    /* تشغيل عداد الصعود السلس للأرقام */
+    function initHomeStatsCounters() {
+      var stats = getSiteStats();
+      var counterConfig = [
+        { id: "stat-subjects-val", target: stats.subjects },
+        { id: "stat-exams-val", target: stats.exams },
+        { id: "stat-questions-val", target: stats.questions }
+      ];
+
+      counterConfig.forEach(function (cfg) {
+        var el = document.getElementById(cfg.id);
+        if (!el) return;
+        animateCounter(el, cfg.target, 1800);
+      });
+    }
+
+    function animateCounter(el, target, duration) {
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        // Easing ناعم جداً
+        var ease = 1 - Math.pow(1 - progress, 4);
+        var current = Math.floor(ease * target);
+
+        el.textContent = current.toLocaleString('en-US');
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target.toLocaleString('en-US');
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    /* =======================================================
        2. محرك البحث الذكي
        ======================================================= */
     function normalizeArabic(text) {
@@ -2145,7 +2284,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
     });
 
     /* =======================================================
-       3. الصفحة الرئيسية
+       3. الصفحة الرئيسية مع شريط الإحصائيات
        ======================================================= */
     function renderHome() {
       app.innerHTML =
@@ -2166,6 +2305,22 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
             '<div class="lux-results-dropdown" id="luxResultsDropdown"></div>' +
           '</div>' +
 
+          /* شريط الإحصائيات المتفاعل */
+          '<div class="home-stats-bar">' +
+            '<div class="stat-card">' +
+              '<div class="stat-value"><span class="stat-plus">+</span><span id="stat-subjects-val">0</span></div>' +
+              '<div class="stat-label">مادة دراسية</div>' +
+            '</div>' +
+            '<div class="stat-card">' +
+              '<div class="stat-value"><span class="stat-plus">+</span><span id="stat-exams-val">0</span></div>' +
+              '<div class="stat-label">نموذج امتحان</div>' +
+            '</div>' +
+            '<div class="stat-card">' +
+              '<div class="stat-value"><span class="stat-plus">+</span><span id="stat-questions-val">0</span></div>' +
+              '<div class="stat-label">سؤال محلول</div>' +
+            '</div>' +
+          '</div>' +
+
           '<div class="glass-globe-section" id="globe-canvas-wrap">' +
             '<canvas id="globe-canvas"></canvas>' +
           '</div>' +
@@ -2174,6 +2329,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       setupLuxSearch();
       initWeEvolveGlobe();
+      initHomeStatsCounters();
     }
 
     function renderLuxSearchResults(q, dropdown) {
@@ -2234,8 +2390,8 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       });
     }
 
-    /* =======================================================
-       4. محرك الكرة الأرضية - متزامن لحظياً مع العنوان واللوجو
+       /* =======================================================
+       4. محرك الكرة الأرضية فائق الخفة والسرعة (Ultra-Optimized)
        ======================================================= */
     var globeAnimId = null;
 
@@ -2246,21 +2402,26 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       if (!container || !canvas || typeof THREE === "undefined") return;
       if (globeAnimId) cancelAnimationFrame(globeAnimId);
 
+      // الكشف عن الهواتف لتقليل الاستهلاك
+      var isMobile = window.innerWidth < 768 || /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 1000);
       camera.position.set(0, 0, 238);
 
-      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: !isMobile, powerPreference: "high-performance" });
       renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // على الهواتف نضبط البكسل على 1 أو 1.25 لمنع هبوط الفريمات
+      renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5));
 
       var globeGroup = new THREE.Group();
       scene.add(globeGroup);
 
       var GLOBE_RADIUS = 72;
 
-      // 1. باطن الكرة الأصلي
-      var coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.99, 48, 48);
+      // 1. باطن الكرة الكوني (تخفيف المضلعات على الهاتف)
+      var sphereSegments = isMobile ? 32 : 44;
+      var coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.99, sphereSegments, sphereSegments);
       var coreMat = new THREE.MeshBasicMaterial({
         color: 0x0b1219,
         transparent: true,
@@ -2294,11 +2455,11 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         side: THREE.BackSide,
         depthWrite: false
       });
-      globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS * 1.025, 48, 48), silverRim));
+      globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS * 1.025, sphereSegments, sphereSegments), silverRim));
 
-      // 3. ألوان الانتقال: أزرق كهربائي وبرتقالي نيون
-      var colorBlue   = new THREE.Color(0x00b4ff); // أزرق نيون
-      var colorOrange = new THREE.Color(0xff6a00); // برتقالي نيون
+      // 3. ألوان الانتقال
+      var colorBlue   = new THREE.Color(0x00b4ff);
+      var colorOrange = new THREE.Color(0xff6a00);
 
       var continentMaterial = new THREE.LineBasicMaterial({
         color: 0x00b4ff,
@@ -2318,27 +2479,21 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         );
       }
 
-      function addLandOutline(ring) {
+      // تجميع كل خطوط القارات في مصفوفة واحدة لدمجها (1 Draw Call فقط!)
+      var mergedLinePoints = [];
+
+      function collectLandSegments(ring) {
         if (!ring || ring.length < 3) return;
-        var current = [];
-        for (var i = 0; i < ring.length; i++) {
-          var pt = ring[i];
-          if (pt[1] < -80) continue;
+        for (var i = 0; i < ring.length - 1; i++) {
+          var p1 = ring[i];
+          var p2 = ring[i + 1];
+          if (p1[1] < -80 || p2[1] < -80) continue;
+          if (Math.abs(p1[0] - p2[0]) > 140) continue; // تجنب خط التاريخ
 
-          if (current.length > 0) {
-            var prevPt = ring[i - 1];
-            if (Math.abs(pt[0] - prevPt[0]) > 140) {
-              if (current.length > 1) {
-                globeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(current), continentMaterial));
-              }
-              current = [];
-            }
-          }
-          current.push(latLonToVector3(pt[1], pt[0], GLOBE_RADIUS * 1.006));
-        }
-
-        if (current.length > 1) {
-          globeGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(current), continentMaterial));
+          mergedLinePoints.push(
+            latLonToVector3(p1[1], p1[0], GLOBE_RADIUS * 1.006),
+            latLonToVector3(p2[1], p2[0], GLOBE_RADIUS * 1.006)
+          );
         }
       }
 
@@ -2348,13 +2503,18 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
           landData.features.forEach(function (feature) {
             var geometry = feature.geometry || {};
             if (geometry.type === "Polygon") {
-              geometry.coordinates.forEach(addLandOutline);
+              geometry.coordinates.forEach(collectLandSegments);
             } else if (geometry.type === "MultiPolygon") {
               geometry.coordinates.forEach(function (polygon) {
-                polygon.forEach(addLandOutline);
+                polygon.forEach(collectLandSegments);
               });
             }
           });
+
+          // دمج مئات الخطوط في عنصر LineSegments واحد سريع جداً
+          var mergedGeo = new THREE.BufferGeometry().setFromPoints(mergedLinePoints);
+          var allLines = new THREE.LineSegments(mergedGeo, continentMaterial);
+          globeGroup.add(allLines);
         })
         .catch(function () {});
 
@@ -2368,10 +2528,11 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         { lat: -33.86, lon: 151.20 }
       ];
 
+      var markerGeo = new THREE.RingGeometry(1.2, 2.0, 14);
+      var markerMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
+
       hubList.forEach(function (h) {
         var pos = latLonToVector3(h.lat, h.lon, GLOBE_RADIUS * 1.01);
-        var markerGeo = new THREE.RingGeometry(1.2, 2.0, 16);
-        var markerMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
         var markerMesh = new THREE.Mesh(markerGeo, markerMat);
         markerMesh.position.copy(pos);
         markerMesh.lookAt(0, 0, 0);
@@ -2380,6 +2541,15 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
 
       // 5. أقواس الاتصال الأصلية والنبضات السريعة
       var pulseItems = [];
+      var curveMat = new THREE.LineBasicMaterial({
+        color: 0x00d2ff,
+        transparent: true,
+        opacity: 0.38
+      });
+      var pGeo = new THREE.SphereGeometry(1.2, 6, 6);
+      var pMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      var curveResolution = isMobile ? 22 : 40;
+
       for (var i = 0; i < hubList.length; i++) {
         var pStart = hubList[i];
         var pEnd = hubList[(i + 1) % hubList.length];
@@ -2391,17 +2561,10 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         mid.normalize().multiplyScalar(GLOBE_RADIUS + d * 0.28);
 
         var curve = new THREE.QuadraticBezierCurve3(v1, mid, v2);
-        var curvePoints = curve.getPoints(45);
+        var curvePoints = curve.getPoints(curveResolution);
         var curveGeo = new THREE.BufferGeometry().setFromPoints(curvePoints);
-        var curveMat = new THREE.LineBasicMaterial({
-          color: 0x00d2ff,
-          transparent: true,
-          opacity: 0.38
-        });
         globeGroup.add(new THREE.Line(curveGeo, curveMat));
 
-        var pGeo = new THREE.SphereGeometry(1.2, 8, 8);
-        var pMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
         var pMesh = new THREE.Mesh(pGeo, pMat);
         globeGroup.add(pMesh);
         pulseItems.push({ mesh: pMesh, curve: curve, t: Math.random() });
@@ -2420,7 +2583,7 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         lastY = e.clientY;
         spinSpeedX = 0;
         spinSpeedY = 0;
-      });
+      }, { passive: true });
 
       window.addEventListener("pointermove", function (e) {
         if (!isDragging) return;
@@ -2434,9 +2597,9 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         globeGroup.rotation.y += spinSpeedX;
         globeGroup.rotation.x += spinSpeedY;
         globeGroup.rotation.x = Math.max(-0.85, Math.min(0.85, globeGroup.rotation.x));
-      });
+      }, { passive: true });
 
-      window.addEventListener("pointerup", function () { isDragging = false; });
+      window.addEventListener("pointerup", function () { isDragging = false; }, { passive: true });
 
       window.addEventListener("resize", function () {
         camera.aspect = container.clientWidth / container.clientHeight;
@@ -2444,38 +2607,52 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
         renderer.setSize(container.clientWidth, container.clientHeight);
       });
 
-      // عنصر العنوان للربط اللحظي
-      var titleEl = document.querySelector(".landing-title-clean");
+      // إيقاف الرندرة تماماً عندما ينزل المستخدم لأسفل لتوفير 100% من أداء الهاتف
+      var isVisibleOnScreen = true;
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          isVisibleOnScreen = entries[0].isIntersecting;
+        }, { threshold: 0.05 });
+        observer.observe(container);
+      }
 
-      // 6. حلقة التحريك مع التزامن الشامل للكرة والعنوان واللوجو
+      var titleEl = document.querySelector(".landing-title-clean");
+      var lastDomUpdate = 0;
+
+      // 6. حلقة التحريك فائقة السرعة
       function animate() {
         globeAnimId = requestAnimationFrame(animate);
 
-        var time = Date.now() * 0.00055;
+        // إذا كانت الكرة غير ظاهرة على الشاشة (المستخدم نزل للأسفل)، نوقف الرندرة فوراً
+        if (!isVisibleOnScreen) return;
+
+        var now = Date.now();
+        var time = now * 0.00055;
         var phase = (Math.sin(time) + 1) * 0.5;
-        var smoothT = phase * phase * (3 - 2 * phase); // 0 (أزرق) <--> 1 (أورانج)
+        var smoothT = phase * phase * (3 - 2 * phase);
         
-        // 1. تغيير خطوط الكرة الأرضية
+        // تغيير لون الكرة
         continentMaterial.color.lerpColors(colorBlue, colorOrange, smoothT);
 
-        // حساب اللون المشترك اللحظي
-        var r = Math.round(10 + (249 - 10) * smoothT);
-        var g = Math.round(132 + (115 - 132) * smoothT);
-        var b = Math.round(255 + (22 - 255) * smoothT);
-        var themeRgb  = "rgb(" + r + "," + g + "," + b + ")";
-        var themeGlow = "rgba(" + r + "," + g + "," + b + ", 0.45)";
+        // تخفيف تحديث الـ DOM إلى 18 مرة بالثانية فقط لمنع تجميد شاشة الهاتف
+        if (now - lastDomUpdate > 55) {
+          lastDomUpdate = now;
+          var r = Math.round(10 + (249 - 10) * smoothT);
+          var g = Math.round(132 + (115 - 132) * smoothT);
+          var b = Math.round(255 + (22 - 255) * smoothT);
+          var themeRgb  = "rgb(" + r + "," + g + "," + b + ")";
+          var themeGlow = "rgba(" + r + "," + g + "," + b + ", 0.45)";
 
-        // 2. تحديث اللوجو والهيدر فورياً
-        document.documentElement.style.setProperty("--theme-color", themeRgb);
-        document.documentElement.style.setProperty("--theme-glow", themeGlow);
+          document.documentElement.style.setProperty("--theme-color", themeRgb);
+          document.documentElement.style.setProperty("--theme-glow", themeGlow);
 
-        // 3. مزامنة ألوان العنوان (JUSTSNWAT) بنفس الكسر من الثانية
-        if (!titleEl || !titleEl.isConnected) {
-          titleEl = document.querySelector(".landing-title-clean");
-        }
-        if (titleEl) {
-          titleEl.style.setProperty("--glow-color", themeGlow);
-          titleEl.style.setProperty("--bg-pos", (smoothT * 100).toFixed(1) + "%");
+          if (!titleEl || !titleEl.isConnected) {
+            titleEl = document.querySelector(".landing-title-clean");
+          }
+          if (titleEl) {
+            titleEl.style.setProperty("--glow-color", themeGlow);
+            titleEl.style.setProperty("--bg-pos", (smoothT * 100).toFixed(1) + "%");
+          }
         }
 
         pulseItems.forEach(function (p) {
@@ -2497,7 +2674,6 @@ footer p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight
       }
       animate();
     }
-
     /* =======================================================
        5. صفحة قائمة الأقسام والتصنيفات
        ======================================================= */
