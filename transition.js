@@ -480,7 +480,15 @@
     var transition = document.createElement("div");
     transition.className = "page-transition";
     transition.setAttribute("aria-hidden", "true");
-    transition.innerHTML = '<span class="page-transition-mark"></span>';
+    transition.innerHTML =
+      '<span class="page-transition-mark">' +
+        '<svg class="page-transition-logo" viewBox="0 0 84 84" aria-hidden="true">' +
+          '<circle cx="42" cy="42" r="40" fill="#0a84ff"/>' +
+          '<polygon points="42,20 72,32 42,44 12,32" fill="#fff"/>' +
+          '<path d="M27 39 L27 53 Q42 61 57 53 L57 39 L42 45 Z" fill="#fff"/>' +
+          '<g><path d="M72 34 V55 Q72 64 65 64 Q59.5 64 59 59" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="59" cy="57" r="3.6" fill="#fff"/></g>' +
+        '</svg>' +
+      '</span>';
     document.body.appendChild(transition);
 
     requestAnimationFrame(function () {

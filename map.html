@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mind Map | JUSTSNWAT</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Exo+2:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #050608;
+    --apple-surface: rgba(18, 22, 34, 0.85);
+    --apple-border: rgba(255, 255, 255, 0.08);
+    --apple-blue: #0a84ff;
+    --apple-orange: #ff6a00;
+    --text-primary: #f5f5f7;
+    --text-secondary: #8e95a5;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Cairo', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  .card {
+    background: var(--apple-surface);
+    border: 1px solid var(--apple-border);
+    border-radius: 24px;
+    padding: 42px 32px;
+    max-width: 520px;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  }
+  .icon-wrap {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255, 106, 0, 0.2) 0%, rgba(10, 132, 255, 0.2) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: grid;
+    place-items: center;
+    color: var(--apple-orange);
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0 0 10px;
+  }
+  p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 28px;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff6a00 0%, #ea580c 100%);
+    color: #ffffff;
+    padding: 12px 26px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14.5px;
+    box-shadow: 0 8px 24px rgba(255, 106, 0, 0.35);
+    transition: transform 0.2s ease;
+  }
+  .back-btn:hover {
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-wrap">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"></circle>
+        <circle cx="6" cy="12" r="3"></circle>
+        <circle cx="18" cy="19" r="3"></circle>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+      </svg>
+    </div>
+    <h1>الخارطة الذهنية (Mind Map)</h1>
+    <p>هذه الصفحة مخصصة لعرض شجرة وخارطة ترابط مواد التخصص والمتطلبات السابقة بشكل مرئي وتفاعلي.</p>
+    <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+  </div>
+</body>
+</html>
