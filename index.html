@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Exo+2:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <!-- Three.js Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="ne_110m_land.js" defer></script>
 <style>
 :root {
   --bg-base: #050608;
@@ -28,6 +29,9 @@
   --text-secondary: #8e95a5;
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
   --radius: 16px;
+
+    --theme-color: #0a84ff;
+  --theme-glow: rgba(10, 132, 255, 0.45);
 }
 
 * {
@@ -103,6 +107,7 @@ a {
   left: 8%;
   background: linear-gradient(90deg, transparent, var(--masthead-glow, #0a84ff), transparent);
   box-shadow: 0 0 22px var(--masthead-glow, rgba(10, 132, 255, 0.5));
+  transition: background 0.35s ease, box-shadow 0.35s ease;
 }
 
 .masthead.scrolled {
@@ -126,6 +131,10 @@ a {
   height: 44px;
   flex: none;
   overflow: visible;
+}
+
+.logo-animated .disc {
+  transition: fill 0.35s ease;
 }
 
 .logo-animated .word {
@@ -154,11 +163,12 @@ a {
   width: 52px !important;
   margin: 6px 0 0 0 !important;
   padding: 0 !important;
-  background: #0a84ff !important;
+  background: #0a84ff;
   border: none !important;
   border-radius: 3px !important;
   transform-origin: left !important;
   box-shadow: 0 0 12px rgba(10, 132, 255, 0.45);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
 }
 
 .logo-animated .mark .fb { transform-box: fill-box; }
@@ -829,15 +839,23 @@ a {
 }
 
 .dept-showcase-card.card-cpe .dept-orb {
-  background: radial-gradient(circle at 35% 30%, rgba(29, 99, 156, 0.95), rgba(16, 50, 88, 0.98) 75%);
-  border-color: #00d2ff;
-  box-shadow: 0 0 24px rgba(0, 210, 255, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+  background: radial-gradient(circle at 35% 30%, rgba(190, 24, 60, 0.95), rgba(76, 5, 25, 0.98) 75%);
+  border-color: #fb7185;
+  box-shadow: 0 0 24px rgba(251, 113, 133, 0.36), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+}
+
+.dept-showcase-card.card-cpe:hover .dept-orb {
+  box-shadow: 0 0 34px rgba(251, 113, 133, 0.58), inset 0 2px 8px rgba(255, 255, 255, 0.5);
 }
 
 .dept-showcase-card.card-cs .dept-orb {
-  background: radial-gradient(circle at 35% 30%, rgba(31, 95, 148, 0.95), rgba(15, 45, 80, 0.98) 75%);
-  border-color: #38bdf8;
-  box-shadow: 0 0 24px rgba(56, 189, 248, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+  background: radial-gradient(circle at 35% 30%, rgba(79, 70, 229, 0.95), rgba(30, 41, 88, 0.98) 75%);
+  border-color: #818cf8;
+  box-shadow: 0 0 24px rgba(129, 140, 248, 0.38), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+}
+
+.dept-showcase-card.card-cs:hover .dept-orb {
+  box-shadow: 0 0 34px rgba(129, 140, 248, 0.62), inset 0 2px 8px rgba(255, 255, 255, 0.5);
 }
 
 .dept-showcase-card.card-cis .dept-orb {
@@ -1629,26 +1647,6 @@ body.light-theme .lux-search-container.is-focused .lux-search-icon {
   color: #245fba;
 }
 
-body.light-theme .hero-stats-row .stat-card {
-  background: rgba(255, 255, 255, 0.84);
-  border-color: rgba(36, 95, 186, 0.12);
-  box-shadow: 0 8px 22px rgba(28, 58, 92, 0.055);
-}
-
-body.light-theme .hero-stats-row .stat-card:hover {
-  border-color: rgba(36, 95, 186, 0.24);
-  box-shadow: 0 12px 28px rgba(36, 95, 186, 0.1);
-}
-
-body.light-theme .hero-stats-row .stat-number,
-body.light-theme .hero-stats-row .stat-card:nth-child(2) .stat-number,
-body.light-theme .hero-stats-row .stat-card:nth-child(3) .stat-number {
-  color: #245fba;
-  background: linear-gradient(135deg, #183b68, #367fdb);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 body.light-theme .plan-dropdown-btn:hover,
 body.light-theme .plan-dropdown.open .plan-dropdown-btn {
@@ -2316,95 +2314,81 @@ body.light-theme .page-transition-title {
 }
 
 /* =========================================================
-   شريط إحصائيات الموقع التفاعلي (Hero Stats Row)
+   شريط الإحصائيات (Stats Bar) - تصميم زجاجي متجاوب
    ========================================================= */
-.hero-stats-row {
+.home-stats-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin: 20px auto 0;
-  max-width: 680px;
-  width: 100%;
+  gap: 14px;
+  margin: 22px auto 8px;
+  max-width: 650px;
+  position: relative;
+  z-index: 35;
 }
 
 .stat-card {
   flex: 1;
-  background: var(--apple-surface);
+  min-width: 120px;
+  background: rgba(16, 20, 32, 0.68);
   border: 1px solid var(--apple-border);
-  border-radius: 16px;
-  padding: 12px 14px;
+  border-radius: 20px;
+  padding: 14px 12px 12px;
   text-align: center;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   transition: transform 0.25s var(--ease-apple), border-color 0.25s var(--ease-apple), box-shadow 0.25s var(--ease-apple);
 }
 
-body.light-theme .stat-card {
-  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
-}
-
 .stat-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--apple-border-strong);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 16px var(--theme-glow, rgba(10, 132, 255, 0.2));
 }
 
-.stat-number {
-  font-family: 'JetBrains Mono', 'Exo 2', sans-serif;
-  font-size: clamp(22px, 3.2vw, 30px);
-  font-weight: 900;
-  letter-spacing: -0.02em;
+.stat-value {
+  font-family: 'JetBrains Mono', 'Exo 2', monospace;
+  font-size: clamp(21px, 4vw, 29px);
+  font-weight: 800;
+  line-height: 1.1;
   color: #ffffff;
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #0a84ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
 
-body.light-theme .stat-number {
-  background: linear-gradient(135deg, #0f172a 0%, #0284c7 60%, #0a84ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.stat-card:nth-child(2) .stat-number {
-  background: linear-gradient(135deg, #ffffff 0%, #fed7aa 40%, #ff6a00 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-body.light-theme .stat-card:nth-child(2) .stat-number {
-  background: linear-gradient(135deg, #0f172a 0%, #ea580c 60%, #ff6a00 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.stat-card:nth-child(3) .stat-number {
-  background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 40%, #10b981 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-body.light-theme .stat-card:nth-child(3) .stat-number {
-  background: linear-gradient(135deg, #0f172a 0%, #059669 60%, #10b981 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.stat-value .stat-plus {
+  color: var(--theme-color, #0a84ff);
+  font-size: 0.85em;
+  transition: color 0.15s ease;
 }
 
 .stat-label {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-secondary);
-  margin-top: 2px;
+  margin-top: 5px;
+  letter-spacing: -0.01em;
 }
+
+@media (max-width: 580px) {
+  .home-stats-bar {
+    gap: 8px;
+    margin: 18px auto 6px;
+  }
+  .stat-card {
+    min-width: 0;
+    padding: 10px 6px 9px;
+    border-radius: 15px;
+  }
+  .stat-label {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+}
+
 
 /* استجابة الهيدر والقوائم المنسدلة على الشاشات */
 @media (max-width: 960px) {
@@ -2437,8 +2421,6 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
     font-size: 12px;
     gap: 5px;
   }
-  .hero-stats-row { gap: 8px; }
-  .stat-card { padding: 9px 8px; border-radius: 12px; }
   .stat-number { font-size: 19px; }
   .stat-label { font-size: 11px; }
 }
@@ -3152,6 +3134,12 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
       if (typeof updateGlobeTheme === "function") {
         updateGlobeTheme(isLight);
       }
+      if (typeof updateHeaderTopLeftForRoute === "function") {
+        var route = parseHash();
+        if (route.type !== "home") {
+          updateHeaderTopLeftForRoute(route.type);
+        }
+      }
     }
 
     var savedTheme = localStorage.getItem("justsnwat_theme");
@@ -3338,6 +3326,37 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
       return { type: "home" };
     }
 
+    function updateHeaderTopLeftForRoute(routeType) {
+      if (routeType !== "home") {
+        if (globeAnimId) {
+          cancelAnimationFrame(globeAnimId);
+          globeAnimId = null;
+        }
+        var isLight = document.body.classList.contains("light-theme");
+        var blueColor = isLight ? "#245fba" : "#0a84ff";
+        var blueGlow = isLight ? "rgba(36, 95, 186, 0.35)" : "rgba(10, 132, 255, 0.45)";
+
+        document.documentElement.style.setProperty("--theme-color", blueColor);
+        document.documentElement.style.setProperty("--theme-glow", blueGlow);
+
+        var logoDisc = document.querySelector(".logo-animated .disc");
+        if (logoDisc) {
+          logoDisc.setAttribute("fill", blueColor);
+        }
+
+        var logoBar = document.querySelector(".logo-animated .logo-bar");
+        if (logoBar) {
+          logoBar.style.backgroundColor = blueColor;
+          logoBar.style.boxShadow = "0 0 12px " + blueGlow;
+        }
+
+        var mastheadEl = document.querySelector(".masthead");
+        if (mastheadEl) {
+          mastheadEl.style.setProperty("--masthead-glow", blueColor);
+        }
+      }
+    }
+
     function render(animate) {
       var route = parseHash();
       if (deptDropdown) deptDropdown.classList.remove("open");
@@ -3345,10 +3364,13 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
 
       if (route.type === "subject") {
         renderSubject(route.id);
+        updateHeaderTopLeftForRoute(route.type);
       } else if (route.type === "dept") {
         renderDepartment(route.id);
+        updateHeaderTopLeftForRoute(route.type);
       } else if (route.type === "departments_list") {
         renderDepartmentsList();
+        updateHeaderTopLeftForRoute(route.type);
       } else {
         renderHome();
       }
@@ -3370,6 +3392,66 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
         render(true);
       }, 150);
     });
+   /* تشغيل عداد الصعود السلس للأرقام */
+   function getSiteStats() {
+      var totalSubjects = allSubjects.length;
+      var totalExams = 0;
+      var totalQuestions = 0;
+
+      Object.keys(exams).forEach(function (key) {
+        var list = exams[key] || [];
+        totalExams += list.length;
+        list.forEach(function (exam) {
+          if (exam && exam.questionsCount) {
+            totalQuestions += Number(exam.questionsCount) || 0;
+          }
+        });
+      });
+
+      return {
+        subjects: totalSubjects,
+        exams: totalExams,
+        questions: totalQuestions
+      };
+    }
+
+    /* تشغيل عداد الصعود السلس للأرقام */
+    function initHomeStatsCounters() {
+      var stats = getSiteStats();
+      var counterConfig = [
+        { id: "stat-subjects-val", target: stats.subjects },
+        { id: "stat-exams-val", target: stats.exams },
+        { id: "stat-questions-val", target: stats.questions }
+      ];
+
+      counterConfig.forEach(function (cfg) {
+        var el = document.getElementById(cfg.id);
+        if (!el) return;
+        animateCounter(el, cfg.target, 1800);
+      });
+    }
+
+    function animateCounter(el, target, duration) {
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        // Easing ناعم جداً
+        var ease = 1 - Math.pow(1 - progress, 4);
+        var current = Math.floor(ease * target);
+
+        el.textContent = current.toLocaleString('en-US');
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target.toLocaleString('en-US');
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
 
     /* =======================================================
        3. الصفحة الرئيسية
@@ -3403,17 +3485,18 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
             '<div class="lux-results-dropdown" id="luxResultsDropdown"></div>' +
           '</div>' +
 
-          '<div class="hero-stats-row">' +
+          /* شريط الإحصائيات المتفاعل */
+          '<div class="home-stats-bar">' +
             '<div class="stat-card">' +
-              '<div class="stat-number" data-stat-target="' + totalSubjects + '">0</div>' +
-              '<div class="stat-label">مادة دراسية معتمدة</div>' +
+              '<div class="stat-value"><span class="stat-plus">+</span><span id="stat-subjects-val">0</span></div>' +
+              '<div class="stat-label">مادة دراسية</div>' +
             '</div>' +
             '<div class="stat-card">' +
-              '<div class="stat-number" data-stat-target="' + totalExams + '">0</div>' +
-              '<div class="stat-label">نموذج امتحان وحلول</div>' +
+              '<div class="stat-value"><span class="stat-plus">+</span><span id="stat-exams-val">0</span></div>' +
+              '<div class="stat-label">نموذج امتحان</div>' +
             '</div>' +
             '<div class="stat-card">' +
-              '<div class="stat-number" data-stat-target="' + totalQuestions + '">0</div>' +
+              '<div class="stat-value"><span class="stat-plus">+</span><span id="stat-questions-val">0</span></div>' +
               '<div class="stat-label">سؤال محلول</div>' +
             '</div>' +
           '</div>' +
@@ -3426,34 +3509,10 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
 
       setupLuxSearch();
       initWeEvolveGlobe();
-      animateHeroStats();
+      initHomeStatsCounters();
     }
 
-    function animateHeroStats() {
-      var statEls = document.querySelectorAll(".stat-number[data-stat-target]");
-      statEls.forEach(function (el) {
-        var target = parseInt(el.getAttribute("data-stat-target"), 10) || 0;
-        var duration = 1600;
-        var start = performance.now();
-
-        function update(now) {
-          var elapsed = now - start;
-          var progress = Math.min(elapsed / duration, 1);
-          var ease = 1 - Math.pow(1 - progress, 4);
-          var current = Math.round(target * ease);
-
-          el.textContent = "+" + current.toLocaleString("en-US");
-
-          if (progress < 1) {
-            requestAnimationFrame(update);
-          } else {
-            el.textContent = "+" + target.toLocaleString("en-US");
-          }
-        }
-        requestAnimationFrame(update);
-      });
-    }
-
+   
     function renderLuxSearchResults(q, dropdown) {
       var matches = searchSubjects(q, null);
       if (!matches.length) {
@@ -3594,12 +3653,13 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
       });
       globeGroup.add(new THREE.Mesh(new THREE.SphereGeometry(GLOBE_RADIUS * 1.025, 44, 44), silverRim));
 
-      // 3. ألوان الانتقال: أزرق كهربائي وبرتقالي نيون
-      var colorBlue   = new THREE.Color(0x245fba);
-      var colorOrange = new THREE.Color(0x67a6e5);
+      // 3. ألوان الانتقال: أزرق كهربائي وبرتقالي نيون متطابقة 100% مع الهيدر واللوجو
+      var colorBlue   = new THREE.Color(10 / 255, 132 / 255, 255 / 255); // #0a84ff
+      var colorOrange = new THREE.Color(255 / 255, 106 / 255, 0 / 255); // #ff6a00
+      var dynamicThreeColor = new THREE.Color(10 / 255, 132 / 255, 255 / 255);
 
       var continentMaterial = new THREE.LineBasicMaterial({
-        color: 0x00b4ff,
+        color: 0x0a84ff,
         transparent: true,
         opacity: 0.88,
         blending: THREE.AdditiveBlending,
@@ -3624,40 +3684,53 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
         globeGroup.add(lineMesh);
       }
 
+      function processLandData(landData) {
+        if (!landData || !landData.features) return;
+        var segmentVertices = [];
+
+        function processRing(ring) {
+          if (!ring || ring.length < 2) return;
+          for (var i = 0; i < ring.length - 1; i++) {
+            var p1 = ring[i];
+            var p2 = ring[i + 1];
+            if (p1[1] < -80 || p2[1] < -80) continue;
+            if (Math.abs(p1[0] - p2[0]) > 140) continue;
+
+            var v1 = latLonToVector3(p1[1], p1[0], GLOBE_RADIUS * 1.006);
+            var v2 = latLonToVector3(p2[1], p2[0], GLOBE_RADIUS * 1.006);
+            segmentVertices.push(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
+          }
+        }
+
+        landData.features.forEach(function (feature) {
+          var geometry = feature.geometry || {};
+          if (geometry.type === "Polygon") {
+            geometry.coordinates.forEach(processRing);
+          } else if (geometry.type === "MultiPolygon") {
+            geometry.coordinates.forEach(function (polygon) {
+              polygon.forEach(processRing);
+            });
+          }
+        });
+
+        if (segmentVertices.length > 0) {
+          buildContinentMesh(segmentVertices);
+        }
+      }
+
       if (cachedLandBufferGeo) {
         globeGroup.add(new THREE.LineSegments(cachedLandBufferGeo, continentMaterial));
+      } else if (window.NE_LAND_DATA) {
+        processLandData(window.NE_LAND_DATA);
       } else {
-        fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson")
-          .then(function (res) { return res.json(); })
+        fetch("./ne_110m_land.geojson")
+          .then(function (res) { if (!res.ok) throw new Error(); return res.json(); })
+          .catch(function () {
+            return fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson")
+              .then(function (res) { return res.json(); });
+          })
           .then(function (landData) {
-            var segmentVertices = [];
-
-            function processRing(ring) {
-              if (!ring || ring.length < 2) return;
-              for (var i = 0; i < ring.length - 1; i++) {
-                var p1 = ring[i];
-                var p2 = ring[i + 1];
-                if (p1[1] < -80 || p2[1] < -80) continue;
-                if (Math.abs(p1[0] - p2[0]) > 140) continue;
-
-                var v1 = latLonToVector3(p1[1], p1[0], GLOBE_RADIUS * 1.006);
-                var v2 = latLonToVector3(p2[1], p2[0], GLOBE_RADIUS * 1.006);
-                segmentVertices.push(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
-              }
-            }
-
-            landData.features.forEach(function (feature) {
-              var geometry = feature.geometry || {};
-              if (geometry.type === "Polygon") {
-                geometry.coordinates.forEach(processRing);
-              } else if (geometry.type === "MultiPolygon") {
-                geometry.coordinates.forEach(function (polygon) {
-                  polygon.forEach(processRing);
-                });
-              }
-            });
-
-            buildContinentMesh(segmentVertices);
+            processLandData(landData);
           })
           .catch(function () {});
       }
@@ -3672,10 +3745,16 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
         { lat: -33.86, lon: 151.20 }
       ];
 
+      var markerGeo = new THREE.RingGeometry(1.2, 2.0, 16);
+      var markerMat = new THREE.MeshBasicMaterial({
+        color: 0x0a84ff,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.85
+      });
+
       hubList.forEach(function (h) {
         var pos = latLonToVector3(h.lat, h.lon, GLOBE_RADIUS * 1.01);
-        var markerGeo = new THREE.RingGeometry(1.2, 2.0, 16);
-        var markerMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
         var markerMesh = new THREE.Mesh(markerGeo, markerMat);
         markerMesh.position.copy(pos);
         markerMesh.lookAt(0, 0, 0);
@@ -3684,6 +3763,16 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
 
       // 5. أقواس الاتصال الأصلية والنبضات السريعة
       var pulseItems = [];
+      var curveMat = new THREE.LineBasicMaterial({
+        color: 0x0a84ff,
+        transparent: true,
+        opacity: 0.52,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      var pGeo = new THREE.SphereGeometry(1.2, 6, 6);
+      var pMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
       for (var i = 0; i < hubList.length; i++) {
         var pStart = hubList[i];
         var pEnd = hubList[(i + 1) % hubList.length];
@@ -3697,15 +3786,8 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
         var curve = new THREE.QuadraticBezierCurve3(v1, mid, v2);
         var curvePoints = curve.getPoints(isMobileDevice ? 25 : 40);
         var curveGeo = new THREE.BufferGeometry().setFromPoints(curvePoints);
-        var curveMat = new THREE.LineBasicMaterial({
-          color: 0x00d2ff,
-          transparent: true,
-          opacity: 0.38
-        });
         globeGroup.add(new THREE.Line(curveGeo, curveMat));
 
-        var pGeo = new THREE.SphereGeometry(1.2, 6, 6);
-        var pMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
         var pMesh = new THREE.Mesh(pGeo, pMat);
         globeGroup.add(pMesh);
         pulseItems.push({ mesh: pMesh, curve: curve, t: Math.random() });
@@ -3761,23 +3843,32 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
       var mastheadEl = document.querySelector(".masthead");
       var logoDisc = document.querySelector(".logo-animated .disc");
       var logoBar = document.querySelector(".logo-animated .logo-bar");
+      var statPlus = document.querySelectorAll(".stat-value .stat-plus");
+
 
       function animate() {
         globeAnimId = requestAnimationFrame(animate);
 
         if (!isGlobeVisible) return;
 
-        var time = Date.now() * 0.00055;
+        var time = Date.now() * 0.00070;
         var phase = (Math.sin(time) + 1) * 0.5;
         var smoothT = phase * phase * (3 - 2 * phase);
 
-        continentMaterial.color.lerpColors(colorBlue, colorOrange, smoothT);
+        // مزامنة ألوان خطوط ومحطات الكرة الأرضية لحظياً بالتوافق التام 100% مع الهيدر واللوجو
+        dynamicThreeColor.lerpColors(colorBlue, colorOrange, smoothT);
+        continentMaterial.color.copy(dynamicThreeColor);
+        curveMat.color.copy(dynamicThreeColor);
+        markerMat.color.copy(dynamicThreeColor);
 
         var r = Math.round(10 + (255 - 10) * smoothT);
         var g = Math.round(132 + (106 - 132) * smoothT);
         var b = Math.round(255 + (0 - 255) * smoothT);
         var dynamicColor = "rgb(" + r + "," + g + "," + b + ")";
         var dynamicGlow = "rgba(" + r + "," + g + "," + b + ", 0.42)";
+
+        document.documentElement.style.setProperty("--theme-color", dynamicColor);
+        document.documentElement.style.setProperty("--theme-glow", dynamicGlow);
 
         if (!titleEl || !titleEl.isConnected) {
           titleEl = document.querySelector(".landing-title-clean");
@@ -3801,7 +3892,11 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
           logoBar.style.backgroundColor = dynamicColor;
           logoBar.style.boxShadow = "0 0 12px " + dynamicGlow;
         }
-
+        var statPluses = document.querySelectorAll(".stat-value .stat-plus");
+        statPluses.forEach(function (stat) {
+          stat.style.color = dynamicColor;
+        });
+        
         if (!mastheadEl || !mastheadEl.isConnected) {
           mastheadEl = document.querySelector(".masthead");
         }
@@ -3939,8 +4034,8 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
           tag: "CPE", 
           desc: "معمارية وبنية الحاسوب، عتاد، ونظم تشغيل.",
           icon: iconCpeSvg,
-          accent: "#00d2ff",
-          glow: "rgba(0, 210, 255, 0.35)",
+          accent: "#fb7185",
+          glow: "rgba(251, 113, 133, 0.35)",
           cls: "card-cpe"
         },
         { 
@@ -3950,8 +4045,8 @@ body.light-theme .stat-card:nth-child(3) .stat-number {
           tag: "CS",  
           desc: "تراكيب بيانات وخوارزميات، برمجيات، ونظم تشغيل.",
           icon: iconCsSvg,
-          accent: "#38bdf8",
-          glow: "rgba(56, 189, 248, 0.35)",
+          accent: "#818cf8",
+          glow: "rgba(129, 140, 248, 0.35)",
           cls: "card-cs"
         },
         { 
