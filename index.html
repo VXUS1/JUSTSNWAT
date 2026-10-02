@@ -402,6 +402,21 @@ a {
   font-weight: 700;
 }
 
+.dept-menu-tag.tag-nes {
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+}
+
+.dept-menu-tag.tag-cpe {
+  background: rgba(251, 113, 133, 0.2);
+  color: #fda4af;
+}
+
+.dept-menu-tag.tag-cs {
+  background: rgba(129, 140, 248, 0.2);
+  color: #a5b4fc;
+}
+
 .dept-menu-tag.tag-comp {
   background: rgba(245, 158, 11, 0.2);
   color: #fcd34d;
@@ -518,6 +533,17 @@ a {
   }
   100% {
     transform: translateY(-3.5px);
+  }
+}
+
+@media (max-width: 680px) {
+  .landing-title-clean {
+    animation: none;
+    will-change: auto;
+  }
+
+  .landing-title-clean::before {
+    filter: none;
   }
 }
 
@@ -865,15 +891,6 @@ a {
 }
 .dept-showcase-card.card-cis:hover .dept-orb {
   box-shadow: 0 0 34px rgba(168, 85, 247, 0.65), inset 0 2px 8px rgba(255, 255, 255, 0.5);
-}
-
-.dept-showcase-card.card-chem .dept-orb {
-  background: radial-gradient(circle at 35% 30%, rgba(16, 185, 129, 0.95), rgba(6, 78, 59, 0.98) 75%);
-  border-color: #34d399;
-  box-shadow: 0 0 24px rgba(52, 211, 153, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.35);
-}
-.dept-showcase-card.card-chem:hover .dept-orb {
-  box-shadow: 0 0 34px rgba(52, 211, 153, 0.65), inset 0 2px 8px rgba(255, 255, 255, 0.5);
 }
 
 .dept-showcase-card.card-comp .dept-orb {
@@ -2468,21 +2485,21 @@ body.light-theme .page-transition-title {
           <a href="#/dept/nes" class="dept-menu-item">
             <div class="dept-menu-title">
               <span>Network Engineering & Security</span>
-              <span class="dept-menu-tag">NES</span>
+              <span class="dept-menu-tag tag-nes">NES</span>
             </div>
             <span class="dept-menu-sub">هندسة وأمن شبكات الحاسوب</span>
           </a>
           <a href="#/dept/cpe" class="dept-menu-item">
             <div class="dept-menu-title">
               <span>Computer Engineering</span>
-              <span class="dept-menu-tag">CPE</span>
+              <span class="dept-menu-tag tag-cpe">CPE</span>
             </div>
             <span class="dept-menu-sub">هندسة الحاسوب</span>
           </a>
           <a href="#/dept/cs" class="dept-menu-item">
             <div class="dept-menu-title">
               <span>Computer Science</span>
-              <span class="dept-menu-tag">CS</span>
+              <span class="dept-menu-tag tag-cs">CS</span>
             </div>
             <span class="dept-menu-sub">علوم الحاسوب</span>
           </a>
@@ -2493,14 +2510,6 @@ body.light-theme .page-transition-title {
             </div>
             <span class="dept-menu-sub">نظم المعلومات الحاسوبية</span>
           </a>
-          <a href="#/dept/chem" class="dept-menu-item">
-            <div class="dept-menu-title">
-              <span>Chemistry</span>
-              <span class="dept-menu-tag">CHEM</span>
-            </div>
-            <span class="dept-menu-sub">الكيمياء والعلوم الأساسية</span>
-          </a>
-
           <div class="dept-menu-divider"></div>
 
           <a href="#/dept/compulsory" class="dept-menu-item">
@@ -2539,14 +2548,14 @@ body.light-theme .page-transition-title {
           <a href="NES.html" class="plan-menu-item" data-plan-link data-major="هندسة وأمن الشبكات">
             <div class="plan-menu-title">
               <span>هندسة وأمن الشبكات</span>
-              <span class="dept-menu-tag">NES</span>
+              <span class="dept-menu-tag tag-nes">NES</span>
             </div>
             <span class="plan-menu-sub">خطة مواد وتتبع Network Engineering & Security</span>
           </a>
           <a href="CPE.html" class="plan-menu-item" data-plan-link data-major="هندسة الحاسوب">
             <div class="plan-menu-title">
               <span>هندسة الحاسوب</span>
-              <span class="dept-menu-tag tag-comp">CPE</span>
+              <span class="dept-menu-tag tag-cpe">CPE</span>
             </div>
             <span class="plan-menu-sub">خطة مواد وتتبع Computer Engineering</span>
           </a>
@@ -2617,11 +2626,11 @@ body.light-theme .page-transition-title {
         <div class="mobile-nav-label">تتبع الخطة الدراسية</div>
         <a href="NES.html" class="mobile-nav-item" data-plan-link data-major="هندسة وأمن الشبكات">
           <span>هندسة وأمن الشبكات</span>
-          <span class="dept-menu-tag">NES</span>
+          <span class="dept-menu-tag tag-nes">NES</span>
         </a>
         <a href="CPE.html" class="mobile-nav-item" data-plan-link data-major="هندسة الحاسوب">
           <span>هندسة الحاسوب</span>
-          <span class="dept-menu-tag tag-comp">CPE</span>
+          <span class="dept-menu-tag tag-cpe">CPE</span>
         </a>
       </div>
 
@@ -2651,9 +2660,6 @@ body.light-theme .page-transition-title {
         </a>
         <a href="#/dept/cis" class="mobile-nav-item" data-drawer-nav>
           <span>نظم المعلومات الحاسوبية (CIS)</span>
-        </a>
-        <a href="#/dept/chem" class="mobile-nav-item" data-drawer-nav>
-          <span>الكيمياء والعلوم الأساسية</span>
         </a>
         <a href="#/dept/compulsory" class="mobile-nav-item" data-drawer-nav>
           <span>المواد الإجبارية والمتطلبات</span>
@@ -2796,8 +2802,8 @@ body.light-theme .page-transition-title {
 
       { id: "db", name: "Database", arName: "أساسيات قواعد البيانات", code: "CIS221", dept: "cis" },
 
-      { id: "chem103", name: "Chemistry 103", arName: "الكيمياء 103", code: "HSS103CHEM", dept: "chem" },
-
+      { id: "chem103", name: "Chemistry 103", arName: "الكيمياء 103", code: "HSS103CHEM", dept: "compulsory" },
+      { id: "ethics", name: "Communication And Professional Ethics", arName: "مهارات الإتصال وأخلاقيات المهنة", code: "HSS203DS", dept: "compulsory" },
       { id: "ar", name: "اللغة العربية ومهارات الإتصال والتواصل", arName: "Communication Skills In Arabic", code: "COMP", dept: "compulsory" },
       { id: "en", name: "اللغة الإنجليزية ومهارات الإتصال والتواصل", arName: "Communication Skills In English", code: "COMP", dept: "compulsory" },
       { id: "ls", name: "المهارات الحياتية", arName: "Life Skills", code: "COMP", dept: "compulsory" },
@@ -2818,7 +2824,6 @@ body.light-theme .page-transition-title {
       "cpe": { name: "Computer Engineering", arName: "هندسة الحاسوب", tag: "CPE", desc: "تصفح مواد هندسة الحاسوب." },
       "cs":  { name: "Computer Science", arName: "علوم الحاسوب", tag: "CS", desc: "تصفح مواد قسم علوم الحاسوب." },
       "cis": { name: "Computer Information Systems", arName: "نظم المعلومات الحاسوبية", tag: "CIS", desc: "تصفح مواد قسم نظم المعلومات الحاسوبية." },
-      "chem":{ name: "Chemistry", arName: "الكيمياء", tag: "CHEM", desc: "تصفح مواد قسم الكيمياء والعلوم الأساسية." },
       "compulsory": { name: "Compulsory Courses", arName: "المواد الإجبارية", tag: "COMP", desc: "المساقات ومتطلبات الجامعة والكلية الإجبارية لجميع التخصصات." },
       "elective":   { name: "Elective Courses", arName: "المواد الاختيارية", tag: "ELEC", desc: "المساقات الحرة والاختيارية والمواد العامة." }
     };
@@ -2894,7 +2899,11 @@ body.light-theme .page-transition-title {
         { id: "first2-db", title: "First Exam", link: "db/first2.html", note: "امتحان فيرست كامل ومحلول.", questionsCount: 21 },
         { id: "second1-db", title: "Second Exam 2015", link: "db/second1.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 16 },
         { id: "second2-db", title: "Second Exam 2017", link: "db/second2.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 21 },
-        { id: "second3-db", title: "Second Exam 2016", link: "db/second3.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 21 }
+        { id: "second3-db", title: "Second Exam 2016", link: "db/second3.html", note: "امتحان سكند كامل ومحلول.", questionsCount: 21 },
+        { id: "quiz-db", title: "Quiz Chapter 1 to 5 (2024)", link: "db/quiz.html", note: "كويزات على كل شابتر ومحلول.", questionsCount: 55 },
+        { id: "final1-db", title: "Final Exam (2021)", link: "db/final1.html", note: "امتحان فاينل كامل ومحلول.", questionsCount: 47 },
+        { id: "final2-db", title: "Final Exam (2020-2021)", link: "db/final2.html", note: "امتحان فاينل كامل ومحلول.", questionsCount: 50 }
+
       ],
       "chem103": [
         { id: "first1-chem", title: "First Exam (1)", link: "chem/first1.html", note: "امتحان الفيرست كامل ومحلول.", questionsCount: 20 },
@@ -2909,6 +2918,18 @@ body.light-theme .page-transition-title {
         { id: "final1-chem", title: "Final Exam 2017", link: "chem/final1.html", note: "امتحان الفاينل 2017 كامل ومحلول.", questionsCount: 27 },
         { id: "final2-chem", title: "Final Exam Past Years & Suggestions", link: "chem/final2.html", note: "امتحان الفاينل سنوات واسئلة مقترحة محلول بالكامل.", questionsCount: 48 },
         { id: "final3-chem", title: "Final Exam Past Years (+100 Questions)", link: "chem/final3.html", note: "امتحان الفاينل سنوات اكثر من 100 سؤال محلول بالكامل.", questionsCount: 100 }
+      ],
+       "ethics": [
+        { id: "quiz-ethics", title: "Quiz Chapter 1 to 9 (2024)", link: "ethics/quiz.html", note: "كويزات على كل شابتر ومحلول.", questionsCount: 197 },
+        { id: "mid1-ethics", title: "Mid Exam 2020", link: "ethics/mid1.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 20 },
+        { id: "mid2-ethics", title: "Mid Exam 2020 Summer", link: "ethics/mid2.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 24 },
+        { id: "mid3-ethics", title: "Mid Exam 2021 ", link: "ethics/mid3.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 30 },
+        { id: "mid4-ethics", title: "Mid Exam 2021 Summer", link: "ethics/mid4.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 35 },
+
+        { id: "final1-ethics", title: "Final Exam 2020-2021 A", link: "ethics/final1.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 50 },
+        { id: "final2-ethics", title: "Final Exam 2020-2021 Summer", link: "ethics/final2.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 40 },
+        { id: "final3-ethics", title: "Final Exam 2020-2021 D", link: "ethics/final3.html", note: "امتحان الفاينل كامل ومحلول.", questionsCount: 40 },
+
       ],
       "ar": [
         { id: "mid1-ar", title: "Mid Exam (1)", link: "arabic/mid1.html", note: "امتحان ميد كامل ومحلول.", questionsCount: 56 },
@@ -3578,6 +3599,7 @@ body.light-theme .page-transition-title {
     var coreMatGlobal = null;
     var globeObserver = null;
     var isGlobeVisible = true;
+    var lastGlobeFrame = 0;
 
     function updateGlobeTheme(isLight) {
       if (!coreMatGlobal) return;
@@ -3607,7 +3629,7 @@ body.light-theme .page-transition-title {
       var isMobileDevice = window.innerWidth < 680;
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: !isMobileDevice, powerPreference: "high-performance" });
       renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setPixelRatio(isMobileDevice ? 1.15 : Math.min(window.devicePixelRatio, 1.8));
+      renderer.setPixelRatio(isMobileDevice ? 1 : Math.min(window.devicePixelRatio, 1.8));
 
       var globeGroup = new THREE.Group();
       scene.add(globeGroup);
@@ -3789,8 +3811,10 @@ body.light-theme .page-transition-title {
         globeGroup.add(new THREE.Line(curveGeo, curveMat));
 
         var pMesh = new THREE.Mesh(pGeo, pMat);
+        var pulseT = Math.random();
+        pMesh.position.copy(curve.getPoint(pulseT));
         globeGroup.add(pMesh);
-        pulseItems.push({ mesh: pMesh, curve: curve, t: Math.random() });
+        pulseItems.push({ mesh: pMesh, curve: curve, t: pulseT });
       }
 
       globeGroup.rotation.y = 2.45;
@@ -3835,9 +3859,24 @@ body.light-theme .page-transition-title {
         if (globeObserver) globeObserver.disconnect();
         globeObserver = new IntersectionObserver(function (entries) {
           isGlobeVisible = entries[0].isIntersecting;
+          if (isGlobeVisible && !document.hidden && !globeAnimId) {
+            globeAnimId = requestAnimationFrame(animate);
+          } else if ((!isGlobeVisible || document.hidden) && globeAnimId) {
+            cancelAnimationFrame(globeAnimId);
+            globeAnimId = null;
+          }
         }, { threshold: 0.05 });
         globeObserver.observe(container);
       }
+
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden && isGlobeVisible && !globeAnimId) {
+          globeAnimId = requestAnimationFrame(animate);
+        } else if (document.hidden && globeAnimId) {
+          cancelAnimationFrame(globeAnimId);
+          globeAnimId = null;
+        }
+      });
 
       var titleEl = document.querySelector(".landing-title-clean");
       var mastheadEl = document.querySelector(".masthead");
@@ -3846,10 +3885,14 @@ body.light-theme .page-transition-title {
       var statPlus = document.querySelectorAll(".stat-value .stat-plus");
 
 
-      function animate() {
-        globeAnimId = requestAnimationFrame(animate);
-
-        if (!isGlobeVisible) return;
+      function animate(timestamp) {
+        globeAnimId = null;
+        if (!isGlobeVisible || document.hidden) return;
+        if (isMobileDevice && timestamp - lastGlobeFrame < 1000 / 30) {
+          globeAnimId = requestAnimationFrame(animate);
+          return;
+        }
+        lastGlobeFrame = timestamp;
 
         var time = Date.now() * 0.00070;
         var phase = (Math.sin(time) + 1) * 0.5;
@@ -3920,8 +3963,9 @@ body.light-theme .page-transition-title {
         }
 
         renderer.render(scene, camera);
+        globeAnimId = requestAnimationFrame(animate);
       }
-      animate();
+      globeAnimId = requestAnimationFrame(animate);
     }
     /* =======================================================
        5. صفحة قائمة الأقسام والتصنيفات
@@ -3981,17 +4025,6 @@ body.light-theme .page-transition-title {
           <circle cx="23" cy="28" r="1.5" fill="#a855f7" />
           <circle cx="23" cy="38" r="1.5" fill="#a855f7" />
           <circle cx="23" cy="48" r="1.5" fill="#a855f7" />
-        </svg>
-      `;
-
-      var iconChemSvg = `
-        <svg class="dept-orb-svg" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M28 14 H40" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
-          <path d="M30 14 V26 L17 48 C15.5 50.5 17.5 54 20.5 54 H47.5 C50.5 54 52.5 50.5 51 48 L38 26 V14" stroke="#ffffff" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" />
-          <path d="M21 42 C26 39 32 44 38 41 C42 39 45 40 47 42" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
-          <circle cx="28" cy="47" r="1.8" fill="#ffffff" />
-          <circle cx="36" cy="46" r="2.2" fill="#ffffff" />
-          <circle cx="41" cy="49" r="1.4" fill="#ffffff" />
         </svg>
       `;
 
@@ -4059,17 +4092,6 @@ body.light-theme .page-transition-title {
           accent: "#a855f7",
           glow: "rgba(168, 85, 247, 0.35)",
           cls: "card-cis"
-        },
-        { 
-          id: "chem",  
-          name: "Chemistry", 
-          arName: "الكيمياء", 
-          tag: "CHEM",  
-          desc: "تصفح مواد قسم الكيمياء والعلوم الأساسية والامتحانات.",
-          icon: iconChemSvg,
-          accent: "#10b981",
-          glow: "rgba(16, 185, 129, 0.35)",
-          cls: "card-chem"
         },
         { 
           id: "compulsory", 

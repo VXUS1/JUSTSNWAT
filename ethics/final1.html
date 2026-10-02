@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Final Exam — أسئلة الفاينل</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ethics">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">مهارات الإتصال وأخلاقيات المهنة (Communication And Professional Ethics)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Final Exam (50 سؤال)</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/ethics">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1DfKevXxn_cqXtlLZvc2BK-MYMxwzb4zf/view?usp=drive_link";
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const rawQuestions = [
+    [
+        1,
+        "Which of the following is not a part of interview.",
+        [
+            "opening",
+            "conclusion",
+            "body",
+            "close"
+        ],
+        1,
+        "أجزاء المقابلة هي: Opening و Body و Close."
+    ],
+    [
+        2,
+        "What is the correct order of these slides when preparing your presentation 1- conclusion 2-question 3-outline",
+        [
+            "1-2-3",
+            "3-1-2",
+            "1-3-2",
+            "3-2-1"
+        ],
+        1,
+        "الترتيب الصحيح: المخطط (3- Outline)، ثم الخاتمة (1- Conclusion)، ثم شريحة الأسئلة (2- Question)."
+    ],
+    [
+        3,
+        "Which of the following is true regards chronological resume:",
+        [
+            "Is often longer than skills resume.",
+            "Emphasizes the skills, knowledge, and abilities.",
+            "Combine experiences from classes, jobs, and volunteer work.",
+            "Use minimal detail about low-level jobs."
+        ],
+        3,
+        "في السيرة الزمنية نضع تفاصيل موجزة ودنيا عن الوظائف البسيطة لإبراز الخبرات الأهم."
+    ],
+    [
+        4,
+        "Leaning forwards shows that you are involved to what the speaker saying.",
+        [
+            "False",
+            "True"
+        ],
+        1,
+        "الانحناء للأمام يعبر عن الاهتمام والانخراط في حديث المتحدث."
+    ],
+    [
+        5,
+        "In the Behavioral interviews the applicant has to describe the plans or general principles.",
+        [
+            "False",
+            "True"
+        ],
+        0,
+        "خطأ؛ المقابلات السلوكية تتطلب سرد تصرفات ومواقف سابقة واقعية وليس خططاً عامة."
+    ],
+    [
+        6,
+        "If you do not pay attention to tone of voice, facial expression, and body language. This will cause of one of the following listening errors:",
+        [
+            "Focusing solely on facts.",
+            "Self-absorption.",
+            "Inattention.",
+            "Faulty assumptions."
+        ],
+        0,
+        "إهمال النبرة وتعبيرات الوجه ولغة الجسد يسبب خطأ التركيز فقط على الحقائق."
+    ],
+    [
+        7,
+        "A listening error that make you think that a person is agree if he keep silent is:",
+        [
+            "Inattention",
+            "Self-absorption",
+            "Faulty assumptions.",
+            "Focusing solely on facts."
+        ],
+        2,
+        "افتراض أن الصمت يعني الموافقة هو افتراض خاطئ."
+    ],
+    [
+        8,
+        "Make your ideas relevant to your audience by showing that the topic affects them directly.",
+        [
+            "False",
+            "True"
+        ],
+        1,
+        "صحيح؛ توضيح الأثر المباشر على الجمهور يجعل الأفكار ملائمة وذات قيمة بالنسبة لهم."
+    ],
+    [
+        9,
+        "When the interviewer asks you to introduce yourself try to tell him about your autobiography.",
+        [
+            "False",
+            "True"
+        ],
+        0,
+        "خطأ؛ يجب تقديم ملخص مهني موجز يركز على المؤهلات والمهارات وليس سرد قصة الحياة."
+    ],
+    [
+        10,
+        "The part of the interview that you will talk about your qualification on it is:",
+        [
+            "All",
+            "Opening",
+            "Close",
+            "Body"
+        ],
+        3,
+        "صلب المقابلة (Body) هو الجزء المخصص لمناقشة المؤهلات بالتفصيل."
+    ],
+    [
+        11,
+        "The speaker presents the issues that both the speaker and audience have agreed on in advance. This is characteristic of a :",
+        [
+            "Sales presentation.",
+            "Guided discussion.",
+            "Monologue presentation."
+        ],
+        1,
+        "طرح قضايا متفق عليها مسبقاً وإدارتها ميزة خاصة بالنقاش الموجه."
+    ],
+    [
+        12,
+        "Which of the following should NOT be included in a professional resume?",
+        [
+            "Your achievements.",
+            "How you can help the organization.",
+            "Jargon.",
+            "Marital status."
+        ],
+        3,
+        "الحالة الاجتماعية لا توضع في السيرة الذاتية المهنية."
+    ],
+    [
+        13,
+        "In order to create a strong opener and close, emphasis your key points in",
+        [
+            "The beginning of the presentation.",
+            "The middle of the presentation.",
+            "The end of the presentation.",
+            "A + C."
+        ],
+        3,
+        "التركيز على البداية والنهاية معاً لتقوية الفاتحة والخاتمة."
+    ],
+    [
+        14,
+        "Interpersonal communication is communication between people using listening and dealing with conflict.",
+        [
+            "False.",
+            "True."
+        ],
+        1,
+        "الاتصال بين الأشخاص يعتمد على الاستماع الفعال وإدارة النزاعات."
+    ],
+    [
+        15,
+        "Being a leader means doing all the work yourself.",
+        [
+            "True.",
+            "False."
+        ],
+        1,
+        "القيادة تعتمد على التوجيه والتفويض وليس أداء العمل كاملاً بمفردك."
+    ],
+    [
+        16,
+        "Start with the past, move to the present, and end by looking ahead. This is characteristic of a ______",
+        [
+            "1-2-3 presentation.",
+            "Problem-Causes-Solution presentation.",
+            "Pro-Con presentation.",
+            "Chronological presentation."
+        ],
+        3,
+        "البدء بالماضي ثم الحاضر فالمستقبل هو النمط الزمني."
+    ],
+    [
+        17,
+        "If you disagree with someone opinion just ignore him.",
+        [
+            "True",
+            "False"
+        ],
+        1,
+        "التجاهل تصرف خاطئ؛ يجب الاستماع والنقاش بموضوعية."
+    ],
+    [
+        18,
+        "Blocking is a negative role that means:",
+        [
+            "A team member who try to distracting the group members by telling jokes",
+            "An ineffective group member that remains silent in the meeting, do not help the other members or not attend to the meetings.",
+            "A team member who Try to run the group by ordering the group members.",
+            "None"
+        ],
+        3,
+        "دور الـ Blocking يعني معارضة كل ما يُطرح، وهو غير موجود في الخيارات (a تشتيت، b انسحاب، c سيطرة)."
+    ],
+    [
+        19,
+        "In a PowerPoint presentation use 12-point font for the subtitle and 14-point font for the title.",
+        [
+            "False",
+            "True"
+        ],
+        0,
+        "خطأ؛ الخطوط 12 و 14 صغيرة جداً؛ في العرض يجب ألا تقل العناوين عن 36-44 نقطة."
+    ],
+    [
+        20,
+        "The font size that used for the main points is:",
+        [
+            "24-point.",
+            "28-point.",
+            "18-point.",
+            "32-point."
+        ],
+        1,
+        "حجم الخط المعتمد للنقاط الرئيسية في الشريحة هو 28 نقطة."
+    ],
+    [
+        21,
+        "One of the steps to increase the chances that an employer will pay attention to your resume: designing two CV templates, one resume to appeal to the human eye and the second to be easily processed by an electronic scanner.",
+        [
+            "False",
+            "True"
+        ],
+        1,
+        "صحيح؛ إعداد نسختين (للبشر وللـ ATS) يعزز فرص القبول."
+    ],
+    [
+        22,
+        "If a company wants to interview you on the spot, accept it any time.",
+        [
+            "False.",
+            "True."
+        ],
+        0,
+        "خطأ؛ لا تجرِ المقابلة دون جاهزية أو في بيئة غير مناسبة، واطلب تحديد موعد بديل بلباقة."
+    ],
+    [
+        23,
+        "To get the employer attention to your resume, all the following is true except:",
+        [
+            "Mention how you helped the organization to improve.",
+            "Focus on the low-level jobs.",
+            "Show your superiority to other applicants.",
+            "Emphasize the achievements which are related to the position that you are applying to."
+        ],
+        1,
+        "التركيز على الوظائف البسيطة يضعف السيرة؛ فالصحيح التركيز على الإنجازات والمهارات."
+    ],
+    [
+        24,
+        "Try to use different background design for each PowerPoint slide to attract the audience.",
+        [
+            "False",
+            "True"
+        ],
+        0,
+        "خطأ؛ يجب استخدام قالب وخلفية موحدة لتجنب التشتيت والمحافظة على الاحترافية."
+    ],
+    [
+        25,
+        "One of the following is not correct about monologue presentation:",
+        [
+            "The questions are held to the end of the presentation.",
+            "The speaker is expert.",
+            "The speaker presents the issues that both the speaker and audience have agreed on in advance.",
+            "The speaker speaks without interrupt till the end of the presentation."
+        ],
+        2,
+        "الاتفاق المسبق على القضايا من صفات Guided discussion وليس العرض الفردي."
+    ],
+    [
+        26,
+        "Positive roles and actions that help the group achieve its task goals include all of the following except:",
+        [
+            "Dominating.",
+            "Summarizing.",
+            "Giving information and opinions.",
+            "Evaluating."
+        ],
+        0,
+        "السيطرة والاستبداد (Dominating) دور سلبي."
+    ],
+    [
+        27,
+        "Chronological resume used when you do not have a direct experience to the job you are applying for.",
+        [
+            "True",
+            "False"
+        ],
+        1,
+        "خطأ؛ السيرة الزمنية تتطلب وجود خبرة مباشرة؛ وعند عدم توفرها نستخدم سيرة المهارات."
+    ],
+    [
+        28,
+        "To avoid ending a presentation abruptly use questions slide.",
+        [
+            "False.",
+            "True."
+        ],
+        1,
+        "شريحة الأسئلة تمنح ختاماً سلساً وتنتقل بالعرض للنقاش دون انقطاع مفاجئ."
+    ],
+    [
+        29,
+        "All of the following are the best correctives to groupthink except:",
+        [
+            "Test assumptions against those of a range of other people.",
+            "Encourage disagreement.",
+            "All",
+            "Protect the right of people in a group to disagree."
+        ],
+        2,
+        "كل الخيارات المذكورة (أ، ب، د) وسائل صحيحة لمعالجة التفكير الجماعي."
+    ],
+    [
+        30,
+        "Every interview has a heading, and a close.",
+        [
+            "True",
+            "False"
+        ],
+        1,
+        "خطأ؛ المقابلة ليس فيها Heading (الـ Heading عنصر في السيرة الذاتية)."
+    ],
+    [
+        31,
+        "Outline slide used to summarize the main points of your presentation.",
+        [
+            "True.",
+            "False."
+        ],
+        1,
+        "خطأ؛ شريحة المخطط توضح جدول المحاور في البداية، وتلخيص النقاط هو دور الخاتمة."
+    ],
+    [
+        32,
+        "When using visuals on a PowerPoint presentation use at least 24- point font type.",
+        [
+            "False",
+            "True"
+        ],
+        1,
+        "صحيح؛ الحد الأدنى للخط في العناصر المرئية 24 نقطة لضمان القراءة بوضوح."
+    ],
+    [
+        33,
+        "Effective groups balance three kinds of leadership, which parallel the three group dimensions: Which of the following is NOT one of the three group dimensions?",
+        [
+            "Procedural leaders.",
+            "Informational leaders.",
+            "Internalized leaders.",
+            "Interpersonal leaders."
+        ],
+        2,
+        "أبعاد القيادة الثلاثة: معلوماتية، إجرائية، وعلاقات؛ ولا يوجد Internalized leaders."
+    ],
+    [
+        34,
+        "To respond to criticism, repeat in your own words the verbal content of a critic's message.",
+        [
+            "False",
+            "True"
+        ],
+        1,
+        "إعادة صياغة كلام الناقد (Paraphrasing) وسيلة فعالة لإثبات الاستيعاب والموضوعية."
+    ],
+    [
+        35,
+        "The chances that an interview will be successful increase if you do all of the following except:",
+        [
+            "Learn about the process of interviewing.",
+            "Prepare by researching the company and learning about the interviewer.",
+            "Wait for the interviewer to contact you with a decision.",
+            "Listen actively to the interviewer."
+        ],
+        2,
+        "الانتظار السلبي دون شكر أو متابعة لا يزيد فرص القبول."
+    ],
+    [
+        36,
+        "Skills resumes are often longer than Chronological resume.",
+        [
+            "True.",
+            "False."
+        ],
+        0,
+        "سيرة المهارات غالباً ما تكون أطول لتفصيلها المهارات عبر مسارات متعددة."
+    ],
+    [
+        37,
+        "One of the following sentences is wrong while preparing your PowerPoint presentation.",
+        [
+            "Write a complete sentences,not in point form.",
+            "Avoid wordiness: use key words and phrases only.",
+            "Include 4-5 points per slide.",
+            "Use 1-2 slides per minute of your presentation."
+        ],
+        0,
+        "كتابة جمل كاملة خطأ؛ الشرائح تعتمد على نقاط موجزة (Bullet points)."
+    ],
+    [
+        38,
+        "PowerPoint can save time and add interest.",
+        [
+            "True",
+            "False"
+        ],
+        0,
+        "برامج العروض توفر الوقت وتزيد تفاعل الجمهور."
+    ],
+    [
+        39,
+        "Decoding and interpreting sounds correctly describe which of the following",
+        [
+            "Listening",
+            "Hearing",
+            "Active Hearing",
+            "Speaking"
+        ],
+        0,
+        "فك رموز وتفسير الأصوات ذهنياً هو تعريف الاستماع (Listening)."
+    ],
+    [
+        40,
+        "Listening is even more crucial on the classes than it is in job, but it may also be more difficult.",
+        [
+            "True",
+            "False"
+        ],
+        1,
+        "خطأ؛ الاستماع في العمل (On the job) أكثر أهمية وحرجاً من الاستماع في الدراسة."
+    ],
+    [
+        41,
+        "Which of the following is NOT a cause of listening errors?",
+        [
+            "Mirroring feelings.",
+            "Inattention.",
+            "Focusing solely on facts.",
+            "Faulty assumptions."
+        ],
+        0,
+        "محاكاة المشاعر مهارة استماع نشط وليست سبباً للأخطاء."
+    ],
+    [
+        42,
+        "In some kind of video interviews, tape the interview as many times as necessary to get a tape that presents you at your best.",
+        [
+            "True.",
+            "False"
+        ],
+        0,
+        "في المقابلات المسجلة بالفيديو يُنصح بإعادة التسجيل حتى تصل لأفضل أداء."
+    ],
+    [
+        43,
+        "One of the following cannot consider as a Positive roles and actions that help the group achieve its task goals:",
+        [
+            "Disagreeing with everything that is proposed.",
+            "Giving information and opinions",
+            "Plan work and give directions.",
+            "Restate major points, pulling ideas together."
+        ],
+        0,
+        "معارضة كل المقترحات هو دور الإعاقة السلبي (Blocking)."
+    ],
+    [
+        44,
+        "One of following is a kind of oral presentations:",
+        [
+            "chronological presentation.",
+            "skills presentation.",
+            "Expert presentation.",
+            "Guided discussion."
+        ],
+        3,
+        "أنواع العروض الشفوية: Monologue و Guided discussion و Sales presentation."
+    ],
+    [
+        45,
+        "Which of the following organization pattern discuss the problem symptoms and its obvious solutions?",
+        [
+            "Pro-Con",
+            "1-2-3",
+            "Problem-Causes-Solution",
+            "Excluding Alternatives"
+        ],
+        3,
+        "نمط استبعاد البدائل (Excluding Alternatives) يناقش الأعراض والحلول البديهية أولاً ثم يستبعدها."
+    ],
+    [
+        46,
+        "To avoid listening errors caused by focusing solely on facts. Make sure silence means consent",
+        [
+            "True",
+            "False"
+        ],
+        1,
+        "خطأ؛ الصمت لا يعني الموافقة، وتجنب التركيز فقط على الحقائق يتطلب متابعة لغة الجسد والنبرة."
+    ],
+    [
+        47,
+        "When writing a scannable resume you have to avoid using:",
+        [
+            "14-point type.",
+            "Italic words.",
+            "Ragged right margin.",
+            "Standard typeface."
+        ],
+        1,
+        "تجنب الخط المائل (Italic) في السيرة المقروءة إلكترونياً حتى لا تخطئ برامج الـ OCR."
+    ],
+    [
+        48,
+        "At work, you need to listen even to people with whom you have major conflicts.",
+        [
+            "False.",
+            "True."
+        ],
+        1,
+        "يجب الاستماع بموضوعية للزملاء حتى في حال وجود خلافات معهم."
+    ],
+    [
+        49,
+        "Which of the following is a type of active listening response?",
+        [
+            "Minimizing the problem.",
+            "Interrogating.",
+            "Paraphrasing what the speaker has said.",
+            "Criticizing."
+        ],
+        2,
+        "إعادة صياغة ما قاله المتحدث (Paraphrasing) استجابة استماع نشط أساسية."
+    ],
+    [
+        50,
+        "You need to include the keywords that listed with the job description on your resume when:",
+        [
+            "The HR employer is reading the resume.",
+            "None",
+            "The resume delivered to the company by hand.",
+            "Resume is scanned electronically into a tracking system."
+        ],
+        3,
+        "تضمين الكلمات المفتاحية ضروري عند فحص السيرة بأنظمة الـ ATS الإلكترونية."
+    ]
+];
+    
+    const questions = rawQuestions.map(([number, text, opts, ans, exp]) => ({
+      id: `q${number}`,
+      number,
+      text: `${number}. ${text}`,
+      opts,
+      ans,
+      dispAnswer: `${String.fromCharCode(97 + ans)}) ${opts[ans]}`,
+      exp
+    }));
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      questions.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'q-card ltr-content';
+        card.id = `card-${q.id}`;
+
+        const optsHtml = q.opts.map((opt, i) => `
+          <div class="option-item" id="opt-${q.id}-${i}" onclick="selectSingleOption('${q.id}', ${i})">
+            <div class="opt-letter">${letters[i]}</div>
+            <div>${opt}</div>
+          </div>
+        `).join('');
+
+        const interactionHtml = `
+          <div class="options-container" id="opts-box-${q.id}">${optsHtml}</div>
+          <div class="answer-input-row">
+            <button class="btn-reset-q" id="reset-btn-${q.id}" onclick="resetSubQuestion('${q.id}')">إعادة السؤال ↻</button>
+            <button class="btn-action" onclick="toggleSolution('${q.id}')">
+              <span>💡</span> عرض الحل
+            </button>
+          </div>
+        `;
+
+        card.innerHTML = `
+          <div class="sub-q-header">${q.text}</div>
+          ${interactionHtml}
+          <div class="solution-box" id="sol-${q.id}">
+            <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+            <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${q.dispAnswer}</div>
+            <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${q.exp}</div>
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findQuestion(subId) {
+      return questions.find(q => q.id === subId) || null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const q = findQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!q || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === q.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const q = findQuestion(subId);
+      if (q && q.opts) {
+        q.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      const total = questions.length;
+      let score = 0;
+      questions.forEach(q => {
+        if (userScores[q.id]) score++;
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      questions.forEach(q => {
+        const sol = document.getElementById(`sol-${q.id}`);
+        if (sol) {
+          if (allShown) sol.classList.add('show');
+          else sol.classList.remove('show');
+        }
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

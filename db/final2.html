@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | امتحان شامل ومدقق - أساسيات قواعد البيانات</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0c;
+      --bg-secondary: #121216;
+      --apple-surface: rgba(255, 255, 255, 0.05);
+      --apple-surface-hover: rgba(255, 255, 255, 0.09);
+      --apple-border: rgba(255, 255, 255, 0.12);
+      --apple-border-strong: rgba(255, 255, 255, 0.22);
+      --text-primary: #f5f5f7;
+      --text-secondary: #86868b;
+      --apple-blue: #0a84ff;
+      --apple-blue-glow: rgba(10, 132, 255, 0.25);
+      --apple-green: #30d158;
+      --apple-red: #ff453a;
+      --apple-orange: #ff9f0a;
+      --ease-apple: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255, 159, 10, 0.04) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .header {
+      background: rgba(18, 18, 22, 0.75);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-bottom: 1px solid var(--apple-border);
+      padding: 18px 28px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-wrap { display: flex; flex-direction: column; gap: 2px; }
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand span { color: var(--apple-blue); }
+    .sub-brand { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; }
+
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 18px 60px;
+      width: 100%;
+      flex: 1;
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--apple-border);
+      border-radius: 16px;
+      padding: 14px 22px;
+      margin-bottom: 28px;
+    }
+    .score-display {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .score-display span {
+      color: var(--apple-red);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .controls-btn-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .btn-ctrl {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s var(--ease-apple);
+      text-decoration: none;
+    }
+    .btn-ctrl:hover {
+      background: var(--apple-surface-hover);
+      border-color: var(--apple-border-strong);
+      transform: translateY(-1px);
+    }
+    .btn-ctrl.btn-danger:hover {
+      background: rgba(255, 69, 58, 0.15);
+      border-color: rgba(255, 69, 58, 0.4);
+      color: var(--apple-red);
+    }
+    .btn-ctrl.btn-reset-all {
+      background: #f5f5f7;
+      border-color: #f5f5f7;
+      color: #111114;
+    }
+    .btn-ctrl.btn-reset-all:hover {
+      background: #ffffff;
+      border-color: #ffffff;
+      color: #111114;
+    }
+
+    .sub-question-card {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 22px;
+      transition: all 0.3s var(--ease-apple);
+      position: relative;
+    }
+    .sub-question-card:hover {
+      border-color: var(--apple-border-strong);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .question-number {
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .sub-q-header {
+      font-size: 1.06rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      white-space: pre-line;
+      direction: ltr;
+      text-align: left;
+      font-family: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .diagram-container {
+      background: #151518;
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 16px;
+      margin: 16px 0 20px;
+      overflow-x: auto;
+      text-align: center;
+      direction: ltr;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    .diagram-container svg { direction: ltr; unicode-bidi: isolate; max-width: 100%; height: auto; display: inline-block; vertical-align: middle; }
+
+    .db-state-wrapper {
+      margin: 16px 0 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      direction: ltr;
+      justify-content: flex-start;
+    }
+    .db-table-card {
+      background: #16161a;
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      overflow-x: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .db-table-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--apple-blue);
+      margin-bottom: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .raw-table {
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: left;
+      min-width: 160px;
+    }
+    .raw-table th, .raw-table td {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 12px;
+      color: #e5e5ea;
+    }
+    .raw-table th { background: rgba(255, 255, 255, 0.06); color: #64d2ff; font-weight: 700; }
+    .raw-table tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+    .raw-table tr:hover { background: rgba(255, 255, 255, 0.05); }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+      direction: ltr;
+      text-align: left;
+    }
+    .option-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-apple);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.95rem;
+      font-family: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, sans-serif;
+      position: relative;
+    }
+    .option-item:hover {
+      background: var(--apple-surface-hover);
+      border-color: var(--apple-border-strong);
+      transform: translateX(3px);
+    }
+    .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--apple-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      transition: all 0.2s var(--ease-apple);
+    }
+    .opt-text { color: var(--text-primary); flex: 1; white-space: pre-wrap; }
+
+    .options-container.locked .option-item { cursor: default; pointer-events: none; }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.12) !important;
+      border-color: rgba(48, 209, 88, 0.6) !important;
+      color: #30d158;
+    }
+    .option-item.correct .opt-letter {
+      background: var(--apple-green);
+      border-color: var(--apple-green);
+      color: #000;
+      font-weight: 900;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.12) !important;
+      border-color: rgba(255, 69, 58, 0.6) !important;
+      color: #ff453a;
+    }
+    .option-item.wrong .opt-letter {
+      background: var(--apple-red);
+      border-color: var(--apple-red);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .answer-input-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      direction: ltr;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border);
+      color: var(--text-primary);
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s var(--ease-apple);
+    }
+    .btn-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: var(--apple-border-strong);
+    }
+    .btn-reset-q {
+      background: rgba(255, 69, 58, 0.14);
+      border: 1px solid rgba(255, 69, 58, 0.42);
+      color: #ff6961;
+      padding: 7px 14px;
+      border-radius: 9px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: none;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: rgba(255, 69, 58, 0.26);
+      border-color: rgba(255, 69, 58, 0.7);
+      color: #ff8a82;
+    }
+
+    .solution-box {
+      display: none;
+      background: rgba(10, 132, 255, 0.06);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 14px;
+      font-size: 0.92rem;
+      animation: fadeIn 0.3s var(--ease-apple);
+    }
+    .solution-box.show { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .sol-header {
+      font-weight: 800;
+      color: var(--apple-blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      direction: ltr;
+      text-align: left;
+    }
+    .sol-body {
+      color: #d1d1d6;
+      line-height: 1.7;
+      direction: rtl;
+      text-align: right;
+    }
+    .sol-body strong { color: #ffffff; }
+
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active { transform: scale(0.96); }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    footer {
+      border-top: 1px solid var(--apple-border);
+      padding: 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      background: rgba(18, 18, 22, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="brand-wrap">
+      <a class="brand" href="../index.html">JUST<span>SNWAT</span></a>
+      <span class="sub-brand">منصة تدقيق وحلول الامتحانات الشاملة</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/db">‹ رجوع للمواد</a>
+    </div>
+
+    <h1 class="subject-title">أساسيات قواعد البيانات | امتحان فاينل</h1>
+    <div class="subject-subtitle">50 سؤالاً مع حلول نموذجية ورسومات توضيحية</div>
+
+    <div class="controls-bar">
+      <div class="score-display">
+        النتيجة: <span id="score">0 / 50 (0%)</span>
+      </div>
+      <div class="controls-btn-group">
+        <button class="btn-ctrl" onclick="toggleAllSolutions()">
+          <span>👁️</span> إظهار/إخفاء الحلول
+        </button>
+        <button class="btn-ctrl btn-reset-all" onclick="resetQuiz()">
+          إعادة البدء
+        </button>
+      </div>
+    </div>
+
+    <!-- Exam Dynamic Container -->
+    <div id="quiz-list"></div>
+
+    <!-- Bottom Actions -->
+    <div class="bottom-nav-bar">
+      <a class="btn-bottom-action btn-drive-action" id="drive-link-btn" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+      <a class="btn-bottom-action" href="../index.html#/s/db">
+        <span>📚</span> العودة إلى قائمة المواد
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/u/0/folders/1fnM4S-Epk34TxmVCatZbtE__SnQmcljK";
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    const Q = (id, text, opts, ans, disp, exp, dg = '', chLabel = '') => ({
+      id, text, opts, ans, dispAnswer: disp, exp, diagram: dg, chLabel: chLabel
+    });
+
+    /* =========================================================================
+       VECTOR SVG DIAGRAMS & RELATIONAL TABLES
+       ========================================================================= */
+
+    // 1. BZYX Company ERD (Page 2)
+    const svgBZYX_Page2 = `
+<div class="diagram-container">
+  <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" style="max-height: 380px; font-size: 13px;">
+    <defs><style>
+        .box { fill: #1a1a20; stroke: #0a84ff; stroke-width: 2; }
+        .box2 { fill: none; stroke: #0a84ff; stroke-width: 2; }
+        .diamond { fill: #1a1a20; stroke: #ff9f0a; stroke-width: 2; }
+        .attr { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .attr-derived { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; stroke-dasharray: 4,3; }
+        .line { stroke: #d1d1d6; stroke-width: 1.5; fill: none; }
+        .sym { stroke: #30d158; stroke-width: 2; fill: none; }
+        .symc { stroke: #30d158; stroke-width: 2; fill: #1a1a20; }
+        .txt { fill: #f5f5f7; font-family: 'JetBrains Mono', -apple-system, sans-serif; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+        .txt-role { fill: #64d2ff; font-family: 'JetBrains Mono', sans-serif; font-size: 11px; font-weight: 600; }
+        .pk { text-decoration: underline; }
+        .pkd { text-decoration: underline dashed; }
+        .diag-title { fill: #98989d; font-family: monospace; font-size: 14px; font-weight: bold; text-anchor: middle; }
+      </style></defs>
+<text x="450" y="16" class="diag-title">BZYX COMPANY (ERD)</text>
+<rect x="170" y="170" width="130" height="50" rx="4" class="box"/><text x="235.0" y="195.0" class="txt">EMPLOYEE</text>
+<rect x="600" y="170" width="120" height="50" rx="4" class="box"/><text x="660.0" y="195.0" class="txt">CUSTOMER</text>
+<path class="line" d="M205,170 L135,128"/>
+<ellipse cx="100" cy="110" rx="48" ry="20" class="attr"/><text x="100" y="110.0" class="txt" font-size="11"><tspan class="pk">EmpID</tspan></text>
+<path class="line" d="M250,170 L255,126"/>
+<ellipse cx="260" cy="102" rx="72" ry="24" class="attr"/><text x="260" y="95.5" class="txt" font-size="11">OfficePhone</text><text x="260" y="108.5" class="txt" font-size="11">Number (O)</text>
+<path class="line" d="M200,220 L140,258"/>
+<ellipse cx="95" cy="282" rx="66" ry="28" class="attr"/><ellipse cx="95" cy="282" rx="61" ry="23" class="attr"/><text x="95" y="275.5" class="txt" font-size="11">CellPhone</text><text x="95" y="288.5" class="txt" font-size="11">Number</text>
+<path class="line" d="M300,195 L400,150"/>
+<polygon points="400,150 460,115 520,150 460,185" class="diamond"/><text x="460" y="150" class="txt" font-size="12">Serves</text>
+<path class="line" d="M520,150 L600,195"/>
+<g transform="translate(300,195) rotate(-24.2)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<g transform="translate(600,195) rotate(-150.6)"><path class="sym" d="M10,-8V8"/><circle class="symc" cx="20" cy="0" r="5"/></g>
+<path class="line" d="M250,220 L400,290"/>
+<polygon points="400,290 460,255 520,290 460,325" class="diamond"/><text x="460" y="290" class="txt" font-size="12">SignsUp</text>
+<path class="line" d="M520,290 L630,220"/>
+<g transform="translate(250,220) rotate(25.0)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<g transform="translate(630,220) rotate(147.5)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<polygon points="600,62 660,32 720,62 660,92" class="diamond"/><text x="660" y="62" class="txt" font-size="12">Refers</text>
+<path class="line" d="M600,62 L625,170"/>
+<path class="line" d="M720,62 L695,170"/>
+<g transform="translate(625,170) rotate(-103.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9"/><circle class="symc" cx="26" cy="0" r="5"/></g>
+<g transform="translate(695,170) rotate(-77.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9"/><circle class="symc" cx="26" cy="0" r="5"/></g>
+<text x="598" y="128" class="txt-role" text-anchor="end">ReferringParty</text>
+<text x="722" y="128" class="txt-role">ReferredParty</text>
+<path class="line" d="M720,195 L770,195"/>
+<ellipse cx="825" cy="195" rx="55" ry="20" class="attr-derived"/><text x="825" y="195.0" class="txt" font-size="11">CustAge</text>
+<path class="line" d="M705,220 L780,282"/>
+<ellipse cx="805" cy="300" rx="58" ry="20" class="attr"/><text x="805" y="300.0" class="txt" font-size="11">CustBDate</text>
+<path class="line" d="M662,220 L655,318"/>
+<ellipse cx="650" cy="340" rx="46" ry="20" class="attr"/><text x="650" y="340.0" class="txt" font-size="11"><tspan class="pk">CustID</tspan></text>
+  </svg>
+</div>`;
+
+    // 2. EAGLERUN TRUCKING DISPATCHER ERD (Page 3)
+    const svgEagleRun_Page3 = `
+<div class="diagram-container">
+  <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="max-height: 400px; font-size: 13px;">
+    <defs><style>
+        .box { fill: #1a1a20; stroke: #0a84ff; stroke-width: 2; }
+        .box2 { fill: none; stroke: #0a84ff; stroke-width: 2; }
+        .diamond { fill: #1a1a20; stroke: #ff9f0a; stroke-width: 2; }
+        .attr { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .attr-derived { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; stroke-dasharray: 4,3; }
+        .line { stroke: #d1d1d6; stroke-width: 1.5; fill: none; }
+        .sym { stroke: #30d158; stroke-width: 2; fill: none; }
+        .symc { stroke: #30d158; stroke-width: 2; fill: #1a1a20; }
+        .txt { fill: #f5f5f7; font-family: 'JetBrains Mono', -apple-system, sans-serif; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+        .txt-role { fill: #64d2ff; font-family: 'JetBrains Mono', sans-serif; font-size: 11px; font-weight: 600; }
+        .pk { text-decoration: underline; }
+        .pkd { text-decoration: underline dashed; }
+        .diag-title { fill: #98989d; font-family: monospace; font-size: 14px; font-weight: bold; text-anchor: middle; }
+      </style></defs>
+<text x="400" y="16" class="diag-title">EAGLERUN TRUCKING DISPATCHER ERD</text>
+<rect x="100" y="150" width="120" height="50" rx="4" class="box"/><text x="160.0" y="175.0" class="txt">DRIVER</text>
+<rect x="520" y="150" width="120" height="50" rx="4" class="box"/><text x="580.0" y="175.0" class="txt">TRUCK</text>
+<rect x="520" y="320" width="120" height="50" rx="4" class="box"/><text x="580.0" y="345.0" class="txt">REGION</text>
+<path class="line" d="M130,150 L95,92"/>
+<ellipse cx="85" cy="72" rx="48" ry="18" class="attr"/><text x="85" y="72.0" class="txt" font-size="11"><tspan class="pk">DriverID</tspan></text>
+<path class="line" d="M180,150 L225,92"/>
+<ellipse cx="255" cy="72" rx="70" ry="18" class="attr"/><text x="255" y="72.0" class="txt" font-size="11">DriverLicenseNo</text>
+<path class="line" d="M130,200 L115,248"/>
+<ellipse cx="105" cy="268" rx="58" ry="18" class="attr"/><text x="105" y="268.0" class="txt" font-size="11">DriverName</text>
+<path class="line" d="M560,150 L550,92"/>
+<ellipse cx="545" cy="72" rx="46" ry="18" class="attr"/><text x="545" y="72.0" class="txt" font-size="11"><tspan class="pk">TruckID</tspan></text>
+<path class="line" d="M610,150 L665,92"/>
+<ellipse cx="690" cy="72" rx="56" ry="18" class="attr"/><text x="690" y="72.0" class="txt" font-size="11">TruckModel</text>
+<path class="line" d="M220,165 L310,125"/>
+<polygon points="310,125 370,95 430,125 370,155" class="diamond"/><text x="370" y="125" class="txt" font-size="12">Owns</text>
+<path class="line" d="M430,125 L520,165"/>
+<g transform="translate(220,165) rotate(-24.0)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<g transform="translate(520,165) rotate(-156.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9"/><circle class="symc" cx="26" cy="0" r="5"/></g>
+<path class="line" d="M170,200 L310,262"/>
+<polygon points="310,262 370,232 430,262 370,292" class="diamond"/><text x="370" y="262" class="txt" font-size="12">Drives</text>
+<path class="line" d="M430,262 L545,200"/>
+<g transform="translate(170,200) rotate(23.9)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<g transform="translate(545,200) rotate(151.7)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<path class="line" d="M580,200 L580,245"/>
+<polygon points="525,275 580,247 635,275 580,303" class="diamond"/><text x="580" y="275" class="txt" font-size="11">Serves</text>
+<path class="line" d="M580,303 L580,320"/>
+<g transform="translate(580,200) rotate(90.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<g transform="translate(580,320) rotate(-90.0)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<path class="line" d="M520,345 L440,350"/>
+<ellipse cx="395" cy="350" rx="46" ry="18" class="attr"/><text x="395" y="350.0" class="txt" font-size="11"><tspan class="pk">RegionID</tspan></text>
+<path class="line" d="M640,345 L690,350"/>
+<ellipse cx="725" cy="350" rx="52" ry="18" class="attr"/><text x="725" y="350.0" class="txt" font-size="11"><tspan class="pk">RegionName</tspan></text>
+  </svg>
+</div>`;
+
+    // 3. Central School Library ERD (Page 7)
+    const svgLibraryCopy_Page7 = `
+<div class="diagram-container">
+  <svg viewBox="0 0 800 410" xmlns="http://www.w3.org/2000/svg" style="max-height: 410px; font-size: 13px;">
+    <defs><style>
+        .box { fill: #1a1a20; stroke: #0a84ff; stroke-width: 2; }
+        .box2 { fill: none; stroke: #0a84ff; stroke-width: 2; }
+        .diamond { fill: #1a1a20; stroke: #ff9f0a; stroke-width: 2; }
+        .attr { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .attr-derived { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; stroke-dasharray: 4,3; }
+        .line { stroke: #d1d1d6; stroke-width: 1.5; fill: none; }
+        .sym { stroke: #30d158; stroke-width: 2; fill: none; }
+        .symc { stroke: #30d158; stroke-width: 2; fill: #1a1a20; }
+        .txt { fill: #f5f5f7; font-family: 'JetBrains Mono', -apple-system, sans-serif; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+        .txt-role { fill: #64d2ff; font-family: 'JetBrains Mono', sans-serif; font-size: 11px; font-weight: 600; }
+        .pk { text-decoration: underline; }
+        .pkd { text-decoration: underline dashed; }
+        .diag-title { fill: #98989d; font-family: monospace; font-size: 14px; font-weight: bold; text-anchor: middle; }
+      </style></defs>
+<text x="400" y="14" class="diag-title">CENTRAL SCHOOL LIBRARY ERD</text>
+<rect x="80" y="140" width="150" height="50" rx="4" class="box"/><text x="155.0" y="165.0" class="txt">LIBRARY BOOK</text>
+<rect x="560" y="140" width="130" height="50" rx="4" class="box"/><rect x="566" y="146" width="118" height="38" rx="2" class="box2"/><text x="625.0" y="165.0" class="txt">COPY</text>
+<rect x="560" y="270" width="130" height="50" rx="4" class="box"/><text x="625.0" y="295.0" class="txt">AUTHOR</text>
+<path class="line" d="M120,140 L95,92"/>
+<ellipse cx="85" cy="72" rx="40" ry="18" class="attr"/><text x="85" y="72.0" class="txt" font-size="11"><tspan class="pk">LBID</tspan></text>
+<path class="line" d="M185,140 L230,92"/>
+<ellipse cx="250" cy="72" rx="52" ry="18" class="attr"/><text x="250" y="72.0" class="txt" font-size="11">LBName</text>
+<path class="line" d="M600,140 L560,92"/>
+<ellipse cx="540" cy="72" rx="50" ry="18" class="attr"/><text x="540" y="72.0" class="txt" font-size="11"><tspan class="pkd">CopyID</tspan></text>
+<path class="line" d="M660,140 L700,92"/>
+<ellipse cx="720" cy="72" rx="58" ry="18" class="attr"/><text x="720" y="72.0" class="txt" font-size="11">CoverType</text>
+<path class="line" d="M230,165 L330,165"/>
+<polygon points="330,165 400,129 470,165 400,201" class="diamond"/><polygon points="340,165 400,135 460,165 400,195" class="diamond" style="fill:none"/><text x="400" y="165" class="txt" font-size="12">Has</text>
+<path class="line" d="M470,165 L560,165"/>
+<g transform="translate(230,165) rotate(0.0)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<g transform="translate(560,165) rotate(180.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<text x="510" y="198" class="txt-role" style="fill:#30d158" text-anchor="middle">(2,10)</text>
+<path class="line" d="M155,190 L265,285"/>
+<polygon points="265,285 335,251 405,285 335,319" class="diamond"/><text x="335" y="285" class="txt" font-size="11">IsWrittenBy</text>
+<path class="line" d="M405,285 L560,295"/>
+<g transform="translate(155,190) rotate(40.8)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<g transform="translate(560,295) rotate(-176.3)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<path class="line" d="M600,320 L545,355"/>
+<ellipse cx="515" cy="375" rx="50" ry="18" class="attr"/><text x="515" y="375.0" class="txt" font-size="11"><tspan class="pk">AuthorID</tspan></text>
+<path class="line" d="M660,320 L690,355"/>
+<ellipse cx="715" cy="375" rx="58" ry="18" class="attr"/><text x="715" y="375.0" class="txt" font-size="11">AuthorName</text>
+  </svg>
+</div>`;
+
+    // 4. Student Phone Multivalued (Page 7)
+    const svgStudentPhone_Page7 = `
+<div class="diagram-container">
+  <svg viewBox="0 0 540 180" xmlns="http://www.w3.org/2000/svg" style="max-height: 180px;">
+    <defs>
+      <style>
+        .box { fill: #1a1a20; stroke: #0a84ff; stroke-width: 2; }
+        .attr { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .attr-multi { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .line { stroke: #d1d1d6; stroke-width: 1.5; fill: none; }
+        .txt { fill: #f5f5f7; font-family: 'JetBrains Mono', -apple-system, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+        .pk { text-decoration: underline; font-weight: bold; }
+      </style>
+    </defs>
+    <line x1="120" y1="100" x2="180" y2="100" class="line"/>
+    <ellipse cx="80" cy="100" rx="44" ry="18" class="attr"/>
+    <text x="80" y="101" class="txt"><tspan class="pk">SSN</tspan></text>
+
+    <rect x="180" y="80" width="120" height="42" rx="6" class="box"/>
+    <text x="240" y="101" class="txt">Student</text>
+
+    <line x1="240" y1="80" x2="240" y2="45" class="line"/>
+    <ellipse cx="240" cy="35" rx="45" ry="17" class="attr"/>
+    <text x="240" y="36" class="txt">Name</text>
+
+    <line x1="300" y1="100" x2="360" y2="100" class="line"/>
+    <ellipse cx="420" cy="100" rx="55" ry="20" class="attr-multi"/>
+    <ellipse cx="420" cy="100" rx="50" ry="16" class="attr-multi"/>
+    <text x="420" y="101" class="txt">Phone</text>
+  </svg>
+</div>`;
+
+    // 5. Product Order Customer (Page 8)
+    const svgProductOrder_Page8 = `
+<div class="diagram-container">
+  <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="max-height: 180px;">
+    <defs>
+      <style>
+        .box { fill: #1a1a20; stroke: #0a84ff; stroke-width: 2; }
+        .diamond { fill: #1a1a20; stroke: #ff9f0a; stroke-width: 2; }
+        .attr { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .line { stroke: #d1d1d6; stroke-width: 1.5; fill: none; }
+        .txt { fill: #f5f5f7; font-family: 'JetBrains Mono', -apple-system, sans-serif; font-size: 13px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+        .card { fill: #30d158; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: bold; }
+        .pk { text-decoration: underline; font-weight: bold; }
+      </style>
+    </defs>
+    <rect x="40" y="40" width="120" height="42" rx="6" class="box"/>
+    <text x="100" y="61" class="txt">Product</text>
+    <line x1="70" y1="82" x2="60" y2="120" class="line"/>
+    <ellipse cx="60" cy="130" rx="34" ry="15" class="attr"/>
+    <text x="60" y="131" class="txt" font-size="11"><tspan class="pk">pid</tspan></text>
+    <line x1="130" y1="82" x2="140" y2="120" class="line"/>
+    <ellipse cx="140" cy="130" rx="36" ry="15" class="attr"/>
+    <text x="140" y="131" class="txt" font-size="11">price</text>
+
+    <line x1="160" y1="61" x2="250" y2="61" class="line"/>
+    <text x="195" y="52" class="card">(1, N)</text>
+    <polygon points="280,41 310,61 280,81 250,61" class="diamond"/>
+    <text x="280" y="62" class="txt" font-size="11">order</text>
+    <line x1="310" y1="61" x2="400" y2="61" class="line"/>
+    <text x="345" y="52" class="card">(0, N)</text>
+
+    <line x1="280" y1="81" x2="280" y2="120" class="line"/>
+    <ellipse cx="280" cy="130" rx="46" ry="16" class="attr"/>
+    <text x="280" y="131" class="txt" font-size="11">quantity</text>
+
+    <rect x="400" y="40" width="120" height="42" rx="6" class="box"/>
+    <text x="460" y="61" class="txt">Customer</text>
+    <line x1="430" y1="82" x2="420" y2="120" class="line"/>
+    <ellipse cx="420" cy="130" rx="34" ry="15" class="attr"/>
+    <text x="420" y="131" class="txt" font-size="11"><tspan class="pk">cid</tspan></text>
+    <line x1="490" y1="82" x2="500" y2="120" class="line"/>
+    <ellipse cx="500" cy="130" rx="36" ry="15" class="attr"/>
+    <text x="500" y="131" class="txt" font-size="11">name</text>
+  </svg>
+</div>`;
+
+    // 6. Promotion Product Brand (Page 8)
+    const svgPromotionBrand_Page8 = `
+<div class="diagram-container">
+  <svg viewBox="0 0 760 450" xmlns="http://www.w3.org/2000/svg" style="max-height: 450px; font-size: 13px;">
+    <defs><style>
+        .box { fill: #1a1a20; stroke: #0a84ff; stroke-width: 2; }
+        .box2 { fill: none; stroke: #0a84ff; stroke-width: 2; }
+        .diamond { fill: #1a1a20; stroke: #ff9f0a; stroke-width: 2; }
+        .attr { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; }
+        .attr-derived { fill: #1a1a20; stroke: #8e8e93; stroke-width: 1.5; stroke-dasharray: 4,3; }
+        .line { stroke: #d1d1d6; stroke-width: 1.5; fill: none; }
+        .sym { stroke: #30d158; stroke-width: 2; fill: none; }
+        .symc { stroke: #30d158; stroke-width: 2; fill: #1a1a20; }
+        .txt { fill: #f5f5f7; font-family: 'JetBrains Mono', -apple-system, sans-serif; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+        .txt-role { fill: #64d2ff; font-family: 'JetBrains Mono', sans-serif; font-size: 11px; font-weight: 600; }
+        .pk { text-decoration: underline; }
+        .pkd { text-decoration: underline dashed; }
+        .diag-title { fill: #98989d; font-family: monospace; font-size: 14px; font-weight: bold; text-anchor: middle; }
+      </style></defs>
+<text x="400" y="14" class="diag-title">PROMOTION / PRODUCT / BRAND (ERD)</text>
+<rect x="60" y="170" width="130" height="50" rx="4" class="box"/><text x="125.0" y="195.0" class="txt">PROMOTION</text>
+<rect x="540" y="170" width="130" height="50" rx="4" class="box"/><text x="605.0" y="195.0" class="txt">PRODUCT</text>
+<rect x="540" y="370" width="130" height="50" rx="4" class="box"/><text x="605.0" y="395.0" class="txt">BRAND</text>
+<path class="line" d="M90,170 L65,86"/>
+<ellipse cx="55" cy="66" rx="46" ry="20" class="attr"/><text x="55" y="66.0" class="txt" font-size="11"><tspan class="pk">PromoID</tspan></text>
+<path class="line" d="M125,170 L185,86"/>
+<ellipse cx="190" cy="66" rx="62" ry="20" class="attr"/><text x="190" y="66.0" class="txt" font-size="11">PromoName</text>
+<path class="line" d="M165,170 L300,83"/>
+<ellipse cx="310" cy="64" rx="40" ry="20" class="attr"/><text x="310" y="64.0" class="txt" font-size="11">Date</text>
+<path class="line" d="M190,195 L305,195"/>
+<polygon points="305,195 385,165 465,195 385,225" class="diamond"/><text x="385" y="195" class="txt" font-size="10">AssociatedWith</text>
+<path class="line" d="M465,195 L540,195"/>
+<g transform="translate(190,195) rotate(0.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9"/><circle class="symc" cx="26" cy="0" r="5"/></g>
+<g transform="translate(540,195) rotate(180.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<path class="line" d="M580,170 L570,86"/>
+<ellipse cx="565" cy="66" rx="58" ry="20" class="attr"/><text x="565" y="66.0" class="txt" font-size="11"><tspan class="pk">ProductID</tspan></text>
+<path class="line" d="M640,170 L680,86"/>
+<ellipse cx="690" cy="66" rx="62" ry="20" class="attr"/><text x="690" y="66.0" class="txt" font-size="11">Description</text>
+<path class="line" d="M605,220 L605,265"/>
+<polygon points="543,295 605,265 667,295 605,325" class="diamond"/><text x="605" y="295" class="txt" font-size="12">BelongsTo</text>
+<path class="line" d="M605,325 L605,370"/>
+<g transform="translate(605,220) rotate(90.0)"><path class="sym" d="M16,0L0,-9M16,0L0,0M16,0L0,9M22,-8V8"/></g>
+<g transform="translate(605,370) rotate(-90.0)"><path class="sym" d="M10,-8V8M16,-8V8"/></g>
+<path class="line" d="M540,385 L478,378"/>
+<ellipse cx="430" cy="376" rx="50" ry="20" class="attr"/><text x="430" y="376.0" class="txt" font-size="11"><tspan class="pk">BrandID</tspan></text>
+<path class="line" d="M540,408 L478,418"/>
+<ellipse cx="425" cy="425" rx="58" ry="20" class="attr"/><text x="425" y="425.0" class="txt" font-size="11">BrandName</text>
+  </svg>
+</div>`;
+
+    // 7. Sailor-Boat-Reserves Relational Schema (Pages 10, 13)
+    const svgSailorSchema = `
+<div class="diagram-container">
+  <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" style="max-height: 180px;">
+    <defs>
+      <style>
+        .schema-box { fill: #1c1c22; stroke: #0a84ff; stroke-width: 1.8; }
+        .schema-txt { fill: #f5f5f7; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; }
+        .arrow-line { stroke: #ff9f0a; stroke-width: 2; fill: none; stroke-dasharray: 4,3; marker-end: url(#arrow2); }
+      </style>
+      <marker id="arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff9f0a"/>
+      </marker>
+    </defs>
+    <!-- Sailor -->
+    <rect x="40" y="20" width="440" height="38" rx="6" class="schema-box"/>
+    <text x="55" y="44" class="schema-txt">Sailor(<tspan text-decoration="underline">sid</tspan>, sname, manager, salary, bdate)</text>
+
+    <!-- Boat -->
+    <rect x="40" y="70" width="300" height="38" rx="6" class="schema-box"/>
+    <text x="55" y="94" class="schema-txt">Boat(<tspan text-decoration="underline">bid</tspan>, bname, color)</text>
+
+    <!-- Reserves -->
+    <rect x="40" y="120" width="480" height="38" rx="6" class="schema-box"/>
+    <text x="55" y="144" class="schema-txt">Reserves(<tspan text-decoration="underline">sid</tspan>, <tspan text-decoration="underline">bid</tspan>, <tspan text-decoration="underline">date</tspan>, duration, price)</text>
+
+    <!-- FK Arrows -->
+    <path d="M 125,130 C 100,100 100,80 115,58" class="arrow-line"/>
+    <path d="M 175,130 C 150,115 150,110 150,108" class="arrow-line"/>
+  </svg>
+</div>`;
+
+    // 8. Relational Schema for Stove & Customer Registration (Page 6)
+    const svgRegistrationSchema = `
+<div class="diagram-container">
+  <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" style="max-height: 180px;">
+    <defs>
+      <style>
+        .schema-box { fill: #1c1c22; stroke: #0a84ff; stroke-width: 1.8; }
+        .schema-txt { fill: #f5f5f7; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; }
+        .arrow-line { stroke: #ff9f0a; stroke-width: 2; fill: none; stroke-dasharray: 4,3; marker-end: url(#arrowReg); }
+      </style>
+      <marker id="arrowReg" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff9f0a"/>
+      </marker>
+    </defs>
+    <!-- Customer -->
+    <text x="40" y="32" class="schema-txt">Customer (<tspan text-decoration="underline">ID</tspan>, Name, Phone, Email)</text>
+    <!-- Registration -->
+    <text x="40" y="78" class="schema-txt">Registration (<tspan text-decoration="underline">CustID</tspan>, <tspan text-decoration="underline">SerialNumber</tspan>, Date)</text>
+    <!-- Stove -->
+    <text x="40" y="124" class="schema-txt">Stove (<tspan text-decoration="underline">SerialNumber</tspan>, Type, Version, DateManufactured)</text>
+    <!-- Repair -->
+    <text x="40" y="170" class="schema-txt">Repair (<tspan text-decoration="underline">InvoiceNumber</tspan>, SerialNumber, CustID, Date, Cost)</text>
+
+    <!-- FK Arrows -->
+    <path d="M 178,62 C 178,48 140,52 128,40" class="arrow-line"/>
+    <path d="M 253,86 C 253,106 160,100 142,112" class="arrow-line"/>
+    <path d="M 258,154 C 258,138 170,144 152,134" class="arrow-line"/>
+  </svg>
+</div>`;
+
+    /* HTML TABLES */
+
+    const tableRegistrationPage6 = `
+${svgRegistrationSchema}
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Customer</div>
+    <table class="raw-table">
+      <thead><tr><th><u>ID</u></th><th>Name</th><th>Phone</th><th>Email</th></tr></thead>
+      <tbody>
+        <tr><td>23</td><td>Penfold</td><td>555-8213</td><td>dm@yahoo.com</td></tr>
+        <tr><td>34</td><td>Chestnut</td><td>555-1092</td><td>cnut@yahoo.com</td></tr>
+        <tr><td>97</td><td>Melon</td><td>555-0011</td><td>melon@hotmail.com</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Stove</div>
+    <table class="raw-table">
+      <thead><tr><th><u>SerialNumber</u></th><th>Type</th><th>Version</th><th>DateManufactured</th></tr></thead>
+      <tbody>
+        <tr><td>19001</td><td>Franklin</td><td>1</td><td>12/15/2003</td></tr>
+        <tr><td>19002</td><td>Franklin</td><td>2</td><td>3/10/2004</td></tr>
+        <tr><td>19003</td><td>Franklin</td><td>1</td><td>4/3/2003</td></tr>
+        <tr><td>23401</td><td>Vulcan</td><td>1</td><td>2/4/2005</td></tr>
+        <tr><td>23402</td><td>Vulcan</td><td>1</td><td>2/10/2005</td></tr>
+        <tr><td>23403</td><td>Vulcan</td><td>2</td><td>1/9/2006</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Registration</div>
+    <table class="raw-table">
+      <thead><tr><th><u>CustID</u></th><th><u>SerialNumber</u></th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>23</td><td>19001</td><td>1/2/2004</td></tr>
+        <tr><td>34</td><td>19002</td><td>3/15/2005</td></tr>
+        <tr><td>97</td><td>19003</td><td>4/10/2005</td></tr>
+        <tr><td>23</td><td>23401</td><td>2/14/2006</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Repair</div>
+    <table class="raw-table">
+      <thead><tr><th><u>InvoiceNumber</u></th><th>SerialNumber</th><th>CustID</th><th>Date</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>19001</td><td>23</td><td>02/02/04</td><td>$20.45</td></tr>
+        <tr><td>2</td><td>19002</td><td>34</td><td>04/20/05</td><td>$43.89</td></tr>
+        <tr><td>3</td><td>19001</td><td>23</td><td>04/25/05</td><td>$65.89</td></tr>
+        <tr><td>4</td><td>23401</td><td>23</td><td>04/23/06</td><td>$13.55</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableStudentBookBorrow = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Student</div>
+    <table class="raw-table">
+      <thead><tr><th><u>SNo</u></th><th>SName</th><th>age</th><th>major</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Ahmad</td><td>20</td><td>CS</td></tr>
+        <tr><td>2</td><td>Jana</td><td>21</td><td>CIS</td></tr>
+        <tr><td>3</td><td>Rami</td><td>22</td><td>CIS</td></tr>
+        <tr><td>7</td><td>Ola</td><td>21</td><td>CIS</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Book</div>
+    <table class="raw-table">
+      <thead><tr><th><u>BNo</u></th><th>BName</th><th>edition</th><th>price</th></tr></thead>
+      <tbody>
+        <tr><td>10</td><td>C++</td><td>Second</td><td>40</td></tr>
+        <tr><td>40</td><td>Oracle</td><td>First</td><td>40</td></tr>
+        <tr><td>30</td><td>Information systems</td><td>First</td><td>17</td></tr>
+        <tr><td>70</td><td>Computer Skills</td><td>Second</td><td>40</td></tr>
+        <tr><td>90</td><td>Multimedia</td><td>Second</td><td>14</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Borrow</div>
+    <table class="raw-table">
+      <thead><tr><th><u>SNo</u></th><th><u>BNo</u></th><th>BDate</th><th>RDate</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td>70</td><td>15-Feb-15</td><td>12-Mar-15</td></tr>
+        <tr><td>3</td><td>30</td><td>20-Feb-15</td><td>20-Mar-15</td></tr>
+        <tr><td>3</td><td>40</td><td>1-Mar-15</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableSailorBoatReserves = `
+${svgSailorSchema}
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Reserves</div>
+    <table class="raw-table">
+      <thead><tr><th><u>sid</u></th><th><u>bid</u></th><th><u>date</u></th><th>duration</th><th>price</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>2</td><td>5-Apr-13</td><td>2</td><td>850</td></tr>
+        <tr><td>4</td><td>1</td><td>3-Apr-13</td><td>4</td><td>1200</td></tr>
+        <tr><td>3</td><td>2</td><td>12-Apr-13</td><td>1</td><td>550</td></tr>
+        <tr><td>3</td><td>2</td><td>15-Apr-13</td><td>2</td><td>550</td></tr>
+        <tr><td>5</td><td>5</td><td>13-Apr-13</td><td>1</td><td>600</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Boat</div>
+    <table class="raw-table">
+      <thead><tr><th><u>bid</u></th><th>bname</th><th>color</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Marine</td><td>white</td></tr>
+        <tr><td>2</td><td>Black moon</td><td>white</td></tr>
+        <tr><td>3</td><td>Red stone</td><td>black</td></tr>
+        <tr><td>4</td><td>Marine</td><td>red</td></tr>
+        <tr><td>5</td><td>Bleach</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Sailor</div>
+    <table class="raw-table">
+      <thead><tr><th><u>sid</u></th><th>sname</th><th>manager</th><th>salary</th><th>bdate</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Ahmad</td><td></td><td>553</td><td>5-Dec-81</td></tr>
+        <tr><td>2</td><td>Jana</td><td>1</td><td>610</td><td>10-Sep-75</td></tr>
+        <tr><td>3</td><td>Rami</td><td>2</td><td>241</td><td>11-Nov-81</td></tr>
+        <tr><td>4</td><td>Qais</td><td>2</td><td>780</td><td>15-Oct-74</td></tr>
+        <tr><td>5</td><td>Qusai</td><td>2</td><td>654</td><td>12-Nov-78</td></tr>
+        <tr><td>6</td><td>Omar</td><td>2</td><td>720</td><td>1-Jan-84</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableRelationRS_Page12 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Relation R</div>
+    <table class="raw-table">
+      <thead><tr><th>A1</th><th>A2</th><th>A3</th><th>B1</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>X</td><td>W</td><td>11</td></tr>
+        <tr><td>2</td><td>Y</td><td>Z</td><td>12</td></tr>
+        <tr><td>3</td><td>X</td><td>Z</td><td>11</td></tr>
+        <tr><td>4</td><td>Y</td><td>Z</td><td>13</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Relation S</div>
+    <table class="raw-table">
+      <thead><tr><th>B1</th><th>B2</th></tr></thead>
+      <tbody>
+        <tr><td>11</td><td>M</td></tr>
+        <tr><td>12</td><td>N</td></tr>
+        <tr><td>13</td><td>K</td></tr>
+        <tr><td>14</td><td>M</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableAB_Page14 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Table A</div>
+    <table class="raw-table">
+      <thead><tr><th>Col1</th><th>Col2</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>1</td></tr>
+        <tr><td>B</td><td>3</td></tr>
+        <tr><td>C</td><td>4</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Table B</div>
+    <table class="raw-table">
+      <thead><tr><th>Col3</th><th>Col4</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>1</td></tr>
+        <tr><td>C</td><td>4</td></tr>
+        <tr><td>D</td><td>5</td></tr>
+        <tr><td>E</td><td>3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableABC_Page15 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Table A</div>
+    <table class="raw-table">
+      <thead><tr><th>Id</th><th>Name</th><th>Age</th></tr></thead>
+      <tbody>
+        <tr><td>12</td><td>Arun</td><td>60</td></tr>
+        <tr><td>15</td><td>Shreya</td><td>24</td></tr>
+        <tr><td>99</td><td>Rohit</td><td>11</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Table B</div>
+    <table class="raw-table">
+      <thead><tr><th>Id</th><th>Name</th><th>Age</th></tr></thead>
+      <tbody>
+        <tr><td>15</td><td>Shreya</td><td>24</td></tr>
+        <tr><td>25</td><td>Hari</td><td>40</td></tr>
+        <tr><td>98</td><td>Rohit</td><td>20</td></tr>
+        <tr><td>99</td><td>Rohit</td><td>11</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Table C</div>
+    <table class="raw-table">
+      <thead><tr><th>Id</th><th>Phone</th><th>Area</th></tr></thead>
+      <tbody>
+        <tr><td>10</td><td>2200</td><td>02</td></tr>
+        <tr><td>99</td><td>2100</td><td>01</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableSR_Page16 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">S</div>
+    <table class="raw-table">
+      <thead><tr><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><td>A1</td><td>B1</td><td>C1</td><td>D1</td></tr>
+        <tr><td>A2</td><td>B2</td><td>C3</td><td>D3</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">R</div>
+    <table class="raw-table">
+      <thead><tr><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>
+      <tbody>
+        <tr><td>C1</td><td>D1</td><td>E1</td><td>F1</td></tr>
+        <tr><td>C1</td><td>D1</td><td>E2</td><td>F2</td></tr>
+        <tr><td>C2</td><td>D3</td><td>E3</td><td>F3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableEmployee_Page16 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">EMPLOYEE</div>
+    <table class="raw-table">
+      <thead><tr><th><u>SSN</u></th><th>NAME</th><th>LEVEL</th><th>DNO</th></tr></thead>
+      <tbody>
+        <tr><td>000010</td><td>AHMED</td><td>18</td><td>1</td></tr>
+        <tr><td>000020</td><td>MOHAMAD</td><td>18</td><td>2</td></tr>
+        <tr><td>000030</td><td>AMERA</td><td>20</td><td>5</td></tr>
+        <tr><td>000050</td><td>BASMA</td><td>16</td><td>4</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableItemsSales_Page17 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Items Table</div>
+    <table class="raw-table">
+      <thead><tr><th><u>iname</u></th><th>origin</th></tr></thead>
+      <tbody>
+        <tr><td>B1</td><td>O1</td></tr>
+        <tr><td>B2</td><td>O2</td></tr>
+        <tr><td>B3</td><td>O3</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Sales Table</div>
+    <table class="raw-table">
+      <thead><tr><th>store</th><th>Item</th><th>Price</th></tr></thead>
+      <tbody>
+        <tr><td>S1</td><td>B1</td><td>2</td></tr>
+        <tr><td>S1</td><td>B1</td><td>1</td></tr>
+        <tr><td>S1</td><td>B2</td><td>3</td></tr>
+        <tr><td>S2</td><td>B3</td><td>4</td></tr>
+        <tr><td>S2</td><td>B3</td><td>6</td></tr>
+        <tr><td>S3</td><td>B1</td><td>4</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableStudentEnrollmentCourse_Page18 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Student</div>
+    <table class="raw-table">
+      <thead><tr><th><u>Id</u></th><th>name</th></tr></thead>
+      <tbody>
+        <tr><td>1234</td><td>joe</td></tr>
+        <tr><td>4000</td><td>hector</td></tr>
+        <tr><td>2000</td><td>ling</td></tr>
+        <tr><td>3000</td><td>ling</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Enrollment</div>
+    <table class="raw-table">
+      <thead><tr><th><u>Id</u></th><th><u>code</u></th></tr></thead>
+      <tbody>
+        <tr><td>1234</td><td>1500</td></tr>
+        <tr><td>1234</td><td>1200</td></tr>
+        <tr><td>1234</td><td>2001</td></tr>
+        <tr><td>4000</td><td>3010</td></tr>
+        <tr><td>4000</td><td>3000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="db-table-card">
+    <div class="db-table-title">Course</div>
+    <table class="raw-table">
+      <thead><tr><th><u>code</u></th><th>instructor</th></tr></thead>
+      <tbody>
+        <tr><td>1500</td><td>curtis</td></tr>
+        <tr><td>1200</td><td>dave</td></tr>
+        <tr><td>3010</td><td>curtis</td></tr>
+        <tr><td>2001</td><td>olivier</td></tr>
+        <tr><td>3000</td><td>roger</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableEmp_Page19 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">Emp</div>
+    <table class="raw-table">
+      <thead><tr><th><u>SSN</u></th><th>Name</th><th>age</th><th>salary</th></tr></thead>
+      <tbody>
+        <tr><td>1234</td><td>Ahmad</td><td>23</td><td>1200</td></tr>
+        <tr><td>4321</td><td>Ali</td><td>26</td><td>1300</td></tr>
+        <tr><td>1235</td><td>John</td><td>27</td><td>1350</td></tr>
+        <tr><td>1222</td><td>Ali</td><td>30</td><td>1500</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableXYZ_Page20 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">R(X, Y, Z)</div>
+    <table class="raw-table">
+      <thead><tr><th>X</th><th>Y</th><th>Z</th></tr></thead>
+      <tbody>
+        <tr><td>x1</td><td>y1</td><td>z1</td></tr>
+        <tr><td>x1</td><td>y1</td><td>z2</td></tr>
+        <tr><td>x2</td><td>y1</td><td>z1</td></tr>
+        <tr><td>x2</td><td>y1</td><td>z3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableABC_Page21 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">R(A, B, C)</div>
+    <table class="raw-table">
+      <thead><tr><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>2</td><td>3</td><td>2</td></tr>
+        <tr><td>2</td><td>3</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const tableABCD_Missing_Page21 = `
+<div class="db-state-wrapper">
+  <div class="db-table-card">
+    <div class="db-table-title">R(A, B, C, D)</div>
+    <table class="raw-table">
+      <thead><tr><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td></tr>
+        <tr><td>a1</td><td>b2</td><td>c2</td><td style="color:#ff9f0a; font-weight:bold;">[ ? ]</td></tr>
+        <tr><td style="color:#ff9f0a; font-weight:bold;">[ ? ]</td><td>b1</td><td>c1</td><td>d3</td></tr>
+        <tr><td>a4</td><td>b1</td><td>c4</td><td>d4</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`;
+
+    const section1 = {
+      questions: [
+        Q(
+          "q1",
+          "Normalize the relation EXCELSIOR EVENT BOOKINGSto the third normal form (3NF). using the following functional dependencies:\nEXCELSIOREVENTBOOKINGS (Date, HallID, HallSize, ClientID, ClientName, Event, NoOfGuests)\n• Date, HallID --> ClientID, Event, NoOfGuests\n• HallID --> HallSize\n• ClientID --> ClientName",
+          [
+            "a. R1(Date, HallID, ClientID, Event, NoOfGuests)\n   R2(HallID, HallSize)",
+            "b. R1(Date, ClientID, Event, NoOfGuests)\n   R2(HallID, HallSize)\n   R3(ClientID, ClientName)",
+            "c. R1(Date, HallID, ClientID, Event, NoOfGuests)\n   R2(HallID, HallSize)\n   R3(ClientID, ClientName)",
+            "d. R1(Date, HallID, ClientID, ClientName, Event, NoOfGuests)\n   R2(HallID, HallSize)"
+          ],
+          2, // c
+          "c. R1(Date, HallID, ClientID, Event, NoOfGuests), R2(HallID, HallSize), R3(ClientID, ClientName)",
+          "للوصول إلى المستوى المعياري الثالث 3NF يجب التخلص من كل من الاعتماد الجزئي والاعتماد المتعدي:<br>1. الاعتماد الجزئي `HallID --> HallSize` ينتهك 2NF، ويُفصل في جدول مستقل: `R2(HallID, HallSize)`.<br>2. الاعتماد المتعدي `ClientID --> ClientName` ينتهك 3NF، ويُفصل في جدول مستقل: `R3(ClientID, ClientName)`.<br>3. الجدول المتبقي للمفتاح المركب الأصلي `{Date, HallID}` يحتفظ بالسمات المعتمدة عليه مباشرة: `R1(Date, HallID, ClientID, Event, NoOfGuests)`.<br>• تنبيه: الخيار b خاطئ لأن `HallID` محذوف من R1 مما يفقد المفتاح الأساسي، بينما الخيار c سليم ومكتمل تماماً.",
+          "",
+          "سؤال 1 (ص 1) - التطبيع إلى 3NF"
+        ),
+        Q(
+          "q2",
+          "The result of transforming R(A, B, C) into 3NF with FDs {AB -> C, C -> A} is _______.",
+          [
+            "a. a relation schema with (A, B, C), since R already in 3NF.",
+            "b. a relation schema with (A), a relation schema with B, and a relation schema with C",
+            "c. a relation schema with (C, A) and a relation schema with (C, B)",
+            "d. a relation schema with (C, A) and a relation schema with (A, B)"
+          ],
+          0, // a
+          "a. a relation schema with (A, B, C), since R already in 3NF.",
+          "⚠️ **تدقيق نظري هام (تصحيح المقترح d إلى a):**<br>1. حساب المفاتيح المرشحة (Candidate Keys):<br>• $(AB)^+ = \\{A, B, C\\} \\implies$ $AB$ مفتاح مرشح.<br>• بما أن $C \\rightarrow A$، فإن $(BC)^+ = \\{B, C, A\\} \\implies$ $BC$ مفتاح مرشح أيضاً!<br>2. تحديد السمات الأولية (Prime Attributes):<br>السمات التي تنتمي لأي مفتاح مرشح هي: $A$ (من $AB$)، و $B$ (من $AB, BC$)، و $C$ (من $BC$). إذن **كافة سمات الجدول {A, B, C} هي سمات أولية (Prime Attributes)**!<br>3. فحص شرط 3NF:<br>لكل اعتماد $X \\rightarrow Y$، يجب أن يكون $X$ مفتاحاً فائقاً (Superkey) أو يكون $Y$ سمة أولية (Prime).<br>• في $AB \\rightarrow C$: الطرف الأيسر $AB$ مفتاح فائق (متحقق).<br>• في $C \\rightarrow A$: الطرف الأيمن $A$ سمة أولية (متحقق).<br>وبالتالي، فإن العلاقة $R$ **بالفعل في المستوى المعياري الثالث (Already in 3NF)** ولا تحتاج لأي تفكيك! فالخيار الصحيح علمياً هو **a**.",
+          "",
+          "سؤال 2 (ص 1) - فحص 3NF للسمات الأولية"
+        ),
+        Q(
+          "q3",
+          "Which of the following is true according to the BZYX Company ER diagram?",
+          [
+            "a. We can keep track of customers that are not signed up by any employees",
+            "b. We can keep track of customers that are served by multiple employees",
+            "c. We can keep track of customers that are not referred by any customers",
+            "d. We can keep track of customers that are not served by any employees"
+          ],
+          2, // c
+          "c. We can keep track of customers that are not referred by any customers",
+          "بالنظر إلى العلاقة التراجعية `Refers` على الكيان `CUSTOMER`:<br>طرف الدور `ReferringParty` وطرف `ReferredParty` يحتوي كلاهما على دائرة (O = Optionality / Minimum Cardinality = 0).<br>هذا يعني أن مشاركة العميل في علاقة الإحالة اختيارية تماماً، وبالتالي يُسمح بوجود عملاء مسجلين في النظام دون أن تتم إحالتهم من قِبل أي عميل آخر (We can keep track of customers that are not referred by any customers).",
+          svgBZYX_Page2,
+          "سؤال 3 (ص 2) - الاختيارية في علاقة الإحالة"
+        ),
+        Q(
+          "q4",
+          "Consider a relationship Teach between entity Instructor and entity Course. If each instructor must teach at least one course, then entity Instructor has _______ participation.",
+          [
+            "a. recursive",
+            "b. total",
+            "c. partial",
+            "d. binary"
+          ],
+          1, // b
+          "b. total",
+          "عندما تشترط قاعدة العمل أن كل كائن في الكيان يجب أن يرتبط بكائن واحد على الأقل في العلاقة ('must teach at least one')، فإن الحد الأدنى للمشاركة يكون 1 (Minimum Cardinality = 1)، وتسمى المشاركة حينها **مشاركة كلية (Total Participation / Mandatory)**.",
+          "",
+          "سؤال 4 (ص 2) - المشاركة الكلية Total"
+        ),
+        Q(
+          "q5",
+          "Select the correct statement. EAGLERUN TRUCKING DISPATCHER ERD",
+          [
+            "a. According to the Eaglerun Trucking Dispatcher ER diagram, a driver can own two trucks.",
+            "b. According to the Eaglerun Trucking Dispatcher ER diagram, a truck can be owned by multiple drivers.",
+            "c. According to the Eaglerun Trucking Dispatcher ER diagram, a driver can drive two trucks.",
+            "d. According to the Eaglerun Trucking Dispatcher ER diagram, each driver owns a truck."
+          ],
+          0, // a
+          "a. According to the Eaglerun Trucking Dispatcher ER diagram, a driver can own two trucks.",
+          "في العلاقة `Owns` بين `DRIVER` و `TRUCK`:<br>• من جهة الكيان `TRUCK` يوجد رمز تشعب (Crow's Foot) مسبوق بدائرة `(0, N)`، مما يعني أن السائق يمكن أن يمتلك شاحنة واحدة أو اثنتين أو أكثر (a driver can own two trucks).<br>• العبارة b خاطئة لأن الشاحنة ترتبط بسائق واحد فقط `(||)`.<br>• العبارة d خاطئة لأن امتلاك الشاحنة اختياري لوجود الدائرة `(0)`.",
+          svgEagleRun_Page3,
+          "سؤال 5 (ص 3) - تفسير مخطط Eaglerun"
+        ),
+        Q(
+          "q6",
+          "If a weak entity A has 10 tuples, and the strong entity B to which A is related to has 20 tuples, then the number of tuples in the relationship R that relates A and B is _______.",
+          [
+            "a. 20",
+            "b. 200",
+            "c. 0",
+            "d. 10"
+          ],
+          3, // d
+          "d. 10",
+          "⚠️ **تدقيق نظري هام (تصحيح المقترح b = 200 إلى d = 10):**<br>وفقاً لتعريف الكيان الضعيف (Weak Entity):<br>1. كل سجل في الكيان الضعيف A يمتلك اعتمادية وجودية كاملة (Existence Dependency) على الكيان القوي المالك B، ويرتبط **بكيان مالك واحد بالضبط** عبر العلاقة التعريفية R.<br>2. بما أن الكيان الضعيف يحتوي على 10 سجلات، وكل سجل يشترك في علاقة تعريفية واحدة بالضبط، فإن عدد الحالات في مجموعة العلاقة R يساوي **10 تماماً**.<br>• التوضيح: الرقم 200 ($10 \\times 20$) يمثل أقصى حاصل ضرب ديكارتي ممكن، وليس عدد علاقات الكيان الضعيف التي تخضع لقيد الوجود الإلزامي التام.",
+          "",
+          "سؤال 6 (ص 3) - عدد سجلات العلاقة للكيان الضعيف"
+        ),
+        Q(
+          "q7",
+          "............-attributes: whose values are computed from other attributes.",
+          [
+            "a. Stored",
+            "b. Derived",
+            "c. single-value",
+            "d. multi-value"
+          ],
+          1, // b
+          "b. Derived",
+          "السمات المشتقة (Derived Attributes) هي السمات التي لا تُخزن قيمتها مباشرة في قاعدة البيانات، بل تُحسب ديناميكياً من سمات أخرى مخزنة (مثل حساب `Age` من تاريخ الميلاد `DateOfBirth`).",
+          "",
+          "سؤال 7 (ص 4) - السمات المشتقة"
+        ),
+        Q(
+          "q8",
+          "If a 1:M relationship is mandatory on both sides, and if the table resulting from the 1 side has 3 records, then the table resulting from the M side CANNOT have less than _______ records.",
+          [
+            "a. 4",
+            "b. 2",
+            "c. 3",
+            "d. 1"
+          ],
+          2, // c
+          "c. 3",
+          "العلاقة 1:M إلزامية من الطرفين (Mandatory on both sides):<br>1. كونها إلزامية من جهة (1) يعني أن كل سجل في جدول جهة (1) يجب أن يرتبط بسجل واحد على الأقل في جدول جهة (M).<br>2. جدول جهة (1) يحتوي على 3 سجلات ($A_1, A_2, A_3$). إذن يجب أن يقابل كل منها سجل مستقل في جدول (M) لأن كل سجل في (M) لا يمكن أن يرتبط إلا بسجل واحد في (1).<br>3. بناءً عليه، لا يمكن لجدول جهة (M) أن يحتوي على أقل من **3 سجلات**.",
+          "",
+          "سؤال 8 (ص 4) - الحد الأدنى للسجلات في 1:M الإلزامية"
+        ),
+        Q(
+          "q9",
+          "Based on the formal definition of a relation, which of the following is correct statement?",
+          [
+            "a. Every relation must have a key",
+            "b. only a single value can be stored in one attribute within a tuple",
+            "c. duplicate tuples are not allowed in a relation",
+            "d. all of the above"
+          ],
+          3, // d
+          "d. all of the above",
+          "التعريف الرياضي للعلاقة (Formal Relational Model):<br>• كل علاقة يجب أن تمتلك مفتاحاً يحدد صفوفها بشكل فريد (a).<br>• الذرية (Atomicity): تخزين قيمة واحدة مفردة في كل خلية (b).<br>• العلاقة هي مجموعة رياضية (Mathematical Set)، ولا تسمح بتكرار العناصر/الصفوف (c).<br>وبالتالي فإن الخيار الصحيح هو **d. all of the above**.",
+          "",
+          "سؤال 9 (ص 5) - التعريف الرياضي للعلاقة"
+        ),
+        Q(
+          "q10",
+          "A special NULL value is used to represent values in a relation that are :",
+          [
+            "a. unknown in certain tuples.",
+            "b. not available in certain tuples.",
+            "c. inapplicable in certain tuples.",
+            "d. All of the above"
+          ],
+          3, // d
+          "d. All of the above",
+          "تُستخدم القيمة الخاصة `NULL` لتمثيل ثلاثة معانٍ جوهرية:<br>1. قيمة مجهولة (Unknown): كأن يكون تاريخ ميلاد شخص غير معروف.<br>2. قيمة غير متوفرة حالياً (Not Available / Missing).<br>3. قيمة غير قابلة للتطبيق (Inapplicable): كخاصية رقم رخصة القيادة لشخص لا يقود مركبة.<br>الخيار الصحيح هو **d. All of the above**.",
+          "",
+          "سؤال 10 (ص 5) - دلالات قيمة NULL"
+        ),
+        Q(
+          "q11",
+          "Define a key for the COURSE entity shown below, assuming that a course can be given multiple times during a term, each section has a single instructor, an instructor can teach multiple sections of the same course.\nCOURSE(name, title, dept, instructor, section, year, semester, enrolment#)",
+          [
+            "a. name, section, year, semester",
+            "b. instructor, section, year, semester, enrolment#",
+            "c. title, dept, instructor",
+            "d. name, title, dept, instructor"
+          ],
+          0, // a
+          "a. name, section, year, semester",
+          "💡 **حل السؤال غير المعروف للطالب:**<br>وفقاً لمعطيات المسألة وقواعد تسجيل المساقات الجامعية:<br>1. المساق (`name`) يُطرح عدة مرات في الفصل الدراسي نفسه من خلال عدة شُعب (`section`).<br>2. لكل شُعبة مدرس واحد، ويمكن للمدرس تدريس عدة شُعب لنفس المساق.<br>3. لتمييز وتحديد شُعبة دراسية معينة تحديداً فريداً، يلزمنا: رمز/اسم المساق (`name`)، رقم الشُعبة (`section`)، والفصل الدراسي والسنة (`year, semester`).<br>وبالتالي، فإن المفتاح المرشح الأدنى هو المجموعة المركبة: `{name, section, year, semester}` (الخيار a).",
+          "",
+          "سؤال 11 (ص 6) - تحديد المفتاح لكيان COURSE"
+        ),
+        Q(
+          "q12",
+          "Consider the following database (schema and state) to answer the following question.\nFor each of the following operations (Insert, Delete, and Update), select which constraint is being violated (unless it is accepted) by the following operation:\nUpdate <23, 19001, 1/2/2004> to <24, 19001, 1/2/2004> from Registration.",
+          [
+            "a. entity integrity",
+            "b. key",
+            "c. Referential",
+            "d. Domain"
+          ],
+          2, // c
+          "c. Referential",
+          "في جدول `Registration`، يمثل الحقل `CustID` مفتاحاً أجنبياً (Foreign Key) يرجع إلى المفتاح الأساسي `ID` في جدول `Customer`.<br>بالنظر إلى جدول `Customer` نجد أن أرقام الزبائن الموجودة هي: 23 و 34 و 97 فقط. لا يوجد أي زبون بالرقم `24`!<br>محاولة تعديل السجل ليصبح رقم الزبون 24 تؤدي فوراً لانتهاك **قيد التكامل المرجعي (Referential Integrity Constraint)**.",
+          tableRegistrationPage6,
+          "سؤال 12 (ص 6) - انتهاك التكامل المرجعي"
+        ),
+        Q(
+          "q13",
+          "Observe the ER diagram for the CENTRAL SCHOOL LIBRARY ERD.\nHow many columns will the relation COPY have in the relational schema mapped from the Central School Library ER diagram?",
+          [
+            "a. 2",
+            "b. 4",
+            "c. 3",
+            "d. 5"
+          ],
+          2, // c
+          "c. 3",
+          "الكيان `COPY` هو كيان ضعيف (Weak Entity) محاط بإطار مستطيل مزدوج، ويمتلك المفتاح الجزئي `CopyID` (بخط متقطع) والخاصية `CoverType`.<br>قاعدة تحويل الكيان الضعيف:<br>يضم جدول الكيان الضعيف كافة خصائصه الذاتية، بالإضافة إلى المفتاح الأساسي للكيان القوي المالك (`LIBRARY BOOK`) وهو `LBID` كمفتاح أجنبي وجزء من المفتاح الأساسي.<br>إذن أعمدة جدول COPY هي: `{LBID, CopyID, CoverType}`، ومجموعها **3 أعمدة (3 columns)**.",
+          svgLibraryCopy_Page7,
+          "سؤال 13 (ص 7) - أعمدة الكيان الضعيف COPY"
+        ),
+        Q(
+          "q14",
+          "Transform the following ER diagram into a relational schema (choose the best mapping).\nStudent (SSN, Name) with Multivalued attribute Phone.",
+          [
+            "a. Student(SSN, Name, Phone)",
+            "b. Student(SSN, Name), Student_Phone(SSN, Phone)",
+            "c. Student(SSN, Phone, Name)",
+            "d. Student(SSN, Name), Student_Phone(SSN, Phone)"
+          ],
+          1, // b
+          "b. Student(SSN, Name), Student_Phone(SSN, Phone)",
+          "الخاصية `Phone` هي خاصية متعددة القيم (Multivalued Attribute) ممثلة ببيضاوي مزدوج.<br>تحويل الخصائص متعددة القيم يتطلب إنشاء جدولين:<br>1. جدول الطالب الأساسي: `Student(SSN, Name)` ومفتاحه الأساسي هو `SSN`.<br>2. جدول منفصل لأرقام الهاتف: `Student_Phone(SSN, Phone)` حيث يتكون المفتاح الأساسي المركب من **كلا العمودين معاً `{SSN, Phone}`** (المسطرين تحتهما خط في الخيار b بدقة).",
+          svgStudentPhone_Page7,
+          "سؤال 14 (ص 7) - تحويل الخاصية متعددة القيم"
+        ),
+        Q(
+          "q15",
+          "Transform the following ER diagram into a relational schema (choose the best mapping).\nProduct(pid, price) (1, N) --- order(quantity) --- (0, N) Customer(cid, name)",
+          [
+            "a. Product(pid, price, quantity)\n   Customer(cid, name)",
+            "b. Product(pid, price, cid, quantity)\n   Customer(cid, name)",
+            "c. Product(pid, price)\n   Customer(cid, name)\n   Order(pid, cid, quantity)",
+            "d. Product(pid, price)\n   Customer(cid, name)\n   Order(pid, cid, quantity)"
+          ],
+          2, // c
+          "c. Product(pid, price), Customer(cid, name), Order(pid, cid, quantity)",
+          "العلاقة `order` هي علاقة متعدد لمتعدد (M:N) بين `Product` و `Customer` وتمتلك خاصية `quantity`.<br>قواعد التحويل العلائقي:<br>1. جدول للمنتج: `Product(pid, price)` ومفتاحه `pid`.<br>2. جدول للزبون: `Customer(cid, name)` ومفتاحه `cid`.<br>3. جدول وسيط للعلاقة M:N يسمى `Order(pid, cid, quantity)`، ويكون مفتاحه الأساسي مركباً من المفتاحين الأجنبيين معاً `{pid, cid}` حصراً (المسطرين في الخيار c)، بينما `quantity` سمة وصفية وليست جزءاً من المفتاح.",
+          svgProductOrder_Page8,
+          "سؤال 15 (ص 8) - تحويل علاقة M:N"
+        ),
+        Q(
+          "q16",
+          "How many foreign keys will the relational schema mapped from the following ER diagram have?\nPROMOTION, PRODUCT, BRAND",
+          [
+            "a. 2",
+            "b. 3",
+            "c. 4",
+            "d. 1"
+          ],
+          1, // b
+          "b. 3",
+          "تعداد المفاتيح الأجنبية الناتجة عند التحويل العلائقي:<br>1. العلاقة `AssociatedWith` بين `PROMOTION` و `PRODUCT` هي علاقة متعدد لمتعدد (M:N لوجود Crow's Foot من الطرفين). تحويلها ينتج جدولاً وسيطاً يحتوي على **مفتاحين أجنبيين (2 FKs)**: `PromoID` و `ProductID`.<br>2. العلاقة `BelongsTo` بين `PRODUCT` و `BRAND` هي علاقة متعدد لواحد (N:1). تحويلها يضع المفتاح الأساسي لـ BRAND داخل جدول PRODUCT كمفتاح أجنبي واحد: `BrandID` (1 FK).<br>المجموع الكلي للمفاتيح الأجنبية = **2 + 1 = 3 مفاتيح أجنبية**.",
+          svgPromotionBrand_Page8,
+          "سؤال 16 (ص 8) - حساب المفاتيح الأجنبية"
+        ),
+        Q(
+          "q17",
+          "If an entity has three unique attributes, how many primary keys will its mapped relation have?",
+          [
+            "a. 4",
+            "b. 3",
+            "c. 2",
+            "d. 1"
+          ],
+          3, // d
+          "d. 1",
+          "حسب المبادئ الأساسية للنموذج العلائقي (Relational Model)، يمكن أن يحتوي الكيان على عدة سمات فريدة (مفاتيح مرشحة Candidate Keys)، ولكن عند تحويله إلى جدول علائقي، يتم اختيار **مفتاح أساسي واحد فقط (Exactly ONE Primary Key)**، في حين تُعرَّف السمات الفريدة الأخرى كقيود فريدة بديلة (Alternate Unique Keys).",
+          "",
+          "سؤال 17 (ص 9) - عدد المفاتيح الأساسية للجدول"
+        )
+      ]
+    };
+
+    const section2 = {
+      questions: [
+        Q(
+          "q18",
+          "How many tuples are produced by the following relational algebra expression?\nπ_major (Student ⨝ Borrow ⨝ Book)",
+          [
+            "a. 1",
+            "b. 3",
+            "c. 5",
+            "d. 2"
+          ],
+          0, // a
+          "a. 1",
+          "خطوات التنفيذ بالجبر العلائقي:<br>1. في جدول `Borrow` نجد استعارات للطلاب: SNo=2 (Jana) و SNo=3 (Rami).<br>2. عند الربط مع جدول `Student`، نجد أن تخصص Jana هو 'CIS'، وتخصص Rami هو 'CIS' أيضاً.<br>3. عملية الإسقاط $\\pi$ في الجبر العلائقي الرياضي **تحذف التكرارات تلقائياً (Eliminates Duplicates)**.<br>المجموعة الناتجة تحتوي على القيمة الوحيدة `{'CIS'}`، أي **صف واحد فقط (1 tuple)**.",
+          tableStudentBookBorrow,
+          "سؤال 18 (ص 9) - حذف التكرار في الإسقاط"
+        ),
+        Q(
+          "q19",
+          "Consider the following schema that consists of two relations R(A, B, C), S(B, C, D). R has 4 tuples and S has 6 tuples. R and S are union compatible. Based on this information, answer the following question:\nThe minimum cardinality (# of tuples) of ℑ_{count(B), min(B)}(π_{B,C}(S)) is ___",
+          [
+            "a. 1",
+            "b. 4",
+            "c. 2",
+            "d. 3"
+          ],
+          0, // a
+          "a. 1",
+          "دالة التجميع الكلي $\\Im$ عندما تُطبق بدون تحديد سمة تجميع (No Grouping Attribute على يسار الرمز $\\Im$)، فإنها تجمع كافة صفوف الجدول الناتج عن الإسقاط ككتلة واحدة وتُرجع **صفاً واحداً فقط (Scalar / 1 tuple)** يحتوي على نتائج الدوال الإحصائية (`count` و `min`). بما أن الجدول $S$ غير فارغ ويمتلك 6 صفوف، فإن عدد الصفوف الناتجة هو **1 دائماً**.",
+          "",
+          "سؤال 19 (ص 10) - دالة التجميع غير المجمعة"
+        ),
+        Q(
+          "q20",
+          "Use the database schema and state to answer the following question.\nSelect the relational algebra expression that returns the boat name (bname) that Rami reserved.",
+          [
+            "a. π_bname (σ_sname='Rami'(Sailor) ⨝ π_bname(Boat))",
+            "b. π_bname (σ_sname='Rami'(Sailor) ⨝ Reserves ⨝ Boat)",
+            "c. σ_bname (π_sname='Rami'(Sailor) ⨝ Reserves ⨝ Boat)",
+            "d. π_bname (σ_sname='Rami'(Sailor) ⨝ Boat)"
+          ],
+          1, // b
+          "b. π_bname (σ_sname='Rami'(Sailor) ⨝ Reserves ⨝ Boat)",
+          "لاسترجاع اسم القارب (`bname`) الذي حجزه البحار 'Rami':<br>1. نصفي جدول البحارة للبحار رامي: $\\sigma_{sname='Rami'}(Sailor)$.<br>2. نربطه بجدول الحجوزات `Reserves` عبر `sid` لمعرفة أرقام القوارب التي حجزها.<br>3. نربط مع جدول القوارب `Boat` عبر `bid` للوصول إلى الاسم.<br>4. نسقط عمود اسم القارب فقط: $\\pi_{bname}(...)$. الصيغة في الخيار b تطبق هذا المسار العلائقي بدقة تامة.",
+          tableSailorBoatReserves,
+          "سؤال 20 (ص 10) - استعلام الربط الثلاثي بالجبر العلائقي"
+        ),
+        Q(
+          "q21",
+          "Consider the following tables then answer the next question.\nHow many tuples are returned by the following relational algebra expression?\nπ_edition (Book)",
+          [
+            "a. 5",
+            "b. 2",
+            "c. 3",
+            "d. 1"
+          ],
+          1, // b
+          "b. 2",
+          "في جدول `Book`، قيم عمود الطبعة `edition` للكتب الخمسة هي:<br>• Second (للكتاب 10)<br>• First (للكتاب 40)<br>• First (للكتاب 30)<br>• Second (للكتاب 70)<br>• Second (للكتاب 90)<br>عملية الإسقاط $\\pi_{edition}$ تحذف التكرار، فتنتج المجموعة: `{'First', 'Second'}` والتي تتكون من **صفين فقط (2 tuples)**.",
+          tableStudentBookBorrow,
+          "سؤال 21 (ص 11) - إسقاط عمود الطبعة"
+        ),
+        Q(
+          "q22",
+          "Consider the following tables then answer the next question.\nHow many tuples are produced by the following relational algebra expression?\n(Book) ⟕ (Borrow)",
+          [
+            "a. 3",
+            "b. 2",
+            "c. 5",
+            "d. 1"
+          ],
+          2, // c
+          "c. 5",
+          "العملية هي ربط خارجي أيسر (Left Outer Join) بين `Book` و `Borrow` عبر `BNo` المشترك:<br>1. جدول Book في الطرف الأيسر يحتوي على 5 كتب.<br>2. الكتب 30 و 40 و 70 تظهر كل منها مرة واحدة في جدول Borrow (3 صفوف متطابقة).<br>3. الكتب 10 و 90 لم تُستعر قط، ولكن بما أن الربط أيسر فإنها تظهر إجبارياً وتُملأ بيانات Borrow المقابلة لها بقيم `NULL` (صفان).<br>إجمالي عدد الصفوف الناتجة = **3 + 2 = 5 صفوف (5 tuples)**.",
+          tableStudentBookBorrow,
+          "سؤال 22 (ص 11) - الربط الخارجي الأيسر"
+        ),
+        Q(
+          "q23",
+          "Consider the following tables then answer the next question.\nHow many columns are produced by the following relational algebra expression?\nπ_SNO (Student) ∩ π_SNO (σ_BNO < 70 (Borrow))",
+          [
+            "a. 2",
+            "b. 3",
+            "c. 4",
+            "d. 1"
+          ],
+          3, // d
+          "d. 1",
+          "السؤال يطلب صراحة عدد **الأعمدة (Columns / Degree)** للجدول الناتج وليس عدد الصفوف!<br>كلا طرفي عملية التقاطع $\\cap$ خضعا لعملية إسقاط تستخرج عموداً وحيداً وهو `SNO`. تقاطع علاقتين كل منهما ذات عمود واحد يُنتج حتماً علاقة متوافقة تحتوي على **عمود واحد فقط (1 column)**.",
+          tableStudentBookBorrow,
+          "سؤال 23 (ص 12) - درجة العلاقة الناتجة Columns"
+        ),
+        Q(
+          "q24",
+          "Consider the relations R and S below. Select the result of σ_A2='X' (R ⨝ S).",
+          [
+            "a. A1: 3, A2: X, A3: Z, B1: 11, B2: M",
+            "b. Row 1 (1, X, W, 11, M) and Row 2 (3, X, Z, 14, M)",
+            "c. Row 1 (1, X, W, 11, M)",
+            "d. Row 1 (1, X, W, 11, M) and Row 2 (3, X, Z, 11, M)"
+          ],
+          3, // d
+          "d. Row 1 (1, X, W, 11, M) and Row 2 (3, X, Z, 11, M)",
+          "1. الربط الطبيعي $R \\bowtie S$ يتم عبر السمة المشتركة `B1`.<br>2. في جدول R، الصفوف التي تحقق الشرط `A2 = 'X'` هي:<br>• الصف الأول: `(1, X, W, 11)` ويطابق صف $S$ ذي `B1=11` ليصبح: `(1, X, W, 11, M)`.<br>• الصف الثالث: `(3, X, Z, 11)` ويطابق صف $S$ ذي `B1=11` ليصبح: `(3, X, Z, 11, M)`.<br>النتيجة تتطابق بدقة تامة مع الجدول الموضح في الخيار d.",
+          tableRelationRS_Page12,
+          "سؤال 24 (ص 12) - الربط الطبيعي مع شرط الاختيار"
+        ),
+        Q(
+          "q25",
+          "Consider the relational database schema for car renting company then answer the next question:\nDisplay cname for customers that work as 'salesperson' but do not have phones",
+          [
+            "a. π_cname (σ_phone=NULL(Customer)) - π_cname(σ_job='salesperson'(Customer))",
+            "b. π_cname (σ_job='salesperson'(Customer) ∪ σ_phone=NULL(Customer))",
+            "c. π_cname (σ_job='salesperson'(Customer) - (σ_phone=NULL(Customer)))",
+            "d. π_cname (σ_job='salesperson'(Customer) ∩ σ_phone=NULL(Customer))"
+          ],
+          3, // d
+          "d. π_cname (σ_job='salesperson'(Customer) ∩ σ_phone=NULL(Customer))",
+          "المطلوب هو إيجاد الزبائن الذين تنطبق عليهم الصفتان معاً في نفس الوقت: العمل كبائع (`job = 'salesperson'`) و عدم امتلاك هاتف (`phone = NULL`).<br>في الجبر العلائقي، شرط العطف المنطقي المشترك (AND) بين مجموعتين يُعبّر عنه بعملية **التقاطع المجموعي (Intersection $\\cap$)**، كما في الخيار d.",
+          "",
+          "سؤال 25 (ص 13) - التعبير عن شرط AND بالتقاطع"
+        ),
+        Q(
+          "q26",
+          "Use the following database (schema and state) to answer the following question.\nSelect the relational algebra expression that displays all boat names with white color.",
+          [
+            "a. π_bname (Boat) ∩ σ_color='White'(Boat)",
+            "b. π_bname (Boat) ∪ σ_color='White'(Boat)",
+            "c. σ_color='White'(π_bname(Boat))",
+            "d. π_bname (σ_color='White'(Boat))"
+          ],
+          3, // d
+          "d. π_bname (σ_color='White'(Boat))",
+          "التسلسل الصحيح للعمليات العلائقية:<br>1. أولاً: نطبق عملية الاختيار $\\sigma_{color='White'}(Boat)$ لتصفية القوارب البيضاء من الجدول الأصلي الذي يحتوي على عمود `color`.<br>2. ثانياً: نطبق عملية الإسقاط $\\pi_{bname}(...)$ لعرض عمود الاسم فقط.<br>• ملاحظة: الخيار c خاطئ لأن الإسقاط المسبق يحذف عمود `color` مما يجعل الاختيار بعده مستحيلاً.",
+          tableSailorBoatReserves,
+          "سؤال 26 (ص 13) - ترتيب الاختيار والإسقاط"
+        ),
+        Q(
+          "q27",
+          "Consider the tables A and B shown below. Select the result of A ⟕_{col1=col3} B",
+          [
+            "a. Table containing 5 rows (Full Outer Join including D and E)",
+            "b. Table containing 2 rows (Inner Join on A and C)",
+            "c. Table containing 3 rows: (A, 1, A, 1), (B, 3, null, null), (C, 4, C, 4)",
+            "d. Table containing only unmatched rows"
+          ],
+          2, // c
+          "c. Table containing 3 rows: (A, 1, A, 1), (B, 3, null, null), (C, 4, C, 4)",
+          "الربط الخارجي الأيسر $A \\leftouterjoin_{col1=col3} B$ يحتفظ بجميع صفوف الجدول الأيسر A (وهي 3 صفوف: A و B و C):<br>• الصف (A, 1) يطابق B فينتج `(A, 1, A, 1)`.<br>• الصف (B, 3) لا يوجد له مقابل في B فيظهر وتُملأ حقول B بـ nulls: `(B, 3, null, null)`.<br>• الصف (C, 4) يطابق B فينتج `(C, 4, C, 4)`.<br>صفوف D و E في B لا تظهر لأن الربط أيسر حصراً. النتيجة مطابقة تماماً للجدول الموضح في الخيار c.",
+          tableAB_Page14,
+          "سؤال 27 (ص 14) - ناتج الربط الأيسر المخصص"
+        )
+      ]
+    };
+
+    const section3 = {
+      questions: [
+        Q(
+          "q28",
+          "Here are two possible ways to declare the relation Emps.\nI. CREATE TABLE Emps (\n    empID INT,\n    ssNo INT,\n    mgrID INT,\n    UNIQUE (empID),\n    PRIMARY KEY (ssNo),\n    FOREIGN KEY mgrID REFERENECES Emps (empID));\n\nII. CREATE TABLE Emps (\n    empID INT PRIMARY KEY,\n    ssNo INT UNIQUE,\n    mgrID INT REFERENECES Emps (empID));\nWhich, if any, of the two declarations above will correctly (SQL) declare the relation Emps?",
+          [
+            "a. Neither I nor II",
+            "b. II only",
+            "c. I only",
+            "d. Both I and II"
+          ],
+          1, // b
+          "b. II only",
+          "التحليل النحوي لجمل DDL في SQL القياسية:<br>• في الإعلان I: تم كتابة قيد المفتاح الأجنبي على مستوى الجدول بالصيغة `FOREIGN KEY mgrID REFERENCES ...` مع إغفال القوسين الإلزاميين حول اسم العمود `(mgrID)`، مما يجعله خطأ نحوياً صريحاً (Syntax Error).<br>• في الإعلان II: تم تعريف المفتاح الأجنبي على مستوى العمود مباشرة (Column-level constraint): `mgrID INT REFERENCES Emps(empID)`، وهو إعلان صحيح وسليم تماماً في SQL.",
+          "",
+          "سؤال 28 (ص 14) - قواعد صياغة قيود DDL"
+        ),
+        Q(
+          "q29",
+          "Consider the table R(A, B) and the following SQL queries:\nQ1: SELECT * FROM R;\nQ2: (SELECT * FROM R) INTERSECT (SELECT * FROM R);\nWhich of the following statements is always FALSE?",
+          [
+            "a. Q1 and Q2 produce the same answer.",
+            "b. The answer to Q1 is contained in the answer to Q2.",
+            "c. The answer to Q2 is contained in the answer to Q1.",
+            "d. Q1 and Q2 produce different answers."
+          ],
+          3, // d
+          "d. Q1 and Q2 produce different answers.",
+          "في النموذج العلائقي وقواعد البيانات، تقاطع أي مجموعة مع نفسها ينتج نفس المجموعة ذاتها رياضياً ($R \\cap R = R$).<br>بما أن Q1 يسترجع الجدول R، و Q2 يسترجع تقاطع R مع R، فإنهما سينتجان دائماً نفس النتيجة حتماً.<br>وبالتالي، فإن العبارة التي تكون **خاطئة دائماً (Always FALSE)** هي: 'Q1 and Q2 produce different answers' (الخيار d).",
+          "",
+          "سؤال 29 (ص 15) - تقاطع العلاقة مع ذاتها"
+        ),
+        Q(
+          "q30",
+          "Consider the tables A, B and C. How many tuples does the result of the following SQL query contains?\nSELECT A.id\nFROM A\nWHERE A.age > ALL (SELECT B.age FROM B WHERE B.name = 'arun')",
+          [
+            "a. 0",
+            "b. 3",
+            "c. 4",
+            "d. 1"
+          ],
+          1, // b
+          "b. 3",
+          "⚠️ **تصحيح جوهري ومصيدة برمجية شهيرة (تصحيح المقترح a = 0 إلى b = 3):**<br>1. بالنظر إلى الاستعلام الفرعي: `(SELECT B.age FROM B WHERE B.name = 'arun')`:<br>في جدول B لا يوجد أي شخص اسمه 'arun' (الأسماء الموجودة هي Shreya, Hari, Rohit فقط). إذن الاستعلام الفرعي يُرجع **مجموعة فارغة (Empty Set $\\emptyset$)**.<br>2. القاعدة القياسية في SQL لمعامل المقارنة `> ALL`:<br>وفقاً لمعيار SQL القياسي (ISO SQL Standard): المقارنة `val > ALL (Empty Set)` تُقيَّم دائماً بأنها **صحيحة (TRUE)** لكافة الصفوف! (Vacuously True: لأنه لا يوجد أي عنصر في المجموعة الفارغة يمكن أن ينقض الشرط ويجعله خاطئاً).<br>3. بناءً عليه، فإن شرط WHERE يتحقق لكافة صفوف الجدول A بلا استثناء!<br>جدول A يحتوي على 3 صفوف (Id: 12, 15, 99)، فالاستعلام يُرجع **3 صفوف (3 tuples)**.",
+          tableABC_Page15,
+          "سؤال 30 (ص 15) - سلوك ALL مع المجموعة الفارغة"
+        ),
+        Q(
+          "q31",
+          "How many raws are produced by the following SQL statement?\nSelect * from S right outer join R on S.C = R.C",
+          [
+            "a. 2",
+            "b. 4",
+            "c. 1",
+            "d. 3"
+          ],
+          3, // d
+          "d. 3",
+          "العملية هي ربط خارجي أيمن (RIGHT OUTER JOIN)، مما يعني الحفاظ على كافة صفوف الجدول الأيمن R (الذي يحتوي على 3 صفوف):<br>• الصف الأول في R: قيمته `C1` تطابق الصف الأول في S ذي `C1` $\\implies$ ينتج صف متطابق (1).<br>• الصف الثاني في R: قيمته `C1` تطابق الصف الأول في S ذي `C1` $\\implies$ ينتج صف متطابق آخر (2).<br>• الصف الثالث في R: قيمته `C2` لا تطابق أي صف في S (حيث قيم C في S هي C1 و C3 فقط)، فيظهر صف R مكملاً بقيم NULL لجدول S $\\implies$ صف ثالث (3).<br>المجموع الكلي للصفوف الناتجة = **3 صفوف (3 rows)**.",
+          tableSR_Page16,
+          "سؤال 31 (ص 16) - عدد صفوف الربط الخارجي الأيمن"
+        ),
+        Q(
+          "q32",
+          "Consider the following table: EMPLOYEE. Find all pairs of employee who have the same level.",
+          [
+            "a. select e1.SSN from EMPLOYEE;",
+            "b. select e1.SSN, e2.SSN from EMPLOYEE e1, EMPLOYEE e2 where e1.SSN < e2.SSN;",
+            "c. select e1.SSN, e2.SSN from EMPLOYEE e1, EMPLOYEE e2 where e1.level=e2.level and e1.SSN < e2.SSN;",
+            "d. select e1.SSN, e2.SSN from EMPLOYEE e1, EMPLOYEE e2 where e1.level=e2.level;"
+          ],
+          2, // c
+          "c. select e1.SSN, e2.SSN from EMPLOYEE e1, EMPLOYEE e2 where e1.level=e2.level and e1.SSN < e2.SSN;",
+          "لإيجاد أزواج الموظفين المتطابقين في المستوى (Same Level):<br>1. نربط الجدول مع نفسه (Self Join): `EMPLOYEE e1, EMPLOYEE e2`.<br>2. شرط تطابق المستوى: `e1.level = e2.level`.<br>3. لمنع اقتران الموظف مع نفسه (Self-pairing) ولمنع تكرار نفس الزوج بالترتيب المعكوس (كأن يظهر الزوج <Ahmad, Mohamad> ثم يظهر <Mohamad, Ahmad>)، يُشترط شرط الترتيب الصارم: `e1.SSN < e2.SSN`.<br>الصيغة الصحيحة تماماً هي **c**.",
+          tableEmployee_Page16,
+          "سؤال 32 (ص 16) - استعلام الأزواج Self Join"
+        ),
+        Q(
+          "q33",
+          "Suppose we have the table definitions with foreign key (item) references Items(iname) on delete set null, on update cascade.\nWe execute the following two queries:\nDelete from Items where iname = 'B1';\nUpdate Items set iname = 'B4' where iname = 'B3';\nNow, the result of the following SQL statement is:\nSelect sum(price) from Sales where Sales.item is not null",
+          [
+            "a. 13",
+            "b. 6",
+            "c. 20",
+            "d. 3"
+          ],
+          0, // a
+          "a. 13",
+          "تتبع تأثيرات التكامل المرجعي خطوة بخطوة:<br>1. `DELETE FROM Items WHERE iname = 'B1';`:<br>بما أن القيد محدد بـ `ON DELETE SET NULL`، فإن جميع صفوف جدول Sales التي كانت قيمتها `B1` (الصفوف ذات الأسعار: 2 و 1 و 4) ستتحول قيمة item فيها إلى `NULL`.<br>2. `UPDATE Items SET iname = 'B4' WHERE iname = 'B3';`:<br>بما أن القيد محدد بـ `ON UPDATE CASCADE`، فإن الصفوف التي كانت قيمتها `B3` (الأسعار: 4 و 6) ستتغير قيمتها تلقائياً إلى `B4` (وتبقى غير فارغة).<br>3. الصف ذو القيمة `B2` سعره 3 لم يتأثر.<br>الصفوف التي تمتلك قيمة غير فارغة (`Sales.item IS NOT NULL`) هي: صف B2 (سعره 3) وصفا B4 (أسعارهما 4 و 6).<br>المجموع المطلوب: $3 + 4 + 6 = 13$.",
+          tableItemsSales_Page17,
+          "سؤال 33 (ص 17) - تأثيرات CASCADE و SET NULL"
+        ),
+        Q(
+          "q34",
+          "Consider a table R(A, B), and the following two sequences of queries.\nQ1: Update R set B = 3 where B = 2; Select * from R;\nQ2: Insert into R select A, 3 from R where B = 2; Delete from R where B = 2; Select * from R\nLet |Q1| and |Q2| be the number of the rows in the results of Q1 and Q2, respectively. Which of the following statements is always TRUE?",
+          [
+            "a. |Q1| < |Q2|",
+            "b. |Q1| <> |Q2|",
+            "c. |Q1| > |Q2|",
+            "d. |Q1| = |Q2|"
+          ],
+          3, // d
+          "d. |Q1| = |Q2|",
+          "تحليل عدد الصفوف الناتجة في الحالتين:<br>• في Q1: أمر `UPDATE` يقوم بتعديل قيم حقل B في الصفوف القائمة دون إضافة أي صف جديد أو حذف أي صف قائم، فيبقى إجمالي عدد صفوف الجدول ثابتاً.<br>• في Q2: تم أولاً إدخال صفوف جديدة بقيمة B=3 لكل صف يحقق B=2 (زيادة بمقدار $k$ صفاً)، ثم حُذفت الصفوف الأصلية ذات B=2 فوراً (نقصان بمقدار $k$ صفاً)، فالمحصلة الصافية لعدد الصفوف هي صفر.<br>وبالتالي فإن عدد الصفوف النهائية متطابق دائماً: $|Q1| = |Q2|$ (الخيار d).",
+          "",
+          "سؤال 34 (ص 17) - تكافؤ عدد الصفوف في العمليات"
+        ),
+        Q(
+          "q35",
+          "Use the relational database to answer the following question.\nHow many rows are produced by the following SQL statement?\nSelect Id from Enrollment except Select Id from Student",
+          [
+            "a. 0",
+            "b. 3",
+            "c. 1",
+            "d. 2"
+          ],
+          0, // a
+          "a. 0",
+          "عملية `EXCEPT` في SQL تمثل الفرق المجموعي (Set Difference):<br>1. الاستعلام الأول يستخرج أرقام الطلاب من جدول `Enrollment` وهي: `1234` و `4000`.<br>2. الاستعلام الثاني يستخرج أرقام الطلاب من جدول `Student` وهي: `1234` و `4000` و `2000` و `3000`.<br>3. عند طرح أرقام Student من أرقام Enrollment، نجد أن كل رقم مسجل في Enrollment موجود بالفعل في جدول Student، فلا يتبقى أي عنصر في الفرق: $\\{1234, 4000\\} \\setminus \\{1234, 4000, 2000, 3000\\} = \\emptyset$.<br>الناتج = **0 صفوف**.",
+          tableStudentEnrollmentCourse_Page18,
+          "سؤال 35 (ص 18) - ناتج عملية EXCEPT"
+        ),
+        Q(
+          "q36",
+          "Use the following create statement:\ncreate table emp (\n    eno int,\n    pid int,\n    name char(50),\n    mgrNo int,\n    xyz char(3) references dept(dno),\n    unique (pid, name, mgrNo),\n    primary key (eno, xyz, pid),\n    foreign key mgrNo references emp (eno))\nHow many keys are there in table emp?",
+          [
+            "a. 1",
+            "b. 2",
+            "c. 3",
+            "d. 4"
+          ],
+          3, // d
+          "d. 4",
+          "تعداد كافة المفاتيح المعرفة في جدول `emp`:<br>1. مفتاح أساسي مركب (Primary Key): `primary key (eno, xyz, pid)` (1).<br>2. مفتاح مرشح/فريد (Candidate / Unique Key): `unique (pid, name, mgrNo)` (2).<br>3. مفتاح أجنبي أول (Foreign Key): `xyz` يرجع إلى `dept(dno)` (3).<br>4. مفتاح أجنبي ثانٍ (Foreign Key): `mgrNo` يرجع إلى `emp(eno)` (4).<br>المجموع الكلي للمفاتيح في الجدول = **4 مفاتيح**.",
+          "",
+          "سؤال 36 (ص 18) - تعداد المفاتيح في جدول emp"
+        ),
+        Q(
+          "q37",
+          "Which of the following command is used to delete a table in SQL?",
+          [
+            "a. remove",
+            "b. truncate",
+            "c. delete",
+            "d. drop"
+          ],
+          3, // d
+          "d. drop",
+          "في لغة SQL، الأمر المخصص لحذف الجدول بالكامل مع هيكله وبياناته ومؤشراته من قاعدة البيانات هو أمر لغة تعريف البيانات `DROP TABLE table_name;`.<br>• `DELETE` يحذف بيانات الصفوف فقط ويبقى الجدول.<br>• `TRUNCATE` يفرغ محتويات الجدول بسرعة ويبقى هيكله.<br>• لا يوجد أمر اسمه `remove` في SQL.",
+          "",
+          "سؤال 37 (ص 19) - أمر حذف الجدول في SQL"
+        ),
+        Q(
+          "q38",
+          "How many rows are produced by the following SQL statement?\nSelect Name Emp where age > any (26, 30)",
+          [
+            "a. 3",
+            "b. 4",
+            "c. 2",
+            "d. 1"
+          ],
+          2, // c
+          "c. 2",
+          "⚠️ **تصحيح هام للمقارنة الصارمة (تصحيح المقترح a = 3 إلى c = 2):**<br>1. تحليل المعامل المنطقي: `age > any (26, 30)` يعني أن العمر يجب أن يكون أكبر من 26 أو أكبر من 30، أي أن الشرط يكافئ رياضياً: **`age > 26`** (أكبر قطعاً من 26).<br>2. فحص أعمار الموظفين الأربعة في جدول Emp:<br>• Ahmad (23): ليس أكبر من 26 (False).<br>• Ali (26): $26 > 26$ خاطئة، لأن المقارنة صارمة وليست $\\ge$ (False)!<br>• John (27): $27 > 26$ صحيحة (True).<br>• Ali (30): $30 > 26$ صحيحة (True).<br>الموظفون الذين يحققون الشرط هما اثنان فقط: John و Ali. إذن الاستعلام يُرجع **صفين فقط (2 rows)**.",
+          tableEmp_Page19,
+          "سؤال 38 (ص 19) - المقارنة الصارمة مع ANY"
+        )
+      ]
+    };
+
+    const section4 = {
+      questions: [
+        Q(
+          "q39",
+          "Consider the following relation schema R(A,B,C,D,E,F,H) and its functional dependencies:\nAB --> CD,\nA --> EF,\nF --> H,\nWhat is the rule used to infer AH --> EFH from the above FDs?",
+          [
+            "a. Augmentation",
+            "b. Decomposition",
+            "c. Transitive",
+            "d. Reflexive"
+          ],
+          0, // a
+          "a. Augmentation",
+          "وفقاً لبديهيات أرمسترونج (Armstrong's Axioms)، تنص قاعدة الزيادة/التعزيز (Augmentation Rule) على أنه إذا كانت الاعتمادية $X \\rightarrow Y$ قائمة، فإنه يمكن إضافة أي مجموعة من السمات $Z$ إلى طرفي الاعتمادية لينتج $XZ \\rightarrow YZ$.<br>هنا تم أخذ الاعتمادية المعطاة $A \\rightarrow EF$ وإضافة السمة $H$ إلى كلا الطرفين لينتج الاعتماد: $AH \\rightarrow EFH$. إذن القاعدة المستخدمة هي **Augmentation**.",
+          "",
+          "سؤال 39 (ص 20) - قاعدة الزيادة Augmentation"
+        ),
+        Q(
+          "q40",
+          "Consider a relation R(X,Y,Z) with its instance.\nThe functional dependency(s) that R may satisfy is/are .........",
+          [
+            "a. X -> Y, Z -> Y",
+            "b. YZ -> X",
+            "c. X -> YZ",
+            "d. X -> Z"
+          ],
+          0, // a
+          "a. X -> Y, Z -> Y",
+          "فحص الاعتماديات على بيانات جدول R:<br>• نلاحظ أن العمود Y يحتوي على نفس القيمة الثابتة `y1` في جميع صفوف الجدول الأربعة بلا استثناء. بما أن Y لا تتغير قيمته، فإن أي سمة في الجدول تحدد Y بشكل فريد ($X \\rightarrow Y$ صحيحة، و $Z \\rightarrow Y$ صحيحة أيضاً).<br>• الخيار b خاطئ لأن $(y1, z1)$ يقابل كلاً من $x1$ و $x2$ مما ينقض $YZ \\rightarrow X$.<br>• الخياران c و d خاطئان لأن $x1$ تقابل كلاً من $z1$ و $z2$.<br>إذن الاعتماديات المتحققة هي **X -> Y, Z -> Y**.",
+          tableXYZ_Page20,
+          "سؤال 40 (ص 20) - استنتاج الاعتمادية من الجدول"
+        ),
+        Q(
+          "q41",
+          "From the following instance of a relation scheme R (A, B, C), we can conclude that :",
+          [
+            "a. A does not functionally determine B and B does not functionally determine C",
+            "b. A functionally determines B and B does not functionally determine C",
+            "c. B does not functionally determine C",
+            "d. A functionally determines B and B functionally determines C"
+          ],
+          1, // b
+          "b. A functionally determines B and B does not functionally determine C",
+          "⚠️ **تدقيق نظري هام (تصحيح المقترح a إلى b):**<br>1. فحص الاعتمادية $A \\rightarrow B$:<br>• عندما $A = 1$: قيمة B في الصفين الأول والثاني هي 1 دائماً.<br>• عندما $A = 2$: قيمة B في الصفين الثالث والرابع هي 3 دائماً.<br>كل قيمة لـ A تقابلها قيمة وحيدة تماماً لـ B، إذن **A تحدد وظيفياً B ($A \\rightarrow B$ Holds)**!<br>2. فحص الاعتمادية $B \\rightarrow C$:<br>• عندما $B = 1$: الصف الأول فيه $C = 1$ والصف الثاني فيه $C = 0$. القيمة 1 في B ارتبطت بقيمتين مختلفتين في C، إذن **B لا تحدد وظيفياً C ($B \\not\\rightarrow C$)**.<br>الاستنتاج الصحيح والمكتمل هو: **A functionally determines B and B does not functionally determine C** (الخيار b).",
+          tableABC_Page21,
+          "سؤال 41 (ص 21) - التحقق من الاعتماديات الوظيفية"
+        ),
+        Q(
+          "q42",
+          "Given the relation R(A, B, C, D) with FDs F = {AB -> C, A -> D}. The domain of A = {a1, a2, a3, a4} and the domain of D = {d1, d2, d3, d4, d5, d6, d7}. What values could be inserted for the missing D and A column values respectively.",
+          [
+            "a. d1 and either a2 or a3",
+            "b. d1 and a1",
+            "c. d2 and a2",
+            "d. d5 and a4"
+          ],
+          0, // a
+          "a. d1 and either a2 or a3",
+          "⚠️ **تدقيق نظري دقيق (تصحيح المقترح c إلى a):**<br>1. إيجاد قيمة D المفقودة في الصف الثاني:<br>الصف الأول يحتوي على $A = a1$ و $D = d1$. وبما أن $A \\rightarrow D$ قائمة في الجدول، فإن أي صف يحتوي على $A = a1$ يجب أن تكون قيمة D فيه مساوية لـ **$d1$ حتماً** (هذا يستبعد الخيارين c و d فوراً!).<br>2. إيجاد قيمة A المفقودة في الصف الثالث:<br>في الصف الثالث نجد $D = d3$.<br>• لا يمكن أن تكون A مساوية لـ $a1$ لأن $a1$ ترتبط بـ $d1$ بينما هنا $D = d3$.<br>• لا يمكن أن تكون A مساوية لـ $a4$ لأن الصف الرابع يحدد أن $a4 \\rightarrow d4$ بينما هنا $D = d3$.<br>وبالتالي، فإن القيمة الجائزة لـ A هي إما **$a2$ أو $a3$**.<br>القيمتان المفقودتان هما: **d1 and either a2 or a3** (الخيار a).",
+          tableABCD_Missing_Page21,
+          "سؤال 42 (ص 21) - استنتاج القيم المتوافقة مع القيود"
+        ),
+        Q(
+          "q43",
+          "Consider the following relational schemes for a library database:\nBook (Title, Author, Catalog_no, Publisher, Year, Price)\nCollection (Title, Author, Catalog_no)\nwith in the following functional dependencies:\nI. Title Author --> Catalog_no\nII. Catalog_no --> Title, Author, Publisher, Year\nIII. Publisher Title Year --> Price\nAssume {Author, Title} is the key for both schemes. Which of the following statements is true?",
+          [
+            "a. Both Book and Collection are in BCNF",
+            "b. Both Book and Collection are in 2NF only",
+            "c. Book is in 2NF and Collection is in 3NF",
+            "d. Both Book and Collection are in 3NF only"
+          ],
+          2, // c
+          "c. Book is in 2NF and Collection is in 3NF",
+          "⚠️ **تدقيق نظري هام (تصحيح المقترح a إلى c):**<br>1. فحص مخطط `Collection(Title, Author, Catalog_no)`:<br>المفتاح هو `{Author, Title}`. الاعتماديات المتواجدة فيه هي: `{Title, Author} -> Catalog_no` و `Catalog_no -> {Title, Author}`. كلاهما الطرف الأيسر فيه مفتاح مرشح كامل، فالعلاقة في BCNF (وبالتالي في 3NF حتماً).<br>2. فحص مخطط `Book`:<br>الاعتماد الثالث هو: `{Publisher, Title, Year} -> Price`.<br>• الطرف الأيسر ليس مفتاحاً فائقاً (Superkey) لجدول Book.<br>• الطرف الأيمن `Price` ليس سمة أولية (Non-prime attribute).<br>وجود هذا الاعتماد المتعدي ينتهك شروط 3NF و BCNF! وبما أنه لا توجد اعتمادات جزئية على المفتاح `{Author, Title}`، فإن جدول Book يستقر في **المستوى الثاني 2NF فقط**.<br>إذن: **Book is in 2NF and Collection is in 3NF** (الخيار c).",
+          "",
+          "سؤال 43 (ص 22) - تصنيف المستويات المعيارية للمخطط"
+        ),
+        Q(
+          "q44",
+          "The functional dependency A --> B for relation schema R(A, B, C, D) implies that ___.",
+          [
+            "a. any 2 tuples in R that have the same value for A must also have the same value for B",
+            "b. no 2 tuples in R can have the same value for attribute B",
+            "c. any 2 tuples in R that have the same value for B must have the same value for A",
+            "d. no 2 tuples in R can have the same value for attribute A"
+          ],
+          0, // a
+          "a. any 2 tuples in R that have the same value for A must also have the same value for B",
+          "⚠️ **تصحيح المفهوم النظري (تصحيح المقترح d إلى a):**<br>التعريف الرياضي القياسي للاعتمادية الوظيفية $A \\rightarrow B$ هو:<br>لكل زوج من الصفوف $t_1, t_2 \\in R$، إذا تساوت قيم $A$ في الصفين ($t_1[A] = t_2[A]$) فإنه يجب حتماً أن تتساوى قيم $B$ المقابلة لهما ($t_1[B] = t_2[B]$).<br>• تنبيه: الخيار d يعبر عن قيد المفتاح الأساسي/الفريد (Unique/Primary Key Constraint) وليس تعريف الاعتمادية الوظيفية التي تسمح بتكرار قيم A بشرط تطابق B المقابلة.",
+          "",
+          "سؤال 44 (ص 22) - التعريف الرياضي للاعتمادية الوظيفية"
+        ),
+        Q(
+          "q45",
+          "Given a relation schema R(A, B, C, D) with FDs F = {B --> C, D --> A}. R is in ______.",
+          [
+            "a. BCNF",
+            "b. 2NF but not 3NF",
+            "c. 3NF",
+            "d. 1NF but not 2NF"
+          ],
+          3, // d
+          "d. 1NF but not 2NF",
+          "⚠️ **تصحيح تحليلي حاسم (تصحيح المقترح c = 3NF إلى d = 1NF):**<br>1. إيجاد المفتاح المرشح لـ R:<br>السمات التي لا تظهر على يمين أي اعتماد هي $\{B, D\}$.<br>حساب الإغلاق: $(BD)^+ = \\{B, D, C, A\\} = R$. إذن **المفتاح المرشح الفريد هو المفتاح المركب `{B, D}`**.<br>2. فحص الاعتماديات الجزئية (Partial Dependencies):<br>• الاعتماد $B \\rightarrow C$: الطرف الأيسر $B$ جزء من المفتاح المركب $\{B, D\}$، والطرف الأيمن $C$ سمة غير أولية. هذا **اعتماد جزئي صريح (Partial Dependency)** ينتهك المستوى المعياري الثاني 2NF!<br>• الاعتماد $D \\rightarrow A$: اعتماد جزئي آخر ينتهك 2NF أيضاً.<br>بما أن العلاقة تنتهك 2NF، فإنها تستقر في **1NF but not 2NF** (الخيار d).",
+          "",
+          "سؤال 45 (ص 23) - انتهاك 2NF بالاعتماد الجزئي"
+        ),
+        Q(
+          "q46",
+          "Consider the following relation schema R(A, B, C, D, E, F, H) and its functional dependencies:\nAB->CD, A->EF, F->H,\nWhat is the rule used to infer AB -> C & AB -> D from the above FDs?",
+          [
+            "a. Transitive",
+            "b. Reflexive",
+            "c. Decomposition",
+            "d. Augmentation"
+          ],
+          2, // c
+          "c. Decomposition",
+          "قاعدة التفكيك/التجزئة (Decomposition Rule / Project Rule):<br>تنص على أنه إذا كانت الاعتمادية $X \\rightarrow YZ$ صحيحة، فإنه يمكن تفكيك الطرف الأيمن إلى اعتماديات منفصلة: $X \\rightarrow Y$ و $X \\rightarrow Z$.<br>هنا تم تفكيك $AB \\rightarrow CD$ إلى $AB \\rightarrow C$ و $AB \\rightarrow D$. إذن القاعدة هي **Decomposition**.",
+          "",
+          "سؤال 46 (ص 23) - قاعدة التفكيك Decomposition"
+        ),
+        Q(
+          "q47",
+          "Compute (AD)+ using the following relation and its functional dependencies.\nR(A, B, C, D, E, F)\nF = {A --> B, B --> E, A --> C, CD --> EF}",
+          [
+            "a. ABCDE",
+            "b. AD",
+            "c. ABCDEF",
+            "d. ABCD"
+          ],
+          2, // c
+          "c. ABCDEF",
+          "⚠️ **تصحيح حساب الإغلاق (تصحيح المقترح d إلى c):**<br>خطوات حساب الإغلاق الوظيفي $(AD)^+$ خطوة بخطوة:<br>1. البداية بالسمات المعطاة: $(AD)^+ = \\{A, D\\}$<br>2. تطبيق $A \\rightarrow B$: تصبح المجموعة $\\{A, D, B\\}$<br>3. تطبيق $B \\rightarrow E$: تصبح المجموعة $\\{A, D, B, E\\}$<br>4. تطبيق $A \\rightarrow C$: تصبح المجموعة $\\{A, B, C, D, E\\}$<br>5. بما أننا نمتلك الآن $C$ و $D$ معاً، فإن الاعتماد $CD \\rightarrow EF$ يتحقق ويضيف السمة $F$!<br>المجموعة النهائية تضم: $\\{A, B, C, D, E, F\\} = **ABCDEF**$.<br>الإجابة الصحيحة هي **c. ABCDEF**.",
+          "",
+          "سؤال 47 (ص 24) - حساب الإغلاق التام"
+        ),
+        Q(
+          "q48",
+          "Consider the following relation. Select the INCORRECT statement.\nR(A, B, C) given A --> B, A --> C, B --> A",
+          [
+            "a. A+ = ABC",
+            "b. A and B are keys of R",
+            "c. B+ = ABC",
+            "d. B+ = AB"
+          ],
+          3, // d
+          "d. B+ = AB",
+          "⚠️ **تنبيه هام لصيغة السؤال (تصحيح المقترح c إلى d):**<br>السؤال يطلب اختيار العبارة **الخاطئة (INCORRECT statement)** وليس الصحيحة!<br>• فحص $A^+$: لدينا $A \\rightarrow B$ و $A \\rightarrow C$ $\\implies A^+ = ABC$. (عبارة صحيحة).<br>• فحص $B^+$: لدينا $B \\rightarrow A$، وبما أن $A \\rightarrow C$ فإن $B^+ = \\{B, A, C\\} = ABC$. (العبارة c صحيحة أيضاً وليست هي المطلوبة).<br>• بما أن $A^+ = ABC$ و $B^+ = ABC$، فإن كلاً من A و B مفاتيح مرشحة (العبارة b صحيحة).<br>• العبارة d تدعي أن $B^+ = AB$، وهذا **خاطئ صراحة** لأن $B^+$ يحتوي على C أيضاً.<br>بما أن المطلوب هو العبارة الخاطئة، فالإجابة هي **d. B+ = AB**.",
+          "",
+          "سؤال 48 (ص 24) - نفي العبارة الخاطئة"
+        ),
+        Q(
+          "q49",
+          "Normalize the relation EXCELSIOR EVENT BOOKINGSto the second normal form (2NF) using the following functional dependencies:\nEXCELSIOREVENTBOOKINGS (Date, HallID, HallSize, ClientID, ClientName, Event, NoOfGuests)\n• Date, HallID --> ClientID, Event, NoOfGuests\n• HallID --> HallSize\n• ClientID --> ClientName",
+          [
+            "a. R1(Date, HallID, ClientID, Event, NoOfGuests)\n   R2(HallID, HallSize)\n   R3(ClientID, ClientName)",
+            "b. R1(Date, ClientID, Event, NoOfGuests)\n   R2(HallID, HallSize)\n   R3(ClientID, ClientName)",
+            "c. R1(Date, HallID, ClientID, ClientName, Event, NoOfGuests)\n   R2(HallID, HallSize)",
+            "d. R1(Date, HallID, ClientID, Event, NoOfGuests)\n   R2(HallID, HallSize)"
+          ],
+          2, // c
+          "c. R1(Date, HallID, ClientID, ClientName, Event, NoOfGuests), R2(HallID, HallSize)",
+          "💡 **السؤال رقم 49 (الذي سقط سهواً في ترقيم الطالب بالملف):**<br>السؤال يطلب التطبيع إلى المستوى **الثاني 2NF** حصراً (وليس 3NF):<br>1. في 2NF يتم إزالة الاعتماديات الجزئية فقط: الاعتماد الجزئي `HallID --> HallSize` يُفصل في جدول `R2(HallID, HallSize)`.<br>2. الاعتماد `ClientID --> ClientName` هو اعتماد متعدٍ (Transitive) وليس جزئياً، لذا **يبقى داخل جدول R1 في مستوى 2NF** ولا يُفصل إلا عند الانتقال للمستوى الثالث 3NF.<br>وبالتالي، فإن التمثيل الدقيق لمستوى 2NF هو الخيار **c**.",
+          "",
+          "سؤال 49 (ص 25 - علوي) - التطبيع إلى 2NF حصراً"
+        ),
+        Q(
+          "q50",
+          "Which of the following is TRUE?",
+          [
+            "a. Every relation in 3NF is also in BCNF",
+            "b. Every relation in BCNF is also in 3NF",
+            "c. No relation can be in both BCNF and 3NF",
+            "d. A relation R is in 3NF if every non-prime attribute of R is fully functionally dependent on every key of R"
+          ],
+          1, // b
+          "b. Every relation in BCNF is also in 3NF",
+          "العلاقة الهرمية بين المستويات المعيارية تنص على أن كل مستوى أعلى يحتوي المستوى الأدنى منه بالضرورة ($BCNF \\subset 3NF \\subset 2NF \\subset 1NF$).<br>وبما أن BCNF هو حالة خاصة أكثر صرامة من 3NF (لا يسمح بالاستثناء الخاص بالسمات الأولية Prime Attributes)، فإن **أي علاقة تحقق شروط BCNF هي حتماً وبشكل تلقائي في 3NF** (Every relation in BCNF is also in 3NF).<br>الخيار الصحيح هو **b**.",
+          "",
+          "سؤال 50 (ص 25 - سفلي) - العلاقة الهرمية بين BCNF و 3NF"
+        )
+      ]
+    };
+
+    const examSections = [section1, section2, section3, section4];
+
+    /* =========================================================================
+       QUIZ ENGINE & INTERACTION LOGIC
+       ========================================================================= */
+
+    let userAnswers = {};
+    let totalQuestions = 0;
+
+    function initQuiz() {
+      const driveBtn = document.getElementById("drive-link-btn");
+      if (originalDriveLink && originalDriveLink.trim() !== "") {
+        if (driveBtn) {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        }
+      }
+
+      const listContainer = document.getElementById("quiz-list");
+      listContainer.innerHTML = "";
+      totalQuestions = 0;
+      userAnswers = {};
+
+      examSections.forEach(sec => {
+        sec.questions.forEach(q => {
+          totalQuestions++;
+          const card = document.createElement("div");
+          card.className = "sub-question-card";
+          card.id = `card-${q.id}`;
+
+          let diagramHtml = q.diagram || "";
+
+          let optionsHtml = "";
+          q.opts.forEach((opt, idx) => {
+            optionsHtml += `
+              <div class="option-item" id="opt-${q.id}-${idx}" onclick="selectOption('${q.id}', ${idx})">
+                <span class="opt-letter">${letters[idx]}</span>
+                <span class="opt-text">${escapeHtml(opt)}</span>
+              </div>
+            `;
+          });
+
+          card.innerHTML = `
+            <div class="question-number">Question ${escapeHtml(q.id.slice(1))}</div>
+            <div class="sub-q-header">${escapeHtml(q.text)}</div>
+            ${diagramHtml}
+            <div class="options-container" id="opts-${q.id}">
+              ${optionsHtml}
+            </div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${q.id}" onclick="resetQuestion('${q.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${q.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+            <div class="solution-box" id="sol-${q.id}">
+              <div class="sol-header">
+                <span>✅</span> <strong>الإجابة النموذجية:</strong> ${escapeHtml(q.dispAnswer)}
+              </div>
+              <div class="sol-body">
+                ${q.exp}
+              </div>
+            </div>
+          `;
+          listContainer.appendChild(card);
+        });
+      });
+
+      updateScore();
+    }
+
+    function findQuestion(qid) {
+      for (const sec of examSections) {
+        for (const q of sec.questions) {
+          if (q.id === qid) return q;
+        }
+      }
+      return null;
+    }
+
+    function selectOption(qid, optIndex) {
+      if (userAnswers[qid] !== undefined) return;
+
+      const q = findQuestion(qid);
+      if (!q) return;
+
+      userAnswers[qid] = optIndex;
+      const optsBox = document.getElementById(`opts-${qid}`);
+      optsBox.classList.add("locked");
+
+      const selectedDiv = document.getElementById(`opt-${qid}-${optIndex}`);
+
+      if (optIndex === q.ans) {
+        selectedDiv.classList.add("correct");
+        const solBox = document.getElementById(`sol-${qid}`);
+        if (solBox) solBox.classList.add("show");
+      } else {
+        selectedDiv.classList.add("wrong");
+        const solBox = document.getElementById(`sol-${qid}`);
+        if (solBox) solBox.classList.remove("show");
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) resetBtn.style.display = "inline-flex";
+
+      updateScore();
+    }
+
+    function resetQuestion(qid) {
+      const q = findQuestion(qid);
+      if (!q) return;
+
+      delete userAnswers[qid];
+
+      const optsBox = document.getElementById(`opts-${qid}`);
+      if (optsBox) {
+        optsBox.classList.remove("locked");
+        q.opts.forEach((_, idx) => {
+          const optDiv = document.getElementById(`opt-${qid}-${idx}`);
+          if (optDiv) {
+            optDiv.classList.remove("correct", "wrong");
+          }
+        });
+      }
+
+      const solBox = document.getElementById(`sol-${qid}`);
+      if (solBox) solBox.classList.remove("show");
+
+      const resetBtn = document.getElementById(`reset-btn-${qid}`);
+      if (resetBtn) resetBtn.style.display = "none";
+
+      updateScore();
+    }
+
+    function toggleSolution(qid) {
+      const solBox = document.getElementById(`sol-${qid}`);
+      if (solBox) {
+        solBox.classList.toggle("show");
+      }
+    }
+
+    function toggleAllSolutions() {
+      const allSolBoxes = document.querySelectorAll(".solution-box");
+      const anyHidden = Array.from(allSolBoxes).some(b => !b.classList.contains("show"));
+      allSolBoxes.forEach(b => {
+        if (anyHidden) b.classList.add("show");
+        else b.classList.remove("show");
+      });
+    }
+
+    function resetQuiz() {
+      if (!confirm("هل أنت متأكد من رغبتك في إعادة تعيين كافة الإجابات والبدء من جديد؟")) return;
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateScore() {
+      let correct = 0;
+
+      for (const sec of examSections) {
+        for (const q of sec.questions) {
+          if (userAnswers[q.id] !== undefined) {
+            if (userAnswers[q.id] === q.ans) {
+              correct++;
+            }
+          }
+        }
+      }
+
+      const percent = totalQuestions > 0 ? Math.round((correct / totalQuestions) * 100) : 0;
+      const scoreEl = document.getElementById("score");
+      if (scoreEl) {
+        scoreEl.innerText = `${correct} / ${totalQuestions} (${percent}%)`;
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", initQuiz);
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

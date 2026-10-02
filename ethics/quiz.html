@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Ethics Quiz - Chapters 1–9</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ethics">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">مهارات الإتصال وأخلاقيات المهنة (Communication And Professional Ethics)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Ethics Questions — Chapters 1–9 | أسئلة الفصول من 1 إلى 9</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">Show/Hide Solutions</button>
+        <button class="btn" onclick="resetQuiz()">Restart Quiz</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/drive/u/0/folders/1__EBp43ijsjU03drPdObDv3p6rzUvRAF";
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const chapters = [
+    {ch:1,title:'Chapter 1: Communication in the Workplace',topic:'Chapter 1 — Communication in the Workplace',items:[
+    ['Messages requesting or persuading aim to compel readers to take specific actions.','TF',0],
+    ['Accuracy is not crucial for the effectiveness of a message.','TF',1],
+    ['Gestures and body language are forms of verbal communication.','TF',1],
+    ['Pictures and company logos are examples of nonverbal communication.','TF',0],
+    ['Objections in PAIBOC are potential reasons the audience might not accept or agree with the message.','TF',0],
+    ['Coordination of manufacturing and delivery does not rely on effective communication.','TF',1],
+    ['A message that wastes the reader’s time can still be considered effective.','TF',1],
+    ['Purpose in PAIBOC refers to the primary language used in the message.','TF',1],
+    ['Communication is not involved in the hiring, training, and motivation of workers.','TF',1],
+    ['Building goodwill is an essential aspect of an effective message.','TF',0],
+    ['Benefits in PAIBOC are the potential disadvantages for the audience.','TF',1],
+    ['Verbal communication is more reliable than nonverbal communication in conveying emotions.','TF',1],
+    ['Effective communication helps in reducing workplace conflicts.','TF',0],
+    ['Workplace messages can have the purpose of informing, requesting or persuading, and building goodwill simultaneously.','TF',0],
+    ['Meetings can only be conducted verbally, not through written communication.','TF',1],
+    ['E-mail messages are not considered verbal communication.','TF',1],
+    ['Letters, memos, and reports are verbal forms of communication.','TF',0],
+    ['Business writing typically involves shorter sentences and paragraphs compared to school writing.','TF',0]
+    ]},
+    {ch:2,title:'Chapter 2: Introduction to Cyberethics',topic:'Chapter 2 — Introduction to Cyberethics',items:[
+    ['______ suggest the study of ethical issues limited only to networked computers and devices.','Computer Ethics|Information Ethics|Internet Ethics|Communication Ethics',2],
+    ['Which choice raises serious concerns in evaluating cyberethics?','Whether users may post any message on public websites|Whether users may post anonymously|Online business and personal/financial information|All of the choices',3],
+    ['Which perspective identifies and analyzes ethical responsibility for IT professionals?','Professional Ethics|Philosophical Ethics|Sociological Ethics|Descriptive Ethics',0],
+    ['The professional and philosophical perspectives both illustrate normative inquiries into applied ethics issues.','TF',0],
+    ['What is NOT an example of cyberbullying?','Creating and forwarding an embarrassing picture of a classmate|Sending someone an email with a virus|Bullying someone at school|Threatening someone in an instant message',2],
+    ['Which statement is NOT correct?','Cyberethics studies moral, legal, and social issues involving cybertechnology|Cybertechnology includes many computing and communication devices|Cyberethics is a field of theoretical (meta) ethics|Cybertechnology has introduced some unique ethical issues',2],
+    ['Jurisdiction is an issue that arises in Phase 2.','TF',1],
+    ['Computing-related ethical issues included privacy, intellectual property, and computer crime.','TF',0],
+    ['In Phase 2, computing machines and communication devices in the noncommercial sector began to converge.','TF',0],
+    ['Free speech, anonymity, jurisdiction, and trust were hotly disputed during Phase 4.','TF',0],
+    ['One set of ethical and social questions in Phase 1 concerned the impact of computers as “giant brains.”','TF',1],
+    ['During Phase 3, the interfaces and devices used to house computer technology were still much the same as in Phases 1 and 2.','TF',1],
+    ['Cyberethics examines cybertechnology’s impact on social, legal, and moral systems and evaluates related policies and laws.','TF',0],
+    ['Intellectual property concerns emerged in Phase 3 because personal computers could duplicate proprietary software.','TF',0],
+    ['Between the 1970s and 1980s, personal privacy concerns included:','The amount of personal information collected|Ways the information was used|Information exchange by the private sector|All of the above',3],
+    ['“Should users be permitted to post anonymous messages?” belongs to which phase and issue?','Phase 3, anonymity|Phase 1, artificial intelligence|Phase 3, free speech|Phase 1, privacy',0],
+    ['Uniqueness proponents argue that computers have introduced no new ethical issues.','TF',1],
+    ['Traditionalists are right that:','Technology complicates analysis of traditional ethical issues|The effect of technology on ethics is overstated|The scope and scale of issues are underestimated|No new ethical issues have been introduced',3],
+    ['Sociological ethics refers to:','Analyzing ethical responsibility for IT professionals|Gaps in laws and policies|Descriptive investigations asking “What is the case?”|None of the above',2],
+    ['Pervasive computing, ambient technology, and Web 2.0 relate to which phase?','Phase 2|Phase 1|Phase 3|Phase 4',3],
+    ['“Internet ethics” is more accurate than “cyberethics.”','TF',1],
+    ['Given the wide range of moral issues involving cybertechnology, “cyberethics” is more appropriate than:','Computer ethics|Information ethics|Internet ethics|All of the above',3],
+    ['Cybertechnology includes:','Unconnected computers|Computer networks|Digital electronic devices|All of the above',3],
+    ['Cyberethics is limited to ethical concerns about the flow of information enhanced or restricted by computer technology.','TF',1],
+    ['After World War II, a computer was defined as:','A new communication medium|A calculating machine|A person who calculated numbers|A desktop machine',1],
+    ['“Can users post any message on publicly accessible websites?” relates to which phase and issue?','Phase 2, computer crime|Phase 1, privacy|Phase 3, free speech|Phase 1, artificial intelligence',2]
+    ]},
+    {ch:3,title:'Chapter 3: Audience, Channels & Communication Process',topic:'Chapter 3 — Audience, Channels & Communication Process',items:[
+    ['Channels for communication can vary based on speed, accuracy of transmission, and cost.','TF',0],
+    ['Scheduled meetings and oral presentations are typically less formal than phone calls or stopping someone in the hall.','TF',1],
+    ['Balancing logic and emotion is not a factor to consider in audience analysis.','TF',1],
+    ['Disliking the speaker is an example of physical noise in communication.','TF',1],
+    ['Noise can interfere with communication at any stage and can be physical or psychological.','TF',0],
+    ['The number of messages carried is not a factor in determining communication channels.','TF',1],
+    ['Channels can include memos, phone calls, and emails.','TF',0],
+    ['Oral messages are not effective in using emotion to persuade.','TF',1],
+    ['Messages on paper are typically less formal than email messages.','TF',1],
+    ['Companies that do not prioritize respectful treatment of customers are still favored by consumers.','TF',1],
+    ['Perception involves a person perceiving a stimulus.','TF',0],
+    ['Understanding your audience is essential for a successful message.','TF',0],
+    ['Watchdog audiences can directly stop a message from reaching the primary audience.','TF',1],
+    ['Making the requested action as easy as possible is not a consideration in audience analysis.','TF',1],
+    ['Personality is relevant when the primary audience consists of multiple individuals.','TF',1],
+    ['Protecting the reader’s ego is not relevant when using audience analysis.','TF',1],
+    ['It is essential to choose information the audience needs and will find interesting.','TF',0],
+    ['Oral messages cannot get immediate action or response.','TF',1],
+    ['Psychographics study customers’ opinions, interests, emotions, habits, hobbies, and lifestyles.','TF',0],
+    ['Channels do not differ in the number of people they reach.','TF',1],
+    ['Efficiency is not a consideration when selecting communication channels.','TF',1],
+    ['Written messages cannot minimize undesirable emotions.','TF',1],
+    ['Using you-attitude and positive emphasis is recommended for reaching your audience.','TF',0],
+    ['A small business with only two phone lines may experience channel overload if both lines are in use.','TF',0],
+    ['Gatekeepers within an organization can include supervisors who assign messages.','TF',0],
+    ['Channel overload happens when the channel can manage all messages being sent.','TF',1],
+    ['The initial audience is always the person who instructs the message to be written.','TF',1],
+    ['Common sense and empathy are not necessary for successful communication.','TF',1],
+    ['The primary audience decides whether to accept recommendations or act on a message.','TF',0],
+    ['Choice or selection happens before encoding in the communication process.','TF',0],
+    ['Decoding is the process by which the audience receives and interprets the message.','TF',0]
+    ]},
+    {ch:4,title:'Chapter 4: You-Attitude & Goodwill',topic:'Chapter 4 — You-Attitude & Goodwill',items:[
+    ['Protecting the reader’s ego is not a component of you-attitude.','TF',1],
+    ['Organizing the message is not important for building goodwill.','TF',1],
+    ['Being complete in content is not necessary to create goodwill with the reader.','TF',1],
+    ['In positive situations, using “you” more than “I” is a strategy for creating you-attitude.','TF',0],
+    ['To create you-attitude, refer specifically to the reader’s request or order.','TF',0],
+    ['Using headings and lists to help readers find key points is not necessary for building goodwill.','TF',1],
+    ['A message should be clear, easy to read, and friendly to build goodwill.','TF',0],
+    ['When practicing you-attitude, it is acceptable to discuss personal feelings in business communication.','TF',1],
+    ['It is acceptable to use “you” in negative situations when creating you-attitude.','TF',1],
+    ['In business communication, readers are primarily concerned with the situation from their point of view, rather than the sender’s feelings.','TF',0],
+    ['Putting information readers are most interested in first is an effective strategy for building goodwill.','TF',0],
+    ['In positive messages, emphasize what the reader can do.','TF',0],
+    ['Using “we” is recommended when it includes the reader and creates you-attitude.','TF',0],
+    ['Discussing feelings, except to offer congratulations, is encouraged when creating you-attitude.','TF',1],
+    ['You-attitude involves looking at things from the reader’s point of view.','TF',0],
+    ['All messages should use you-attitude, though the approach may vary by situation.','TF',0],
+    ['You-attitude does not involve respecting the reader’s intelligence.','TF',1],
+    ['Creating you-attitude in sentences involves talking about the reader.','TF',0],
+    ['It is unnecessary to explain why information not directly requested is important to the reader.','TF',1],
+    ['In a job application letter, show how you can help meet the reader’s needs.','TF',0],
+    ['You-attitude emphasizes what the reader wants to know.','TF',0],
+    ['If there is good news for the reader, it is not important to include it early.','TF',1],
+    ['Readers are primarily interested in how they benefit or are affected.','TF',0],
+    ['When creating you-attitude, talk about the reader, not yourself.','TF',0],
+    ['It is advisable to minimize the word “you” in a job application letter.','TF',0]
+    ]},
+    {ch:5,title:'Chapter 5: Tone, Politeness & Positive Emphasis',topic:'Chapter 5 — Tone, Politeness & Positive Emphasis',items:[
+    ['Presenting information in type large enough to read easily can contribute to positive emphasis.','TF',0],
+    ['Thinking about tone, politeness, and power is unnecessary in communication.','TF',1],
+    ['Acknowledging negatives cannot help build credibility and trust with readers.','TF',1],
+    ['Negatives should be avoided at all costs in business writing.','TF',1],
+    ['Being overly positive can lead to misunderstanding or overlooking important issues.','TF',0],
+    ['Insults or attacks on the reader’s integrity or sanity should not be avoided, even when delivering a rebuke.','TF',1],
+    ['It is acceptable to use the same tone with a superior as with a peer or subordinate.','TF',1],
+    ['When apologizing, it is best to do it early, briefly, and sincerely.','TF',0],
+    ['Negatives are not essential for helping people recognize the seriousness of a problem.','TF',1],
+    ['Tone refers to the explicit attitude of the writer toward the reader.','TF',1],
+    ['Focus on what the reader can do rather than limitations when appropriate.','TF',0],
+    ['Tactfulness is important when presenting negative information in business communication.','TF',0],
+    ['It is acceptable to apologize even when you are not at fault.','TF',1],
+    ['Negatives should be omitted entirely if the reader does not need the information to make a decision.','TF',0],
+    ['Thinking about tone, politeness, and power is unnecessary in communication.','TF',1],
+    ['Negatives should only be omitted if significant; trivial negatives can still be included.','TF',1],
+    ['Methods for positive emphasis can be misused, so use them cautiously.','TF',0],
+    ['Negative messaging can create a “reverse psychology” effect that makes people view a product more favorably.','TF',0],
+    ['It is acceptable to include unimportant negatives to add complexity.','TF',1],
+    ['Considering tone, politeness, and power helps maintain positive workplace relationships.','TF',0],
+    ['Be tactful when presenting negatives when they are necessary.','TF',0],
+    ['Using an inappropriate tone with a superior has no impact on professional relationships.','TF',1],
+    ['In some messages, such as negative performance appraisals, criticism should not be given without alternatives.','TF',1],
+    ['It is acceptable to omit negatives already provided to the reader in prior communication.','TF',0],
+    ['Omitting necessary details is acceptable when striving for positive emphasis.','TF',1],
+    ['Hiding meaning with less common terms is acceptable for positive emphasis.','TF',1]
+    ]},
+    {ch:6,title:'Chapter 6: Résumés',topic:'Chapter 6 — Résumés',items:[
+    ['What is the advice regarding demonstrating qualifications in a résumé?','Omit qualifications|Show how qualifications fit the job and company|Keep them vague|Highlight irrelevant skills',1],
+    ['What increases the chances a human will pay attention to a résumé?','Emphasize only old achievements|Avoid a career objective with employer’s name|Use industry jargon and buzzwords|Emphasize achievements most relevant to the position',3],
+    ['Including numbers that reflect past achievements is a bad idea when a résumé will be scanned by a human.','TF',1],
+    ['Which résumé summarizes what an applicant did in a timeline?','Non-traditional|Skills|Chronological|Both A and B',2],
+    ['Which strategy should you follow when sending your résumé to companies?','Send the same résumé to all companies|Customize the résumé for each company and job|Send the same résumé without qualifications|None of them',1],
+    ['Which items are optional in skills and chronological résumés?','Career objective|References|Honors|All of them',3],
+    ['How is a résumé screened when people read it?','It receives a few seconds of attention|It gets a thorough analysis|It is ignored|It is immediately selected for an interview',0],
+    ['Skills résumés are often longer than chronological résumés.','TF',0],
+    ['To encourage an employer to pay attention to your résumé, you should:','Do more than list what you have done|Use industry jargon|Include universally helpful skills|All of them',3],
+    ['What is the main purpose of résumé guidelines?','Impress employers|Look good on paper|Stand out from other applicants|All of them',3],
+    ['Which information should be included in a chronological résumé?','Job title|Minute details of high-school jobs|Zip code|All of them',0],
+    ['Which is true of a chronological résumé?','Often longer than a skills résumé|Emphasizes skills and abilities|Combines class, job, and volunteer experience|Uses minimal detail about low-level jobs',3],
+    ['John has unrelated jobs and time gaps, plus computer hardware experience and volunteer computer setup. Which résumé fits him?','Skills résumé|Neither|Both|Chronological résumé',0],
+    ['Designing two résumé templates, one for people and one for electronic scanners, can increase employer attention.','TF',0],
+    ['To encourage attention to a résumé:','Only list duties, not results|Avoid phrases with quantified accomplishments|Do not emphasize achievements|Match job keywords and place the strongest matches first',3],
+    ['Which should NOT be included in a professional résumé?','Achievements|How you can help the organization|Jargon|Marital status',3],
+    ['To attract employer attention, all are true EXCEPT:','Mention how you helped the organization improve|Focus on low-level jobs|Show superiority to other applicants|Emphasize relevant achievements',1],
+    ['A skills résumé is often longer than a chronological résumé.','TF',0],
+    ['A chronological résumé is used when you do not have direct experience for the job.','TF',1],
+    ['When writing a scannable résumé, avoid using:','14-point type|Italic words|A ragged right margin|A standard typeface',1],
+    ['Include job-description keywords when your résumé is:','Read by an HR employee|Never|Hand-delivered|Scanned electronically into a tracking system',3],
+    ['Which is true of creating a scannable résumé?','Put all phone numbers on one line|Do not use plenty of white space|Staple the pages|Send a laser copy',1],
+    ['A résumé career objective should sound like language an employer might use in a job listing.','TF',0],
+    ['Additional white space to offset important information is NOT appropriate for résumé layout.','TF',0]
+    ]},
+    {ch:7,title:'Chapter 7: Oral Presentations',topic:'Chapter 7 — Oral Presentations',items:[
+    ['Being well-prepared for a presentation does not help transform fear into energy.','TF',1],
+    ['Consider whether the audience may be tired or sleepy when planning an oral presentation.','TF',0],
+    ['It is advisable to be honest when responding to audience questions.','TF',0],
+    ['Developing a strategy that fits your audience and purpose is crucial for a good oral presentation.','TF',0],
+    ['To deliver effectively, create a sense that you are talking directly to the audience.','TF',0],
+    ['Rephrasing biased or hostile questions can help maintain a positive, constructive atmosphere.','TF',0],
+    ['The primary purpose of goodwill presentations is to entertain and validate the audience.','TF',1],
+    ['Good delivery is the sole factor that makes an oral presentation effective.','TF',1],
+    ['The purpose of informative presentations is to entertain the audience.','TF',1],
+    ['Anticipating potential audience questions is unnecessary for effective handling.','TF',1],
+    ['Analyzing your audience is only necessary for written messages, not oral presentations.','TF',1]
+    ]},
+    {ch:8,title:'Chapter 8: PowerPoint Presentations',topic:'Chapter 8 — PowerPoint Presentations',items:[
+    ['When presenting PowerPoint slides, show one point at a time because:','The audience focuses on what you say|It avoids distracting them with later points|It helps keep the presentation focused|All of the above',3],
+    ['You need PowerPoint to:','Help gain and keep attention|Improve listener understanding|Save time and add interest|All of the above',3],
+    ['Use a different background design for each PowerPoint slide to attract the audience.','TF',1],
+    ['Which slide summarizes the main point of a presentation?','Outline|Conclusion slide|Introduction slide|None',1],
+    ['Correct order: 1 conclusion, 2 question, 3 outline.','3-1-2|1-2-3|3-1-2|2-3-1',2],
+    ['An outline slide is used to summarize the main points of a presentation.','TF',1],
+    ['Use 12-point font for the subtitle and 14-point font for the title.','TF',1],
+    ['The last PowerPoint slide should have an outline.','TF',1],
+    ['To avoid ending abruptly, use a questions slide.','TF',0],
+    ['PowerPoint can save time and add interest.','TF',0],
+    ['Which statement is wrong when preparing a PowerPoint presentation?','Write complete sentences, not point form|Avoid wordiness; use keywords and phrases|Use 1–2 slides per minute|Include 4–5 points per slide',0],
+    ['What font size should be used for main points?','28-point|24-point|18-point|32-point',0]
+    ]},
+    {ch:9,title:'Chapter 9: Email Messages',topic:'Chapter 9 — Email Messages',items:[
+    ['The Bcc field is typically used for smaller, more personal emails.','TF',1],
+    ['Email recipients in the Cc field are always expected to reply.','TF',1],
+    ['You can include multiple email addresses in both To and Cc fields.','TF',0],
+    ['Recipients usually ignore the subject line and skip straight to the email content.','TF',1],
+    ['Emails without subject lines are always mistaken for spam.','TF',1],
+    ['The To field is for recipients who need to take action based on the email.','TF',0],
+    ['The To field is the only mandatory field when composing an email.','TF',0],
+    ['The Cc field is used to hide recipients from each other.','TF',1],
+    ['A clear subject line guarantees the recipient understands the email perfectly.','TF',1],
+    ['The To field indicates that an action is required from the recipient.','TF',0],
+    ['You should go through your email inbox once a week.','TF',1],
+    ['In email, the Cc field is used:','To keep others in the loop|When no direct action is required|To be aware of what is happening|All of the given choices',3],
+    ['In email, the Bcc field is used:','To keep others secretly in the loop|For a small mailing list|To request action|None of the given choices',0],
+    ['The email header includes:','To|Cc and Bcc|Subject|All of the given choices',3],
+    ['When you send an email, recipients usually omit the subject and read the body directly, then forward, file, or delete it.','TF',1],
+    ['Which is a good subject line?','Questions About Expansion Performance Target Report Deadline Extension Request For Client Meeting|For Your Review|Expansion Report Extension Requested until Friday|Important!',2],
+    ['Bcc handles the largest number of recipients.','TF',0],
+    ['You cannot write a separate email for each different idea because email has extra cost for multiple messages.','TF',1],
+    ['Email messages are secure.','TF',1],
+    ['To prevent a recipient list from seeing each other’s addresses, use the:','Bcc field|To and Cc fields|To field|Cc field',0],
+    ['Emails without subject lines may be mistaken for spam.','TF',0],
+    ['Why should you add a subject to an email?','All of the above|To avoid being filtered by the email provider|To help recipients know the content|To help recipients decide what to do',0],
+    ['Use Bcc when:','Sending sensitive information to large groups|Showing respect and restraint|Keeping recipients secretly in the loop|All of the above',3],
+    ['“To” is for recipients who need to take action; “Cc” keeps others informed; “Bcc” conceals recipients.','TF',0]
+    ]}
+    ];
+    
+    const examSections = chapters.map(chapter => ({
+      title: chapter.title,
+      context: `أسئلة وإجابات ${chapter.topic}، مأخوذة من الملف المرفق الخاص بهذا الشابتر.`,
+      subQuestions: chapter.items.map((item, index) => {
+        const [text, rawOpts, ans] = item;
+        const opts = rawOpts === 'TF' ? ['True', 'False'] : rawOpts.split('|');
+        return {
+          id: `eth${chapter.ch}_${index + 1}`,
+          type: 'single',
+          text: `${index + 1}. ${text}`,
+          opts,
+          ans,
+          dispAnswer: `${String.fromCharCode(97 + ans)}) ${opts[ans]}`,
+          exp: `الإجابة الصحيحة حسب ملف أسئلة الشابتر ${chapter.ch}.`
+        };
+      })
+    }));
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">Reset Question ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> Show Solution
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>

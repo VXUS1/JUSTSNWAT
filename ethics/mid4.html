@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUSTSNWAT | Makeup Mid 2020-2021 Summer Semester — أسئلة الميد</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .bottom-nav-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--apple-border);
+    }
+    .btn-bottom-action {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border-strong);
+      color: var(--text-primary);
+      padding: 12px 26px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s var(--ease-apple);
+    }
+    .btn-bottom-action:hover {
+      background: var(--apple-surface-hover);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+    .btn-bottom-action:active {
+      transform: scale(0.96);
+    }
+    .btn-drive-action {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%);
+      border-color: rgba(10, 132, 255, 0.4);
+      color: #5ac8fa;
+    }
+    .btn-drive-action:hover {
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .parent-q-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--apple-blue, #0a84ff);
+      margin-bottom: 8px;
+      border-bottom: 1px dashed var(--apple-border);
+      padding-bottom: 8px;
+    }
+    .parent-q-desc {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+    .sub-question-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--apple-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .sub-q-header {
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .options-container.locked {
+      pointer-events: none;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--apple-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+      font-size: 0.98rem;
+    }
+    .option-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .option-item.selected {
+      border-color: var(--apple-blue);
+      background: rgba(10, 132, 255, 0.12);
+    }
+    .option-item.correct {
+      background: rgba(48, 209, 88, 0.18) !important;
+      border-color: #30d158 !important;
+      color: #fff;
+    }
+    .option-item.wrong {
+      background: rgba(255, 69, 58, 0.18) !important;
+      border-color: #ff453a !important;
+      color: #fff;
+    }
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .answer-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset-q {
+      display: none;
+      background: rgba(255, 69, 58, 0.15);
+      color: #ff453a;
+      border: 1px solid rgba(255, 69, 58, 0.4);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-reset-q:hover {
+      background: #ff453a;
+      color: #fff;
+    }
+    .solution-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 10px;
+    }
+    .solution-box.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="brand" href="../index.html">JUSTSNWAT</a>
+    <div class="sub-brand">بنك أسئلة السنوات السابقة — كل مادة وأسئلتها بمكان واحد.</div>
+  </header>
+
+  <div class="container">
+    <div class="nav-bar">
+      <a class="back-link" href="../index.html#/s/ethics">‹ رجوع للمواد</a>
+    </div>
+
+    <div class="subject-title">مهارات الإتصال وأخلاقيات المهنة (Communication And Professional Ethics)</div>
+    <div class="subject-subtitle" id="quiz-subtitle">Mid Ethics 2020–2021 — أسئلة حسب الشابتر</div>
+
+    <div class="sticky-bar">
+      <div class="score-text">النتيجة: <span class="score-val" id="score">0 / 0 (0%)</span></div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="toggleAllSolutions()">إظهار/إخفاء الحلول</button>
+        <button class="btn" onclick="resetQuiz()">إعادة البدء</button>
+      </div>
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <div class="bottom-nav-bar">
+      <a id="drive-link-btn" class="btn-bottom-action btn-drive-action" style="display: none;" target="_blank" rel="noopener noreferrer">
+        <span>📁</span> ملف الأسئلة الأصلي ↗
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Designed By Abdallah</p>
+  </footer>
+
+  <!-- زر التبليغ العائم -->
+  <button class="btn-bug-float" id="openReportBtn" aria-label="الإبلاغ عن خطأ أو مشكلة">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="8" height="14" x="8" y="6" rx="4"></rect>
+      <path d="m19 7-3 2"></path>
+      <path d="m5 7 3 2"></path>
+      <path d="m19 19-3-2"></path>
+      <path d="m5 19 3-2"></path>
+      <path d="M20 13h-4"></path>
+      <path d="M4 13h4"></path>
+      <path d="m10 4 1 2"></path>
+      <path d="m14 4-1 2"></path>
+    </svg>
+    <span>إبلاغ عن خطأ</span>
+  </button>
+
+  <!-- نافذة التبليغ المنبثقة -->
+  <div class="report-modal-overlay" id="reportOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <div class="report-modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          إبلاغ عن خطأ أو ملاحظة
+        </h3>
+        <button class="btn-close-modal" id="closeReportBtn" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form class="report-form" id="bugReportForm">
+        <div class="form-group">
+          <label for="issue-type">نوع المشكلة</label>
+          <select id="issue-type" required>
+            <option value="سؤال أو إجابة خاطئة">خطأ في سؤال أو إجابة</option>
+            <option value="خلل في التصميم أو الموقع">مشكلة في عرض الصفحة أو الموقع</option>
+            <option value="اقتراح أو أخرى">اقتراح / أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-desc">وصف المشكلة <span style="color:var(--apple-red)">*</span></label>
+          <textarea id="issue-desc" placeholder="حدد السؤال أو المشكلة بالتفصيل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="user-contact">وسيلة تواصل (اختياري)</label>
+          <input type="text" id="user-contact" placeholder="إيميلك أو حسابك للمتابعة">
+        </div>
+
+        <button type="submit" class="btn-submit-report" id="submitReportBtn">إرسال البلاغ</button>
+        <div class="report-status" id="reportStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const originalDriveLink = "https://drive.google.com/file/d/1CkYHcf_u_Ig9ubkD-mqoU2EANQC7nIGb/view?usp=drive_link";
+
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+
+    const questionGroups = [
+  { chapter: 1, title: "Chapter 1: Business Communication Basics", context: "Questions 9, 16, and 31 — basic purposes and communication in business.", questions: [
+    [9,"Business communication is needed whenever companies want to:",["Coordinate employees","Train people","All","Persuade customers to buy a product"],2,"التواصل يساعد الشركات على التنسيق والتدريب والتأثير في العملاء."],
+    [16,"The message contains all the information that readers need; that means it is:",["All","Correct","Clear","Complete"],3,"الرسالة التي تتضمن كل المعلومات التي يحتاجها القارئ تكون complete (مكتملة)."],
+    [31,"Employees communicate in businesses mostly for:",["Making decisions","Creating products","All","Preparing documents","Communicating information"],2,"التواصل يدعم اتخاذ القرارات، وإنتاج المنتجات، وإعداد الوثائق، وتبادل المعلومات." ]
+  ]},
+  { chapter: 2, title: "Chapter 2: Ethics & Customer Information", context: "Question 1 — responding ethically to a customer data breach.", questions: [
+    [1,"Assuming that critical data of your customers has been stolen by an external entity, what should you do?",["Tell customers the stolen data is not critical","Ignore the incident and do not notify customers","Blame customers for sharing their data with you","Notify customers so they can take action"],3,"الإبلاغ يساعد العملاء على حماية أنفسهم واتخاذ خطوات مناسبة عند سرقة بياناتهم." ]
+  ]},
+  { chapter: 3, title: "Chapter 3: Audience Analysis & Communication Process", context: "Questions 3, 4, 6, 7, 10, 17, 18, and 24 — audience types, channels, and communication stages.", questions: [
+    [3,"The general public is an example of an internal audience.",["False","True"],0,"الجمهور العام خارج المؤسسة، لذا فهو جمهور خارجي."],
+    [4,"In the communication model (Stimulus → Perception → Interpretation, etc.), the decision to use words or a chart to communicate information is called:",["Choice/Selection","Encoding","Decoding","Interpretation","Perception"],1,"اختيار الكلمات أو الرسم البياني لصياغة الرسالة هو encoding (الترميز)."],
+    [6,"What communication channel should you use if you anticipate many questions about your message?",["Online meeting","Written message","Email","Announcement"],0,"الاجتماع الإلكتروني يتيح التفاعل الفوري والرد على أسئلة كثيرة."],
+    [7,"When Company Y communicates business information to the market, employees of Company X are considered:",["None","External audience","Hybrid audience","Internal audience"],1,"موظفو شركة أخرى يُعدّون جمهورًا خارجيًا بالنسبة لشركة Y."],
+    [10,"Ahmad presents a new idea to his department and sends it to friends in other departments for feedback. His friends are considered:",["Primary audience","Gatekeepers","All","Initial audience","Watchdog audience"],3,"الأصدقاء هم أول من يراجع الفكرة ويقدم ملاحظات قبل عرضها على الجمهور الأساسي، لذا فهم initial audience."],
+    [17,"Channel overload occurs when the channel has the ability to handle all the messages being sent.",["True","False"],1,"إذا استطاعت القناة التعامل مع كل الرسائل فلا يوجد overload؛ يحدث الحمل الزائد عندما تتجاوز الرسائل قدرتها."],
+    [18,"The audience that has the power to stop your message is the:",["Primary audience","Gatekeeper","Watchdog","Secondary audience"],1,"حارس البوابة يستطيع إيقاف الرسالة قبل وصولها إلى الجمهور الأساسي."],
+    [24,"A manager whom you ask to approve your vacation request is considered the:",["Primary audience","Initial audience","Watchdog","Secondary audience"],0,"المدير هو من يتخذ القرار بشأن الطلب، لذا فهو الجمهور الأساسي." ]
+  ]},
+  { chapter: 4, title: "Chapter 4: You-Attitude & Goodwill", context: "Questions 8, 11, 21, 27, 28, 29, and 32 — reader-focused wording and you-attitude.", questions: [
+    [8,"The you-attitude means:",["Emphasizing second-person pronouns","Focusing on the reader","All of the answers","Writing to the reader’s interest"],2,"you-attitude تركز على القارئ واهتماماته، وقد تستخدم ضمير المخاطب عندما يناسب السياق."],
+    [11,"When you write a job application, try to use the word “you” as many times as you can.",["False","True"],0,"المهم أن تركز الرسالة على احتياجات صاحب العمل، لا أن تكرر كلمة you بلا داعٍ."],
+    [21,"Which message best uses you-attitude?",["Due to extreme weather, the laptop will be shipped next week","Due to extreme weather, the laptop will be delivered by the end of next week","Due to extreme weather, your order will be delivered by the end of next week","Due to extreme weather, we will not ship your order until next week"],2,"الخيار يوضح للقارئ موعد وصول طلبه ويركز على ما يهمه."],
+    [27,"In positive situations use ______ more than ______; use ______ when it includes the reader.",["You, I, We","You, I, You","I, You, We","You, We, They"],0,"في المواقف الإيجابية نستخدم you أكثر من I، ونستخدم we عندما تشمل القارئ."],
+    [28,"Which statement is better with respect to you-attitude?",["I will send the gift to you very soon","You will not be happy to know that you have got a gift","You will be happy to know that you have got a gift","You will receive the gift by the end of this week"],3,"الجملة الأخيرة تخبر القارئ مباشرة بما سيحصل عليه وتحدد موعدًا واضحًا."],
+    [29,"Which message best uses the you-attitude writing style?",["The laptop will be shipped once we receive the payment","The laptop will not be shipped because you did not send the payment","Your order will not be shipped because you did not send the payment","Your order will be shipped once we receive the payment"],3,"الخيار يركز على طلب القارئ ويقدم النتيجة بصياغة إيجابية."],
+    [32,"Which sentence has you-attitude?",["You will be happy to know that I processed your reimbursement request","I have convinced our clients to increase their orders","Your order has been shipped and will arrive shortly","Congratulations on the successful launch of your new product"],2,"الجملة تركز على طلب القارئ وما سيحدث له." ]
+  ]},
+  { chapter: 5, title: "Chapter 5: Positive Emphasis, Negative Messages & Tone", context: "Questions 2, 15, 19, 22, 25, and 34 — positive emphasis and professional tone.", questions: [
+    [2,"What is the most appropriate practice for creating positive emphasis in business messages?",["Eliminate negative words by using exact opposites","Use sentences with multiple negatives","Emphasize what the reader can do rather than limitations","Avoid you-attitude"],2,"من أفضل أساليب التأكيد الإيجابي إبراز ما يستطيع القارئ فعله بدل التركيز على القيود."],
+    [15,"While apologizing for a mistake you have made, the apology should include details about how you made the mistake.",["False","True"],1,"الاعتذار المهني يوضح بإيجاز ما حدث ويتحمل المسؤولية، مع تجنب الأعذار المطولة."],
+    [19,"To deemphasize a negative, put it in the ______ of a paragraph, and put the paragraph in the ______ of the message.",["Last, middle","Middle, middle","First, last","First, first"],1,"تُخفف حدة الخبر السلبي بوضعه في وسط الفقرة، والفقرة في وسط الرسالة."],
+    [22,"When a manager asks about the progress of a task, which answer best applies positive emphasis?",["I’m sorry; I still do not know when I will finish","I’m sorry I have not finished because I had personal problems","I’m lacking the knowledge I need to finish the task","I will finish next Thursday; I’m improving some parts of it"],3,"الإجابة تعطي موعدًا واضحًا وتوضح التقدم بصياغة بناءة."],
+    [25,"In achieving positive emphasis, it is unethical to:",["Omit details that affect decisions","All","Present negative information compactly by making print too small to read","Replace negative words with lesser-known or unknown words"],1,"كل الخيارات الثلاثة تحجب المعلومات أو تقلل وضوحها، لذا كلها ممارسات غير أخلاقية."],
+    [34,"You should use the same tone for all readers.",["True","False"],1,"يجب تكييف نبرة الرسالة مع القارئ والعلاقة والموقف." ]
+  ]},
+  { chapter: 7, title: "Chapter 7: Oral Presentations", context: "Question 33 — presentation purpose.", questions: [
+    [33,"A company manager organizes an internal session to train new employees how to succeed in their job. This presentation is:",["All","Goodwill","Informative","Persuasive"],2,"الجلسة تشرح للموظفين معلومات وإرشادات تساعدهم على أداء العمل، فهي عرض informative." ]
+  ]},
+  { chapter: 9, title: "Chapter 9: Email Messages", context: "Questions 5, 12, 13, 14, 20, 23, 26, 30, and 35 — email fields, subjects, and use.", questions: [
+    [5,"Bcc refers to:",["Control, Copy","Blind Carbon Copy","None","Contact, Copy"],1,"Bcc اختصار Blind Carbon Copy."],
+    [12,"Emails without subject lines may be mistaken for spam.",["False","True"],1,"قد تُعامل الرسائل بلا موضوع واضح كرسائل مزعجة."],
+    [13,"Why should we add a subject to email messages?",["All","To help ensure the message is not filtered by the email provider","To help recipients become aware of the message content","To help recipients decide what to do with the email"],0,"العنوان يساعد على توضيح المحتوى وتحديد الإجراء، وقد يساعد على تمييز الرسالة من الرسائل المزعجة."],
+    [14,"When should you use Bcc in an email?",["When sending sensitive information to large groups","When showing respect and restraint to recipients","When keeping recipients secretly in the loop","All"],3,"قد يُستخدم Bcc في الحالات المذكورة لحماية العناوين أو تقليل كشف قائمة المستلمين."],
+    [20,"Try not to include all your contact information when you send an email.",["False","True"],0,"من المناسب تضمين توقيع بمعلومات الاتصال ذات الصلة كي يستطيع المستلم التواصل معك."],
+    [23,"Email messages are not a preferable method for business communication.",["True","False"],1,"البريد الإلكتروني وسيلة شائعة ومناسبة لكثير من مراسلات الأعمال."],
+    [26,"Messages on paper are more formal than e-mail messages.",["False","True"],1,"الرسائل الورقية عادةً أكثر رسمية من البريد الإلكتروني."],
+    [30,"Including all ideas in one email saves cost and time.",["False","True"],0,"الأفضل تنظيم الرسالة حول فكرة أو غرض واضح؛ جمع أفكار غير مترابطة قد يربك القارئ."],
+    [35,"An email explaining to customers how to activate an account on a website is mostly classified as a:",["Informational message","Persuasive message","Nonverbal message","Goodwill message"],0,"الرسالة تشرح خطوات تفعيل الحساب، لذا غرضها الأساسي إعلامي." ]
+  ]}
+];
+
+    const examSections = questionGroups.map(group => ({
+      title: group.title,
+      context: group.context,
+      subQuestions: group.questions.map(([number, text, opts, ans, exp]) => ({
+        id: `mid2021_ch${group.chapter}_q${number}`,
+        type: "single",
+        text: `${number}. ${text}`,
+        opts,
+        ans,
+        dispAnswer: `${String.fromCharCode(97 + ans)}) ${opts[ans]}`,
+        exp
+      }))
+    }));
+
+    let userScores = {};
+
+    function initQuiz() {
+      const driveBtn = document.getElementById('drive-link-btn');
+      if (driveBtn) {
+        if (originalDriveLink && originalDriveLink.trim() !== "") {
+          driveBtn.href = originalDriveLink;
+          driveBtn.style.display = "inline-flex";
+        } else {
+          driveBtn.style.display = "none";
+        }
+      }
+
+      const list = document.getElementById('quiz-list');
+      list.innerHTML = '';
+
+      examSections.forEach((section) => {
+        const card = document.createElement('div');
+        card.className = 'q-card';
+
+        let subQuestionsHtml = '';
+        section.subQuestions.forEach((sub) => {
+          const optsHtml = sub.opts.map((opt, i) => `
+            <div class="option-item" id="opt-${sub.id}-${i}" onclick="selectSingleOption('${sub.id}', ${i})">
+              <div class="opt-letter">${letters[i]}</div>
+              <div>${opt}</div>
+            </div>
+          `).join('');
+
+          const interactionHtml = `
+            <div class="options-container" id="opts-box-${sub.id}">${optsHtml}</div>
+            <div class="answer-input-row">
+              <button class="btn-reset-q" id="reset-btn-${sub.id}" onclick="resetSubQuestion('${sub.id}')">إعادة السؤال ↻</button>
+              <button class="btn-action" onclick="toggleSolution('${sub.id}')">
+                <span>💡</span> عرض الحل
+              </button>
+            </div>
+          `;
+
+          subQuestionsHtml += `
+            <div class="sub-question-card ltr-content" id="card-${sub.id}">
+              <div class="sub-q-header">${sub.text}</div>
+              ${interactionHtml}
+              <div class="solution-box" id="sol-${sub.id}">
+                <div><strong>الإجابة الصحيحة (Answer):</strong></div>
+                <div style="margin-top: 6px; font-size: 0.98rem; font-weight: bold; line-height: 1.6; color: #5ac8fa; font-family: 'JetBrains Mono', monospace;">${sub.dispAnswer}</div>
+                <div style="margin-top: 6px; font-size: 0.90rem; line-height: 1.6; color: var(--text-secondary); direction: rtl; text-align: right;">${sub.exp}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="parent-q-title">${section.title}</div>
+            <div class="parent-q-desc">${section.context}</div>
+          </div>
+          <div class="sub-list">${subQuestionsHtml}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      calculateScore();
+      setupReportModal();
+    }
+
+    function findSubQuestion(subId) {
+      for (const sec of examSections) {
+        const found = sec.subQuestions.find(s => s.id === subId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function selectSingleOption(subId, optIdx) {
+      const sub = findSubQuestion(subId);
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      if (!sub || !optsBox) return;
+
+      optsBox.classList.add('locked');
+
+      const picked = document.getElementById(`opt-${subId}-${optIdx}`);
+      if (optIdx === sub.ans) {
+        if (picked) picked.classList.add('correct');
+        userScores[subId] = true;
+      } else {
+        if (picked) picked.classList.add('wrong');
+        delete userScores[subId];
+      }
+
+      if (resetBtn) resetBtn.style.display = 'inline-flex';
+      calculateScore();
+    }
+
+    function resetSubQuestion(subId) {
+      delete userScores[subId];
+
+      const optsBox = document.getElementById(`opts-box-${subId}`);
+      if (optsBox) optsBox.classList.remove('locked');
+
+      const sub = findSubQuestion(subId);
+      if (sub && sub.opts) {
+        sub.opts.forEach((_, i) => {
+          const el = document.getElementById(`opt-${subId}-${i}`);
+          if (el) el.className = 'option-item';
+        });
+      }
+
+      const resetBtn = document.getElementById(`reset-btn-${subId}`);
+      const sol = document.getElementById(`sol-${subId}`);
+
+      if (resetBtn) resetBtn.style.display = 'none';
+      if (sol) sol.classList.remove('show');
+
+      calculateScore();
+    }
+
+    function calculateScore() {
+      let total = 0;
+      let score = 0;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          total++;
+          if (userScores[sub.id]) score++;
+        });
+      });
+
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) {
+        scoreEl.innerText = `${score} / ${total} (${pct}%)`;
+      }
+    }
+
+    function toggleSolution(subId) {
+      const sol = document.getElementById(`sol-${subId}`);
+      if (sol) sol.classList.toggle('show');
+    }
+
+    let allShown = false;
+    function toggleAllSolutions() {
+      allShown = !allShown;
+      examSections.forEach(sec => {
+        sec.subQuestions.forEach(sub => {
+          const sol = document.getElementById(`sol-${sub.id}`);
+          if (sol) {
+            if (allShown) sol.classList.add('show');
+            else sol.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    function resetQuiz() {
+      userScores = {};
+      initQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setupReportModal() {
+      const openBtn = document.getElementById('openReportBtn');
+      const closeBtn = document.getElementById('closeReportBtn');
+      const overlay = document.getElementById('reportOverlay');
+      const form = document.getElementById('bugReportForm');
+      const status = document.getElementById('reportStatus');
+
+      if (!openBtn || !overlay) return;
+
+      openBtn.onclick = () => {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (status) status.innerText = '';
+      };
+
+      if (closeBtn) closeBtn.onclick = closeModal;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (form) {
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('submitReportBtn');
+          if (submitBtn) submitBtn.disabled = true;
+          if (status) {
+            status.style.color = '#30d158';
+            status.innerText = 'تم إرسال البلاغ بنجاح، شكراً لمساعدتك!';
+          }
+          setTimeout(() => {
+            closeModal();
+            form.reset();
+            if (submitBtn) submitBtn.disabled = false;
+          }, 1500);
+        };
+      }
+    }
+
+    initQuiz();
+  </script>
+  <script src="../transition.js"></script>
+</body>
+</html>
