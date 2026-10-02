@@ -519,6 +519,21 @@
     .zoom-btn.fit-btn { font-size: 0.95rem; color: var(--accent); }
 
     @media (max-width: 768px) {
+      .ambient-glow { display: none; }
+      #dashboard, .zoom-btn, .home-transition {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+      }
+      .status-completed .status-ring,
+      .status-current .status-ring,
+      .status-next .status-ring,
+      .status-summer .status-ring,
+      .status-next-year .status-ring,
+      .status-term-2028 .status-ring {
+        animation: none;
+        filter: none;
+      }
+
       #dashboard { padding: 10px 14px; border-radius: 14px; gap: 8px; }
       .dash-header h2 { font-size: 0.92rem; }
       .stats-row { font-size: 0.7rem; gap: 6px; }
@@ -1190,9 +1205,18 @@
     let pinchAnchorScene = null;
     const MIN_SCALE = 0.15, MAX_SCALE = 2.5;
     let fitTimeout = null;
+    let transformFrame = null;
 
     function applyTransform() {
       scene.setAttribute("transform", `translate(${currentX}, ${currentY}) scale(${scale})`);
+    }
+
+    function scheduleTransform() {
+      if (transformFrame !== null) return;
+      transformFrame = requestAnimationFrame(() => {
+        transformFrame = null;
+        applyTransform();
+      });
     }
 
     function animatedTransform() {
@@ -1325,7 +1349,7 @@
       if (isPanning && e.touches.length === 1) {
         currentX = e.touches[0].clientX - startX;
         currentY = e.touches[0].clientY - startY;
-        applyTransform();
+        scheduleTransform();
       } else if (e.touches.length === 2 && initialPinchDist) {
         e.preventDefault();
         const dist = Math.hypot(
@@ -1337,7 +1361,7 @@
         currentX = pinchAnchorScreen.x - pinchAnchorScene.x * newScale;
         currentY = pinchAnchorScreen.y - pinchAnchorScene.y * newScale;
         scale = newScale;
-        applyTransform();
+        scheduleTransform();
       }
     }, { passive: false });
 
