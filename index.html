@@ -773,13 +773,18 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: grab;
-  touch-action: none;
+  cursor: default;
   overflow: hidden;
 }
 
-.glass-globe-section:active {
-  cursor: grabbing;
+@media (hover: hover) and (pointer: fine) {
+  .glass-globe-section { cursor: grab; }
+  .glass-globe-section:active { cursor: grabbing; }
+}
+
+@media (max-width: 680px) {
+  .glass-globe-section,
+  .glass-globe-section:active { cursor: default; }
 }
 
 #globe-canvas {
@@ -1923,6 +1928,15 @@ body.light-theme .form-group textarea {
   transition: all 0.25s var(--ease-apple);
 }
 
+.header-theme-btn,
+.header-search-btn,
+.mobile-menu-btn {
+  padding: 0;
+  line-height: 1;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .header-theme-btn:hover {
   color: #ffffff;
   background: rgba(10, 132, 255, 0.16);
@@ -1949,24 +1963,28 @@ body.light-theme .form-group textarea {
 
 .sun-icon {
   opacity: 1;
-  transform: rotate(0deg) scale(1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1);
   color: #fbbf24; /* شمس ذهبية مشرقة */
 }
 
 .moon-icon {
   opacity: 0;
-  transform: rotate(-90deg) scale(0.5);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg) scale(0.5);
   color: #0284c7; /* هلال ليلي هادئ */
 }
 
 body.light-theme .sun-icon {
   opacity: 0;
-  transform: rotate(90deg) scale(0.5);
+  transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
 }
 
 body.light-theme .moon-icon {
   opacity: 1;
-  transform: rotate(0deg) scale(1);
+  transform: translate(-50%, -50%) rotate(0deg) scale(1);
 }
 
 .header-theme-btn.flipping .theme-icon-slot {
@@ -3626,10 +3644,10 @@ body.light-theme .page-transition-title {
       var camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 1000);
       camera.position.set(0, 0, 238);
 
-      var isMobileDevice = window.innerWidth < 680;
-      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: !isMobileDevice, powerPreference: "high-performance" });
+      var isMobileDevice = window.innerWidth < 680 || (navigator.maxTouchPoints > 0 && window.innerWidth < 900);
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
       renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setPixelRatio(isMobileDevice ? 1 : Math.min(window.devicePixelRatio, 1.8));
+      renderer.setPixelRatio(isMobileDevice ? 1.2 : Math.min(window.devicePixelRatio, 1.8));
 
       var globeGroup = new THREE.Group();
       scene.add(globeGroup);
@@ -3825,6 +3843,7 @@ body.light-theme .page-transition-title {
       var spinSpeedX = 0, spinSpeedY = 0;
 
       container.addEventListener("pointerdown", function (e) {
+        if (isMobileDevice || e.pointerType === "touch") return;
         isDragging = true;
         lastX = e.clientX;
         lastY = e.clientY;
@@ -3893,6 +3912,13 @@ body.light-theme .page-transition-title {
           return;
         }
         lastGlobeFrame = timestamp;
+
+        if (isMobileDevice) {
+          globeGroup.rotation.y += 0.0009;
+          renderer.render(scene, camera);
+          globeAnimId = requestAnimationFrame(animate);
+          return;
+        }
 
         var time = Date.now() * 0.00070;
         var phase = (Math.sin(time) + 1) * 0.5;

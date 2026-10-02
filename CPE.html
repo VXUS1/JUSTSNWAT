@@ -518,6 +518,22 @@
     .zoom-btn.fit-btn { font-size: 0.95rem; color: var(--accent); }
 
     @media (max-width: 768px) {
+      .ambient-glow { display: none; }
+      #dashboard, .zoom-btn, .home-transition {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+      }
+      .status-completed .status-ring,
+      .status-current .status-ring,
+      .status-next .status-ring,
+      .status-summer .status-ring,
+      .status-next-year .status-ring,
+      .status-term-2028 .status-ring {
+        animation: none;
+        filter: none;
+      }
+      #scene { will-change: transform; }
+
       #dashboard { padding: 10px 14px; border-radius: 14px; gap: 8px; }
       .dash-header h2 { font-size: 0.92rem; }
       .stats-row { font-size: 0.7rem; gap: 6px; }
@@ -851,9 +867,16 @@
 
         let pressTimer = null;
         let isLongPress = false;
+        let touchMoved = false;
+        let suppressClickUntil = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
 
         const startPress = (clientX, clientY) => {
           isLongPress = false;
+          touchMoved = false;
+          touchStartX = clientX;
+          touchStartY = clientY;
           pressTimer = setTimeout(() => {
             isLongPress = true;
             if (navigator.vibrate) navigator.vibrate(40);
@@ -872,17 +895,26 @@
           }
         }, { passive: true });
 
-        g.addEventListener('touchmove', cancelPress, { passive: true });
+        g.addEventListener('touchmove', (e) => {
+          cancelPress();
+          if (e.touches.length !== 1) return;
+          const touch = e.touches[0];
+          if (Math.hypot(touch.clientX - touchStartX, touch.clientY - touchStartY) > 12) {
+            touchMoved = true;
+          }
+        }, { passive: true });
 
         g.addEventListener('touchend', (e) => {
           cancelPress();
-          if (!isLongPress && e.changedTouches.length === 1) {
+          if (isMobileDevice()) suppressClickUntil = Date.now() + 700;
+          if (!isLongPress && !touchMoved && e.changedTouches.length === 1) {
             toggleComplete(n.id);
           }
         });
 
         g.onclick = (e) => {
           e.stopPropagation();
+          if (isMobileDevice() && Date.now() < suppressClickUntil) return;
           toggleComplete(n.id);
         };
 
@@ -1050,9 +1082,18 @@
     let pinchAnchorScene = null;
     const MIN_SCALE = 0.15, MAX_SCALE = 2.5;
     let fitTimeout = null;
+    let transformFrame = null;
 
     function applyTransform() {
       scene.setAttribute("transform", `translate(${currentX}, ${currentY}) scale(${scale})`);
+    }
+
+    function scheduleTransform() {
+      if (transformFrame !== null) return;
+      transformFrame = requestAnimationFrame(() => {
+        transformFrame = null;
+        applyTransform();
+      });
     }
 
     function animatedTransform() {
@@ -1166,10 +1207,12 @@
     viewport.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1 && !e.target.closest('.node-group')) {
         isPanning = true;
+        scene.style.transition = 'none';
         startX = e.touches[0].clientX - currentX;
         startY = e.touches[0].clientY - currentY;
       } else if (e.touches.length === 2) {
         isPanning = false;
+        scene.style.transition = 'none';
         const rect = viewport.getBoundingClientRect();
         const t0 = e.touches[0], t1 = e.touches[1];
         initialPinchDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
@@ -1185,7 +1228,7 @@
       if (isPanning && e.touches.length === 1) {
         currentX = e.touches[0].clientX - startX;
         currentY = e.touches[0].clientY - startY;
-        applyTransform();
+        scheduleTransform();
       } else if (e.touches.length === 2 && initialPinchDist) {
         e.preventDefault();
         const dist = Math.hypot(
@@ -1197,7 +1240,7 @@
         currentX = pinchAnchorScreen.x - pinchAnchorScene.x * newScale;
         currentY = pinchAnchorScreen.y - pinchAnchorScene.y * newScale;
         scale = newScale;
-        applyTransform();
+        scheduleTransform();
       }
     }, { passive: false });
 
